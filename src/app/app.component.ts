@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthorityProvider } from '../providers/authority/authority';
 import { RoleProvider } from '../providers/role/role';
+import { UserProvider } from '../providers/user/user';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -24,7 +25,8 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public authorityProvider: AuthorityProvider,
-    public roleProvider: RoleProvider) {
+    public roleProvider: RoleProvider,
+    public userProvider: UserProvider) {
 
     this.initializeApp();
 
@@ -46,23 +48,39 @@ export class MyApp {
 
     console.log('authorityProvider.findAll() -----------------------------');
     this.authorityProvider.findAll()
-      .forEach(authority => {
-        console.log(JSON.stringify(authority));
+      .forEach(authorities => {
+        console.log(JSON.stringify(authorities));
       })
       .catch(error => {
         console.log(error);
         throw (error.message || error);
       });
 
-      console.log('roleProvider.findAll() -----------------------------');
-      this.roleProvider.findAll()
-        .forEach(role => {
-          console.log(JSON.stringify(role));
-        })
-        .catch(error => {
-          console.log(error);
-          throw (error.message || error);
-        });
+    console.log('roleProvider.findAll() -----------------------------');
+    this.roleProvider.findAll()
+      .forEach(roles => {
+        console.log(JSON.stringify(roles));
+      })
+      .catch(error => {
+        console.log(error);
+        throw (error.message || error);
+      });
+
+    console.log('userProvider.findAll() -----------------------------');
+    this.userProvider.findAll()
+      .forEach(users => {
+        console.log(JSON.stringify(users));
+      })
+      .catch(error => {
+        console.log(error);
+        throw (error.message || error);
+      });
+
+    console.log('userProvider.findByUsername() -----------------------------');
+    this.userProvider.findByUsername('admin')
+      .subscribe(user => {
+        console.log(JSON.stringify(user));
+      });
   }
 
   openPage(page) {

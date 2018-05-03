@@ -13,10 +13,11 @@ import { AuthorityProvider } from '../providers/authority/authority';
 import { AuthorityMockProvider } from '../providers/authority/authority-mock';
 import { RoleProvider } from '../providers/role/role';
 import { RoleMockProvider } from '../providers/role/role-mock';
+import { UserProvider } from '../providers/user/user';
+import { UserMockProvider } from '../providers/user/user-mock';
 import { CategoryProvider } from '../providers/category/category';
 import { CategoryMockProvider } from '../providers/category/category-mock';
 import { LoginProvider } from '../providers/login/login';
-import { UserProvider } from '../providers/user/user';
 import { MenuProvider } from '../providers/menu/menu';
 
 @NgModule({
@@ -43,8 +44,8 @@ import { MenuProvider } from '../providers/menu/menu';
     { provide: CategoryProvider, useClass: CategoryMockProvider },
     { provide: AuthorityProvider, useClass: AuthorityMockProvider },
     { provide: RoleProvider, useClass: RoleMockProvider },
+    { provide: UserProvider, useClass: UserMockProvider },
     LoginProvider,
-    UserProvider,
     MenuProvider
   ]
 })

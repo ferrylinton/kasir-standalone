@@ -83,7 +83,14 @@ export class RoleMockProvider extends  RoleProvider{
   }
 
   findById(id: string): Observable<Role> {
-    throw new Error("Method not implemented.");
+    let role: Role = null;
+    for(let i:number = 0; i < this.roles.length; i++){
+      if(this.roles[i].id === id){
+        role = this.roles[i];
+      }
+    }
+
+    return of(role);
   }
 
   findAll(): Observable<Role[]> {

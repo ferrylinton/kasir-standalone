@@ -1,17 +1,18 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { User } from '../../models/user.model';
 
-/*
-  Generated class for the UserProvider provider.
+export abstract class UserProvider {
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-@Injectable()
-export class UserProvider {
+  abstract findById(id: string): Observable<User>;
 
-  constructor(public http: HttpClient) {
-    console.log('Hello UserProvider Provider');
-  }
+  abstract findByUsername(username: string): Observable<User>;
+
+  abstract findAll(): Observable<User[]>;
+
+  abstract save(role: User): void;
+
+  abstract update(role: User): void;
+
+  abstract delete(id: string): void;
 
 }
