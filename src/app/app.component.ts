@@ -3,6 +3,8 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { AuthorityProvider } from '../providers/authority/authority';
+
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
@@ -14,9 +16,14 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public authorityProvider: AuthorityProvider) {
+
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -34,6 +41,16 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
+    console.log('authorityProvider.findAll() -----------------------------');
+    this.authorityProvider.findAll()
+      .forEach(authority => {
+        console.log(JSON.stringify(authority));
+      })
+      .catch(error => {
+        console.log(error);
+        throw (error.message || error);
+      });
   }
 
   openPage(page) {
