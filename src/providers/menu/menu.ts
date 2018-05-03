@@ -1,17 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Menu } from '../../models/menu.model';
 
-/*
-  Generated class for the MenuProvider provider.
+export abstract class MenuProvider {
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-@Injectable()
-export class MenuProvider {
+  abstract findById(id: string): Observable<Menu>;
 
-  constructor(public http: HttpClient) {
-    console.log('Hello MenuProvider Provider');
-  }
-
+  abstract findAll(): Observable<Menu[]>;
+  
 }

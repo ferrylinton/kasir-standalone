@@ -9,13 +9,15 @@ export class Menu implements Base {
 
         public title?: string,
 
+        public menus?: Menu[],
+
         public page?: string,
 
         public icon?: string,
 
-        public authority?: Authority,
+        public authority?: Authority
 
-        public menus?: Menu[]) {
+        ) {
     }
 
 }

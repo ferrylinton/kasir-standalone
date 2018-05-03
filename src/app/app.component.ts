@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthorityProvider } from '../providers/authority/authority';
 import { RoleProvider } from '../providers/role/role';
 import { UserProvider } from '../providers/user/user';
+import { MenuProvider } from '../providers/menu/menu';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -26,7 +27,8 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider,
-    public userProvider: UserProvider) {
+    public userProvider: UserProvider,
+    public menuProvider: MenuProvider) {
 
     this.initializeApp();
 
@@ -81,6 +83,13 @@ export class MyApp {
       .subscribe(user => {
         console.log(JSON.stringify(user));
       });
+
+    console.log('menuProvider.findAll() -----------------------------');
+    this.menuProvider.findAll()
+      .subscribe(menus => {
+        console.log(JSON.stringify(menus));
+      });
+      
   }
 
   openPage(page) {
