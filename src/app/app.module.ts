@@ -11,11 +11,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthorityProvider } from '../providers/authority/authority';
 import { AuthorityMockProvider } from '../providers/authority/authority-mock';
+import { RoleProvider } from '../providers/role/role';
+import { RoleMockProvider } from '../providers/role/role-mock';
 import { CategoryProvider } from '../providers/category/category';
 import { CategoryMockProvider } from '../providers/category/category-mock';
 import { LoginProvider } from '../providers/login/login';
 import { UserProvider } from '../providers/user/user';
-import { RoleProvider } from '../providers/role/role';
 import { MenuProvider } from '../providers/menu/menu';
 
 @NgModule({
@@ -41,9 +42,9 @@ import { MenuProvider } from '../providers/menu/menu';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     { provide: CategoryProvider, useClass: CategoryMockProvider },
     { provide: AuthorityProvider, useClass: AuthorityMockProvider },
+    { provide: RoleProvider, useClass: RoleMockProvider },
     LoginProvider,
     UserProvider,
-    RoleProvider,
     MenuProvider
   ]
 })

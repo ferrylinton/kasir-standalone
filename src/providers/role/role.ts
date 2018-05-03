@@ -1,17 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Role } from '../../models/role.model';
 
-/*
-  Generated class for the RoleProvider provider.
+export abstract class RoleProvider {
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-@Injectable()
-export class RoleProvider {
+  abstract findById(id: string): Observable<Role>;
 
-  constructor(public http: HttpClient) {
-    console.log('Hello RoleProvider Provider');
-  }
+  abstract findAll(): Observable<Role[]>;
+
+  abstract save(role: Role): void;
+
+  abstract update(role: Role): void;
+
+  abstract delete(id: string): void;
 
 }

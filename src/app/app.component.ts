@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthorityProvider } from '../providers/authority/authority';
+import { RoleProvider } from '../providers/role/role';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -22,7 +23,8 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public authorityProvider: AuthorityProvider) {
+    public authorityProvider: AuthorityProvider,
+    public roleProvider: RoleProvider) {
 
     this.initializeApp();
 
@@ -51,6 +53,16 @@ export class MyApp {
         console.log(error);
         throw (error.message || error);
       });
+
+      console.log('roleProvider.findAll() -----------------------------');
+      this.roleProvider.findAll()
+        .forEach(role => {
+          console.log(JSON.stringify(role));
+        })
+        .catch(error => {
+          console.log(error);
+          throw (error.message || error);
+        });
   }
 
   openPage(page) {
