@@ -7,9 +7,11 @@ import { AuthorityProvider } from '../providers/authority/authority';
 import { RoleProvider } from '../providers/role/role';
 import { UserProvider } from '../providers/user/user';
 import { MenuProvider } from '../providers/menu/menu';
+import { LoginProvider } from '../providers/login/login';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { Login } from '../models/login.model';
 
 @Component({
   templateUrl: 'app.html'
@@ -28,7 +30,8 @@ export class MyApp {
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider,
     public userProvider: UserProvider,
-    public menuProvider: MenuProvider) {
+    public menuProvider: MenuProvider,
+    public loginProvider: LoginProvider) {
 
     this.initializeApp();
 
@@ -79,7 +82,7 @@ export class MyApp {
       });
 
     console.log('userProvider.findByUsername() -----------------------------');
-    this.userProvider.findByUsername('admin')
+    this.userProvider.findByUsername('adminv')
       .subscribe(user => {
         console.log(JSON.stringify(user));
       });
@@ -89,7 +92,14 @@ export class MyApp {
       .subscribe(menus => {
         console.log(JSON.stringify(menus));
       });
-      
+
+    console.log('loginProvider.doLogin() -----------------------------');
+    //console.log(JSON.stringify(this.loginProvider.doLogin(new Login('admin', 'password'))));
+    this.loginProvider.doLogin(new Login('admin', 'password'))
+      .subscribe(result => {
+        console.log(JSON.stringify(result[0]));
+        console.log(JSON.stringify(result[1]));
+      });
   }
 
   openPage(page) {

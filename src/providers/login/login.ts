@@ -1,17 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Login } from '../../models/login.model';
 
-/*
-  Generated class for the LoginProvider provider.
+export abstract class LoginProvider {
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-@Injectable()
-export class LoginProvider {
-
-  constructor(public http: HttpClient) {
-    console.log('Hello LoginProvider Provider');
-  }
+  abstract doLogin(login: Login): Observable<any>;
 
 }

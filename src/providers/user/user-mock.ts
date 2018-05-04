@@ -9,7 +9,7 @@ import { UserProvider } from './user';
 @Injectable()
 export class UserMockProvider extends UserProvider {
 
-  private roles: Role[];
+  private roles: Array<Role>;
 
   private admin: Role;
 
@@ -17,7 +17,7 @@ export class UserMockProvider extends UserProvider {
 
   private employee: Role;
 
-  private users: User[];
+  private users: Array<User>;
 
   constructor(public roleProvider: RoleProvider){
     super();
@@ -68,7 +68,7 @@ export class UserMockProvider extends UserProvider {
     let user: User = null;
     for(let i:number = 0; i < this.roles.length; i++){
       if(this.users[i].id === id){
-        user = this.roles[i];
+        user = this.users[i];
       }
     }
 
@@ -79,7 +79,7 @@ export class UserMockProvider extends UserProvider {
     let user: User = null;
     for(let i:number = 0; i < this.roles.length; i++){
       if(this.users[i].username === username){
-        user = this.roles[i];
+        user = this.users[i];
       }
     }
 
