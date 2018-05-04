@@ -12,19 +12,24 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthorityProvider } from '../providers/authority/authority';
 import { AuthorityMockProvider } from '../providers/authority/authority-mock';
+
 import { RoleProvider } from '../providers/role/role';
 import { RoleMockProvider } from '../providers/role/role-mock';
+
 import { UserProvider } from '../providers/user/user';
 import { UserMockProvider } from '../providers/user/user-mock';
+
 import { MenuProvider } from '../providers/menu/menu';
 import { MenuMockProvider } from '../providers/menu/menu-mock';
+
 import { LoginProvider } from '../providers/login/login';
 import { LoginMockProvider } from '../providers/login/login-mock';
 
 import { CategoryProvider } from '../providers/category/category';
 import { CategoryMockProvider } from '../providers/category/category-mock';
 
-
+import { ProductProvider } from '../providers/product/product';
+import { ProductMockProvider } from '../providers/product/product-mock';
 
 @NgModule({
 
@@ -52,12 +57,13 @@ import { CategoryMockProvider } from '../providers/category/category-mock';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: CategoryProvider, useClass: CategoryMockProvider },
     { provide: AuthorityProvider, useClass: AuthorityMockProvider },
     { provide: RoleProvider, useClass: RoleMockProvider },
     { provide: UserProvider, useClass: UserMockProvider },
     { provide: MenuProvider, useClass: MenuMockProvider },
-    { provide: LoginProvider, useClass: LoginMockProvider }
+    { provide: LoginProvider, useClass: LoginMockProvider },
+    { provide: CategoryProvider, useClass: CategoryMockProvider },
+    { provide: ProductProvider, useClass: ProductMockProvider }
   ]
 
 })
