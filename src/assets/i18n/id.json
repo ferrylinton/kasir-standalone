@@ -1,0 +1,58 @@
+{
+    "ACTIVATED": "Aktif",
+    "DEACTIVATED": "Tidak Aktif",
+    "DB": {
+        "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
+        "DB_IS_ALREADY_DELETED": "DB sudah dihapus"
+    },
+    "LOGIN": {
+        "TITLE": "Masuk",
+        "USERNAME": "Nama Pengguna",
+        "PASSWORD": "Kata Sandi",
+        "BUTTON": "Masuk"
+    },
+    "MENU": {
+        "HOME": "Beranda",
+        "PRODUCT": "Produk",
+        "CATEGORY": "Kategori",
+        "ORDER": "Pesanan",
+        "ORDER_HISTORY": "Sejarah Pesanan",
+        "CATEGORY_DATA": "Data Kategori",
+        "PRODUCT_DATA": "Data Produk",
+        "USER_DATA": "Data Pengguna",
+        "SETTING": "Pengaturan",
+        "ACCOUNT": "Akun",
+        "ABOUT": "Tentang",
+        "LOGOUT": "Keluar"
+    },
+    "ERROR": {
+        "EMPTY_USERNAME_PASSWORD": "Nama pengguna atau kata sandi belum diisi",
+        "INVALID_USERNAME_PASSWORD": "Nama pengguna atau kata sandi salah"
+    },
+    "USER": {
+        "TITLE": "Pengguna",
+        "ID": "ID",
+        "USERNAME": "Nama Pengguna",
+        "PASSWORD": "Kata Sandi",
+        "FULLNAME": "Nama Lengkap",
+        "ACTIVATED": "Aktif",
+        "ROLE": "Peranan"
+    },
+    "BUTTON": {
+        "ADD": "Tambah",
+        "EDIT": "Ubah",
+        "DELETE": "Hapus",
+        "SAVE": "Simpan",
+        "CANCEL": "Batal",
+        "OK": "OK",
+        "DONE": "Selesai",
+        "PREVIOUS": "Sebelum",
+        "NEXT": "Berikut"
+    },
+    "ACCOUNT": {
+        "TITLE": "Akun"
+    },
+    "ABOUT": {
+        "TITLE": "Tentang"
+    }
+}

@@ -3,6 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of'; 
 import { AuthorityProvider } from './authority';
 import { Authority } from '../../models/authority.model';
+import { Pageable } from '../../models/pageable.model';
+import { Page } from '../../models/page.model';
+import { PAGE_SIZE } from '../../constant/constant';
 
 
 @Injectable()
@@ -41,6 +44,27 @@ export class AuthorityMockProvider extends AuthorityProvider {
 
   findAll(): Observable<Authority[]> {
     return of(this.authorities);
+  }
+
+  find(pageable: Pageable): Observable<Page<Authority>>{
+    let start:number = (pageable.pageNumber - 1) * PAGE_SIZE + 1;
+    let end:number = start + PAGE_SIZE - 1;
+
+    if(pageable.pageNumber > 1){
+      end = pageable.isLast ? this.authorities.length : start + PAGE_SIZE - 1;
+    }
+
+    return of(new Page(this.getAuthorities(start, end), pageable.pageNumber, this.authorities.length, pageable.sort));
+  }
+
+  private getAuthorities(start: number, end: number): Authority[]{
+    let authorities = new Array<Authority>();
+
+    for(let i:number = start; i<=end; i++){
+      authorities.push(this.authorities[i-1]);
+    }
+
+    return authorities;
   }
 
 }

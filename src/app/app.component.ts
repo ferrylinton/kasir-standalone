@@ -1,17 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage';
 
-import { AuthorityProvider } from '../providers/authority/authority';
-import { RoleProvider } from '../providers/role/role';
-import { UserProvider } from '../providers/user/user';
-import { MenuProvider } from '../providers/menu/menu';
-import { LoginProvider } from '../providers/login/login';
-
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import { Login } from '../models/login.model';
+import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE } from '../constant/constant';
+import { Menu } from '../models/menu.model';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,7 +14,9 @@ import { Login } from '../models/login.model';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = FIRST_RUN_PAGE;
+
+  menus: Array<Menu>;
 
   pages: Array<{ title: string, component: any }>;
 
@@ -27,84 +24,54 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public authorityProvider: AuthorityProvider,
-    public roleProvider: RoleProvider,
-    public userProvider: UserProvider,
-    public menuProvider: MenuProvider,
-    public loginProvider: LoginProvider) {
+    public translate: TranslateService,
+    public events: Events,
+    public storage: Storage) {
 
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
-    ];
-
   }
 
   initializeApp() {
+    this.initLang();
+    this.initMenus();
+
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-
-    console.log('authorityProvider.findAll() -----------------------------');
-    this.authorityProvider.findAll()
-      .forEach(authorities => {
-        console.log(JSON.stringify(authorities));
-      })
-      .catch(error => {
-        console.log(error);
-        throw (error.message || error);
-      });
-
-    console.log('roleProvider.findAll() -----------------------------');
-    this.roleProvider.findAll()
-      .forEach(roles => {
-        console.log(JSON.stringify(roles));
-      })
-      .catch(error => {
-        console.log(error);
-        throw (error.message || error);
-      });
-
-    console.log('userProvider.findAll() -----------------------------');
-    this.userProvider.findAll()
-      .forEach(users => {
-        console.log(JSON.stringify(users));
-      })
-      .catch(error => {
-        console.log(error);
-        throw (error.message || error);
-      });
-
-    console.log('userProvider.findByUsername() -----------------------------');
-    this.userProvider.findByUsername('adminv')
-      .subscribe(user => {
-        console.log(JSON.stringify(user));
-      });
-
-    console.log('menuProvider.findAll() -----------------------------');
-    this.menuProvider.findAll()
-      .subscribe(menus => {
-        console.log(JSON.stringify(menus));
-      });
-
-    console.log('loginProvider.doLogin() -----------------------------');
-    //console.log(JSON.stringify(this.loginProvider.doLogin(new Login('admin', 'password'))));
-    this.loginProvider.doLogin(new Login('admin', 'password'))
-      .subscribe(result => {
-        console.log(JSON.stringify(result[0]));
-        console.log(JSON.stringify(result[1]));
-      });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+  initLang() {
+    this.translate.setDefaultLang(DEFAULT_LANGUAGE);
+    const browserLang = this.translate.getBrowserLang();
+
+    if (browserLang) {
+      this.translate.use(this.translate.getBrowserLang());
+    } else {
+      this.translate.use(DEFAULT_LANGUAGE);
+    }
   }
+
+  initMenus() {
+    this.storage.get(MENU).then((result) => {
+      if (result) {
+        this.menus = JSON.parse(result);
+      }
+    });
+
+    this.events.subscribe(MENU, menus => {
+      this.menus = menus;
+      this.storage.set(MENU, JSON.stringify(menus));
+    });
+  }
+
+  openPage(menu: Menu) {
+    if (menu.page === FIRST_RUN_PAGE) {
+      this.nav.setRoot(FIRST_RUN_PAGE);
+      this.storage.remove(MENU);
+    } else {
+      this.nav.setRoot(menu.page);
+    }
+  }
+
 }

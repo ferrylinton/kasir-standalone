@@ -1,0 +1,24 @@
+<ion-content>
+  <div class="splash-bg"></div>
+  <div class="splash-info">
+    <div class="splash-logo"></div>
+  </div>
+  <form #loginForm="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>{{ 'LOGIN.USERNAME' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="login.username" name="username" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>{{ 'LOGIN.PASSWORD' | translate }}</ion-label>
+        <ion-input type="password" [(ngModel)]="login.password" name="password" required></ion-input>
+      </ion-item>
+
+      <div padding>
+        <button ion-button color="primary" (click)="onLogin(loginForm)" type="submit">{{ 'LOGIN.BUTTON' | translate }}</button>
+      </div>
+
+    </ion-list>
+  </form>
+</ion-content>

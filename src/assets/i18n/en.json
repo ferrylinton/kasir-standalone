@@ -1,0 +1,58 @@
+{
+  "ACTIVATED": "Activated",
+  "DEACTIVATED": "Deactivated",
+  "DB": {
+    "DB_SUCCESSFULLY_DELETED": "DB successfully deleted",
+    "DB_IS_ALREADY_DELETED": "DB is already deleted"
+  },
+  "LOGIN": {
+    "TITLE": "Sign in",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "BUTTON": "Sign in"
+  },
+  "MENU": {
+    "HOME": "Home",
+    "PRODUCT": "Product",
+    "CATEGORY": "Category",
+    "ORDER": "Order",
+    "ORDER_HISTORY": "Order History",
+    "CATEGORY_DATA": "Category Data",
+    "PRODUCT_DATA": "Product Data",
+    "USER_DATA": "User Data",
+    "SETTING": "Setting",
+    "ACCOUNT": "Account",
+    "ABOUT": "About",
+    "LOGOUT": "Logout"
+  },
+  "ERROR": {
+    "EMPTY_USERNAME_PASSWORD": "Username or password is empty",
+    "INVALID_USERNAME_PASSWORD": "Invalid username or password"
+  },
+  "USER":{
+    "TITLE": "User",
+    "ID": "ID",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "FULLNAME": "Fullname",
+    "ACTIVATED": "Activated",
+    "ROLE": "Role"
+  },
+  "BUTTON": {
+    "ADD": "Add",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "OK": "OK",
+    "DONE": "Done",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next"
+  },
+  "ACCOUNT": {
+    "TITLE": "Account"
+  },
+  "ABOUT": {
+    "TITLE": "About"
+  }
+}

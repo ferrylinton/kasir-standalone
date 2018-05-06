@@ -36,7 +36,7 @@ export class MenuMockProvider extends MenuProvider {
       dataMenus.push(new Menu('menu-0000-0000-0000-206', 'Category', empty, 'CategoryPage', 'albums'));
 
       let adminMenus: Menu[] = new Array<Menu>();
-      adminMenus.push(new Menu('menu-0000-0000-0000-301', 'Database', empty, 'DatabasePage', 'archieve'));
+      adminMenus.push(new Menu('menu-0000-0000-0000-301', 'Database', empty, 'DatabasePage', 'archive'));
       adminMenus.push(new Menu('menu-0000-0000-0000-302', 'Setting', empty, 'SettingPage', 'settings'));
 
       let accountMenus: Menu[] = new Array<Menu>();

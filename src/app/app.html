@@ -7,9 +7,12 @@
 
   <ion-content>
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
+      <ion-item-group *ngFor="let group of menus">
+        <ion-item-divider color="light">{{group.title}}</ion-item-divider>
+        <button menuClose ion-item *ngFor="let menu of group.menus" (click)="openPage(menu)">
+            <ion-icon [name]="menu.icon"></ion-icon> {{menu.title}}
+        </button>
+      </ion-item-group>
     </ion-list>
   </ion-content>
 
