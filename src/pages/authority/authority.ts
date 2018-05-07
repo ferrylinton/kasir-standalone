@@ -41,14 +41,14 @@ export class AuthorityPage {
 
   previous(): void{
     if(this.pageable.pageNumber > 1){
-      this.pageable = new Pageable(this.pageable.pageNumber - 1, this.pageable.totalData);
+      this.pageable = new Pageable(this.page.pageNumber - 1, this.page.totalData);
       this.loadData(this.pageable);
     }
   }
 
   next(): void{
     if(this.pageable.pageNumber < this.page.getTotalPage()){
-      this.pageable = new Pageable(this.pageable.pageNumber + 1, this.pageable.totalData);
+      this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
       this.loadData(this.pageable);
     }
   }

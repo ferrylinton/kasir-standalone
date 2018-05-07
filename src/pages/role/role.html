@@ -8,5 +8,20 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let role of page.data; let i = index" ion-item>
+      <span class="list-number" item-start>{{page.getStartRow() + i}}</span>
+      <h2>{{role.name}}</h2>
+      <p>{{role.description}}</p>
+    </ion-item>
+  </ion-list>
 
+  <button class="prev-icon" ion-button icon-start round outline [disabled]="page.isFirst()" (click)="previous()">
+    <ion-icon name="ios-arrow-round-back"></ion-icon>
+    {{ 'BUTTON.PREVIOUS' | translate }}
+  </button>
+  <button ion-button icon-end round outline float-right [disabled]="page.isLast()" (click)="next()">
+    {{ 'BUTTON.NEXT' | translate }}
+    <ion-icon name="ios-arrow-round-forward"></ion-icon>
+  </button>
 </ion-content>
