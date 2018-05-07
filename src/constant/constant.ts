@@ -6,12 +6,12 @@ export const MD5_KEY:string = 'minishopkey';
 
 export const DEFAULT_LANGUAGE:string = 'id';
 
-export const MENU:string = 'menu';
+export const MENU:string = 'MENU';
 
-export const DETAIL:string = 'detail';
+export const DETAIL:string = 'DETAIL';
 
-export const ADD:string = 'add';
+export const ADD:string = 'ADD';
 
-export const OPERATION:string = 'operation';
+export const OPERATION:string = 'OPERATION';
 
 export const PAGE_SIZE:number = 10;

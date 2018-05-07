@@ -5,6 +5,7 @@ import { Role } from '../../models/role.model';
 import { Page } from '../../models/page.model';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
+import { OPERATION, DETAIL } from '../../constant/constant';
 
 
 @IonicPage()
@@ -54,6 +55,13 @@ export class RolePage {
       this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
       this.loadData(this.pageable);
     }
+  }
+
+  view(role: Role) {
+    this.navCtrl.push('RoleFormPage', {
+      operation : DETAIL,
+      data: role
+    });
   }
 
 }

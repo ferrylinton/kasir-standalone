@@ -1,6 +1,17 @@
 {
     "ACTIVATED": "Aktif",
     "DEACTIVATED": "Tidak Aktif",
+    "DETAIL": "Detil",
+    "LABEL": {
+        "AUTHORITY": "Wewenang",
+        "ROLE": "Peranan",
+        "USER": "Pengguna"
+    },
+    "ROLE":{
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "AUTHORITIES": "Wewenang"
+    },
     "DB": {
         "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
         "DB_IS_ALREADY_DELETED": "DB sudah dihapus"
