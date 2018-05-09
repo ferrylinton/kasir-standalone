@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'LABEL.AUTHORITY' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.ID' | translate }}</ion-label>
+    <ion-label>{{ authority.id }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.NAME' | translate }}</ion-label>
+    <ion-label>{{ authority.name }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.DESCRIPTION' | translate }}</ion-label>
+    <ion-label>{{ authority.description }}</ion-label>
+  </ion-item>
+</ion-content>

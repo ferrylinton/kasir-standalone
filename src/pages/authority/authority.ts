@@ -22,34 +22,40 @@ export class AuthorityPage {
     public navParams: NavParams,
     public authorityProvider: AuthorityProvider) {
 
-      this.init();
+    this.init();
   }
 
   ionViewDidLoad() {
   }
 
-  private init(): void{
+  private init(): void {
     this.pageable = new Pageable(1);
     this.loadData(this.pageable);
   }
 
-  private loadData(pageable: Pageable){
+  private loadData(pageable: Pageable) {
     this.authorityProvider.find(pageable).subscribe(page => {
       this.page = page;
     })
   }
 
-  previous(): void{
-    if(this.pageable.pageNumber > 1){
+  previous(): void {
+    if (this.pageable.pageNumber > 1) {
       this.pageable = new Pageable(this.page.pageNumber - 1, this.page.totalData);
       this.loadData(this.pageable);
     }
   }
 
-  next(): void{
-    if(this.pageable.pageNumber < this.page.getTotalPage()){
+  next(): void {
+    if (this.pageable.pageNumber < this.page.getTotalPage()) {
       this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
       this.loadData(this.pageable);
     }
+  }
+
+  view(authority: Authority) {
+    this.navCtrl.push('AuthorityDetailPage', {
+      'authority': authority
+    });
   }
 }

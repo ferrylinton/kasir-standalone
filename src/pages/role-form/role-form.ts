@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { Role } from '../../models/role.model';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { Authority } from '../../models/authority.model';
+import { Base } from '../../models/base.model';
 
 @IonicPage()
 @Component({
@@ -13,6 +14,8 @@ import { Authority } from '../../models/authority.model';
 export class RoleFormPage {
 
   authorities: Authority[];
+
+  selectedAuthorities: FormArray;
 
   isReadyToSave: boolean;
 
@@ -37,12 +40,17 @@ export class RoleFormPage {
         this.authorities = authorities;
       })
 
-    console.log('------------- role form : ' + JSON.stringify(this.role));
-    this.form = formBuilder.group({
+    let authorityControlArray = new FormArray(this.authorities.map((authority) => {
+      let controls: any = {};
+      controls[authority.id] = new FormControl(this.isContainAuthority(authority));
+      return new FormGroup(controls);
+    }));
+
+    this.form = this.formBuilder.group({
       id: [this.role.id],
       name: [this.role.name, Validators.required],
       description: [this.role.description],
-      authorities: [this.role.authorities],
+      authorities: authorityControlArray,
       modifiedDate: [this.role.lastModifiedDate],
       createdDate: [this.role.createdDate]
     });
@@ -60,7 +68,51 @@ export class RoleFormPage {
     return item.id;
   }
 
-  compareAuthority(authority1: Authority, authority2: Authority): boolean{
+  compareAuthority(authority1: Authority, authority2: Authority): boolean {
     return authority1.id === authority2.id;
+  }
+
+  onChange(authority: Authority, checkbox: any) {
+    console.log('onChange authority : ' + JSON.stringify(authority));
+    console.log('onChange checkbox : ' + JSON.stringify(checkbox));
+
+    let index: number = this.getIndexFromArray(authority, this.role.authorities);
+
+    if (index > -1 && !checkbox[authority.id]) {
+      this.role.authorities.splice(index, 1);
+    }else if(index < 0 && checkbox[authority.id]){
+      this.role.authorities.push(authority);
+    }
+
+    console.log('onChange authorities : ' + JSON.stringify(this.form.value));
+  }
+
+  isContainAuthority(authority: Authority): boolean {
+    for (let i: number = 0; i < this.role.authorities.length; i++) {
+      if (this.role.authorities[i].id === authority.id) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private getIndexFromArray(data: Base, datas: Base[]): number{
+    for (let i: number = 0; i < datas.length; i++) {
+      if (datas[i].id === data.id) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  cancel() {
+    
+  }
+
+  done() {
+    if (!this.form.valid) { return; }
+    console.log('done : ' + JSON.stringify(this.form.value));
   }
 }

@@ -1,15 +1,22 @@
 {
-    "ACTIVATED": "Aktif",
-    "DEACTIVATED": "Tidak Aktif",
-    "DETAIL": "Detil",
     "LABEL": {
+        "ID": "Id",
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "CREATED_BY": "Dibuat Oleh",
+        "CREATED_DATE": "Tanggal Dibuat",
+        "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
+        "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
+        "DETAIL": "Detil",
+        "ADD": "Tambah",
+        "EDIT": "Ubah",
+        "ACTIVATED": "Aktif",
+        "DEACTIVATED": "Tidak Aktif",
         "AUTHORITY": "Wewenang",
         "ROLE": "Peranan",
         "USER": "Pengguna"
     },
-    "ROLE":{
-        "NAME": "Nama",
-        "DESCRIPTION": "Deskripsi",
+    "ROLE": {
         "AUTHORITIES": "Wewenang"
     },
     "DB": {

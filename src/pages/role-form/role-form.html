@@ -33,16 +33,13 @@
       <ion-label stacked>{{ 'ROLE.DESCRIPTION' | translate }}</ion-label>
       <ion-input type="text" formControlName="description"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label stacked>{{ 'ROLE.AUTHORITIES' | translate }}</ion-label>
-      <ion-select 
-        okText="{{ 'BUTTON.OK' | translate }}" 
-        cancelText="{{ 'BUTTON.CANCEL' | translate }}" 
-        formControlName="authorities"
-        [compareWith]="compareAuthority"
-        multiple="true">
-        <ion-option *ngFor="let authority of authorities" [value]="authority">{{authority.description}}</ion-option>
-      </ion-select>
-    </ion-item>
+    <div formArrayName="authorities">
+      <ion-label class="checkboxes-label">{{ 'ROLE.AUTHORITIES' | translate }}</ion-label>
+      <ion-item *ngFor="let authority of form.controls.authorities.controls; let i=index" [formGroup]="authority">
+        <ion-checkbox formControlName="{{authorities[i].id}}"></ion-checkbox>
+        <ion-label>{{ authority.value | json }}</ion-label>
+      </ion-item>
+    </div>
+
   </form>
 </ion-content>

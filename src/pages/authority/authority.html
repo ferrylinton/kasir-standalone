@@ -3,18 +3,18 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Authority</ion-title>
+    <ion-title>{{ 'LABEL.AUTHORITY' | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let authority of page.data; let i = index" ion-item>
+    <button ion-item *ngFor="let authority of page.data; let i = index" (click)="view(authority)">
       <span class="list-number" item-start>{{page.getStartRow() + i}}</span>
       <h2>{{authority.name}}</h2>
       <p>{{authority.description}}</p>
-    </ion-item>
+    </button>
   </ion-list>
 
   <button class="prev-icon" ion-button icon-start round outline [disabled]="page.isFirst()" (click)="previous()">
