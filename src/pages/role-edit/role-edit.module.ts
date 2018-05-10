@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { RoleEditPage } from './role-edit';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { RoleEditPage } from './role-edit';
   ],
   imports: [
     IonicPageModule.forChild(RoleEditPage),
+    TranslateModule.forChild()
   ],
 })
 export class RoleEditPageModule {}

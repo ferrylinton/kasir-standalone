@@ -3,6 +3,7 @@ import { RoleProvider } from './role';
 import { Authority } from '../../models/authority.model';
 import { Role } from '../../models/role.model';
 import { MockProvider } from '../mock/mock';
+import { User } from '../../models/user.model';
 
 @Injectable()
 export class RoleMockProvider extends MockProvider<Role> implements RoleProvider {
@@ -13,8 +14,11 @@ export class RoleMockProvider extends MockProvider<Role> implements RoleProvider
   }
 
   private init(): void {
-    let roles = new Array<Role>();
-    roles.push(new Role('role-0000-0000-0000-001', 'Admin', 'Role as Admin', this.getAdminAuthorities()));
+    let roles: Role[] = new Array<Role>();
+    let user: User = new User('user-0000-0000-0000-001', 'admin', 'password', 'Admin Admin');
+
+
+    roles.push(new Role('role-0000-0000-0000-001', 'Admin', 'Role as Admin', this.getAdminAuthorities(), user, new Date()));
     roles.push(new Role('role-0000-0000-0000-002', 'Manager', 'Role as Manager', this.getManagerAuthorities()));
     roles.push(new Role('role-0000-0000-0000-003', 'Employee', 'Role as Employee', this.getEmployeeAuthorities()));
 

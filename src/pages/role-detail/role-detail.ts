@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Role } from '../../models/role.model';
 
 /**
  * Generated class for the RoleDetailPage page.
@@ -15,7 +16,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RoleDetailPage {
 
+  private role: Role;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.role = navParams.get('role');
   }
 
   ionViewDidLoad() {

@@ -58,9 +58,8 @@ export class RolePage {
   }
 
   view(role: Role) {
-    this.navCtrl.push('RoleFormPage', {
-      operation : DETAIL,
-      data: role
+    this.navCtrl.push('RoleDetailPage', {
+      'role': role
     });
   }
 

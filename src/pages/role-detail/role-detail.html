@@ -1,18 +1,40 @@
-<!--
-  Generated template for the RoleDetailPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>role-detail</ion-title>
+    <ion-title>{{ 'LABEL.ROLE' | translate}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.ID' | translate }}</ion-label>
+    <ion-label>{{ role.id }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.NAME' | translate }}</ion-label>
+    <ion-label>{{ role.name }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.DESCRIPTION' | translate }}</ion-label>
+    <ion-label>{{ role.description }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.CREATED_BY' | translate }}</ion-label>
+    <ion-label *ngIf="role.createdBy; else empty">{{ role.createdBy.fullname }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.CREATED_DATE' | translate }}</ion-label>
+    <ion-label *ngIf="role.createdDate; else empty">{{ role.createdDate | date: 'dd/MM/yyyy hh:mm' }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.LAST_MODIFIED_BY' | translate }}</ion-label>
+    <ion-label *ngIf="role.lastModifiedBy; else empty">{{ role.lastModifiedBy.fullname }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.LAST_MODIFIED_DATE' | translate }}</ion-label>
+    <ion-label *ngIf="role.lastModifiedDate; else empty">{{ role.lastModifiedDate | date: 'dd/MM/yyyy hh:mm' }}</ion-label>
+  </ion-item>
 </ion-content>
+<ng-template #empty>
+  <ion-label>-</ion-label>
+</ng-template>
