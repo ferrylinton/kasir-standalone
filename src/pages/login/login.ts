@@ -6,7 +6,8 @@ import { LoginProvider } from '../../providers/login/login';
 import { Login } from '../../models/login.model';
 import { User } from '../../models/user.model';
 import { Menu } from '../../models/menu.model';
-import { MENU, HOME_PAGE } from '../../constant/constant';
+import { MENU, HOME_PAGE, LOGGED_USER } from '../../constant/constant';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -22,11 +23,12 @@ export class LoginPage {
   private login: Login = new Login('', '');
 
   constructor(
-    private navCtrl: NavController,
-    private toastCtrl: ToastController,
-    private translateService: TranslateService,
-    private events: Events,
-    private loginProvider: LoginProvider) {
+    public navCtrl: NavController,
+    public toastCtrl: ToastController,
+    public translateService: TranslateService,
+    public events: Events,
+    public storage: Storage,
+    public loginProvider: LoginProvider) {
 
     console.log('LoginPage -> constructor()');
     this.initLang();
@@ -63,6 +65,7 @@ export class LoginPage {
         let menus: Menu[] = result[1];
 
         if (user != null && user.password === this.login.password) {
+          this.storage.set(LOGGED_USER, JSON.stringify(user));
           this.events.publish(MENU, menus);
           this.navCtrl.setRoot(HOME_PAGE);
         } else {

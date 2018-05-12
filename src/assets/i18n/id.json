@@ -72,5 +72,8 @@
     },
     "ABOUT": {
         "TITLE": "Tentang"
+    },
+    "MESSAGE": {
+        "NO_DATA": "Data tidak ditemukan"
     }
 }

@@ -17,15 +17,12 @@
 
 .list-number{
     width: 40px;
-    padding: 10px 0;
-    font-size: 16px;
-    text-align: center;
-    background: color($colors, light);
+    text-align: right;
+    color: color($colors, grey);
 }
 
 .checkboxes-label{
     margin-left: 18px;
-    color: color($colors, grey);
 }
 
 .detail-label{

@@ -1,11 +1,19 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{ 'LABEL.ROLE' | translate}}</ion-title>
+    <ion-title>{{ 'LABEL.ROLE' | translate}} - {{ 'LABEL.DETAIL' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="danger" (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="edit()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding *ngIf="role; else nodata">
   <ion-item>
     <ion-label class="detail-label" stacked>{{ 'LABEL.ID' | translate }}</ion-label>
     <ion-label>{{ role.id }}</ion-label>
@@ -34,7 +42,21 @@
     <ion-label class="detail-label" stacked>{{ 'LABEL.LAST_MODIFIED_DATE' | translate }}</ion-label>
     <ion-label *ngIf="role.lastModifiedDate; else empty">{{ role.lastModifiedDate | date: 'dd/MM/yyyy hh:mm' }}</ion-label>
   </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'ROLE.AUTHORITIES' | translate }}</ion-label>
+  </ion-item>
+  <ion-list>
+    <ion-item *ngFor="let authority of role.authorities; let i = index">
+      <span class="list-number" item-start>{{ i + 1 }}.</span>
+      <span>{{ authority.description }}</span>
+    </ion-item>
+  </ion-list>
 </ion-content>
 <ng-template #empty>
   <ion-label>-</ion-label>
+</ng-template>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-content>
 </ng-template>

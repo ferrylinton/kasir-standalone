@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
-import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE } from '../constant/constant';
+import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE, DETAIL } from '../constant/constant';
 import { Menu } from '../models/menu.model';
 
 @Component({
@@ -34,6 +34,7 @@ export class MyApp {
   initializeApp() {
     this.initLang();
     this.initMenus();
+    this.initEvents();
 
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -52,20 +53,28 @@ export class MyApp {
     }
   }
 
-  initMenus() {
+  initMenus(): void {
     this.storage.get(MENU).then((result) => {
       if (result) {
         this.menus = JSON.parse(result);
       }
     });
 
+
+  }
+
+  initEvents(): void {
     this.events.subscribe(MENU, menus => {
       this.menus = menus;
       this.storage.set(MENU, JSON.stringify(menus));
     });
+
+    this.events.subscribe(DETAIL, page => {
+      this.nav.setRoot(page);
+    });
   }
 
-  openPage(menu: Menu) {
+  openPage(menu: Menu): void {
     if (menu.page === FIRST_RUN_PAGE) {
       this.nav.setRoot(FIRST_RUN_PAGE);
       this.storage.remove(MENU);

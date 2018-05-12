@@ -11,9 +11,9 @@ export abstract class RoleProvider {
 
   abstract find(pageable: Pageable): Observable<Page<Role>>;
 
-  abstract save(role: Role): void;
+  abstract save(role: Role): Observable<Role>;
 
-  abstract update(role: Role): void;
+  abstract update(role: Role): Observable<Role>;
 
   abstract delete(id: string): void;
 

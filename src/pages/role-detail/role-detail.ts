@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { Role } from '../../models/role.model';
-
-/**
- * Generated class for the RoleDetailPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { DETAIL } from '../../constant/constant';
 
 @IonicPage()
 @Component({
@@ -18,8 +12,24 @@ export class RoleDetailPage {
 
   private role: Role;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public events: Events,
+    public toastCtrl: ToastController) {
+
     this.role = navParams.get('role');
+
+    if(this.role === undefined) {
+      let toast = this.toastCtrl.create({
+        message: 'Role is undefined',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+      this.events.publish(DETAIL, 'RolePage');
+
+    }
   }
 
   ionViewDidLoad() {

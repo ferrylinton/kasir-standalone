@@ -8,6 +8,10 @@ export const DEFAULT_LANGUAGE:string = 'id';
 
 export const MENU:string = 'MENU';
 
+export const LOGGED_USER:string = 'LOGGED_USER';
+
+export const ERROR:string = 'ERROR';
+
 export const DETAIL:string = 'DETAIL';
 
 export const ADD:string = 'ADD';
