@@ -74,6 +74,15 @@
         "TITLE": "Tentang"
     },
     "MESSAGE": {
-        "NO_DATA": "Data tidak ditemukan"
+        "NO_DATA": "Data tidak ditemukan",
+        "ADD_CONFIRM": "Apakah Anda ingin menambah data [ '{{data}}' ] ?",
+        "EDIT_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
+        "DELETE_CONFIRM": "Apakah Anda ingin menghapus data [ '{{data}}' ] ?",
+        "ADD_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
+        "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
+        "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil"
+    },
+    "TITLE": {
+        "CONFIRM" : "Konfirmasi"
     }
 }

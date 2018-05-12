@@ -24,7 +24,7 @@
 
 
 <ion-content padding>
-  <form *ngIf="form" [formGroup]="form" (ngSubmit)="save()">
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
     <ion-item>
       <ion-label color="primary" stacked>{{ 'LABEL.ID' | translate }}</ion-label>
       <ion-input type="text" readonly="true" placeholder="{{ 'LABEL.ID' | translate }}" formControlName="id"></ion-input>
@@ -41,7 +41,7 @@
       <ion-label color="primary" class="checkboxes-label">{{ 'ROLE.AUTHORITIES' | translate }}</ion-label>
       <ion-item *ngFor="let authority of form.controls.authorities.controls; let i=index" [formGroup]="authority">
         <ion-checkbox formControlName="checked"></ion-checkbox>
-        <ion-label>{{ authority.value | json }}</ion-label>
+        <ion-label>{{ authorities[i].description }}</ion-label>
       </ion-item>
     </div>
   </form>

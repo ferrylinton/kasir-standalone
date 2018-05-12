@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, Toast } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Role } from '../../models/role.model';
 import { Authority } from '../../models/authority.model';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
 import { v4 as uuid } from 'uuid';
-import { User } from '../../models/user.model';
 import { Storage } from '@ionic/storage';
-import { LOGGED_USER } from '../../constant/constant';
+import { BasePage } from '../base/base';
+import { TranslateService } from '@ngx-translate/core';
 
 @IonicPage()
 @Component({
   selector: 'page-role-add',
   templateUrl: 'role-add.html',
 })
-export class RoleAddPage {
+export class RoleAddPage extends BasePage {
 
   authorities: Authority[];
 
@@ -25,16 +25,18 @@ export class RoleAddPage {
 
   role: Role;
 
-  loggedUser: User;
-
   constructor(
     public navCtrl: NavController,
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
+    public translate: TranslateService,
+    public storage: Storage,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    public storage: Storage,
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider) {
 
+    super(toastCtrl, alertCtrl, translate, storage);
     this.initRole();
     this.initAuthorities();
     this.initForm();
@@ -43,9 +45,6 @@ export class RoleAddPage {
       this.isReadyToSave = this.form.valid;
     });
 
-    storage.get(LOGGED_USER).then((val) => {
-      this.loggedUser = JSON.parse(val);
-    });
   }
 
   ionViewDidLoad() {
@@ -69,6 +68,7 @@ export class RoleAddPage {
       return this.formBuilder.group({
         id: [authority.id],
         name: [authority.name],
+        description: [authority.description],
         checked: [this.isContainAuthority(authority)]
       });
     }));
@@ -96,27 +96,30 @@ export class RoleAddPage {
     let authorities: Authority[] = new Array<Authority>();
     for (let i: number = 0; i < this.form.value.authorities.length; i++) {
       if (this.form.value.authorities[i].checked) {
-        authorities.push(new Authority(this.form.value.authorities[i].id, this.form.value.authorities[i].name));
+        let authority = this.form.value.authorities[i];
+        authorities.push(new Authority(authority.id, authority.name, authority.description));
       }
     }
 
     return authorities;
   }
 
-  save(): void {
+  saveCallback(role: Role): void {
+    role.createdBy = this.loggedUser;
+    role.createdDate = new Date();
+    role.authorities = this.convertToAuthorities();
+    this.roleProvider.save(role).subscribe(result => {
+      console.log(JSON.stringify(result));
+      this.showToast(result.name);
+    });
+  }
+
+  save() {
     if (!this.form.valid) {
       return;
     } else {
-      let role: Role = this.form.value;
-      role.createdBy = this.loggedUser;
-      role.createdDate = new Date();
-      role.authorities = this.convertToAuthorities();
-      this.roleProvider.save(role).subscribe(result => {
-        console.log(JSON.stringify(result));
-      });
-      
+      this.showSaveConfirm(this.form.value.name, (role) => this.saveCallback(this.form.value));
     }
   }
-
 
 }
