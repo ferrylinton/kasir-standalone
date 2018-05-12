@@ -109,7 +109,7 @@ export class RoleAddPage extends BasePage {
     role.createdDate = new Date();
     role.authorities = this.convertToAuthorities();
     this.roleProvider.save(role).subscribe(result => {
-      console.log(JSON.stringify(result));
+      this.navCtrl.popToRoot();
       this.showToast(result.name);
     });
   }

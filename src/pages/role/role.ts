@@ -5,8 +5,6 @@ import { Role } from '../../models/role.model';
 import { Page } from '../../models/page.model';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
-import { OPERATION, DETAIL } from '../../constant/constant';
-
 
 @IonicPage()
 @Component({
@@ -18,40 +16,46 @@ export class RolePage {
   private pageable: Pageable;
 
   private page: Page<Role>;
-  
+
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider) {
 
-      this.init();
+    console.log('...constructor RolePage');
+    this.init();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RolePage');
+    console.log('...ionViewDidLoad RolePage');
   }
 
-  private init(): void{
+  ionViewWillEnter() {
+    console.log('...ionViewWillEnter RolePage');
+    this.init();
+  }
+
+  private init(): void {
     this.pageable = new Pageable(1);
     this.loadData(this.pageable);
   }
 
-  private loadData(pageable: Pageable){
+  private loadData(pageable: Pageable) {
     this.roleProvider.find(pageable).subscribe(page => {
       this.page = page;
     })
   }
 
-  previous(): void{
-    if(this.pageable.pageNumber > 1){
+  previous(): void {
+    if (this.pageable.pageNumber > 1) {
       this.pageable = new Pageable(this.page.pageNumber - 1, this.page.totalData);
       this.loadData(this.pageable);
     }
   }
 
-  next(): void{
-    if(this.pageable.pageNumber < this.page.getTotalPage()){
+  next(): void {
+    if (this.pageable.pageNumber < this.page.getTotalPage()) {
       this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
       this.loadData(this.pageable);
     }
