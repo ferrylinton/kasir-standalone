@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, Toast } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Role } from '../../models/role.model';
 import { Authority } from '../../models/authority.model';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
-import { v4 as uuid } from 'uuid';
 import { Storage } from '@ionic/storage';
 import { BasePage } from '../base/base';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,34 +25,34 @@ export class RoleAddPage extends BasePage {
   role: Role;
 
   constructor(
-    public navCtrl: NavController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public translate: TranslateService,
     public storage: Storage,
+    public events: Events,
+    public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage);
-    this.initRole();
-    this.initAuthorities();
-    this.initForm();
-
-    this.form.valueChanges.subscribe((v) => {
-      this.isReadyToSave = this.form.valid;
-    });
-
+    super(toastCtrl, alertCtrl, translate, storage, events);
+    this.init(navParams);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RoleAddPage');
-  }
+  private init(navParams: NavParams): void {
+    this.role = navParams.get('role');
 
-  private initRole(): void {
-    this.role = new Role(uuid());
-    this.role.authorities = new Array<Authority>();
+    if (this.role === undefined) {
+      this.reloadPage('RolePage');
+    } else {
+      this.initAuthorities();
+      this.initForm();
+
+      this.form.valueChanges.subscribe((v) => {
+        this.isReadyToSave = this.form.valid;
+      });
+    }
   }
 
   private initAuthorities(): void {

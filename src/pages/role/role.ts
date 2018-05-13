@@ -5,6 +5,8 @@ import { Role } from '../../models/role.model';
 import { Page } from '../../models/page.model';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
+import { v4 as uuid } from 'uuid';
+import { Authority } from '../../models/authority.model';
 
 @IonicPage()
 @Component({
@@ -23,7 +25,6 @@ export class RolePage {
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider) {
 
-    console.log('...constructor RolePage');
     this.init();
   }
 
@@ -68,7 +69,12 @@ export class RolePage {
   }
 
   add() {
-    this.navCtrl.push('RoleAddPage');
+    let role = new Role(uuid());
+    role.authorities = new Array<Authority>();
+
+    this.navCtrl.push('RoleAddPage', {
+      'role': role
+    });
   }
 
 }

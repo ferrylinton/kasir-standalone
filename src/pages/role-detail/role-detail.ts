@@ -17,36 +17,24 @@ export class RoleDetailPage extends BasePage {
   private role: Role;
 
   constructor(
-    public navCtrl: NavController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public translate: TranslateService,
     public storage: Storage,
-    public navParams: NavParams,
     public events: Events,
+    public navCtrl: NavController,
+    public navParams: NavParams,
     public roleProvider: RoleProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage);
-
+    super(toastCtrl, alertCtrl, translate, storage, events);
     this.initRole(navParams);
-
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RoleDetailPage');
   }
 
   private initRole(navParams: NavParams): void {
     this.role = navParams.get('role');
-    let message: string = 'Reload page';
 
     if (this.role === undefined) {
-      this.translate.get('MESSAGE.RELOAD_PAGE').subscribe(value => {
-        message = value;
-      });
-
-      this.showToast(message);
-      this.events.publish(DETAIL, 'RolePage');
+      this.reloadPage('RolePage');
     }
   }
 

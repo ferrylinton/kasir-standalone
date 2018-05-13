@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Role } from '../../models/role.model';
 import { Authority } from '../../models/authority.model';
@@ -25,33 +25,34 @@ export class RoleEditPage extends BasePage {
   role: Role;
 
   constructor(
-    public navCtrl: NavController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public translate: TranslateService,
     public storage: Storage,
+    public events: Events,
+    public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage);
-    this.initRole(navParams);
-    this.initAuthorities();
-    this.initForm();
-
-    this.form.valueChanges.subscribe((v) => {
-      this.isReadyToSave = this.form.valid;
-    });
-
+    super(toastCtrl, alertCtrl, translate, storage, events);
+    this.init(navParams);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RoleAddPage');
-  }
-
-  private initRole(navParams: NavParams): void {
+  private init(navParams: NavParams): void {
     this.role = navParams.get('role');
+
+    if (this.role === undefined) {
+      this.reloadPage('RolePage');
+    } else {
+      this.initAuthorities();
+      this.initForm();
+
+      this.form.valueChanges.subscribe((v) => {
+        this.isReadyToSave = this.form.valid;
+      });
+    }
   }
 
   private initAuthorities(): void {
@@ -77,7 +78,6 @@ export class RoleEditPage extends BasePage {
       description: [this.role.description],
       authorities: authorityControlArray
     });
-
   }
 
   private isContainAuthority(authority: Authority): boolean {
@@ -116,7 +116,7 @@ export class RoleEditPage extends BasePage {
     if (!this.form.valid) {
       return;
     } else {
-      this.showDeleteConfirm(this.form.value.name, (role) => this.saveCallback(this.form.value));
+      this.showEditConfirm(this.form.value.name, (role) => this.saveCallback(this.form.value));
     }
   }
 
