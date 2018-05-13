@@ -19,5 +19,4 @@ export abstract class UserProvider {
 
   abstract delete(id: string): Observable<User>;
 
-
 }

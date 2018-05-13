@@ -1,33 +1,26 @@
 import { Injectable } from '@angular/core';
+import { MockProvider } from '../mock/mock';
 import { CategoryProvider } from '../../providers/category/category';
-import { Observable } from 'rxjs/Observable';
 import { Category } from '../../models/category.model';
+import { User } from '../../models/user.model';
 
 @Injectable()
-export class CategoryMockProvider extends CategoryProvider{
+export class CategoryMockProvider extends MockProvider<Category> implements CategoryProvider{
 
   constructor() {
     super();
+    this.init();
   }
 
-  findById(id: string): Observable<Category> {
-    throw new Error("Method not implemented.");
-  }
-  
-  findAll(): Observable<Category[]> {
-    throw new Error("Method not implemented.");
-  }
+  private init(): void {
+    let categories: Category[] = new Array<Category>();
+    let user: User = new User('user-0000-0000-0000-001', 'admin', 'password', 'Admin Admin');
 
-  save(category: Category): Observable<any> {
-    throw new Error("Method not implemented.");
-  }
-
-  update(category: Category): Observable<any> {
-    throw new Error("Method not implemented.");
-  }
-
-  delete(id: String): Observable<any> {
-    throw new Error("Method not implemented.");
+    for(let i:number = 1; i<30; i++){
+      categories.push(new Category('category-0000-0000-0000-' + this.zeroPad(i, 3), 'Category ' + this.zeroPad(i, 3), 'Category Description ' + this.zeroPad(i, 3), 'imgs/image-medium.png', user, new Date()));
+    }
+    
+    this.setDatas(categories);
   }
   
 }

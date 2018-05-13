@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { MockProvider } from '../mock/mock';
 import { AuthorityProvider } from './authority';
 import { Authority } from '../../models/authority.model';
-import { MockProvider } from '../mock/mock';
 
 @Injectable()
 export class AuthorityMockProvider extends MockProvider<Authority> implements AuthorityProvider {

@@ -13,8 +13,6 @@ export class Category implements Audit{
         
         public imageFileName?: String,
 
-        public enabled?: boolean,
-    
         public createdBy?: User,
 
         public createdDate?: Date,

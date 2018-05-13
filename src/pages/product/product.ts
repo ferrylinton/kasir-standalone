@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { v4 as uuid } from 'uuid';
 
-/**
- * Generated class for the ProductPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ProductProvider } from '../../providers/product/product';
+
+import { Pageable } from '../../models/pageable.model';
+import { Page } from '../../models/page.model';
+import { Product } from '../../models/product.model';
 
 @IonicPage()
 @Component({
@@ -15,11 +15,59 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProductPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  pageable: Pageable;
+
+  page: Page<Product>;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public productProvider: ProductProvider) {
+
+    this.init();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProductPage');
+  ionViewWillEnter() {
+    this.init();
+  }
+
+  private init(): void {
+    this.pageable = new Pageable(1);
+    this.loadData(this.pageable);
+  }
+
+  private loadData(pageable: Pageable) {
+    this.productProvider.find(pageable).subscribe(page => {
+      this.page = page;
+    })
+  }
+
+  previous(): void {
+    if (this.pageable.pageNumber > 1) {
+      this.pageable = new Pageable(this.page.pageNumber - 1, this.page.totalData);
+      this.loadData(this.pageable);
+    }
+  }
+
+  next(): void {
+    if (this.pageable.pageNumber < this.page.getTotalPage()) {
+      this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
+      this.loadData(this.pageable);
+    }
+  }
+
+  view(product: Product) {
+    this.navCtrl.push('ProductDetailPage', {
+      product: product
+    });
+  }
+
+  add() {
+    let product = new Product(uuid());
+    
+    this.navCtrl.push('ProductAddPage', {
+      product: product
+    });
   }
 
 }

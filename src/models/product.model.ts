@@ -17,8 +17,6 @@ export class Product implements Audit{
         public imageFileName?: string, 
         
         public category?: Category,
-
-        public enabled?: boolean,
     
         public createdBy?: User,
 

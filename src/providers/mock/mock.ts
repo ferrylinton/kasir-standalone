@@ -9,7 +9,7 @@ export class MockProvider<T extends Base> {
 
     protected datas: T[];
 
-    setDatas(datas: T[]): void{
+    setDatas(datas: T[]): void {
         this.datas = datas;
     }
 
@@ -69,6 +69,11 @@ export class MockProvider<T extends Base> {
         }
 
         return of(new Page(this.getDatas(start, end), pageable.pageNumber, this.datas.length, pageable.sort));
+    }
+
+    zeroPad(num: number, places: number): string {
+        var zero = places - num.toString().length + 1;
+        return Array(+(zero > 0 && zero)).join("0") + num;
     }
 
     private getDatas(start: number, end: number): T[] {
