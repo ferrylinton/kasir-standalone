@@ -70,4 +70,5 @@ export class RolePage {
   add() {
     this.navCtrl.push('RoleAddPage');
   }
+
 }

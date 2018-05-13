@@ -118,7 +118,7 @@ export class RoleAddPage extends BasePage {
     if (!this.form.valid) {
       return;
     } else {
-      this.showSaveConfirm(this.form.value.name, (role) => this.saveCallback(this.form.value));
+      this.showAddConfirm(this.form.value.name, (role) => this.saveCallback(this.form.value));
     }
   }
 

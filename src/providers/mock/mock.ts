@@ -44,15 +44,18 @@ export class MockProvider<T extends Base> {
         return of(data);
     }
 
-    delete(id: string): void {
+    delete(id: string): Observable<T> {
+        let data: T;
         let index: number;
         for (let i: number = 0; i < this.datas.length; i++) {
             if (this.datas[i].id === id) {
+                data = this.datas[i];
                 index = i;
             }
         }
 
         this.datas.splice(index, 1);
+        return of(data);
     }
 
     find(pageable: Pageable): Observable<Page<Base>> {

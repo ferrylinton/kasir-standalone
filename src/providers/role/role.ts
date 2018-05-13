@@ -15,6 +15,6 @@ export abstract class RoleProvider {
 
   abstract update(role: Role): Observable<Role>;
 
-  abstract delete(id: string): void;
+  abstract delete(id: string): Observable<Role>;
 
 }

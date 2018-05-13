@@ -80,7 +80,8 @@
         "DELETE_CONFIRM": "Apakah Anda ingin menghapus data [ '{{data}}' ] ?",
         "ADD_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
         "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
-        "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil"
+        "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil",
+        "RELOAD_PAGE": "Muat ulang halaman"
     },
     "TITLE": {
         "CONFIRM" : "Konfirmasi"
