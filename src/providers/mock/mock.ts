@@ -7,7 +7,7 @@ import { Base } from '../../models/base.model';
 
 export class MockProvider<T extends Base> {
 
-    private datas: T[];
+    protected datas: T[];
 
     setDatas(datas: T[]): void{
         this.datas = datas;

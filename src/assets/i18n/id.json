@@ -1,89 +1,65 @@
 {
-    "LABEL": {
-        "ID": "Id",
-        "NAME": "Nama",
-        "DESCRIPTION": "Deskripsi",
-        "CREATED_BY": "Dibuat Oleh",
-        "CREATED_DATE": "Tanggal Dibuat",
-        "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
-        "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
-        "DETAIL": "Detil",
-        "ADD": "Tambah",
-        "EDIT": "Ubah",
-        "ACTIVATED": "Aktif",
-        "DEACTIVATED": "Tidak Aktif",
-        "AUTHORITY": "Wewenang",
-        "ROLE": "Peranan",
-        "USER": "Pengguna"
-    },
-    "ROLE": {
-        "AUTHORITIES": "Wewenang"
-    },
-    "DB": {
-        "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
-        "DB_IS_ALREADY_DELETED": "DB sudah dihapus"
-    },
-    "LOGIN": {
-        "TITLE": "Masuk",
-        "USERNAME": "Nama Pengguna",
-        "PASSWORD": "Kata Sandi",
-        "BUTTON": "Masuk"
-    },
-    "MENU": {
-        "HOME": "Beranda",
-        "PRODUCT": "Produk",
-        "CATEGORY": "Kategori",
-        "ORDER": "Pesanan",
-        "ORDER_HISTORY": "Sejarah Pesanan",
-        "CATEGORY_DATA": "Data Kategori",
-        "PRODUCT_DATA": "Data Produk",
-        "USER_DATA": "Data Pengguna",
-        "SETTING": "Pengaturan",
-        "ACCOUNT": "Akun",
-        "ABOUT": "Tentang",
-        "LOGOUT": "Keluar"
-    },
-    "ERROR": {
-        "EMPTY_USERNAME_PASSWORD": "Nama pengguna atau kata sandi belum diisi",
-        "INVALID_USERNAME_PASSWORD": "Nama pengguna atau kata sandi salah"
-    },
-    "USER": {
-        "TITLE": "Pengguna",
-        "ID": "ID",
-        "USERNAME": "Nama Pengguna",
-        "PASSWORD": "Kata Sandi",
-        "FULLNAME": "Nama Lengkap",
-        "ACTIVATED": "Aktif",
-        "ROLE": "Peranan"
-    },
     "BUTTON": {
         "ADD": "Tambah",
-        "EDIT": "Ubah",
-        "DELETE": "Hapus",
-        "SAVE": "Simpan",
         "CANCEL": "Batal",
-        "OK": "OK",
+        "DELETE": "Hapus",
         "DONE": "Selesai",
+        "EDIT": "Ubah",
+        "NEXT": "Berikut",
+        "OK": "OK",
         "PREVIOUS": "Sebelum",
-        "NEXT": "Berikut"
+        "SAVE": "Simpan"
     },
-    "ACCOUNT": {
-        "TITLE": "Akun"
-    },
-    "ABOUT": {
-        "TITLE": "Tentang"
+    "LABEL": {
+        "ABOUT": "About",
+        "ACCOUNT": "Akun",
+        "ACTIVATED": "Aktif",
+        "ADD": "Tambah",
+        "AUTHORITIES": "Wewenang",
+        "AUTHORITY": "Wewenang",
+        "CATEGORY": "Kategori",
+        "CATEGORY_DATA": "Data Kategori",
+        "CREATED_BY": "Dibuat Oleh",
+        "CREATED_DATE": "Tanggal Dibuat",
+        "DEACTIVATED": "Tidak Aktif",
+        "DESCRIPTION": "Deskripsi",
+        "DETAIL": "Detil",
+        "EDIT": "Ubah",
+        "FULLNAME": "Nama Lengkap",
+        "HOME": "Beranda",
+        "ID": "Id",
+        "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
+        "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
+        "LOGOUT": "Keluar",
+        "NAME": "Nama",
+        "ORDER": "Pesanan",
+        "ORDER_HISTORY": "Sejarah Pesanan",
+        "PASSWORD": "Kata Sandi",
+        "PRODUCT": "Produk",
+        "PRODUCT_DATA": "Data Produk",
+        "ROLE": "Peranan",
+        "SETTING": "Pengaturan",
+        "SIGNIN": "Masuk",
+        "USER": "Pengguna",
+        "USER_DATA": "Data Pengguna",
+        "USERNAME": "Nama Pengguna",
+        "STATUS": "Status"
     },
     "MESSAGE": {
-        "NO_DATA": "Data tidak ditemukan",
         "ADD_CONFIRM": "Apakah Anda ingin menambah data [ '{{data}}' ] ?",
-        "EDIT_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
-        "DELETE_CONFIRM": "Apakah Anda ingin menghapus data [ '{{data}}' ] ?",
         "ADD_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
-        "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
+        "DB_IS_ALREADY_DELETED": "DB sudah dihapus",
+        "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
+        "DELETE_CONFIRM": "Apakah Anda ingin menghapus data [ '{{data}}' ] ?",
         "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil",
+        "EDIT_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
+        "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
+        "EMPTY_USERNAME_PASSWORD": "Nama pengguna atau kata sandi belum diisi",
+        "INVALID_USERNAME_PASSWORD": "Nama pengguna atau kata sandi salah",
+        "NO_DATA": "Data tidak ditemukan",
         "RELOAD_PAGE": "Memuat ulang halaman"
     },
     "TITLE": {
-        "CONFIRM" : "Konfirmasi"
+        "CONFIRM": "Konfirmasi"
     }
 }

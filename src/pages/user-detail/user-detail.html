@@ -1,18 +1,64 @@
-<!--
-  Generated template for the UserDetailPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>user-detail</ion-title>
+    <ion-title>{{ 'LABEL.USER' | translate}} - {{ 'LABEL.DETAIL' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="danger" (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="edit()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding *ngIf="user; else nodata">
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.ID' | translate }}</ion-label>
+    <ion-label>{{ user.id }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.USERNAME' | translate }}</ion-label>
+    <ion-label>{{ user.username }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.FULLNAME' | translate }}</ion-label>
+    <ion-label>{{ user.fullname }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.ROLE' | translate }}</ion-label>
+    <ion-label>{{ user.role.name }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.STATUS' | translate }}</ion-label>
+    <ion-label *ngIf="user.activated; else deactivated">{{ 'LABEL.ACTIVATED' | translate }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.CREATED_BY' | translate }}</ion-label>
+    <ion-label *ngIf="user.createdBy; else empty">{{ user.createdBy.fullname }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.CREATED_DATE' | translate }}</ion-label>
+    <ion-label *ngIf="user.createdDate; else empty">{{ user.createdDate | date: 'dd/MM/yyyy hh:mm' }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.LAST_MODIFIED_BY' | translate }}</ion-label>
+    <ion-label *ngIf="user.lastModifiedBy; else empty">{{ user.lastModifiedBy.fullname }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.LAST_MODIFIED_DATE' | translate }}</ion-label>
+    <ion-label *ngIf="user.lastModifiedDate; else empty">{{ user.lastModifiedDate | date: 'dd/MM/yyyy hh:mm' }}</ion-label>
+  </ion-item>
 </ion-content>
+<ng-template #empty>
+  <ion-label>-</ion-label>
+</ng-template>
+<ng-template #deactivated>
+    <ion-label>{{ 'LABEL.DEACTIVATED' | translate }}</ion-label>
+</ng-template>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-content>
+</ng-template>

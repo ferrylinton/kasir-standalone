@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
-import { Role } from '../../models/role.model';
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
+import { Role } from '../../models/role.model';
 
 export abstract class RoleProvider {
 

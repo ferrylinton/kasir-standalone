@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Pageable } from '../../models/pageable.model';
-import { Role } from '../../models/role.model';
-import { Page } from '../../models/page.model';
+import { v4 as uuid } from 'uuid';
+
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
-import { v4 as uuid } from 'uuid';
+
+import { Pageable } from '../../models/pageable.model';
 import { Authority } from '../../models/authority.model';
+import { Page } from '../../models/page.model';
+import { Role } from '../../models/role.model';
 
 @IonicPage()
 @Component({
@@ -15,9 +17,9 @@ import { Authority } from '../../models/authority.model';
 })
 export class RolePage {
 
-  private pageable: Pageable;
+  pageable: Pageable;
 
-  private page: Page<Role>;
+  page: Page<Role>;
 
   constructor(
     public navCtrl: NavController,
@@ -28,12 +30,7 @@ export class RolePage {
     this.init();
   }
 
-  ionViewDidLoad() {
-    console.log('...ionViewDidLoad RolePage');
-  }
-
   ionViewWillEnter() {
-    console.log('...ionViewWillEnter RolePage');
     this.init();
   }
 
@@ -64,7 +61,7 @@ export class RolePage {
 
   view(role: Role) {
     this.navCtrl.push('RoleDetailPage', {
-      'role': role
+      role: role
     });
   }
 
@@ -73,7 +70,7 @@ export class RolePage {
     role.authorities = new Array<Authority>();
 
     this.navCtrl.push('RoleAddPage', {
-      'role': role
+      role: role
     });
   }
 

@@ -1,4 +1,6 @@
 import { Observable } from 'rxjs/Observable';
+import { Pageable } from '../../models/pageable.model';
+import { Page } from '../../models/page.model';
 import { User } from '../../models/user.model';
 
 export abstract class UserProvider {
@@ -9,10 +11,13 @@ export abstract class UserProvider {
 
   abstract findAll(): Observable<User[]>;
 
-  abstract save(role: User): void;
+  abstract find(pageable: Pageable): Observable<Page<User>>;
 
-  abstract update(role: User): void;
+  abstract save(user: User): Observable<User>;
 
-  abstract delete(id: string): void;
+  abstract update(user: User): Observable<User>;
+
+  abstract delete(id: string): Observable<User>;
+
 
 }

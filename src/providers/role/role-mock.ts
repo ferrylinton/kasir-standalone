@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MockProvider } from '../mock/mock';
 import { RoleProvider } from './role';
 import { Authority } from '../../models/authority.model';
 import { Role } from '../../models/role.model';
-import { MockProvider } from '../mock/mock';
 import { User } from '../../models/user.model';
 
 @Injectable()

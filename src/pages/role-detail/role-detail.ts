@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events, AlertController } from 'ionic-angular';
-import { Role } from '../../models/role.model';
-import { DETAIL } from '../../constant/constant';
-import { BasePage } from '../base/base';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
+
 import { RoleProvider } from '../../providers/role/role';
+import { BasePage } from '../base/base';
+import { Role } from '../../models/role.model';
 
 @IonicPage()
 @Component({
@@ -27,10 +27,10 @@ export class RoleDetailPage extends BasePage {
     public roleProvider: RoleProvider) {
 
     super(toastCtrl, alertCtrl, translate, storage, events);
-    this.initRole(navParams);
+    this.init(navParams);
   }
 
-  private initRole(navParams: NavParams): void {
+  private init(navParams: NavParams): void {
     this.role = navParams.get('role');
 
     if (this.role === undefined) {
@@ -40,7 +40,7 @@ export class RoleDetailPage extends BasePage {
 
   edit() {
     this.navCtrl.push('RoleEditPage', {
-      'role': this.role
+      role: this.role
     });
   }
 
