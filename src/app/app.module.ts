@@ -30,6 +30,7 @@ import { CategoryMockProvider } from '../providers/category/category-mock';
 
 import { ProductProvider } from '../providers/product/product';
 import { ProductMockProvider } from '../providers/product/product-mock';
+import { DataProvider } from '../providers/data/data';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -69,7 +70,8 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: MenuProvider, useClass: MenuMockProvider },
     { provide: LoginProvider, useClass: LoginMockProvider },
     { provide: CategoryProvider, useClass: CategoryMockProvider },
-    { provide: ProductProvider, useClass: ProductMockProvider }
+    { provide: ProductProvider, useClass: ProductMockProvider },
+    DataProvider
   ]
 
 })
