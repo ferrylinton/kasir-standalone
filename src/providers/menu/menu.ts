@@ -3,6 +3,7 @@ import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
 import { Menu } from '../../models/menu.model';
 
+
 export abstract class MenuProvider {
 
   abstract findById(id: string): Observable<Menu>;
@@ -17,4 +18,6 @@ export abstract class MenuProvider {
 
   abstract delete(id: string): Observable<Menu>;
   
+  abstract build(menus: Menu[], authorities: string[]): Observable<Menu[]>;
+
 }

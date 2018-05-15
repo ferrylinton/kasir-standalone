@@ -91,8 +91,6 @@ export class DataProvider {
     roleEmployee.authorities.push(productView.name);
     roleEmployee.authorities.push(orderView.name);
     roleEmployee.authorities.push(orderChange.name);
-    roleEmployee.authorities.push(settingView.name);
-    roleEmployee.authorities.push(dbView.name);
 
     admin.role = roleAdmin.name;
     admin.activated = true;
@@ -100,33 +98,45 @@ export class DataProvider {
     let manager = new User('user-0000-0000-0000-002', 'manager', 'password', 'Manager', roleManager.name, roleManager.authorities, true, admin.username, new Date());
     let employee = new User('user-0000-0000-0000-003', 'employee', 'password', 'Employee', roleEmployee.name, roleEmployee.authorities, false, admin.username, new Date());
 
-    let mainMenus: Menu[] = new Array<Menu>();
-    mainMenus.push(new Menu('menu-0000-0000-0000-101', 'Home', new Array<Menu>(), 'HomePage', 'home', basicAuthority.name));
-    mainMenus.push(new Menu('menu-0000-0000-0000-102', 'ProductList', new Array<Menu>(), 'ProductListPage', 'medal', basicAuthority.name));
-    mainMenus.push(new Menu('menu-0000-0000-0000-103', 'CategoryList', new Array<Menu>(), 'CategoryListPage', 'albums', basicAuthority.name));
-    mainMenus.push(new Menu('menu-0000-0000-0000-104', 'Order', new Array<Menu>(), 'OrderPage', 'cart', orderView.name));
-    mainMenus.push(new Menu('menu-0000-0000-0000-105', 'OrderHistory', new Array<Menu>(), 'OrderHistoryPage', 'clipboard', orderView.name));
-
-    let dataMenus: Menu[] = new Array<Menu>();
-    dataMenus.push(new Menu('menu-0000-0000-0000-201', 'User', new Array<Menu>(), 'UserPage', 'people', userView.name));
-    dataMenus.push(new Menu('menu-0000-0000-0000-202', 'Role', new Array<Menu>(), 'RolePage', 'build', roleView.name));
-    dataMenus.push(new Menu('menu-0000-0000-0000-203', 'Authority', new Array<Menu>(), 'AuthorityPage', 'hammer', authorityView.name));
-    dataMenus.push(new Menu('menu-0000-0000-0000-204', 'Menu', new Array<Menu>(), 'MenuPage', 'list', menuView.name));
-    dataMenus.push(new Menu('menu-0000-0000-0000-205', 'Product', new Array<Menu>(), 'ProductPage', 'medal', productView.name));
-    dataMenus.push(new Menu('menu-0000-0000-0000-206', 'Category', new Array<Menu>(), 'CategoryPage', 'albums', categoryView.name));
-
-    let adminMenus: Menu[] = new Array<Menu>();
-    adminMenus.push(new Menu('menu-0000-0000-0000-301', 'Database', new Array<Menu>(), 'DatabasePage', 'archive', dbView.name));
-    adminMenus.push(new Menu('menu-0000-0000-0000-302', 'Setting', new Array<Menu>(), 'SettingPage', 'settings', settingView.name));
-
-    let accountMenus: Menu[] = new Array<Menu>();
-    accountMenus.push(new Menu('menu-0000-0000-0000-401', 'Profile', new Array<Menu>(), 'ProfilePage', 'person', basicAuthority.name));
-    accountMenus.push(new Menu('menu-0000-0000-0000-402', 'Logout', new Array<Menu>(), 'LoginPage', 'log-out', basicAuthority.name));
-
-    this.menus.push(new Menu('menu-0000-0000-0000-001', 'Main', mainMenus));
-    this.menus.push(new Menu('menu-0000-0000-0000-002', 'Data', dataMenus));
-    this.menus.push(new Menu('menu-0000-0000-0000-003', 'Database', adminMenus));
-    this.menus.push(new Menu('menu-0000-0000-0000-004', 'Account', accountMenus));
+    let mainGroup = new Menu('menu-0000-0000-0000-100', 'Main');
+    let homePage = new Menu('menu-0000-0000-0000-101', 'Home', mainGroup, null, 'HomePage', 'home', basicAuthority.name);
+    let productListPage = new Menu('menu-0000-0000-0000-102', 'ProductList', mainGroup, null, 'ProductListPage', 'medal', basicAuthority.name);
+    let categoryListPage = new Menu('menu-0000-0000-0000-103', 'CategoryList', mainGroup, null, 'CategoryListPage', 'albums', basicAuthority.name);
+    let orderPage = new Menu('menu-0000-0000-0000-104', 'Order', mainGroup, null, 'OrderPage', 'cart', orderView.name);
+    let orderHistoryPage = new Menu('menu-0000-0000-0000-105', 'OrderHistory', mainGroup, null, 'OrderHistoryPage', 'clipboard', orderView.name);
+    let dataGroup = new Menu('menu-0000-0000-0000-200', 'Data');
+    let userPage = new Menu('menu-0000-0000-0000-201', 'User', dataGroup, null, 'UserPage', 'people', userView.name);
+    let rolePage =new Menu('menu-0000-0000-0000-202', 'Role', dataGroup, null, 'RolePage', 'build', roleView.name);
+    let auhtorityPage = new Menu('menu-0000-0000-0000-203', 'Authority', dataGroup, null, 'AuthorityPage', 'hammer', authorityView.name);
+    let menuPage = new Menu('menu-0000-0000-0000-204', 'Menu', dataGroup, null, 'MenuPage', 'list', menuView.name);
+    let productPage = new Menu('menu-0000-0000-0000-205', 'Product', dataGroup, null, 'ProductPage', 'medal', productView.name);
+    let categoryPage = new Menu('menu-0000-0000-0000-206', 'Category', dataGroup, null, 'CategoryPage', 'albums', categoryView.name);
+    let databaseGroup = new Menu('menu-0000-0000-0000-300', 'Database');
+    let databasePage = new Menu('menu-0000-0000-0000-301', 'Database', databaseGroup, null, 'DatabasePage', 'archive', dbView.name);
+    let settingPage = new Menu('menu-0000-0000-0000-302', 'Setting', databaseGroup, null, 'SettingPage', 'settings', settingView.name);
+    let accountGroup = new Menu('menu-0000-0000-0000-400', 'Account');
+    let profilePage = new Menu('menu-0000-0000-0000-401', 'Profile', accountGroup, null, 'ProfilePage', 'person', basicAuthority.name);
+    let logoutPage = new Menu('menu-0000-0000-0000-402', 'Logout', accountGroup, null, 'LoginPage', 'log-out', basicAuthority.name);
+    
+    this.menus.push(mainGroup);
+    this.menus.push(homePage);
+    this.menus.push(productListPage);
+    this.menus.push(categoryListPage);
+    this.menus.push(orderPage);
+    this.menus.push(orderHistoryPage);
+    this.menus.push(dataGroup);
+    this.menus.push(userPage);
+    this.menus.push(rolePage);
+    this.menus.push(auhtorityPage);
+    this.menus.push(menuPage);
+    this.menus.push(productPage);
+    this.menus.push(categoryPage);
+    this.menus.push(databaseGroup);
+    this.menus.push(databasePage);
+    this.menus.push(settingPage);
+    this.menus.push(accountGroup);
+    this.menus.push(profilePage);
+    this.menus.push(logoutPage);
 
     this.authorities.push(basicAuthority);
     this.authorities.push(authorityView);

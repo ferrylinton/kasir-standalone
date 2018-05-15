@@ -9,6 +9,8 @@ export class Menu implements Base {
 
         public title?: string,
 
+        public parent?: Menu,
+
         public menus?: Menu[],
 
         public page?: string,

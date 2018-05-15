@@ -33,7 +33,6 @@ export class MyApp {
 
   initializeApp() {
     this.initLang();
-    this.initMenus();
     this.initEvents();
 
     this.platform.ready().then(() => {
@@ -51,16 +50,6 @@ export class MyApp {
     } else {
       this.translate.use(DEFAULT_LANGUAGE);
     }
-  }
-
-  initMenus(): void {
-    this.storage.get(MENU).then((result) => {
-      if (result) {
-        this.menus = JSON.parse(result);
-      }
-    });
-
-
   }
 
   initEvents(): void {
