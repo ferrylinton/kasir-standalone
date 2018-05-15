@@ -28,7 +28,7 @@
   </ion-item>
   <ion-item>
     <ion-label class="detail-label" stacked>{{ 'LABEL.CREATED_BY' | translate }}</ion-label>
-    <ion-label *ngIf="role.createdBy; else empty">{{ role.createdBy.fullname }}</ion-label>
+    <ion-label *ngIf="role.createdBy; else empty">{{ role.createdBy }}</ion-label>
   </ion-item>
   <ion-item>
     <ion-label class="detail-label" stacked>{{ 'LABEL.CREATED_DATE' | translate }}</ion-label>
@@ -36,19 +36,19 @@
   </ion-item>
   <ion-item>
     <ion-label class="detail-label" stacked>{{ 'LABEL.LAST_MODIFIED_BY' | translate }}</ion-label>
-    <ion-label *ngIf="role.lastModifiedBy; else empty">{{ role.lastModifiedBy.fullname }}</ion-label>
+    <ion-label *ngIf="role.lastModifiedBy; else empty">{{ role.lastModifiedBy }}</ion-label>
   </ion-item>
   <ion-item>
     <ion-label class="detail-label" stacked>{{ 'LABEL.LAST_MODIFIED_DATE' | translate }}</ion-label>
     <ion-label *ngIf="role.lastModifiedDate; else empty">{{ role.lastModifiedDate | date: 'dd/MM/yyyy hh:mm' }}</ion-label>
   </ion-item>
   <ion-item>
-    <ion-label class="detail-label" stacked>{{ 'ROLE.AUTHORITIES' | translate }}</ion-label>
+    <ion-label class="detail-label" stacked>{{ 'LABEL.AUTHORITIES' | translate }}</ion-label>
   </ion-item>
   <ion-list>
     <ion-item *ngFor="let authority of role.authorities; let i = index">
       <span class="list-number" item-start>{{ i + 1 }}.</span>
-      <span>{{ authority.description }}</span>
+      <span>{{ authority }}</span>
     </ion-item>
   </ion-list>
 </ion-content>

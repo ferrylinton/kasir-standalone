@@ -65,7 +65,6 @@ export class RoleEditPage extends BasePage {
   private initForm(): void {
     let authorityControlArray = new FormArray(this.authorities.map((authority) => {
       return this.formBuilder.group({
-        id: [authority.id],
         name: [authority.name],
         description: [authority.description],
         checked: [this.isContainAuthority(authority)]
@@ -82,7 +81,7 @@ export class RoleEditPage extends BasePage {
 
   private isContainAuthority(authority: Authority): boolean {
     for (let i: number = 0; i < this.role.authorities.length; i++) {
-      if (this.role.authorities[i] === authority.id) {
+      if (this.role.authorities[i] === authority.name) {
         return true;
       }
     }
@@ -95,7 +94,7 @@ export class RoleEditPage extends BasePage {
     for (let i: number = 0; i < this.form.value.authorities.length; i++) {
       if (this.form.value.authorities[i].checked) {
         let authority = this.form.value.authorities[i];
-        authorities.push(authority.id);
+        authorities.push(authority.name);
       }
     }
 
@@ -103,7 +102,9 @@ export class RoleEditPage extends BasePage {
   }
 
   saveCallback(role: Role): void {
-    role.lastModifiedBy = this.loggedUser.id;
+    role.createdBy = this.role.createdBy;
+    role.createdDate = this.role.createdDate;
+    role.lastModifiedBy = this.loggedUser.username;
     role.lastModifiedDate = new Date();
     role.authorities = this.convertToAuthorities();
     this.roleProvider.update(role).subscribe(result => {

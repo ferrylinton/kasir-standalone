@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { v4 as uuid } from 'uuid';
 
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
 
 import { Pageable } from '../../models/pageable.model';
-import { Authority } from '../../models/authority.model';
 import { Page } from '../../models/page.model';
 import { Role } from '../../models/role.model';
+
 
 @IonicPage()
 @Component({
@@ -23,7 +23,6 @@ export class RolePage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public authorityProvider: AuthorityProvider,
     public roleProvider: RoleProvider) {
 
