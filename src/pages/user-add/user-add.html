@@ -15,7 +15,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding *ngIf="user; else nodata">
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
     <ion-item>
       <ion-label color="primary" stacked>{{ 'LABEL.ID' | translate }}</ion-label>
@@ -45,3 +45,8 @@
     </ion-item>
   </form>
 </ion-content>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-content>
+</ng-template>

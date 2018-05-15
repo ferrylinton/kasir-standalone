@@ -30,7 +30,7 @@
       <ion-input type="text" placeholder="{{ 'LABEL.DESCRIPTION' | translate }}" formControlName="description"></ion-input>
     </ion-item>
     <div formArrayName="authorities">
-      <ion-label color="primary" class="checkboxes-label">{{ 'ROLE.AUTHORITIES' | translate }}</ion-label>
+      <ion-label color="primary" class="checkboxes-label">{{ 'LABEL.AUTHORITIES' | translate }}</ion-label>
       <ion-item *ngFor="let authority of form.controls.authorities.controls; let i=index" [formGroup]="authority">
         <ion-checkbox formControlName="checked"></ion-checkbox>
         <ion-label>{{ authorities[i].description }}</ion-label>

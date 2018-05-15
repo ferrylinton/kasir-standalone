@@ -95,6 +95,7 @@ export class DataProvider {
     roleEmployee.authorities.push(dbView.name);
 
     admin.role = roleAdmin.name;
+    admin.activated = true;
     admin.authorities = roleAdmin.authorities
     let manager = new User('user-0000-0000-0000-002', 'manager', 'password', 'Manager', roleManager.name, roleManager.authorities, true, admin.username, new Date());
     let employee = new User('user-0000-0000-0000-003', 'employee', 'password', 'Employee', roleEmployee.name, roleEmployee.authorities, false, admin.username, new Date());
