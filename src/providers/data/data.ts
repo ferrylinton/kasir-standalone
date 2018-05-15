@@ -111,7 +111,7 @@ export class DataProvider {
     let menuPage = new Menu('menu-0000-0000-0000-204', 'Menu', dataGroup, null, 'MenuPage', 'list', menuView.name);
     let productPage = new Menu('menu-0000-0000-0000-205', 'Product', dataGroup, null, 'ProductPage', 'medal', productView.name);
     let categoryPage = new Menu('menu-0000-0000-0000-206', 'Category', dataGroup, null, 'CategoryPage', 'albums', categoryView.name);
-    let databaseGroup = new Menu('menu-0000-0000-0000-300', 'Database');
+    let databaseGroup = new Menu('menu-0000-0000-0000-300', 'DB');
     let databasePage = new Menu('menu-0000-0000-0000-301', 'Database', databaseGroup, null, 'DatabasePage', 'archive', dbView.name);
     let settingPage = new Menu('menu-0000-0000-0000-302', 'Setting', databaseGroup, null, 'SettingPage', 'settings', settingView.name);
     let accountGroup = new Menu('menu-0000-0000-0000-400', 'Account');

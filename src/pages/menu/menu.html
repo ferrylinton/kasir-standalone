@@ -14,13 +14,10 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let group of page.data; let i = index" ion-item (click)="view(group)">
-      {{group.title}}
-      <ion-list>
-        <ion-item *ngFor="let menu of group.menus; let j = index" ion-item (click)="view(menu)">
-          {{menu.title}}
-        </ion-item>
-      </ion-list>
+    <ion-item *ngFor="let menu of page.data; let i = index" ion-item (click)="view(menu)">
+      <span class="list-number" item-start>{{page.getStartRow() + i}}.</span>
+      {{menu.title}}
+      <span color="light" item-end *ngIf="menu.parent">{{ menu.parent.title }}</span>
     </ion-item>
   </ion-list>
 
