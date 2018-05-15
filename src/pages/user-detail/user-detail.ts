@@ -39,7 +39,7 @@ export class UserDetailPage extends BasePage {
   }
 
   edit() {
-    this.navCtrl.push('RoleEditPage', {
+    this.navCtrl.push('UserEditPage', {
       user: this.user
     });
   }

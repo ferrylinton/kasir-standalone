@@ -109,7 +109,7 @@ export class RoleEditPage extends BasePage {
     role.authorities = this.convertToAuthorities();
     this.roleProvider.update(role).subscribe(result => {
       this.navCtrl.popToRoot();
-      this.showToast(result.name);
+      this.showEditToast(result.name);
     });
   }
 

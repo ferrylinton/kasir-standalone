@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
-import { Role } from '../../models/role.model';
-import { Authority } from '../../models/authority.model';
+import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage';
+
+import { BasePage } from '../base/base';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { RoleProvider } from '../../providers/role/role';
-import { Storage } from '@ionic/storage';
-import { BasePage } from '../base/base';
-import { TranslateService } from '@ngx-translate/core';
+
+import { Role } from '../../models/role.model';
+import { Authority } from '../../models/authority.model';
+
 
 @IonicPage()
 @Component({
@@ -98,7 +101,7 @@ export class RoleAddPage extends BasePage {
     role.authorities = this.convertToAuthorities();
     this.roleProvider.save(role).subscribe(result => {
       this.navCtrl.popToRoot();
-      this.showToast(result.name);
+      this.showAddToast(result.name);
     });
   }
 

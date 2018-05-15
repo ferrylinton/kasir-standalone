@@ -16,8 +16,7 @@
   <ion-list>
     <ion-item *ngFor="let user of page.data; let i = index" ion-item (click)="view(user)">
       <span class="list-number" item-start>{{page.getStartRow() + i}}.</span>
-      <h2>{{user.username}}</h2>
-      <p>{{user.fullname}}</p>
+      {{user.fullname}}
     </ion-item>
   </ion-list>
 

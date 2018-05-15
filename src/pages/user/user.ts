@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { v4 as uuid } from 'uuid';
 
 import { RoleProvider } from '../../providers/role/role';
@@ -23,7 +23,6 @@ export class UserPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public roleProvider: RoleProvider,
     public userProvider: UserProvider) {
 

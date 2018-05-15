@@ -20,6 +20,7 @@
         "AUTHORITY": "Wewenang",
         "CATEGORY": "Kategori",
         "CATEGORY_DATA": "Data Kategori",
+        "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
         "CREATED_BY": "Dibuat Oleh",
         "CREATED_DATE": "Tanggal Dibuat",
         "DEACTIVATED": "Tidak Aktif",
@@ -58,6 +59,7 @@
         "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
         "EMPTY_USERNAME_PASSWORD": "Nama pengguna atau kata sandi belum diisi",
         "INVALID_USERNAME_PASSWORD": "Nama pengguna atau kata sandi salah",
+        "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
         "NO_DATA": "Data tidak ditemukan",
         "RELOAD_PAGE": "Memuat ulang halaman"
     },
