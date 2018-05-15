@@ -1,6 +1,5 @@
 import { Audit } from './audit.model';
 import { Authority } from './authority.model';
-import { User } from './user.model';
 
 export class Role implements Audit {
 
@@ -12,13 +11,13 @@ export class Role implements Audit {
 
         public description?: string,
 
-        public authorities?: Authority[],
+        public authorities?: string[],
 
-        public createdBy?: User,
+        public createdBy?: string,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: User,
+        public lastModifiedBy?: string,
 
         public lastModifiedDate?: Date) {
     }

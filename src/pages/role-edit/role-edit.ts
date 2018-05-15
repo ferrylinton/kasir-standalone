@@ -82,7 +82,7 @@ export class RoleEditPage extends BasePage {
 
   private isContainAuthority(authority: Authority): boolean {
     for (let i: number = 0; i < this.role.authorities.length; i++) {
-      if (this.role.authorities[i].id === authority.id) {
+      if (this.role.authorities[i] === authority.id) {
         return true;
       }
     }
@@ -90,12 +90,12 @@ export class RoleEditPage extends BasePage {
     return false;
   }
 
-  private convertToAuthorities(): Authority[] {
-    let authorities: Authority[] = new Array<Authority>();
+  private convertToAuthorities(): string[] {
+    let authorities: string[] = new Array<string>();
     for (let i: number = 0; i < this.form.value.authorities.length; i++) {
       if (this.form.value.authorities[i].checked) {
         let authority = this.form.value.authorities[i];
-        authorities.push(new Authority(authority.id, authority.name, authority.description));
+        authorities.push(authority.id);
       }
     }
 
@@ -103,7 +103,7 @@ export class RoleEditPage extends BasePage {
   }
 
   saveCallback(role: Role): void {
-    role.lastModifiedBy = this.loggedUser;
+    role.lastModifiedBy = this.loggedUser.id;
     role.lastModifiedDate = new Date();
     role.authorities = this.convertToAuthorities();
     this.roleProvider.update(role).subscribe(result => {

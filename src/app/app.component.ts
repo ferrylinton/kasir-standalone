@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
-import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE, DETAIL } from '../constant/constant';
+import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE, DETAIL, LOGGED_USER } from '../constant/constant';
 import { Menu } from '../models/menu.model';
 
 @Component({
@@ -78,6 +78,7 @@ export class MyApp {
     if (menu.page === FIRST_RUN_PAGE) {
       this.nav.setRoot(FIRST_RUN_PAGE);
       this.storage.remove(MENU);
+      this.storage.remove(LOGGED_USER);
     } else {
       this.nav.setRoot(menu.page);
     }

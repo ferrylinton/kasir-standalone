@@ -30,7 +30,6 @@ export class LoginPage {
     public storage: Storage,
     public loginProvider: LoginProvider) {
 
-    console.log('LoginPage -> constructor()');
     this.initLang();
   }
 

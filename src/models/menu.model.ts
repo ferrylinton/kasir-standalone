@@ -15,7 +15,7 @@ export class Menu implements Base {
 
         public icon?: string,
 
-        public authority?: Authority
+        public authority?: string
 
         ) {
     }

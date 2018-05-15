@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { Authority } from '../../models/authority.model';
 import { Pageable } from '../../models/pageable.model';
@@ -19,13 +19,9 @@ export class AuthorityPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public authorityProvider: AuthorityProvider) {
 
     this.init();
-  }
-
-  ionViewDidLoad() {
   }
 
   private init(): void {
@@ -58,4 +54,5 @@ export class AuthorityPage {
       'authority': authority
     });
   }
+  
 }

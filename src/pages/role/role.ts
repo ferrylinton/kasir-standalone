@@ -67,7 +67,7 @@ export class RolePage {
 
   add() {
     let role = new Role(uuid());
-    role.authorities = new Array<Authority>();
+    role.authorities = new Array<string>();
 
     this.navCtrl.push('RoleAddPage', {
       role: role

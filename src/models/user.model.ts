@@ -13,15 +13,17 @@ export class User implements Audit{
         
         public fullname?: string, 
         
-        public role?: Role, 
+        public role?: string, 
+
+        public authorities?: string[],
         
         public activated?: boolean,
 
-        public createdBy?: User,
+        public createdBy?: string,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: User,
+        public lastModifiedBy?: string,
 
         public lastModifiedDate?: Date) {
     }

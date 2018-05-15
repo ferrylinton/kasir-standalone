@@ -11,9 +11,8 @@
 
   <ion-list>
     <button ion-item *ngFor="let authority of page.data; let i = index" (click)="view(authority)">
-      <span class="list-number" item-start>{{page.getStartRow() + i}}</span>
-      <h2>{{authority.name}}</h2>
-      <p>{{authority.description}}</p>
+      <span class="list-number" item-start>{{page.getStartRow() + i}}.</span>
+      {{authority.name}}
     </button>
   </ion-list>
 

@@ -5,7 +5,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding *ngIf="authority; else nodata">
   <ion-item>
     <ion-label class="detail-label" stacked>{{ 'LABEL.ID' | translate }}</ion-label>
     <ion-label>{{ authority.id }}</ion-label>
@@ -19,3 +19,8 @@
     <ion-label>{{ authority.description }}</ion-label>
   </ion-item>
 </ion-content>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-content>
+</ng-template>
