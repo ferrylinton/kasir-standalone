@@ -28,3 +28,7 @@
 .detail-label{
     color: color($colors, grey);
 }
+.detail-value{
+    border-bottom: solid 1px color($colors, lightGrey);
+    margin-bottom: 10px;
+}

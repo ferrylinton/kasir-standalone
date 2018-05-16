@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { v4 as uuid } from 'uuid';
 
 import { CategoryProvider } from '../../providers/category/category';
@@ -21,7 +21,6 @@ export class CategoryPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public categoryProvider: CategoryProvider) {
 
     this.init();

@@ -16,8 +16,7 @@
   <ion-list>
     <ion-item *ngFor="let product of page.data; let i = index" ion-item (click)="view(product)">
       <span class="list-number" item-start>{{page.getStartRow() + i}}.</span>
-      <h2>{{product.name}}</h2>
-      <p>{{product.description}}</p>
+      {{product.name}}
     </ion-item>
   </ion-list>
 
