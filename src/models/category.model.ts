@@ -10,7 +10,7 @@ export class Category implements Audit{
         
         public description?: string, 
         
-        public imageFileName?: string,
+        public image?: string,
 
         public createdBy?: string,
 

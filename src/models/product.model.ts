@@ -13,9 +13,9 @@ export class Product implements Audit{
         
         public price?: number, 
         
-        public imageFileName?: string, 
+        public image?: string, 
         
-        public category?: Category,
+        public category?: string,
     
         public createdBy?: string,
 

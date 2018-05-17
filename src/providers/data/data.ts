@@ -6,6 +6,7 @@ import { User } from '../../models/user.model';
 import { Menu } from '../../models/menu.model';
 import { Category } from '../../models/category.model';
 import { Product } from '../../models/product.model';
+import { DEFAULT_IMAGE } from '../../constant/constant';
 
 @Injectable()
 export class DataProvider {
@@ -166,13 +167,13 @@ export class DataProvider {
     this.users.push(employee);
 
     for(let i:number = 1; i<6; i++){
-      let category: Category = new Category('category-0000-0000-0000-' + this.zeroPad(i, 3), 'Category ' + this.zeroPad(i, 3), 'Category Description ' + this.zeroPad(i, 3), 'imgs/image-medium.png', admin.username, new Date());
+      let category: Category = new Category('category-0000-0000-0000-' + this.zeroPad(i, 3), 'Category ' + this.zeroPad(i, 3), 'Category Description ' + this.zeroPad(i, 3), DEFAULT_IMAGE, admin.username, new Date());
       this.categories.push(category);
 
       let start: number = i * 100;
       let end: number = start + 10;
       for(let j:number = start; j <= end; j++){
-        this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j, 'imgs/image-medium.png', category, admin.username, new Date()));
+        this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j, DEFAULT_IMAGE, category.name, admin.username, new Date()));
       }
     }
 
