@@ -100,14 +100,18 @@ export class CategoryAddPage extends BasePage {
   }
 
   processWebImage(event) {
-    let reader = new FileReader();
-    reader.onload = (readerEvent) => {
+    if (event.target.files.length != 0) {
+      let reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        let imageData = (readerEvent.target as any).result;
+        this.form.patchValue({ 'image': imageData });
+      };
 
-      let imageData = (readerEvent.target as any).result;
-      this.form.patchValue({ 'image': imageData });
-    };
+      reader.readAsDataURL(event.target.files[0]);
+    } else {
+      console.log('cancel...................');
+    }
 
-    reader.readAsDataURL(event.target.files[0]);
   }
 
   getImageStyle() {

@@ -19,13 +19,11 @@
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
     <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
     <div class="image-wrapper" (click)="getPicture()">
-      <div class="image-placeholder" *ngIf="!this.form.controls.image.value">
-        <ion-icon name="add"></ion-icon>
-        <div>
-          {{ 'LABEL.ADD_IMAGE' | translate }}
+      <div class="image">
+        <div class="background" [style.backgroundImage]="getImageStyle()"> 
+            <ion-icon name="add-circle"></ion-icon>
         </div>
       </div>
-      <div class="image" [style.backgroundImage]="getImageStyle()" *ngIf="this.form.controls.image.value"></div>
     </div>
     <ion-item>
       <ion-label color="primary" stacked>{{ 'LABEL.ID' | translate }}</ion-label>

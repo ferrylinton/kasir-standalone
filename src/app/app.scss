@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,21 +12,21 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
-.list-number{
+.list-number {
     width: 40px;
     text-align: right;
     color: color($colors, grey);
 }
 
-.checkboxes-label{
+.checkboxes-label {
     margin-left: 18px;
 }
 
-.detail-label{
+.detail-label {
     color: color($colors, grey);
 }
-.detail-value{
+
+.detail-value {
     border-bottom: solid 1px color($colors, lightGrey);
     padding-bottom: 10px;
     margin-bottom: 10px;
@@ -44,29 +42,35 @@
 .image-wrapper {
     text-align: center;
     margin: 20px 0;
-
     .image {
-      width: 256px;
-      height: 256px;
-      display: inline-block;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
+        padding: 10px;
+        width: 230px;
+        height: 230px;
+        display: inline-block;
+        border: solid 4px color($colors, lightGrey);
+        background-color: color($colors, light);
+        .background {
+            width: 200px;
+            height: 200px;
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            ion-icon {
+                color: color($colors, lightGrey);
+                font-size: 44px;
+                margin-bottom: -80px;
+                margin-top: 80px;
+            }
+        }
     }
+}
 
-    .image-placeholder {
-      display: inline-block;
-      color: #2e2e2e;
-      border: solid 4px #ddd;
-      background-color: #eee;
-      width: 256px;
-      height: 256px;
-      font-size: 12px;
-
-      ion-icon {
-        font-size: 44px;
-        margin-bottom: -100px;
-        margin-top: 100px;
-      }
+.image:hover {
+    border: solid 4px color($colors, grey);
+    .background {
+        ion-icon {
+            color: color($colors, grey);
+        }
     }
-  }
+}

@@ -14,7 +14,9 @@
 
 
 <ion-content padding *ngIf="category; else nodata">
-  <div class="detail-image" [style.background-image]="'url(' + category.image + ')'"></div>
+  <div class="image-wrapper">
+    <div class="image" [style.background-image]="'url(' + category.image + ')'"></div>
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col class="detail-label">{{ 'LABEL.ID' | translate }}</ion-col>
