@@ -5,8 +5,8 @@
     </button>
     <ion-title>{{ 'LABEL.PRODUCT' | translate }}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="add()">
-        <ion-icon name="add"></ion-icon>
+      <button ion-button icon-only (click)="viewOrder()">
+        <ion-icon name="cart"> {{ totalItems }}</ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -14,13 +14,21 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let product of page.data; let i = index" ion-item (click)="view(product)">
-      <ion-avatar item-start>
+    <ion-item *ngFor="let product of page.data; let i = index">
+      <ion-thumbnail item-start>
         <img src="{{product.image}}">
-      </ion-avatar>
+      </ion-thumbnail>
       <h2>{{product.name}}</h2>
+      <ion-badge color="dark">{{product.price | currency:'Rp. ':true:'0.2'}}</ion-badge>
       <p>{{product.description}}</p>
-      <span item-end>{{product.price | currency:'Rp. ':true:'0.2'}}</span>
+      <ion-buttons item-end>
+        <button color="danger" small ion-button icon-only (click)="removeItem(product)">
+          <ion-icon name="remove"></ion-icon>
+        </button>
+        <button color="secondary" small ion-button icon-only (click)="addItem(product)">
+          <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 
