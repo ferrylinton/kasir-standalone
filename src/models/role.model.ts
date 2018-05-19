@@ -1,5 +1,5 @@
 import { Audit } from './audit.model';
-import { Authority } from './authority.model';
+
 
 export class Role implements Audit {
 

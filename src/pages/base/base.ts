@@ -1,4 +1,4 @@
-import { ToastController, AlertController, Alert, Toast, Events } from "ionic-angular";
+import { ToastController, AlertController, Events } from "ionic-angular";
 import { TranslateService } from "@ngx-translate/core";
 import { Storage } from '@ionic/storage';
 import { User } from "../../models/user.model";

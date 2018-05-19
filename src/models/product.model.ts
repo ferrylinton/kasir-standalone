@@ -1,5 +1,5 @@
 import { Audit } from './audit.model';
-import { Category } from './category.model'
+
 
 export class Product implements Audit{
 

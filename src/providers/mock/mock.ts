@@ -34,7 +34,6 @@ export class MockProvider<T extends Base> {
     }
 
     update(data: T): Observable<T> {
-        let index: number;
         for (let i: number = 0; i < this.datas.length; i++) {
             if (this.datas[i].id === data.id) {
                 this.datas[i] = data;

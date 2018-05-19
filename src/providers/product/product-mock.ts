@@ -3,9 +3,8 @@ import { MockProvider } from '../mock/mock';
 import { DataProvider } from '../data/data';
 import { ProductProvider } from './product';
 import { Observable } from 'rxjs/Observable';
-import { Category } from '../../models/category.model';
-import { User } from '../../models/user.model';
 import { Product } from '../../models/product.model';
+
 
 @Injectable()
 export class ProductMockProvider extends MockProvider<Product> implements ProductProvider {

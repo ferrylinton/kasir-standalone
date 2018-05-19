@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController, Events } from 'ionic-angular';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Camera } from '@ionic-native/camera';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
@@ -17,6 +18,8 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryEditPage extends BasePage {
 
+  @ViewChild('fileInput') fileInput;
+
   isReadyToSave: boolean;
 
   form: FormGroup;
@@ -29,6 +32,7 @@ export class CategoryEditPage extends BasePage {
     public translate: TranslateService,
     public storage: Storage,
     public events: Events,
+    public camera: Camera,
     public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
@@ -57,7 +61,8 @@ export class CategoryEditPage extends BasePage {
     this.form = this.formBuilder.group({
       id: [this.category.id],
       name: [this.category.name, Validators.required],
-      description: [this.category.description]
+      description: [this.category.description, Validators.required],
+      image: [this.category.image, Validators.required]
     });
   }
 
@@ -81,4 +86,35 @@ export class CategoryEditPage extends BasePage {
     }
   }
 
+  getPicture() {
+    if (Camera['installed']()) {
+      this.camera.getPicture({
+        destinationType: this.camera.DestinationType.DATA_URL,
+        targetWidth: 96,
+        targetHeight: 96
+      }).then((data) => {
+        this.form.patchValue({ 'image': 'data:image/png;base64,' + data });
+      }, (err) => {
+        alert('Unable to take photo');
+      })
+    } else {
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  processWebImage(event) {
+    if (event.target.files.length != 0) {
+      let reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        let imageData = (readerEvent.target as any).result;
+        this.form.patchValue({ 'image': imageData });
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+    } 
+  }
+
+  getImageStyle() {
+    return 'url(' + this.form.controls['image'].value + ')'
+  }
 }
