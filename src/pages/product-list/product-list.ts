@@ -28,12 +28,16 @@ export class ProductListPage extends BaseCart {
     this.init();
   }
 
+  ionViewDidLoad() {
+
+  }
+
   ionViewWillEnter() {
     this.init();
+    this.getTotalItems();
   }
 
   private init(): void {
-    this.totalItems = this.getTotalItems();
     this.page = new Page(new Array<Product>(), 1, 0);
     this.loadData(this.page);
   }

@@ -1,7 +1,7 @@
 import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
-import { LOGGED_USER } from "../../constant/constant";
+import { LOGGED_USER, ORDER } from "../../constant/constant";
 import { User } from "../../models/user.model";
 import { Order } from "../../models/order.model";
 import { Item } from "../../models/item.model";
@@ -25,55 +25,80 @@ export abstract class BaseCart {
         });
     }
 
-    getOrder(): Order {
-        if (this.order == null) {
-            this.order = new Order(uuid(), new Array<Item>());
-        }
-
-        return this.order;
+    getOrder(): Promise<Order> {
+        return new Promise((resolve, reject) => {
+            this.storage.get(ORDER).then((order) => {
+                if (order == null) {
+                    let newOrder = new Order(uuid(), new Array<Item>());
+                    this.storage.set(ORDER, JSON.stringify(newOrder));
+                    resolve(newOrder);
+                } else {
+                    resolve(JSON.parse(order));
+                }
+            })
+        });
     }
 
-    getTotalItems(): number {
+    getTotalItems(): void {
+        this.storage.get(ORDER).then((val) => {
+            this.totalItems = (val == null) ? 0 : this.countItems(JSON.parse(val));
+        })
+    }
+
+    addItem(product: Product): void {
+        this.storage.get(ORDER).then((val) => {
+            let order = (val == null) ? new Order(uuid(), new Array<Item>()) : JSON.parse(val);
+            order = this.addProduct(order, product);
+            this.storage.set(ORDER, JSON.stringify(order));
+            this.totalItems = this.countItems(order);
+        })
+    }
+
+    removeItem(product: Product): void {
+        this.storage.get(ORDER).then((val) => {
+            let order = (val == null) ? new Order(uuid(), new Array<Item>()) : JSON.parse(val);
+            order = this.removeProduct(order, product);
+            this.storage.set(ORDER, JSON.stringify(order));
+            this.totalItems = this.countItems(order);
+        })
+    }
+
+    private countItems(order: Order): number {
         let total: number = 0;
 
-        for (let i = 0; i < this.getOrder().items.length; i++) {
-            total += this.getOrder().items[i].quantity;
+        for (let i = 0; i < order.items.length; i++) {
+            total += order.items[i].quantity;
         }
 
         return total;
     }
 
-    addItem(product: Product) {
-        let isProductExit = false;
+    private addProduct(order: Order, product: Product): Order {
+        let isProductExist: boolean = false;
 
-        for (let i = 0; i < this.getOrder().items.length; i++) {
-            if (product.id === this.getOrder().items[i].product.id) {
-                this.getOrder().items[i].quantity++;
-                isProductExit = true;
+        for (let i = 0; i < order.items.length; i++) {
+            if (product.id === order.items[i].product.id) {
+                order.items[i].quantity++;
+                isProductExist = true;
             }
         }
 
-        if (!isProductExit) {
-            delete product.createdBy;
-            delete product.createdDate;
-            delete product.lastModifiedBy;
-            delete product.lastModifiedDate;
-
-            this.getOrder().items.push(new Item(uuid(), product, 1))
+        if (!isProductExist) {
+            order.items.push(new Item(uuid(), product, 1));
         }
 
-        this.totalItems = this.getTotalItems();
+        return order;
     }
 
-    removeItem(product: Product) {
+    private removeProduct(order: Order, product: Product): Order {
         let isQuantityZero: boolean = false;
         let index: number = 0;
 
-        for (let i = 0; i < this.getOrder().items.length; i++) {
-            if (product.id === this.getOrder().items[i].product.id) {
-                this.getOrder().items[i].quantity--;
+        for (let i = 0; i < order.items.length; i++) {
+            if (product.id === order.items[i].product.id) {
+                order.items[i].quantity--;
 
-                if (this.getOrder().items[i].quantity === 0) {
+                if (order.items[i].quantity === 0) {
                     index = i;
                     isQuantityZero = true;
                 }
@@ -82,9 +107,9 @@ export abstract class BaseCart {
         }
 
         if (isQuantityZero) {
-            this.getOrder().items.splice(index, 1);
+            order.items.splice(index, 1);
         }
 
-        this.totalItems = this.getTotalItems();
+        return order;
     }
 }

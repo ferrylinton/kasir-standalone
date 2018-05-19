@@ -19,7 +19,7 @@
         <img src="{{product.image}}">
       </ion-thumbnail>
       <h2>{{product.name}}</h2>
-      <ion-badge color="dark">{{product.price | currency:'Rp. ':true:'0.2'}}</ion-badge>
+      <ion-badge color="dark">{{product.price | currency:'Rp. ':symbol:'0.2'}}</ion-badge>
       <p>{{product.description}}</p>
       <ion-buttons item-end>
         <button color="danger" small ion-button icon-only (click)="removeItem(product)">

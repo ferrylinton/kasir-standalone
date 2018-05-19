@@ -10,6 +10,8 @@ export const MENU: string = 'MENU';
 
 export const LOGGED_USER: string = 'LOGGED_USER';
 
+export const ORDER: string = 'ORDER';
+
 export const ERROR: string = 'ERROR';
 
 export const DETAIL: string = 'DETAIL';

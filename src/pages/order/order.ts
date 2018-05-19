@@ -1,25 +1,34 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
-/**
- * Generated class for the OrderPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { BaseCart } from '../base/base-cart';
+import { Order } from "../../models/order.model";
+
+
 
 @IonicPage()
 @Component({
   selector: 'page-order',
   templateUrl: 'order.html',
 })
-export class OrderPage {
+export class OrderPage extends BaseCart {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  order: Order;
+  
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public storage: Storage) {
+
+      super(storage);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderPage');
+    this.getTotalItems();
+    this.getOrder().then(order => {
+      this.order = order;
+    })
   }
 
 }

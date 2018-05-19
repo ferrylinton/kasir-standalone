@@ -1,13 +1,30 @@
 <ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'LABEL.ORDER' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="viewOrder()">
+        <ion-icon name="cart"> {{ totalItems }}</ion-icon>
       </button>
-      <ion-title>Order</ion-title>
-    </ion-navbar>
-  </ion-header>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 
-<ion-content padding>
+<ion-content padding *ngIf="order; else nodata">
+  <ion-list>
+    <ion-item *ngFor="let item of order.items; let i = index">
+      <span class="list-number" item-start>{{ i+1 }}.</span>
+      {{item.product.name}}
+      <span item-end>{{ item.quantity }}</span>
+    </ion-item>
+  </ion-list>
 
 </ion-content>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-content>
+</ng-template>
