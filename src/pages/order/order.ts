@@ -15,20 +15,35 @@ import { Order } from "../../models/order.model";
 export class OrderPage extends BaseCart {
 
   order: Order;
-  
+
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage) {
 
-      super(storage);
+    super(storage);
+    console.log('constructor');
   }
 
   ionViewDidLoad() {
+    console.log('ionViewDidLoad');
+    this.init();
+  }
+
+  ionViewWillEnter() {
+    console.log('ionViewWillEnter');
+  }
+
+  viewOrder(){
+    this.navCtrl.push('OrderPage');
+  }
+  
+  private init(){
     this.getTotalItems();
+    this.getTotalPrice();
     this.getOrder().then(order => {
       this.order = order;
-    })
+    });
   }
 
 }

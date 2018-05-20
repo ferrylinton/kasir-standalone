@@ -16,6 +16,8 @@ export abstract class BaseCart {
 
     totalItems: number;
 
+    totalPrice: number;
+
     constructor(
         public storage: Storage
     ) {
@@ -45,12 +47,20 @@ export abstract class BaseCart {
         })
     }
 
+    getTotalPrice(): void {
+        this.storage.get(ORDER).then((val) => {
+            this.totalPrice = (val == null) ? 0 : this.countPrice(JSON.parse(val));
+        })
+    }
+
     addItem(product: Product): void {
         this.storage.get(ORDER).then((val) => {
             let order = (val == null) ? new Order(uuid(), new Array<Item>()) : JSON.parse(val);
             order = this.addProduct(order, product);
             this.storage.set(ORDER, JSON.stringify(order));
             this.totalItems = this.countItems(order);
+            this.totalPrice = this.countPrice(order);
+            this.order = order;
         })
     }
 
@@ -60,6 +70,8 @@ export abstract class BaseCart {
             order = this.removeProduct(order, product);
             this.storage.set(ORDER, JSON.stringify(order));
             this.totalItems = this.countItems(order);
+            this.totalPrice = this.countPrice(order);
+            this.order = order;
         })
     }
 
@@ -68,6 +80,16 @@ export abstract class BaseCart {
 
         for (let i = 0; i < order.items.length; i++) {
             total += order.items[i].quantity;
+        }
+
+        return total;
+    }
+
+    private countPrice(order: Order): number {
+        let total: number = 0;
+
+        for (let i = 0; i < order.items.length; i++) {
+            total += order.items[i].quantity * order.items[i].product.price;
         }
 
         return total;

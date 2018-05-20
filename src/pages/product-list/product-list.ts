@@ -37,6 +37,10 @@ export class ProductListPage extends BaseCart {
     this.getTotalItems();
   }
 
+  viewOrder() {
+    this.navCtrl.push('OrderPage');
+  }
+
   private init(): void {
     this.page = new Page(new Array<Product>(), 1, 0);
     this.loadData(this.page);
@@ -61,9 +65,11 @@ export class ProductListPage extends BaseCart {
   }
 
   doInfinite(infiniteScroll) {
-    this.page.pageNumber = this.page.pageNumber + 1;
-    this.loadData(this.page);
-    infiniteScroll.complete();
+    setTimeout(() => {
+      this.page.pageNumber = this.page.pageNumber + 1;
+      this.loadData(this.page);
+      infiniteScroll.complete();
+    }, 2000);
   }
 
 }
