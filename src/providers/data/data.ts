@@ -1,12 +1,16 @@
-
 import { Injectable } from '@angular/core';
+import { DEFAULT_IMAGE } from '../../constant/constant';
+import { v4 as uuid } from 'uuid';
+
 import { Authority } from '../../models/authority.model';
 import { Role } from '../../models/role.model';
 import { User } from '../../models/user.model';
 import { Menu } from '../../models/menu.model';
 import { Category } from '../../models/category.model';
 import { Product } from '../../models/product.model';
-import { DEFAULT_IMAGE } from '../../constant/constant';
+import { Order } from '../../models/order.model';
+import { Item } from '../../models/item.model';
+
 
 @Injectable()
 export class DataProvider {
@@ -23,6 +27,8 @@ export class DataProvider {
 
   products: Product[] = new Array<Product>();
 
+  orders: Order[] = new Array<Order>();
+ 
   constructor() {
     this.init();
   }
@@ -174,6 +180,15 @@ export class DataProvider {
       let end: number = start + 10;
       for(let j:number = start; j <= end; j++){
         this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
+      }
+    }
+
+    for(let i=0; i<100; i++){
+      let remainder = i%3;
+      let order = new Order(uuid(), new Array<Item>(), this.users[remainder].username, new Date());
+
+      for(let j=0; j<10; j++){
+        order.items.push(new Item(uuid(), this.products[j], j));
       }
     }
 

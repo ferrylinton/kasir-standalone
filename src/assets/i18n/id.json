@@ -83,6 +83,7 @@
         "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
         "EMPTY_USERNAME_PASSWORD": "Nama pengguna atau kata sandi belum diisi",
         "INVALID_USERNAME_PASSWORD": "Nama pengguna atau kata sandi salah",
+        "LOADING": "Memuat data",
         "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
         "NO_DATA": "Data tidak ditemukan",
         "RELOAD_PAGE": "Memuat ulang halaman"

@@ -33,7 +33,12 @@ import { CategoryMockProvider } from '../providers/category/category-mock';
 
 import { ProductProvider } from '../providers/product/product';
 import { ProductMockProvider } from '../providers/product/product-mock';
+
+import { OrderProvider } from '../providers/order/order';
+import { OrderMockProvider } from '../providers/order/order-mock';
+
 import { DataProvider } from '../providers/data/data';
+
 
 registerLocaleData(localeId, 'id');
 
@@ -77,6 +82,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: LoginProvider, useClass: LoginMockProvider },
     { provide: CategoryProvider, useClass: CategoryMockProvider },
     { provide: ProductProvider, useClass: ProductMockProvider },
+    { provide: OrderProvider, useClass: OrderMockProvider },
     DataProvider
   ]
 
