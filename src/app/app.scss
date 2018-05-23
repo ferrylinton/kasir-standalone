@@ -12,7 +12,6 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
 .list-number {
     width: 40px;
     text-align: right;
@@ -44,12 +43,46 @@
     display: inline-block;
     padding-left: 20px;
 }
-.card{
-    .image{
+
+.data-grid{
+    ion-card {
+        position: relative;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+    .card-image {
         padding: 10px;
         background-color: color($colors, light);
     }
 }
+
+
+
+
+.card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+}
+
+.card-subtitle {
+    font-size: 1.0em;
+    position: absolute;
+    top: 52%;
+    width: 100%;
+    color: #fff;
+}
+
+.card {
+    .image {
+        padding: 10px;
+        background-color: color($colors, light);
+    }
+}
+
 .image-wrapper {
     text-align: center;
     margin: 20px 0;

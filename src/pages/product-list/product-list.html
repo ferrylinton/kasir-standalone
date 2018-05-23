@@ -13,53 +13,63 @@
 </ion-header>
 
 <ion-content>
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-    <ion-grid>
-        <ion-row>
-          <ion-col col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 *ngFor="let product of page.data; let i = index">
-            <ion-card text-center>
-               
-                    
-                  
-                <img class="image" src="{{product.image}}"/>
-                <h2>{{product.name}}</h2>
-                    <ion-badge color="secondary">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
-                <div text-center>
-                        
-                    
-                      <button color="dark" small ion-button icon-only (click)="removeItem(product)">
-                        <ion-icon name="remove"></ion-icon>
-                      </button>
-                      <button color="dark" small ion-button icon-only (click)="addItem(product)">
-                        <ion-icon name="add"></ion-icon>
-                      </button>
-                   
-                    </div>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+  <ion-item>
+    <ion-searchbar 
+      placeholder="{{ 'LABEL.SEARCH' | translate }}"
+      showCancelButton="true" 
+      cancelButtonText="{{ 'BUTTON.CANCEL | translate '}}"
+      (ionInput)="search($event)"></ion-searchbar>
+    <ion-buttons item-end>
+      <button color="light" ion-button icon-only [disabled]="isGrid" (click)="setView(true)">
+        <ion-icon name="apps"></ion-icon>
+      </button>
+      <button color="light" ion-button icon-only [disabled]="!isGrid" (click)="setView(false)">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-item>
 
-  <!-- <ion-list>
+
+  <ion-grid class="data-grid" *ngIf="isGrid">
+    <ion-row>
+      <ion-col col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 *ngFor="let product of page.data; let i = index">
+        <ion-card>
+          <img class="card-image" src="{{product.image}}" />
+          <h2>{{product.name}}</h2>
+          <ion-badge color="secondary">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
+          <div text-center>
+            <button color="light" small ion-button icon-only (click)="removeItem(product)">
+              <ion-icon name="remove"></ion-icon>
+            </button>
+            <button color="light" small ion-button icon-only (click)="addItem(product)">
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list *ngIf="!isGrid">
     <ion-item *ngFor="let product of page.data; let i = index">
       <ion-thumbnail item-start>
         <img src="{{product.image}}">
       </ion-thumbnail>
       <h2>{{product.name}}</h2>
-      <ion-badge color="dark">{{product.price | currency:'Rp. ':symbol:'0.2'}}</ion-badge>
+      <ion-badge color="secondary">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
       <p>{{product.description}}</p>
       <ion-buttons item-end>
-        <button color="danger" small ion-button icon-only (click)="removeItem(product)">
+        <button color="light" small ion-button icon-only (click)="removeItem(product)">
           <ion-icon name="remove"></ion-icon>
         </button>
-        <button color="secondary" small ion-button icon-only (click)="addItem(product)">
+        <button color="light" small ion-button icon-only (click)="addItem(product)">
           <ion-icon name="add"></ion-icon>
         </button>
       </ion-buttons>
     </ion-item>
   </ion-list>
--->
+
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
-  </ion-infinite-scroll> 
+  </ion-infinite-scroll>
 </ion-content>

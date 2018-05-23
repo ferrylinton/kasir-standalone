@@ -19,6 +19,8 @@ export class ProductListPage extends BaseCart {
 
   page: Page<Product>;
 
+  isGrid: boolean = true;
+
   constructor(
     public navCtrl: NavController,
     public productProvider: ProductProvider,
@@ -58,6 +60,10 @@ export class ProductListPage extends BaseCart {
     })
   }
 
+  setView(isGrid: boolean){
+    this.isGrid = isGrid;
+  }
+
   view(product: Product) {
     this.navCtrl.push('ProductDetailPage', {
       product: product
@@ -72,7 +78,7 @@ export class ProductListPage extends BaseCart {
     }, 2000);
   }
 
-  getItems(ev: any) {
+  search(ev: any) {
     // Reset items back to all of the items
     this.init();
 
