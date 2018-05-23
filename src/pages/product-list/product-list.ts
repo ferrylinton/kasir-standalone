@@ -72,4 +72,19 @@ export class ProductListPage extends BaseCart {
     }, 2000);
   }
 
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.init();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.page.data = this.page.data.filter((product) => {
+        return (product.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
 }
+

@@ -173,7 +173,7 @@ export class DataProvider {
       let start: number = i * 100;
       let end: number = start + 10;
       for(let j:number = start; j <= end; j++){
-        this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j, DEFAULT_IMAGE, category.name, admin.username, new Date()));
+        this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
       }
     }
 

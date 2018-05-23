@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { registerLocaleData } from '@angular/common';
+import localeId from '@angular/common/locales/id';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
@@ -33,6 +35,7 @@ import { ProductProvider } from '../providers/product/product';
 import { ProductMockProvider } from '../providers/product/product-mock';
 import { DataProvider } from '../providers/data/data';
 
+registerLocaleData(localeId, 'id');
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

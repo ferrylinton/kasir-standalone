@@ -12,8 +12,35 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list>
+<ion-content>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 *ngFor="let product of page.data; let i = index">
+            <ion-card text-center>
+               
+                    
+                  
+                <img class="image" src="{{product.image}}"/>
+                <h2>{{product.name}}</h2>
+                    <ion-badge color="secondary">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
+                <div text-center>
+                        
+                    
+                      <button color="dark" small ion-button icon-only (click)="removeItem(product)">
+                        <ion-icon name="remove"></ion-icon>
+                      </button>
+                      <button color="dark" small ion-button icon-only (click)="addItem(product)">
+                        <ion-icon name="add"></ion-icon>
+                      </button>
+                   
+                    </div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+  <!-- <ion-list>
     <ion-item *ngFor="let product of page.data; let i = index">
       <ion-thumbnail item-start>
         <img src="{{product.image}}">
@@ -31,8 +58,8 @@
       </ion-buttons>
     </ion-item>
   </ion-list>
-
+-->
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  </ion-infinite-scroll> 
 </ion-content>
