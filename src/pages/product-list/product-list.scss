@@ -1,3 +1,32 @@
 page-product-list {
+    .search-select{
+        width: 100%;
+        border: solid 1px #ccc;
+        background-color: #f1f1f1
+    }
 
+    .filters {
+
+        ion-col {
+            text-align: center;
+            font-size: 1.6rem;
+            line-height: 1.6rem;
+
+            &.col-with-arrow {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        p {
+            margin: 0;
+            font-size: 1.6rem;
+            line-height: 1.6rem;
+        }
+
+        .selected {
+            font-weight: 700;
+        }
+    }
 }

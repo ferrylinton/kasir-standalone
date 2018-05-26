@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { BaseCart } from '../base/base-cart';
+import { UtilProvider } from '../../providers/util/util';
 import { Order } from "../../models/order.model";
 
 
@@ -19,9 +20,10 @@ export class OrderPage extends BaseCart {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage) {
+    public storage: Storage,
+    public util: UtilProvider) {
 
-    super(storage);
+    super(storage, util);
     console.log('constructor');
   }
 

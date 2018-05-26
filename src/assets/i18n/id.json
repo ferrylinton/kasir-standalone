@@ -29,7 +29,8 @@
         "OK": "OK",
         "PREVIOUS": "Sebelum",
         "REMOVE": "Kurang",
-        "SAVE": "Simpan"
+        "SAVE": "Simpan",
+        "SEARCH": "Cari"
     },
     "LABEL": {
         "ABOUT": "About",
@@ -49,11 +50,14 @@
         "DETAIL": "Detil",
         "EDIT": "Ubah",
         "FULLNAME": "Nama Lengkap",
+        "GRID": "Grid",
         "HOME": "Beranda",
         "ID": "Id",
         "IMAGE": "Gambar",
+        "KEYWORD": "kata kunci",
         "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
         "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
+        "LIST": "List",
         "LOGOUT": "Keluar",
         "MENU": "Menu",
         "NAME": "Nama",
@@ -70,6 +74,7 @@
         "USER": "Pengguna",
         "USER_DATA": "Data Pengguna",
         "USERNAME": "Nama Pengguna",
+        "VIEW_TYPE": "Tipe Tampilan",
         "STATUS": "Status"
     },
     "MESSAGE": {
@@ -89,6 +94,8 @@
         "RELOAD_PAGE": "Memuat ulang halaman"
     },
     "TITLE": {
-        "CONFIRM": "Konfirmasi"
+        "CONFIRM": "Konfirmasi",
+        "SEARCH": "Pencarian",
+        "VIEW_TYPE": "Tipe Tampilan"
     }
 }

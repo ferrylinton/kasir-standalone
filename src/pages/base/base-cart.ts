@@ -2,6 +2,7 @@ import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
 import { LOGGED_USER, ORDER } from "../../constant/constant";
+import { UtilProvider } from '../../providers/util/util';
 import { User } from "../../models/user.model";
 import { Order } from "../../models/order.model";
 import { Item } from "../../models/item.model";
@@ -19,7 +20,8 @@ export abstract class BaseCart {
     totalPrice: number;
 
     constructor(
-        public storage: Storage
+        public storage: Storage,
+        public util: UtilProvider
     ) {
 
         storage.get(LOGGED_USER).then((val) => {
@@ -31,7 +33,7 @@ export abstract class BaseCart {
         return new Promise((resolve, reject) => {
             this.storage.get(ORDER).then((order) => {
                 if (order == null) {
-                    let newOrder = new Order(uuid(), new Array<Item>());
+                    let newOrder = new Order(uuid(), this.util.transactionNumber(), new Array<Item>());
                     this.storage.set(ORDER, JSON.stringify(newOrder));
                     resolve(newOrder);
                 } else {
@@ -55,7 +57,7 @@ export abstract class BaseCart {
 
     addItem(product: Product): void {
         this.storage.get(ORDER).then((val) => {
-            let order = (val == null) ? new Order(uuid(), new Array<Item>()) : JSON.parse(val);
+            let order = (val == null) ? new Order(uuid(), this.util.transactionNumber(), new Array<Item>()) : JSON.parse(val);
             order = this.addProduct(order, product);
             this.storage.set(ORDER, JSON.stringify(order));
             this.totalItems = this.countItems(order);
@@ -66,7 +68,7 @@ export abstract class BaseCart {
 
     removeItem(product: Product): void {
         this.storage.get(ORDER).then((val) => {
-            let order = (val == null) ? new Order(uuid(), new Array<Item>()) : JSON.parse(val);
+            let order = (val == null) ? new Order(uuid(), this.util.transactionNumber(), new Array<Item>()) : JSON.parse(val);
             order = this.removeProduct(order, product);
             this.storage.set(ORDER, JSON.stringify(order));
             this.totalItems = this.countItems(order);

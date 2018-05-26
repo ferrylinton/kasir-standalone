@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DEFAULT_IMAGE } from '../../constant/constant';
 import { v4 as uuid } from 'uuid';
 
+import { UtilProvider } from '../util/util';
 import { Authority } from '../../models/authority.model';
 import { Role } from '../../models/role.model';
 import { User } from '../../models/user.model';
@@ -10,6 +11,7 @@ import { Category } from '../../models/category.model';
 import { Product } from '../../models/product.model';
 import { Order } from '../../models/order.model';
 import { Item } from '../../models/item.model';
+
 
 
 @Injectable()
@@ -29,7 +31,7 @@ export class DataProvider {
 
   orders: Order[] = new Array<Order>();
  
-  constructor() {
+  constructor(public util: UtilProvider) {
     this.init();
   }
 
@@ -185,11 +187,13 @@ export class DataProvider {
 
     for(let i=0; i<100; i++){
       let remainder = i%3;
-      let order = new Order(uuid(), new Array<Item>(), this.users[remainder].username, new Date());
+      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), this.users[remainder].username, new Date());
 
       for(let j=0; j<10; j++){
         order.items.push(new Item(uuid(), this.products[j], j));
       }
+
+      this.orders.push(order);
     }
 
   }

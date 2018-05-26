@@ -8,31 +8,38 @@
       <button ion-button icon-only (click)="viewOrder()">
         <ion-icon name="cart"> {{ totalItems }}</ion-icon>
       </button>
+      <button ion-button icon-only (click)="searchPrompt()">
+          <ion-icon name="search"></ion-icon>
+        </button>
+      <button ion-button icon-only (click)="viewTypePrompt()">
+        <ion-icon name="more"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-row class="filters">
+      <ion-col class="col-with-arrow" (click)="slidePrev()" no-padding col-1>
+        <ion-icon *ngIf="showLeftButton" name="arrow-back"></ion-icon>
+      </ion-col>
+      <ion-col no-padding col-10>
+        <ion-slides (ionSlideDidChange)="slideChanged()">
+          <ion-slide (click)="filterData(category.id)" *ngFor="let category of categories">
+            <p [class.selected]="selectedCategory?.id === category.id">{{ category.name }}</p>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+      <ion-col class="col-with-arrow" (click)="slideNext()" no-padding col-1>
+        <ion-icon *ngIf="showRightButton" name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-searchbar 
-      placeholder="{{ 'LABEL.SEARCH' | translate }}"
-      showCancelButton="true" 
-      cancelButtonText="{{ 'BUTTON.CANCEL | translate '}}"
-      (ionInput)="search($event)"></ion-searchbar>
-    <ion-buttons item-end>
-      <button color="light" ion-button icon-only [disabled]="isGrid" (click)="setView(true)">
-        <ion-icon name="apps"></ion-icon>
-      </button>
-      <button color="light" ion-button icon-only [disabled]="!isGrid" (click)="setView(false)">
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-item>
-
-
   <ion-grid class="data-grid" *ngIf="isGrid">
     <ion-row>
-      <ion-col col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 *ngFor="let product of page.data; let i = index">
+      <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 *ngFor="let product of page.data; let i = index">
         <ion-card>
           <img class="card-image" src="{{product.image}}" />
           <h2>{{product.name}}</h2>
@@ -50,24 +57,26 @@
     </ion-row>
   </ion-grid>
 
-  <ion-list *ngIf="!isGrid">
-    <ion-item *ngFor="let product of page.data; let i = index">
-      <ion-thumbnail item-start>
-        <img src="{{product.image}}">
-      </ion-thumbnail>
-      <h2>{{product.name}}</h2>
-      <ion-badge color="dark">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
-      <p>{{product.description}}</p>
-      <ion-buttons item-end>
-        <button color="light" small ion-button icon-only (click)="removeItem(product)">
-          <ion-icon name="remove"></ion-icon>
-        </button>
-        <button color="light" small ion-button icon-only (click)="addItem(product)">
-          <ion-icon name="add"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
+  <ion-grid *ngIf="!isGrid">
+    <ion-row>
+      <ion-item col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 *ngFor="let product of page.data; let i = index">
+        <ion-thumbnail item-start>
+          <img src="{{product.image}}">
+        </ion-thumbnail>
+        <h2>{{product.name}}</h2>
+        <ion-badge color="dark">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
+        <p>{{product.description}}</p>
+        <ion-buttons item-end>
+          <button color="light" small ion-button icon-only (click)="removeItem(product)">
+            <ion-icon name="remove"></ion-icon>
+          </button>
+          <button color="light" small ion-button icon-only (click)="addItem(product)">
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-item>
+    </ion-row>
+  </ion-grid>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>

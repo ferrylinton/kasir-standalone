@@ -7,6 +7,8 @@ export class Order implements Audit {
 
         public id?: string,
 
+        public transactionNumber?: string,
+
         public items?: Item[],
 
         public createdBy?: string,
