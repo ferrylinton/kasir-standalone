@@ -1,30 +1,28 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="light">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{ 'LABEL.PRODUCT' | translate }}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="viewOrder()">
-        <ion-icon name="cart"> {{ totalItems }}</ion-icon>
+      <button ion-button clear icon-left (click)="viewOrder()">
+        <ion-icon name="cart"></ion-icon>
+        {{ totalItems }}
       </button>
-      <button ion-button icon-only (click)="searchPrompt()">
-          <ion-icon name="search"></ion-icon>
-        </button>
-      <button ion-button icon-only (click)="viewTypePrompt()">
+      <button ion-button icon-only (click)="viewTypePrompt($event)">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-  <ion-toolbar>
-    <ion-row class="filters">
+  <ion-toolbar color="lighter">
+    <ion-row class="categories">
       <ion-col class="col-with-arrow" (click)="slidePrev()" no-padding col-1>
         <ion-icon *ngIf="showLeftButton" name="arrow-back"></ion-icon>
       </ion-col>
       <ion-col no-padding col-10>
         <ion-slides (ionSlideDidChange)="slideChanged()">
           <ion-slide (click)="filterData(category.id)" *ngFor="let category of categories">
-            <p [class.selected]="selectedCategory?.id === category.id">{{ category.name }}</p>
+            <p>{{ category.name }}</p>
           </ion-slide>
         </ion-slides>
       </ion-col>
@@ -37,7 +35,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid class="data-grid" *ngIf="isGrid">
+  <ion-grid class="data-grid" *ngIf="showGrid">
     <ion-row>
       <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 *ngFor="let product of page.data; let i = index">
         <ion-card>
@@ -57,7 +55,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid *ngIf="!isGrid">
+  <ion-grid *ngIf="!showGrid">
     <ion-row>
       <ion-item col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 *ngFor="let product of page.data; let i = index">
         <ion-thumbnail item-start>

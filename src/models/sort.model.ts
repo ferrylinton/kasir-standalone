@@ -4,7 +4,7 @@ export class Sort {
 
         public column: string,
 
-        public isAscending: boolean
+        public isAsc: boolean
 
     ) {
     }

@@ -5,13 +5,13 @@ export class Page<T> extends Pageable {
 
     constructor(
 
-        public data: T[],
+        public data: T[] = new Array<T>(),
 
-        public pageNumber: number,
+        public pageNumber: number = 1,
 
-        public totalData?: number,
+        public totalData: number = 0,
 
-        public sort?: Sort
+        public sort: Sort = new Sort('id', true)
 
     ) {
         super(pageNumber, totalData, sort);

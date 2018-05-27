@@ -5,7 +5,7 @@ page-product-list {
         background-color: #f1f1f1
     }
 
-    .filters {
+    .categories {
 
         ion-col {
             text-align: center;
@@ -25,8 +25,5 @@ page-product-list {
             line-height: 1.6rem;
         }
 
-        .selected {
-            font-weight: 700;
-        }
     }
 }

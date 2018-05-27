@@ -40,6 +40,8 @@ import { OrderMockProvider } from '../providers/order/order-mock';
 import { DataProvider } from '../providers/data/data';
 import { UtilProvider } from '../providers/util/util';
 
+import { MoreMenuPage } from '../pages/more-menu/more-menu';
+
 
 registerLocaleData(localeId, 'id');
 
@@ -49,7 +51,8 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
+    MoreMenuPage
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
+    MoreMenuPage
   ],
   providers: [
     StatusBar,

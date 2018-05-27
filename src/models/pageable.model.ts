@@ -7,9 +7,9 @@ export class Pageable {
 
         public pageNumber: number,
 
-        public totalData?: number,
+        public totalData: number = 0,
 
-        public sort?: Sort
+        public sort: Sort = new Sort('id', true)
 
     ) {
     }

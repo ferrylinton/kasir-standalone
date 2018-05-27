@@ -30,6 +30,11 @@ export class DataProvider {
   products: Product[] = new Array<Product>();
 
   orders: Order[] = new Array<Order>();
+
+  description: string = `Parsley amaranth tigernut silver beet maize fennel spinach. Ricebean black-eyed pea maize
+  scallion green bean spinach cabbage jícama bell pepper carrot onion corn plantain garbanzo.
+  Sierra leone bologi komatsuna celery peanut swiss chard silver beet squash dandelion maize
+  chicory burdock tatsoi dulse radish wakame beetroot.`;
  
   constructor(public util: UtilProvider) {
     this.init();
@@ -182,6 +187,7 @@ export class DataProvider {
       let end: number = start + 10;
       for(let j:number = start; j <= end; j++){
         this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
+        this.products.push(new Product(this.util.randomString(30), this.util.randomString(30), this.description, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
       }
     }
 
