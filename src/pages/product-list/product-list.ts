@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, AlertController, Slides, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, AlertController, Slides, PopoverController, Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
+import { PAGE } from '../../constant/constant';
 import { BaseCart } from '../base/base-cart';
 import { UtilProvider } from '../../providers/util/util';
 import { ProductProvider } from '../../providers/product/product';
@@ -29,6 +30,8 @@ export class ProductListPage extends BaseCart {
 
   private listTxt: string = 'List';
 
+  private allCategoriesTxt: string = 'All Categories';
+
   showSearch: boolean = false;
 
   showGrid: boolean = true;
@@ -52,6 +55,7 @@ export class ProductListPage extends BaseCart {
     public popoverCtrl: PopoverController,
     public translate: TranslateService,
     public storage: Storage,
+    public events: Events,
     public util: UtilProvider,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
@@ -71,9 +75,10 @@ export class ProductListPage extends BaseCart {
   }
 
   private initLanguage(): void {
-    this.translate.get([ 'LABEL.GRID', 'LABEL.LIST']).subscribe(values => {
+    this.translate.get([ 'LABEL.GRID', 'LABEL.LIST', 'LABEL.ALL_CATEGORIES']).subscribe(values => {
         this.listTxt = values['LABEL.LIST'];
         this.gridTxt = values['LABEL.GRID'];
+        this.allCategoriesTxt = values['LABEL.ALL_CATEGORIES'];
       });
   }
 
@@ -93,7 +98,7 @@ export class ProductListPage extends BaseCart {
     if (this.categories == null) {
       this.categoryProvider.findAll().subscribe(categories => {
         this.categories = categories;
-        this.categories.unshift(new Category(this.category, 'All'));
+        this.categories.unshift(new Category(this.category, this.allCategoriesTxt));
       })
     }
 
@@ -153,7 +158,7 @@ export class ProductListPage extends BaseCart {
   }
 
   viewOrder() {
-    this.navCtrl.push('OrderPage');
+    this.events.publish(PAGE, 'OrderPage');
   }
 
   view(product: Product) {

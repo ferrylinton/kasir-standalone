@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 
 import { BaseCart } from '../base/base-cart';
 import { UtilProvider } from '../../providers/util/util';
+import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 
 
@@ -21,7 +22,8 @@ export class OrderPage extends BaseCart {
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
-    public util: UtilProvider) {
+    public util: UtilProvider,
+    public orderProvider: OrderProvider) {
 
     super(storage, util);
     console.log('constructor');
@@ -36,11 +38,11 @@ export class OrderPage extends BaseCart {
     console.log('ionViewWillEnter');
   }
 
-  viewOrder(){
+  viewOrder() {
     this.navCtrl.push('OrderPage');
   }
-  
-  private init(){
+
+  private init() {
     this.getTotalItems();
     this.getTotalPrice();
     this.getOrder().then(order => {

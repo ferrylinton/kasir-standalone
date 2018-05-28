@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
-import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE, DETAIL, LOGGED_USER } from '../constant/constant';
+import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
 import { Menu } from '../models/menu.model';
 
 @Component({
@@ -67,7 +67,7 @@ export class MyApp {
       this.storage.set(MENU, JSON.stringify(menus));
     });
 
-    this.events.subscribe(DETAIL, page => {
+    this.events.subscribe(PAGE, page => {
       this.nav.setRoot(page);
     });
   }

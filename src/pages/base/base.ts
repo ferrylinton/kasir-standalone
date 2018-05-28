@@ -2,7 +2,7 @@ import { ToastController, AlertController, Events } from "ionic-angular";
 import { TranslateService } from "@ngx-translate/core";
 import { Storage } from '@ionic/storage';
 import { User } from "../../models/user.model";
-import { LOGGED_USER, DETAIL } from "../../constant/constant";
+import { LOGGED_USER, PAGE } from "../../constant/constant";
 import { Base } from "../../models/base.model";
 
 export abstract class BasePage {
@@ -44,7 +44,7 @@ export abstract class BasePage {
 
     reloadPage(page: string): void {
         this.showToast(this.reloadTxt);
-        this.events.publish(DETAIL, page);
+        this.events.publish(PAGE, page);
     }
 
     showToast(message: string): void {

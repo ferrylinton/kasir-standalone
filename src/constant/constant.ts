@@ -14,7 +14,7 @@ export const ORDER: string = 'ORDER';
 
 export const ERROR: string = 'ERROR';
 
-export const DETAIL: string = 'DETAIL';
+export const PAGE: string = 'PAGE';
 
 export const ADD: string = 'ADD';
 
