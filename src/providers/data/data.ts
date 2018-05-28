@@ -193,7 +193,9 @@ export class DataProvider {
 
     for(let i=0; i<100; i++){
       let remainder = i%3;
-      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), this.users[remainder].username, new Date());
+      let createdDate = new Date();
+      createdDate.setHours(createdDate.getHours() - i);
+      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), this.users[remainder].username, createdDate);
 
       for(let j=0; j<10; j++){
         order.items.push(new Item(uuid(), this.products[j], j));

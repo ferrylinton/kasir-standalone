@@ -1,3 +1,21 @@
 page-order {
+    .box{
+        border: solid 1px color($colors, light);
+        padding: 10px 10px 10px 0;
 
+        .list-md{
+            margin: 0;
+        }
+
+        .title{
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .total{
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 2px;
+        }
+    }
 }

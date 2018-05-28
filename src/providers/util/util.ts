@@ -29,12 +29,9 @@ export class UtilProvider {
 
   filterByDate(arr: Array<Base>, field: string, date: Date): Array<Base>{
     return arr.filter((data) => {
-      let date1 = new Date(date.getTime());
-      let date2 = new Date(data[field]);
-      date1.setHours(0, 0, 0, 0);
-      date2.setHours(0, 0, 0, 0);
-
-      return date1 == date2;
+      return (date.getFullYear() === data[field].getFullYear() 
+              && date.getMonth() === data[field].getMonth() 
+              && date.getDate() === data[field].getDate());
     })
   }
 

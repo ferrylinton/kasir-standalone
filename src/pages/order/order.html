@@ -15,32 +15,70 @@
 
 
 <ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm-12 col-md-8 col-lg-9 col-xl-9>
+        <div class="box">
+          <ion-list *ngIf="order; else nodata">
+            <ion-item>
+              <h2 class="title">{{ 'LABEL.ORDER_DETAIL' | translate }}</h2>
+            </ion-item>
+            <ion-item *ngFor="let item of order.items; let i = index">
+              <ion-thumbnail item-start>
+                <img src="{{item.product.image}}">
+              </ion-thumbnail>
+              <h2>{{item.product.name}}</h2>
+              <ion-badge color="dark">{{item.quantity}} x {{item.product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
+              <ion-buttons item-end>
+                <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
+                  <ion-icon name="remove"></ion-icon>
+                </button>
+                <button color="light" small ion-button icon-only (click)="addItem(item.product)">
+                  <ion-icon name="add"></ion-icon>
+                </button>
+              </ion-buttons>
+            </ion-item>
+            <ion-item class="total">
+              <span>{{ 'LABEL.TOTAL_PRICE' | translate }}</span>
+              <span item-end>{{totalPrice | currency:'Rp. ':symbol:'0.2'}}</span>
+            </ion-item>
+            <ion-item>
+              <ion-buttons item-end>
+                <button ion-button color="light" icon-start (click)="pay()">
+                  <ion-icon name="medal"></ion-icon> {{ 'LABEL.PRODUCT' | translate }}
+                </button>
+                <button ion-button color="primary" icon-start (click)="pay()">
+                  <ion-icon name="card"></ion-icon> {{ 'BUTTON.PAYMENT' | translate }}
+                </button>
+              </ion-buttons>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+      <ion-col col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3>
+        <div class="box">
+          <ion-list *ngIf="page; else nodata">
+            <ion-item>
+              <h2 class="title">{{ 'LABEL.ORDER_LIST' | translate }}</h2>
+            </ion-item>
+            <ion-item *ngFor="let item of page.data; let i = index">
+              <p>{{ item.transactionNumber }}</p>
+              <p>{{ item.createdDate | date: 'dd/MM/yyyy hh:mm' }}</p>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <ion-list *ngIf="order; else nodata">
-    <ion-item>
-      <h2>{{ 'LABEL.ORDER_DETAIL' | translate }}</h2>
-    </ion-item>
-    <ion-item *ngFor="let item of order.items; let i = index">
-      <ion-thumbnail item-start>
-        <img src="{{item.product.image}}">
-      </ion-thumbnail>
-      <h2>{{item.product.name}}</h2>
-      <ion-badge color="dark">{{item.quantity}} x {{item.product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
-      <ion-buttons item-end>
-        <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
-          <ion-icon name="remove"></ion-icon>
-        </button>
-        <button color="light" small ion-button icon-only (click)="addItem(item.product)">
-          <ion-icon name="add"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-item>
-    <ion-item>
-      <span item-end>{{totalPrice | currency:'Rp. ':symbol:'0.2'}}</span>
-    </ion-item>
-  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
+<ng-template #empty>
+  <ion-label>-</ion-label>
+</ng-template>
 <ng-template #nodata>
   <ion-item>
     {{ 'MESSAGE.NO_DATA' | translate }}
