@@ -75,7 +75,7 @@ export class MockProvider<T extends Base> {
         return Array(+(zero > 0 && zero)).join("0") + num;
     }
 
-    private getDatas(start: number, end: number): T[] {
+    getDatas(start: number, end: number): T[] {
         let datas = new Array<T>();
 
         for (let i: number = start; i <= end; i++) {
@@ -83,5 +83,27 @@ export class MockProvider<T extends Base> {
         }
 
         return datas;
+    }
+
+    getPage(datas: Array<T>, pageable: Pageable): Page<T> {
+        return new Page(this.getSliceDatas(datas, pageable), pageable.pageNumber, datas.length, pageable.sort)
+    }
+
+    private getSliceDatas(datas: Array<T>, pageable: Pageable): Array<T> {
+        let start: number = (pageable.pageNumber - 1) * PAGE_SIZE + 1;
+        let end: number = this.getEnd(pageable, datas.length, start);
+        return pageable.isLast() ? datas.slice(start - 1) : datas.slice(start, end + 1)
+    }
+
+    private getEnd(pageable: Pageable, total: number, start: number): number {
+        let end: number = start + PAGE_SIZE - 1;
+
+        if (pageable.pageNumber === 1 && total < PAGE_SIZE) {
+            end = total;
+        } else if (pageable.pageNumber > 1) {
+            end = pageable.isLast() ? total : start + PAGE_SIZE - 1;
+        }
+
+        return end;
     }
 }

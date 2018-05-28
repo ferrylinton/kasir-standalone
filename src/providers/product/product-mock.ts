@@ -7,11 +7,9 @@ import { MockProvider } from '../mock/mock';
 import { DataProvider } from '../data/data';
 import { ProductProvider } from './product';
 
-import { PAGE_SIZE } from '../../constant/constant';
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
-import { Sort } from '../../models/sort.model';
 
 
 @Injectable()
@@ -29,95 +27,59 @@ export class ProductMockProvider extends MockProvider<Product> implements Produc
   }
 
   find(pageable: Pageable): Observable<Page<Product>> {
-    let products: Array<Product> = this.datas;
+    let datas: Array<Product> = this.datas;
 
     if (pageable.sort != null) {
-      products = this.util.sortObject(products, pageable.sort);
+      datas = this.util.sortObject(datas, pageable.sort);
     }
 
-    let start: number = (pageable.pageNumber - 1) * PAGE_SIZE + 1;
-    let end: number = start + PAGE_SIZE - 1;
-
-    if (pageable.pageNumber === 1 && products.length < PAGE_SIZE) {
-      end = products.length;
-    } else if (pageable.pageNumber > 1) {
-      end = pageable.isLast() ? products.length : start + PAGE_SIZE - 1;
-    }
-
-    return of(new Page(pageable.isLast() ? products.slice(start-1) : products.slice(start, end + 1), pageable.pageNumber, products.length, pageable.sort));
+    return of(this.getPage(datas, pageable));
   }
 
   findByName(name: string, pageable: Pageable): Observable<Page<Product>> {
-    let products: Array<Product> = this.datas;
+    let datas: Array<Product> = this.datas;
 
     if (name && name.trim() != '') {
-      products = this.util.filterObject(products, 'name', name);
+      datas = this.util.filterObject(datas, 'name', name);
     }
 
     if (pageable.sort != null) {
-      products = this.util.sortObject(products, pageable.sort);
+      datas = this.util.sortObject(datas, pageable.sort);
     }
 
-    let start: number = (pageable.pageNumber - 1) * PAGE_SIZE + 1;
-    let end: number = start + PAGE_SIZE - 1;
-
-    if (pageable.pageNumber === 1 && products.length < PAGE_SIZE) {
-      end = products.length;
-    } else if (pageable.pageNumber > 1) {
-      end = pageable.isLast() ? products.length : start + PAGE_SIZE - 1;
-    }
-
-    return of(new Page(pageable.isLast() ? products.slice(start-1) : products.slice(start, end + 1), pageable.pageNumber, products.length, pageable.sort));
+    return of(this.getPage(datas, pageable));
   }
 
   findByCategory(category: string, pageable: Pageable): Observable<Page<Product>> {
-    let products: Array<Product> = this.datas;
+    let datas: Array<Product> = this.datas;
 
     if (category && category.trim() != '0') {
-      products = this.util.filterObject(products, 'category', category);
+      datas = this.util.filterObject(datas, 'category', category);
     }
 
     if (pageable.sort != null) {
-      products = this.util.sortObject(products, pageable.sort);
+      datas = this.util.sortObject(datas, pageable.sort);
     }
 
-    let start: number = (pageable.pageNumber - 1) * PAGE_SIZE + 1;
-    let end: number = start + PAGE_SIZE - 1;
-
-    if (pageable.pageNumber === 1 && products.length < PAGE_SIZE) {
-      end = products.length;
-    } else if (pageable.pageNumber > 1) {
-      end = pageable.isLast() ? products.length : start + PAGE_SIZE - 1;
-    }
-
-    return of(new Page(pageable.isLast() ? products.slice(start-1) : products.slice(start, end + 1), pageable.pageNumber, products.length, pageable.sort));
+    return of(this.getPage(datas, pageable));
   }
 
   findByCategoryAndName(category: string, name: string, pageable: Pageable): Observable<Page<Product>> {
-    let products: Array<Product> = this.datas;
+    let datas: Array<Product> = this.datas;
 
     if (category && category.trim() != '') {
-      products = this.util.filterObject(products, 'category', category);
+      datas = this.util.filterObject(datas, 'category', category);
     }
     
     if (name && name.trim() != '') {
-      products = this.util.filterObject(products, 'name', name);
+      datas = this.util.filterObject(datas, 'name', name);
     }
 
     if (pageable.sort != null) {
-      products = this.util.sortObject(products, pageable.sort);
+      datas = this.util.sortObject(datas, pageable.sort);
     }
 
-    let start: number = (pageable.pageNumber - 1) * PAGE_SIZE + 1;
-    let end: number = start + PAGE_SIZE - 1;
-
-    if (pageable.pageNumber === 1 && products.length < PAGE_SIZE) {
-      end = products.length;
-    } else if (pageable.pageNumber > 1) {
-      end = pageable.isLast() ? products.length : start + PAGE_SIZE - 1;
-    }
-
-    return of(new Page(pageable.isLast() ? products.slice(start-1) : products.slice(start, end + 1), pageable.pageNumber, products.length, pageable.sort));
+    return of(this.getPage(datas, pageable));
   }
 
 }

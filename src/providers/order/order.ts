@@ -8,9 +8,11 @@ export abstract class OrderProvider {
 
   abstract findById(id: string): Observable<Order>;
 
-  abstract findAll(): Observable<Order[]>;
-
   abstract find(pageable: Pageable): Observable<Page<Order>>;
+
+  abstract findByDate(date: Date, pageable: Pageable): Observable<Page<Order>>;
+
+  abstract findBetweenDate(startDate: Date, endDate: Date, pageable: Pageable): Observable<Page<Order>>;
 
   abstract save(order: Order): Observable<Order>;
 

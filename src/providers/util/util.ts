@@ -27,6 +27,30 @@ export class UtilProvider {
     })
   }
 
+  filterByDate(arr: Array<Base>, field: string, date: Date): Array<Base>{
+    return arr.filter((data) => {
+      let date1 = new Date(date.getTime());
+      let date2 = new Date(data[field]);
+      date1.setHours(0, 0, 0, 0);
+      date2.setHours(0, 0, 0, 0);
+
+      return date1 == date2;
+    })
+  }
+
+  filterBetweenDate(arr: Array<Base>, field: string, start: Date, end: Date): Array<Base>{
+    return arr.filter((data) => {
+      let date1 = new Date(start.getTime());
+      let date2 = new Date(end.getTime());
+      let date3 = new Date(data[field]);
+      date1.setHours(0, 0, 0, 0);
+      date2.setHours(0, 0, 0, 0);
+      date3.setHours(0, 0, 0, 0);
+
+      return date3 >= date1 && date3 <= date2;
+    })
+  }
+
   sortStringAsc(arr: Array<string>): Array<string> {
     return arr.sort(function (a, b) {
       if (a < b) {
