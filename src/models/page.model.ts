@@ -5,7 +5,7 @@ export class Page<T> extends Pageable {
 
     constructor(
 
-        public data: T[] = new Array<T>(),
+        public data: Array<T> = new Array<T>(),
 
         public pageNumber: number = 1,
 

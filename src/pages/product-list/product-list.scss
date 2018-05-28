@@ -1,29 +1,35 @@
 page-product-list {
-    .search-select{
-        width: 100%;
-        border: solid 1px #ccc;
-        background-color: #f1f1f1
+    .searchbar-ios-cancel {
+        margin-right: 0px !important;
+        opacity: 1 !important;
+        padding-left: 10px !important;
+    }
+    .searchbar-md .searchbar-md-cancel {
+        display: inline-flex !important;
+        background-color: white !important;
+    }
+    .searchbar-search-icon {
+        display: none;
     }
 
     .categories {
-
+        padding: 10px;
+        background-color: color($colors, light);
+        border-bottom: solid 1px #dfdfdf;
         ion-col {
             text-align: center;
             font-size: 1.6rem;
             line-height: 1.6rem;
-
             &.col-with-arrow {
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
         }
-
         p {
             margin: 0;
             font-size: 1.6rem;
             line-height: 1.6rem;
         }
-
     }
 }
