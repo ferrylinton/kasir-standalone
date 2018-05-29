@@ -65,15 +65,23 @@
               <p>{{ item.transactionNumber }}</p>
               <p>{{ item.createdDate | date: 'dd/MM/yyyy hh:mm' }}</p>
             </ion-item>
+            <ion-item>
+              <ion-buttons>
+                <button ion-button small outline [disabled]="page.isFirst()" (click)="previous()">
+                  {{ 'BUTTON.PREVIOUS' | translate }}
+                </button>
+              </ion-buttons>
+              <ion-buttons item-end>
+                <button ion-button small outline [disabled]="page.isLast()" (click)="next()">
+                  {{ 'BUTTON.NEXT' | translate }}
+                </button>
+              </ion-buttons>
+            </ion-item>
           </ion-list>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 
 </ion-content>
 <ng-template #empty>

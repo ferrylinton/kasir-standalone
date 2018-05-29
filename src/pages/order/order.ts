@@ -56,6 +56,7 @@ export class OrderPage extends BaseCart {
 
   private initPage(): void {
     this.page = new Page();
+    this.page.size = 5;
     this.page.sort.column = 'createdDate';
     this.page.sort.isAsc = false;
   }

@@ -2,9 +2,9 @@ export class Sort {
 
     constructor(
 
-        public column: string,
+        public column: string = 'id',
 
-        public isAsc: boolean
+        public isAsc: boolean = true
 
     ) {
     }

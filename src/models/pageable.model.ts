@@ -9,14 +9,16 @@ export class Pageable {
 
         public totalData: number = 0,
 
-        public sort: Sort = new Sort('id', true)
+        public sort: Sort = new Sort(),
+
+        public size: number = PAGE_SIZE
 
     ) {
     }
 
     getTotalPage(): number{
-        let remainder = this.totalData % PAGE_SIZE;
-        let totalPage = (this.totalData - remainder) / PAGE_SIZE;
+        let remainder = this.totalData % this.size;
+        let totalPage = (this.totalData - remainder) / this.size;
         return remainder === 0 ? totalPage : totalPage + 1;
     }
 
@@ -29,6 +31,7 @@ export class Pageable {
     }
 
     getStartRow(): number{
-        return (this.pageNumber - 1) * PAGE_SIZE + 1;
+        return (this.pageNumber - 1) * this.size + 1;
     }
+
 }
