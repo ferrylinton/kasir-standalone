@@ -18,22 +18,27 @@ export class SettingProvider {
 
   public getSetting(): Observable<any> {
     if (this.setting) {
-      of(this.setting);
+      return of(this.setting);
     } else {
       return fromPromise(this.storage.get(Setting.SETTING).then((result) => {
         if (result) {
           this.setting = JSON.parse(result);
         } else {
           this.setting = {};
-          this.setting[Setting.LANGUAGE] = Setting.LANGUAGES[Setting.DEFAULT_LANGUAGE];
-          this.setting[Setting.CURRENCY] = Setting.CURRENCIES[Setting.IDR];
-          this.setting[Setting.VIEW] = Setting.DEFAULT_VIEW;
+          this.setting[Setting.LANGUAGE] = Setting.DEFAULT_LANGUAGE;
+          this.setting[Setting.CURRENCY] = Setting.DEFAULT_CURRENCY;
+          this.setting[Setting.VIEW_TYPE] = Setting.DEFAULT_VIEW_TYPE;
           this.storage.set(Setting.SETTING, JSON.stringify(this.setting));
         }
 
         return this.setting;
       }));
     }
+  }
+
+  public setSetting(setting: any): void {
+    this.setting = setting;
+    this.storage.set(Setting.SETTING, JSON.stringify(this.setting));
   }
 
   public getLanguage(): Observable<string> {
@@ -62,7 +67,7 @@ export class SettingProvider {
     let view: Subject<boolean> = new Subject<boolean>();
 
     this.getSetting().subscribe(setting => {
-      view.next(setting[Setting.VIEW]);
+      view.next(setting[Setting.VIEW_TYPE]);
       view.complete();
     });
 
@@ -79,8 +84,8 @@ export class SettingProvider {
     this.storage.set(Setting.SETTING, this.setting);
   }
 
-  public setView(value: boolean) {
-    this.setting[Setting.VIEW] = value;
+  public setView(value: string) {
+    this.setting[Setting.VIEW_TYPE] = value;
     this.storage.set(Setting.SETTING, this.setting);
   }
 

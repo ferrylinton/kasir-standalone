@@ -13,22 +13,19 @@
       <ion-item>
         <ion-label>{{ 'LABEL.LANGUAGE' | translate }}</ion-label>
         <ion-select [(ngModel)]="setting.Language" name="Language" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
-          <ion-option value="id">Bahasa</ion-option>
-          <ion-option value="en">English</ion-option>
+          <ion-option *ngFor="let language of languages;">{{language}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>{{ 'LABEL.CURRENCY' | translate }}</ion-label>
         <ion-select [(ngModel)]="setting.Currency" name="Currency" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
-          <ion-option value="Rp">Rupiah (IDR)</ion-option>
-          <ion-option value="$">US Dollar (USD)</ion-option>
+            <ion-option *ngFor="let currency of currencies;">{{currency}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>{{ 'LABEL.VIEW_TYPE' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.View" name="View" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
-          <ion-option value="true">{{ 'LABEL.GRID' | translate }}</ion-option>
-          <ion-option value="false">{{ 'LABEL.LIST' | translate }}</ion-option>
+        <ion-select [(ngModel)]="setting.ViewType" name="ViewType" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+            <ion-option *ngFor="let viewType of viewTypes;">{{viewType}}</ion-option>
         </ion-select>
       </ion-item>
       <div padding>

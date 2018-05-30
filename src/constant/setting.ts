@@ -1,28 +1,20 @@
 export const SETTING: string = 'SETTING';
 
-export const LANGUAGES: any = { 'Bahasa' : 'id', 'English': 'en' };
+export const LANGUAGES: Array<string> = ['id', 'en'];
 
 export const LANGUAGE: string = 'Language';
 
-export const BAHASA: string = 'Bahasa';
+export const DEFAULT_LANGUAGE: string = LANGUAGES[0];
 
-export const ENGLISH: string = 'English';
-
-export const DEFAULT_LANGUAGE: string = 'Bahasa';
-
-export const CURRENCIES: any = { 'IDR': 'Rp', 'USD': '$' };
+export const CURRENCIES: Array<string> = ['Rp', '$'];
 
 export const CURRENCY: string = 'Currency';
 
-export const IDR: string = 'IDR';
+export const DEFAULT_CURRENCY: string = CURRENCIES[0];
 
-export const USD: string = 'USD';
+export const VIEW_TYPES: Array<string> = ['Grid', 'List'];
 
-export const DEFAULT_CURRENCY: string = 'IDR';
+export const VIEW_TYPE: string = 'ViewType';
 
-export const VIEW: string = 'View';
-
-export const GRID: boolean = true;
-
-export const DEFAULT_VIEW: boolean = GRID;
+export const DEFAULT_VIEW_TYPE: string = VIEW_TYPES[0];
 
