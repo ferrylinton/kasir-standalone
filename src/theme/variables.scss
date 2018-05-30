@@ -38,10 +38,9 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #eeeeee,
-  lighter:      #f4f4f4,
   dark:       #222,
-  grey:       #999,
-  lightGrey:    #ddd
+  lightgrey:  #dddddd,
+  grey:       #c7c7c7
 );
 
 $grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px );

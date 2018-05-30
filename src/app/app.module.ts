@@ -41,6 +41,7 @@ import { DataProvider } from '../providers/data/data';
 import { UtilProvider } from '../providers/util/util';
 
 import { MoreMenuPage } from '../pages/more-menu/more-menu';
+import { SettingProvider } from '../providers/setting/setting';
 
 
 registerLocaleData(localeId, 'id');
@@ -89,7 +90,8 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: ProductProvider, useClass: ProductMockProvider },
     { provide: OrderProvider, useClass: OrderMockProvider },
     DataProvider,
-    UtilProvider
+    UtilProvider,
+    SettingProvider
   ]
 
 })

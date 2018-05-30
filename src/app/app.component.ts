@@ -5,8 +5,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
-import { DEFAULT_LANGUAGE, MENU, FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
+import { SettingProvider } from '../providers/setting/setting';
+
+import { MENU, FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
 import { Menu } from '../models/menu.model';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -26,7 +29,8 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public translate: TranslateService,
     public events: Events,
-    public storage: Storage) {
+    public storage: Storage,
+    public setting: SettingProvider) {
 
     this.initializeApp();
   }
@@ -43,14 +47,10 @@ export class MyApp {
   }
 
   initLang() {
-    this.translate.setDefaultLang(DEFAULT_LANGUAGE);
-    const browserLang = this.translate.getBrowserLang();
-
-    if (browserLang) {
-      this.translate.use(this.translate.getBrowserLang());
-    } else {
-      this.translate.use(DEFAULT_LANGUAGE);
-    }
+    this.setting.getLanguage().subscribe(language => {
+      this.translate.setDefaultLang(language);
+      this.translate.use(language);
+    })
   }
 
   initMenus(): void {

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="light">
+  <ion-navbar color="primary">
     <button *ngIf="!showSearch" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -41,15 +41,15 @@
     <ion-row>
       <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 *ngFor="let product of page.data; let i = index">
         <ion-card>
-          <img class="card-image" src="{{product.image}}" />
-          <h2>{{product.name}}</h2>
-          <ion-badge color="dark">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
+          <img src="{{product.image}}" />
+          <p>{{product.name}}</p>
+          <p>{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</p>
           <div text-center>
             <button color="light" small ion-button icon-only (click)="removeItem(product)">
               <ion-icon name="remove"></ion-icon>
             </button>
-            <button color="light" small ion-button icon-only (click)="addItem(product)">
-              <ion-icon name="add"></ion-icon>
+            <button color="secondary" small ion-button icon-only (click)="addItem(product)">
+              <ion-icon name="light"></ion-icon>
             </button>
           </div>
         </ion-card>
