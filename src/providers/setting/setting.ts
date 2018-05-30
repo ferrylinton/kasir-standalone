@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import { SETTING, LANGUAGE, BAHASA, CURRENCY, IDR, LANGUAGES, CURRENCIES } from '../../constant/setting';
+import * as Setting from '../../constant/setting';
 
 
 @Injectable()
@@ -20,14 +20,15 @@ export class SettingProvider {
     if (this.setting) {
       of(this.setting);
     } else {
-      return fromPromise(this.storage.get(SETTING).then((result) => {
+      return fromPromise(this.storage.get(Setting.SETTING).then((result) => {
         if (result) {
           this.setting = JSON.parse(result);
         } else {
           this.setting = {};
-          this.setting[LANGUAGE] = LANGUAGES[BAHASA];
-          this.setting[CURRENCY] = CURRENCIES[IDR];
-          this.storage.set(SETTING, JSON.stringify(this.setting));
+          this.setting[Setting.LANGUAGE] = Setting.LANGUAGES[Setting.DEFAULT_LANGUAGE];
+          this.setting[Setting.CURRENCY] = Setting.CURRENCIES[Setting.IDR];
+          this.setting[Setting.VIEW] = Setting.DEFAULT_VIEW;
+          this.storage.set(Setting.SETTING, JSON.stringify(this.setting));
         }
 
         return this.setting;
@@ -39,7 +40,7 @@ export class SettingProvider {
     let language: Subject<string> = new Subject<string>();
 
     this.getSetting().subscribe(setting => {
-      language.next(setting[LANGUAGE]);
+      language.next(setting[Setting.LANGUAGE]);
       language.complete();
     });
 
@@ -50,21 +51,37 @@ export class SettingProvider {
     let currency: Subject<string> = new Subject<string>();
 
     this.getSetting().subscribe(setting => {
-      currency.next(setting[CURRENCY]);
+      currency.next(setting[Setting.CURRENCY]);
       currency.complete();
     });
 
     return currency;
   }
 
+  public getView(): Observable<boolean> {
+    let view: Subject<boolean> = new Subject<boolean>();
+
+    this.getSetting().subscribe(setting => {
+      view.next(setting[Setting.VIEW]);
+      view.complete();
+    });
+
+    return view;
+  }
+
   public setLanguage(value: string) {
-    this.setting[LANGUAGE] = value;
-    this.storage.set(SETTING, this.setting);
+    this.setting[Setting.LANGUAGE] = value;
+    this.storage.set(Setting.SETTING, this.setting);
   }
 
   public setCurrency(value: string) {
-    this.setting[CURRENCY] = value;
-    this.storage.set(SETTING, this.setting);
+    this.setting[Setting.CURRENCY] = value;
+    this.storage.set(Setting.SETTING, this.setting);
+  }
+
+  public setView(value: boolean) {
+    this.setting[Setting.VIEW] = value;
+    this.storage.set(Setting.SETTING, this.setting);
   }
 
 }

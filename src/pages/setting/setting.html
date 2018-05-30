@@ -3,10 +3,45 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Setting</ion-title>
+    <ion-title>{{ 'LABEL.SETTING' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content padding *ngIf="setting; else nodata">
+  <form (submit)="save()">
+    <ion-list>
+      <ion-item>
+        <ion-label>{{ 'LABEL.LANGUAGE' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.Language" name="Language" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+          <ion-option value="id">Bahasa</ion-option>
+          <ion-option value="en">English</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'LABEL.CURRENCY' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.Currency" name="Currency" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+          <ion-option value="Rp">Rupiah (IDR)</ion-option>
+          <ion-option value="$">US Dollar (USD)</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'LABEL.VIEW_TYPE' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.View" name="View" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+          <ion-option value="true">{{ 'LABEL.GRID' | translate }}</ion-option>
+          <ion-option value="false">{{ 'LABEL.LIST' | translate }}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div padding>
+        <button color="primary" ion-button icon-left>
+          <ion-icon name="settings"></ion-icon>
+          {{ 'BUTTON.SAVE' | translate }}
+        </button>
+      </div>
+    </ion-list>
+  </form>
 </ion-content>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-content>
+</ng-template>

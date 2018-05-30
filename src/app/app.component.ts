@@ -9,6 +9,7 @@ import { SettingProvider } from '../providers/setting/setting';
 
 import { MENU, FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
 import { Menu } from '../models/menu.model';
+import { DEFAULT_LANGUAGE, LANGUAGES } from '../constant/setting';
 
 
 @Component({
@@ -47,8 +48,8 @@ export class MyApp {
   }
 
   initLang() {
+    this.translate.setDefaultLang(LANGUAGES[DEFAULT_LANGUAGE]);
     this.setting.getLanguage().subscribe(language => {
-      this.translate.setDefaultLang(language);
       this.translate.use(language);
     })
   }

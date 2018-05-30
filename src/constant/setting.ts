@@ -20,3 +20,9 @@ export const USD: string = 'USD';
 
 export const DEFAULT_CURRENCY: string = 'IDR';
 
+export const VIEW: string = 'View';
+
+export const GRID: boolean = true;
+
+export const DEFAULT_VIEW: boolean = GRID;
+
