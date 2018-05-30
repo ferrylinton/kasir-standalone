@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, ToastController } from 'ionic-angular';
+import { IonicPage, ToastController, AlertController, Events } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Storage } from '@ionic/storage';
 
 import { SettingProvider } from '../../providers/setting/setting';
 import { LANGUAGES, CURRENCIES, VIEW_TYPES, SETTING } from '../../constant/setting';
+import { BasePage } from '../base/base';
 
 
 @IonicPage()
@@ -11,7 +13,7 @@ import { LANGUAGES, CURRENCIES, VIEW_TYPES, SETTING } from '../../constant/setti
   selector: 'page-setting',
   templateUrl: 'setting.html',
 })
-export class SettingPage {
+export class SettingPage extends BasePage {
 
   setting: any;
 
@@ -23,9 +25,13 @@ export class SettingPage {
 
   constructor(
     public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public translate: TranslateService,
+    public storage: Storage,
+    public events: Events,
     public settingProvider: SettingProvider) {
 
+    super(toastCtrl, alertCtrl, translate, storage, events);
     this.settingProvider.getSetting().subscribe(setting => {
       this.setting = JSON.parse(JSON.stringify(setting));
     })
@@ -41,24 +47,17 @@ export class SettingPage {
     this.viewTypes = VIEW_TYPES;
   }
 
-  save(): void {
+  save() {
+    this.showEditConfirm(SETTING, (base) => this.saveCallback());
+  }
+
+  saveCallback(): void {
     this.settingProvider.setSetting(this.setting);
     this.settingProvider.getSetting().subscribe(setting => {
       this.setting = JSON.parse(JSON.stringify(setting));
     });
 
-    this.translate.get('MESSAGE.EDIT_SUCCESS', { data: SETTING }).subscribe((value: string) => {
-      this.showToast(value);
-    });
+    this.showEditToast(SETTING);
   }
 
-  showToast(message: string): void {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 3000,
-      position: 'top'
-    });
-
-    toast.present();
-  }
 }
