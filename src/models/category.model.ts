@@ -18,7 +18,9 @@ export class Category implements Audit{
 
         public lastModifiedBy?: string,
 
-        public lastModifiedDate?: Date){
+        public lastModifiedDate?: Date,
+    
+        public products?: number){
     }
     
 }

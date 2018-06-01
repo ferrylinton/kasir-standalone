@@ -13,6 +13,8 @@ export abstract class ProductProvider {
 
   abstract findByCategory(category:string, pageable: Pageable): Observable<Page<Product>>;
 
+  abstract countByCategory(category:string): Observable<number>;
+
   abstract findByCategoryAndName(category:string, name: string, pageable: Pageable): Observable<Page<Product>>;
 
   abstract save(product: Product): Observable<Product>;

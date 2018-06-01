@@ -56,16 +56,36 @@
         padding: 5px 5px 10px 5px;
 
         img {
-            border: solid 1px color($colors, lightgrey);
+            border: solid 1px color($colors, light);
             padding: 10px;
-            background-color: color($colors, light);
+            background-color: color($colors, lighter);
         }
     }
     
 }
 
+.box{
+    border: solid 1px color($colors, light);
+    background-color: color($colors, lighter);
+    margin: 10px;
+    padding: 10px;
 
+    .title{
+        font-weight: bold;
+        font-size: 18px;
+    }
 
+    .list-md, .list-ios, .list-wp{
+        margin: 0;
+        background: none;
+    }
+
+    .item-md, .item-ios, .item-wp{
+        margin: 0;
+        padding: 0 0 0 10px;
+        background: none;
+    }
+}
 
 
 

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { v4 as uuid } from 'uuid';
 
 import { AuthorityProvider } from '../../providers/authority/authority';
 import { OrderProvider } from '../../providers/order/order';

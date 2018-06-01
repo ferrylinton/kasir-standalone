@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
-import { PAGE_SIZE } from '../../constant/constant';
-
 import { UtilProvider } from '../util/util';
 import { MockProvider } from '../mock/mock';
 import { DataProvider } from '../data/data';

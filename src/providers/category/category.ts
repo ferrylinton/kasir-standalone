@@ -7,7 +7,7 @@ export abstract class CategoryProvider {
 
   abstract findById(id: string): Observable<Category>;
 
-  abstract findAll(): Observable<Category[]>;
+  abstract findAll(): Observable<Array<Category>>;
 
   abstract find(pageable: Pageable): Observable<Page<Category>>;
 

@@ -64,6 +64,11 @@ export class ProductMockProvider extends MockProvider<Product> implements Produc
     return of(this.getPage(datas, pageable));
   }
 
+  countByCategory(category: string): Observable<number> {
+    let datas: Array<Product> = this.util.filterObject(this.datas, 'category', category);
+    return of(datas.length);
+  }
+
   findByCategoryAndName(category: string, name: string, pageable: Pageable): Observable<Page<Product>> {
     let datas: Array<Product> = this.datas;
 

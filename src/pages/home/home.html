@@ -1,12 +1,51 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>{{ 'LABEL.HOME' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-fab right top edge>
+    <button ion-fab color="secondary">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
+  </ion-fab>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
+        <ion-card *ngFor="let category of categories">
+          <button ion-item>
+            <ion-thumbnail item-start>
+              <img src="{{category.image}}">
+            </ion-thumbnail>
+            <h2 class="name">{{category.name}}</h2>
+            <span class="number-circle" item-end>{{category.products}}</span>
+          </button>
+        </ion-card>
+      </ion-col>
+      <ion-col col-12 col-sm-12 col-md-5 col-lg-4 col-xl-4>
+        <div class="box">
+          <ion-list *ngIf="orders; else nodata">
+            <ion-item>
+              <h2 class="title">{{ 'LABEL.LASTEST_ORDER' | translate }}</h2>
+            </ion-item>
+            <ion-item *ngFor="let item of orders; let i = index">
+              <p>{{ item.transactionNumber }}</p>
+              <p>{{ item.createdDate | date: 'dd/MM/yyyy hh:mm' }}</p>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ng-template #nodata>
+  <ion-item>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-item>
+</ng-template>
