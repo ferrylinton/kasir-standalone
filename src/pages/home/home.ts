@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { v4 as uuid } from 'uuid';
 
 import { CategoryProvider } from '../../providers/category/category';
@@ -24,6 +24,7 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
+    public modalCtrl: ModalController,
     public categoryProvider: CategoryProvider,
     public orderProvider: OrderProvider) {
 
@@ -58,5 +59,16 @@ export class HomePage {
       this.orders = page.data;
     })
   }
-  
+
+  showOrder(order: Order) {
+    console.log(JSON.stringify(order));
+    let orderModal = this.modalCtrl.create('OrderModalPage', {order: order});
+    orderModal.onDidDismiss(order => {
+      if (order) {
+        console.log('showOrder');
+      }
+    })
+    orderModal.present();
+  }
+
 }

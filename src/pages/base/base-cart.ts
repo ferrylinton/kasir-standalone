@@ -77,7 +77,7 @@ export abstract class BaseCart {
         })
     }
 
-    private countItems(order: Order): number {
+    countItems(order: Order): number {
         let total: number = 0;
 
         for (let i = 0; i < order.items.length; i++) {
@@ -87,7 +87,7 @@ export abstract class BaseCart {
         return total;
     }
 
-    private countPrice(order: Order): number {
+    countPrice(order: Order): number {
         let total: number = 0;
 
         for (let i = 0; i < order.items.length; i++) {
@@ -97,7 +97,7 @@ export abstract class BaseCart {
         return total;
     }
 
-    private addProduct(order: Order, product: Product): Order {
+    addProduct(order: Order, product: Product): Order {
         let isProductExist: boolean = false;
 
         for (let i = 0; i < order.items.length; i++) {
@@ -114,7 +114,7 @@ export abstract class BaseCart {
         return order;
     }
 
-    private removeProduct(order: Order, product: Product): Order {
+    removeProduct(order: Order, product: Product): Order {
         let isQuantityZero: boolean = false;
         let index: number = 0;
 

@@ -33,10 +33,11 @@
             <ion-item>
               <h2 class="title">{{ 'LABEL.LASTEST_ORDER' | translate }}</h2>
             </ion-item>
-            <ion-item *ngFor="let item of orders; let i = index">
-              <p>{{ item.transactionNumber }}</p>
-              <p>{{ item.createdDate | date: 'dd/MM/yyyy hh:mm' }}</p>
-            </ion-item>
+            <button ion-item *ngFor="let order of orders; let i = index" (click)="showOrder(order)">
+              <p>{{ order.transactionNumber }}</p>
+              <p>{{ order.createdDate | date: 'dd/MM/yyyy hh:mm' }}</p>
+              <span item-end>{{ order.createdBy }}</span>
+            </button>
           </ion-list>
         </div>
       </ion-col>

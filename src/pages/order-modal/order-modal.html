@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'LABEL.ORDER_DETAIL' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list *ngIf="order; else nodata">
+    <ion-item>
+      {{ 'LABEL.CREATED_BY' | translate }}
+      <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy }}</span>
+    </ion-item>
+    <ion-item>
+      {{ 'LABEL.CREATED_DATE' | translate }}
+      <span item-end *ngIf="order.createdDate; else empty">{{ order.createdDate | date: 'dd/MM/yyyy hh:mm' }}</span>
+    </ion-item>
+    <ion-item>
+      {{ 'LABEL.LAST_MODIFIED_BY' | translate }}
+      <span item-end *ngIf="order.lastModifiedBy; else empty">{{ order.lastModifiedBy }}</span>
+    </ion-item>
+    <ion-item>
+      {{ 'LABEL.LAST_MODIFIED_DATE' | translate }}
+      <span item-end *ngIf="order.modifiedDate; else empty">{{ order.modifiedDate | date: 'dd/MM/yyyy hh:mm' }}</span>
+    </ion-item>
+    <ion-item>
+      <h2 class="bold">{{ 'LABEL.PRODUCT_LIST' | translate }}</h2>
+    </ion-item>
+    <ion-item *ngFor="let item of order.items; let i = index">
+      <ion-avatar item-start>
+        <img src="{{item.product.image}}">
+      </ion-avatar>
+      <h2>{{item.product.name}}</h2>
+      <p>{{item.quantity}} x {{item.product.price | currency:'Rp.':symbol:'0.2':'id'}}</p>
+    </ion-item>
+    <ion-item no-lines class="bold">
+      <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{totalPrice | currency:'Rp. ':symbol:'0.2':'id'}}</span>
+    </ion-item>
+    <ion-item>
+      <ion-buttons item-end>
+        <button ion-button color="light" icon-start (click)="cancel()">
+          <ion-icon name="arrow-back"></ion-icon> {{ 'BUTTON.CANCEL' | translate }}
+        </button>
+        <button ion-button color="primary" icon-start (click)="edit()">
+          <ion-icon name="create"></ion-icon> {{ 'BUTTON.EDIT' | translate }}
+        </button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ng-template #nodata>
+  <ion-item>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-item>
+</ng-template>
+<ng-template #empty>
+  <span item-end>-</span>
+</ng-template>

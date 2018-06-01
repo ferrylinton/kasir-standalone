@@ -5,11 +5,11 @@ export class Item implements Base{
     
     constructor(
 
-        public id?: string,
+        public id: string,
 
-        public product?: Product,
+        public product: Product,
 
-        public quantity?: number){
+        public quantity: number){
     }
     
 }

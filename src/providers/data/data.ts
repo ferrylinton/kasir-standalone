@@ -198,7 +198,7 @@ export class DataProvider {
       let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), this.users[remainder].username, createdDate);
 
       for(let j=0; j<10; j++){
-        order.items.push(new Item(uuid(), this.products[j], j));
+        order.items.push(new Item(uuid(), this.products[j], j+1));
       }
 
       this.orders.push(order);
