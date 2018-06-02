@@ -115,7 +115,6 @@ export class DataProvider {
     let mainGroup = new Menu('menu-0000-0000-0000-100', 'Main');
     let homePage = new Menu('menu-0000-0000-0000-101', 'Home', mainGroup, null, 'HomePage', 'home', basicAuthority.name);
     let productListPage = new Menu('menu-0000-0000-0000-102', 'ProductList', mainGroup, null, 'ProductListPage', 'medal', basicAuthority.name);
-    let categoryListPage = new Menu('menu-0000-0000-0000-103', 'CategoryList', mainGroup, null, 'CategoryListPage', 'albums', basicAuthority.name);
     let orderPage = new Menu('menu-0000-0000-0000-104', 'Order', mainGroup, null, 'OrderPage', 'cart', orderView.name);
     let orderHistoryPage = new Menu('menu-0000-0000-0000-105', 'OrderHistory', mainGroup, null, 'OrderHistoryPage', 'clipboard', orderView.name);
     let dataGroup = new Menu('menu-0000-0000-0000-200', 'Data');
@@ -135,7 +134,6 @@ export class DataProvider {
     this.menus.push(mainGroup);
     this.menus.push(homePage);
     this.menus.push(productListPage);
-    this.menus.push(categoryListPage);
     this.menus.push(orderPage);
     this.menus.push(orderHistoryPage);
     this.menus.push(dataGroup);

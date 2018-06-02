@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController } from 'ionic-angular';
-import { v4 as uuid } from 'uuid';
+import { IonicPage, NavController, ModalController, Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
+import { BaseCart } from '../base/base-cart';
+
+import { UtilProvider } from '../../providers/util/util';
 import { CategoryProvider } from '../../providers/category/category';
 import { OrderProvider } from '../../providers/order/order';
 
-import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
 import { Category } from '../../models/category.model';
 import { Order } from '../../models/order.model';
+import { PAGE } from '../../constant/constant';
 
 
 @IonicPage()
@@ -16,7 +19,7 @@ import { Order } from '../../models/order.model';
   selector: 'page-home',
   templateUrl: 'home.html',
 })
-export class HomePage {
+export class HomePage extends BaseCart {
 
   categories: Array<Category>;
 
@@ -25,14 +28,19 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
+    public storage: Storage,
+    public events: Events,
+    public util: UtilProvider,
     public categoryProvider: CategoryProvider,
     public orderProvider: OrderProvider) {
 
+    super(storage, util);
     this.init();
   }
 
   ionViewWillEnter() {
     this.init();
+    this.getCurrentTotalItems();
   }
 
   private init(): void {
@@ -44,7 +52,7 @@ export class HomePage {
     this.loadLatestOrders();
   }
 
-  private loadCategories(){
+  private loadCategories() {
     this.categoryProvider.findAll().subscribe(categories => {
       this.categories = categories;
     })
@@ -60,9 +68,16 @@ export class HomePage {
     })
   }
 
+  viewOrder(){
+
+  }
+  
+  refresh(){
+    this.events.publish(PAGE, { page: 'HomePage', params: {} });
+  }
+
   showOrder(order: Order) {
-    console.log(JSON.stringify(order));
-    let orderModal = this.modalCtrl.create('OrderModalPage', {order: order});
+    let orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
         console.log('showOrder');
@@ -71,4 +86,8 @@ export class HomePage {
     orderModal.present();
   }
 
+  viewProduct(index: number) {
+    index = index + 1;
+    this.events.publish(PAGE, { page: 'ProductListPage', params: { index: index } });
+  }
 }

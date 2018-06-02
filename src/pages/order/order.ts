@@ -47,7 +47,7 @@ export class OrderPage extends BaseCart {
   }
 
   private init() {
-    this.getTotalItems();
+    this.getCurrentTotalItems();
     this.getTotalPrice();
     this.getOrder().then(order => {
       this.order = order;

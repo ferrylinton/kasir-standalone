@@ -68,8 +68,8 @@ export class MyApp {
       this.storage.set(MENU, JSON.stringify(menus));
     });
 
-    this.events.subscribe(PAGE, page => {
-      this.nav.setRoot(page);
+    this.events.subscribe(PAGE, data => {
+      this.nav.setRoot(data.page, data.params);
     });
   }
 

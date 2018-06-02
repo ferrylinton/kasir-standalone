@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, AlertController, Slides, PopoverController, Events } from 'ionic-angular';
+import { IonicPage, NavController, AlertController, Slides, PopoverController, Events, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -32,6 +32,8 @@ export class ProductListPage extends BaseCart {
 
   private allCategoriesTxt: string = 'All Categories';
 
+  index: number = 0;
+
   showSearch: boolean = false;
 
   showGrid: boolean = true;
@@ -51,6 +53,7 @@ export class ProductListPage extends BaseCart {
 
   constructor(
     public navCtrl: NavController,
+    public navParams: NavParams,
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
     public translate: TranslateService,
@@ -63,6 +66,11 @@ export class ProductListPage extends BaseCart {
     super(storage, util);
     this.initLanguage();
     this.init();
+
+    if(navParams.get('index')){
+      console.log('index : ' + navParams.get('index'));
+      this.index = navParams.get('index');
+    }
   }
 
   ionViewDidLoad() {
@@ -71,7 +79,8 @@ export class ProductListPage extends BaseCart {
 
   ionViewWillEnter() {
     this.init();
-    this.getTotalItems();
+    this.getCurrentTotalItems();
+    this.slides.slideTo(this.index, this.index);
   }
 
   private initLanguage(): void {

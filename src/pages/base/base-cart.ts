@@ -43,7 +43,7 @@ export abstract class BaseCart {
         });
     }
 
-    getTotalItems(): void {
+    getCurrentTotalItems(): void {
         this.storage.get(ORDER).then((val) => {
             this.totalItems = (val == null) ? 0 : this.countItems(JSON.parse(val));
         })
