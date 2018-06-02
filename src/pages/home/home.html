@@ -40,7 +40,7 @@
             <button ion-item *ngFor="let order of orders" (click)="showOrder(order)">
               <p>{{ order.transactionNumber }}</p>
               <p>{{ order.createdDate | date: 'dd/MM/yyyy hh:mm' }}</p>
-              <span item-end>{{ order.createdBy }}</span>
+              <span class="primary" item-end>{{ order.createdBy }}</span>
             </button>
           </ion-list>
         </div>

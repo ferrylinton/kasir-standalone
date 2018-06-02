@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController, Events } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 
-import { BaseCart } from '../base/base-cart';
-
-import { UtilProvider } from '../../providers/util/util';
+import { CartProvider } from '../../providers/cart/cart';
+import { CommonProvider } from '../../providers/common/common';
 import { CategoryProvider } from '../../providers/category/category';
 import { OrderProvider } from '../../providers/order/order';
 
 import { Page } from '../../models/page.model';
 import { Category } from '../../models/category.model';
 import { Order } from '../../models/order.model';
-import { PAGE } from '../../constant/constant';
 
 
 @IonicPage()
@@ -19,37 +16,34 @@ import { PAGE } from '../../constant/constant';
   selector: 'page-home',
   templateUrl: 'home.html',
 })
-export class HomePage extends BaseCart {
+export class HomePage {
 
   categories: Array<Category>;
 
   orders: Array<Order>;
 
+  totalItems: number = 0;
+
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
-    public storage: Storage,
-    public events: Events,
-    public util: UtilProvider,
     public categoryProvider: CategoryProvider,
-    public orderProvider: OrderProvider) {
+    public orderProvider: OrderProvider,
+    public cartProvider: CartProvider,
+    public commonProvider: CommonProvider) {
 
-    super(storage, util);
-    this.init();
   }
 
   ionViewWillEnter() {
-    this.init();
-    this.getCurrentTotalItems();
-  }
-
-  private init(): void {
-    this.loadData();
-  }
-
-  private loadData() {
     this.loadCategories();
     this.loadLatestOrders();
+    this.getTotalItems();
+  }
+
+  private getTotalItems() {
+    this.cartProvider.getTotalItems().subscribe(totalItems => {
+      this.totalItems = totalItems;
+    });
   }
 
   private loadCategories() {
@@ -68,16 +62,16 @@ export class HomePage extends BaseCart {
     })
   }
 
-  viewOrder(){
-
+  viewOrder() {
+    this.commonProvider.goToPage('OrderPage', {});
   }
-  
-  refresh(){
-    this.events.publish(PAGE, { page: 'HomePage', params: {} });
+
+  refresh() {
+    this.commonProvider.goToPage('HomePage', {});
   }
 
   showOrder(order: Order) {
-    let orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
+    const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
         console.log('showOrder');
@@ -88,6 +82,6 @@ export class HomePage extends BaseCart {
 
   viewProduct(index: number) {
     index = index + 1;
-    this.events.publish(PAGE, { page: 'ProductListPage', params: { index: index } });
+    this.commonProvider.goToPage('ProductListPage', { index: index });
   }
 }
