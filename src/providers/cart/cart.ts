@@ -36,13 +36,13 @@ export class CartProvider {
     }));
   }
 
-  getTotalItems(): Observable<number> {
+  getTotalItem(): Observable<number> {
     return fromPromise(this.storage.get(ORDER).then((val) => {
-      return (val == null) ? 0 : this.countItems(JSON.parse(val));
+      return (val == null) ? 0 : this.countItem(JSON.parse(val));
     }));
   }
 
-  getTotalPrices(): Observable<number> {
+  getTotalPrice(): Observable<number> {
     return fromPromise(this.storage.get(ORDER).then((val) => {
       return (val == null) ? 0 : this.countPrice(JSON.parse(val));
     }));
@@ -66,7 +66,7 @@ export class CartProvider {
     }));
   }
 
-  countItems(order: Order): number {
+  countItem(order: Order): number {
     let total: number = 0;
 
     for (let i = 0; i < order.items.length; i++) {

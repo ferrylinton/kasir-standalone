@@ -22,7 +22,7 @@ export class HomePage {
 
   orders: Array<Order>;
 
-  totalItems: number = 0;
+  totalItem: number = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -41,8 +41,8 @@ export class HomePage {
   }
 
   private getTotalItems() {
-    this.cartProvider.getTotalItems().subscribe(totalItems => {
-      this.totalItems = totalItems;
+    this.cartProvider.getTotalItem().subscribe(totalItem => {
+      this.totalItem = totalItem;
     });
   }
 
@@ -74,7 +74,7 @@ export class HomePage {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        console.log('showOrder');
+        this.commonProvider.goToPage('OrderPage', { order : order});
       }
     })
     orderModal.present();
