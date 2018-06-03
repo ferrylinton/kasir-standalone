@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DEFAULT_IMAGE } from '../../constant/constant';
 import { v4 as uuid } from 'uuid';
+import moment from 'moment';
 
 import { UtilProvider } from '../util/util';
 import { Authority } from '../../models/authority.model';
@@ -177,25 +178,25 @@ export class DataProvider {
     this.users.push(manager);
     this.users.push(employee);
 
-    for(let i:number = 1; i<6; i++){
+    for(let i=1; i<6; i++){
       let category: Category = new Category('category-0000-0000-0000-' + this.zeroPad(i, 3), 'Category ' + this.zeroPad(i, 3), 'Category Description ' + this.zeroPad(i, 3), DEFAULT_IMAGE, admin.username, new Date());
       this.categories.push(category);
 
-      let start: number = i * 100;
-      let end: number = start + 10;
-      for(let j:number = start; j <= end; j++){
+      let start = i * 100;
+      let end = start + 10;
+      for(let j=start; j<=end; j++){
         this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
         this.products.push(new Product(this.util.randomString(30), this.util.randomString(30), this.description, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
       }
     }
 
-    for(let i=0; i<100; i++){
+    for(let i=1; i<=100; i++){
       let remainder = i%3;
-      let createdDate = new Date();
-      createdDate.setHours(createdDate.getHours() - i);
+      let createdDate = moment().subtract(this.util.randomNumber(2, 360), 'minutes').toDate();
       let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), this.users[remainder].username, createdDate);
 
-      for(let j=0; j<10; j++){
+      let size = this.util.randomNumber(2, 20);
+      for(let j=1; j<=size; j++){
         order.items.push(new Item(uuid(), this.products[j], j+1));
       }
 

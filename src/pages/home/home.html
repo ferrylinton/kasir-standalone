@@ -38,8 +38,8 @@
               <h2 class="title">{{ 'LABEL.LASTEST_ORDER' | translate }}</h2>
             </ion-item>
             <button ion-item *ngFor="let order of orders" (click)="showOrder(order)">
-              <p>{{ order.transactionNumber }}</p>
               <p>{{ order.createdDate | moment:'ago':'id' | lowercase}}</p>
+              <p>{{ getProducts(order) }}</p>
               <span class="primary" item-end>{{ order.createdBy }}</span>
             </button>
           </ion-list>

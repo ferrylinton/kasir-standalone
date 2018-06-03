@@ -21,6 +21,10 @@ export class UtilProvider {
     return text;
   }
 
+  randomNumber(start: number, end:number): number{
+    return Math.floor(Math.random() * end) + start;
+  }
+  
   filterObject(arr: Array<Base>, field: string, keyword: string): Array<Base>{
     return arr.filter((data) => {
       return (data[field].toLowerCase().indexOf(keyword.toLowerCase()) > -1);

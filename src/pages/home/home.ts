@@ -84,4 +84,8 @@ export class HomePage {
     index = index + 1;
     this.commonProvider.goToPage('ProductListPage', { index: index });
   }
+
+  getProducts(order: Order) : string{
+    return this.commonProvider.getProductFromOrder(order);
+  }
 }
