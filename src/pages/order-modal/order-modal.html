@@ -2,8 +2,12 @@
   <ion-navbar>
     <ion-title>{{ 'LABEL.ORDER_DETAIL' | translate }}</ion-title>
     <ion-buttons start>
+      <button ion-button (click)="viewCtrl.dismiss(order)">
+        <span ion-text color="primary" showWhen="ios">{{ 'BUTTON.EDIT' | translate }}</span>
+        <ion-icon name="create" showWhen="core,android,windows"></ion-icon>
+      </button>
       <button ion-button (click)="viewCtrl.dismiss()">
-        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <span ion-text color="primary" showWhen="ios">{{ 'BUTTON.CANCEL' | translate }}</span>
         <ion-icon name="close" showWhen="core,android,windows"></ion-icon>
       </button>
     </ion-buttons>
@@ -39,18 +43,11 @@
       <h2>{{item.product.name}}</h2>
       <p>{{item.quantity}} x {{item.product.price | currency:'Rp.':symbol:'0.2':'id'}}</p>
     </ion-item>
+    <ion-item no-lines>
+      <span item-end>{{ 'LABEL.TOTAL_ITEM' | translate }} : {{totalItem}}</span>
+    </ion-item>
     <ion-item no-lines class="bold">
       <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{totalPrice | currency:'Rp. ':symbol:'0.2':'id'}}</span>
-    </ion-item>
-    <ion-item>
-      <ion-buttons item-end>
-        <button ion-button color="light" icon-start (click)="cancel()">
-          <ion-icon name="arrow-back"></ion-icon> {{ 'BUTTON.CANCEL' | translate }}
-        </button>
-        <button ion-button color="primary" icon-start (click)="edit()">
-          <ion-icon name="create"></ion-icon> {{ 'BUTTON.EDIT' | translate }}
-        </button>
-      </ion-buttons>
     </ion-item>
   </ion-list>
 </ion-content>

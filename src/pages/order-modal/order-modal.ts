@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
-import { BaseCart } from '../base/base-cart';
-import { UtilProvider } from '../../providers/util/util';
+import { CartProvider } from '../../providers/cart/cart';
 
 import { Order } from '../../models/order.model';
+
 
 
 @IonicPage()
@@ -13,32 +12,22 @@ import { Order } from '../../models/order.model';
   selector: 'page-order-modal',
   templateUrl: 'order-modal.html',
 })
-export class OrderModalPage extends BaseCart {
+export class OrderModalPage {
 
   order: Order;
 
+  totalItem: number;
+
+  totalPrice: number;
+
   constructor(
-    public navCtrl: NavController,
-    public viewCtrl: ViewController, 
+    public viewCtrl: ViewController,
     public navParams: NavParams,
-    public storage: Storage,
-    public util: UtilProvider ) {
-      
-    super(storage, util);
+    public cartProvider: CartProvider) {
+
     this.order = navParams.get('order');
-    this.totalItems = (this.order == null) ? 0 : this.countItems(this.order);
-    this.totalPrice = (this.order == null) ? 0 : this.countPrice(this.order);
+    this.totalItem = (this.order == null) ? 0 : this.cartProvider.countItem(this.order);
+    this.totalPrice = (this.order == null) ? 0 : this.cartProvider.countPrice(this.order);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderModalPage');
-  }
-
-  edit() {
-    this.viewCtrl.dismiss(this.order);
-  }
-
-  cancel() {
-    this.viewCtrl.dismiss();
-  }
 }
