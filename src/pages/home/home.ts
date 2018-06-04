@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, LoadingController } from 'ionic-angular';
+import { forkJoin } from "rxjs/observable/forkJoin";
 
 import { CartProvider } from '../../providers/cart/cart';
 import { CommonProvider } from '../../providers/common/common';
@@ -9,6 +10,7 @@ import { OrderProvider } from '../../providers/order/order';
 import { Page } from '../../models/page.model';
 import { Category } from '../../models/category.model';
 import { Order } from '../../models/order.model';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @IonicPage()
@@ -17,6 +19,8 @@ import { Order } from '../../models/order.model';
   templateUrl: 'home.html',
 })
 export class HomePage {
+
+  private loadingTxt: string = 'Please wait...';
 
   categories: Array<Category>;
 
@@ -27,39 +31,34 @@ export class HomePage {
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
+    public loadingCtrl: LoadingController,
+    public translateService: TranslateService,
     public categoryProvider: CategoryProvider,
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider,
     public commonProvider: CommonProvider) {
 
+      translateService.get('MESSAGE.LOADING').subscribe(val => {
+        this.loadingTxt = val;
+      });
   }
 
   ionViewWillEnter() {
-    this.loadCategories();
-    this.loadLatestOrders();
-    this.getTotalItems();
-  }
-
-  private getTotalItems() {
-    this.cartProvider.getTotalItem().subscribe(totalItem => {
-      this.totalItem = totalItem;
+    const loading = this.loadingCtrl.create({
+      content: this.loadingTxt
     });
-  }
+    loading.present();
 
-  private loadCategories() {
-    this.categoryProvider.findAll().subscribe(categories => {
-      this.categories = categories;
-    })
-  }
-
-  private loadLatestOrders() {
     let page = new Page();
     page.sort.column = 'createdDate';
     page.sort.isAsc = false;
 
-    this.orderProvider.find(page).subscribe(page => {
-      this.orders = page.data;
-    })
+    forkJoin([this.categoryProvider.findAll(), this.cartProvider.getTotalItem(), this.orderProvider.find(page)]).subscribe(results => {
+        this.categories = results[0];
+        this.totalItem = results[1];
+        this.orders = results[2].data;
+        loading.dismiss();
+      });
   }
 
   viewOrder() {
@@ -74,7 +73,7 @@ export class HomePage {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        this.commonProvider.goToPage('OrderPage', { order : order});
+        this.commonProvider.goToPage('OrderPage', { order: order });
       }
     })
     orderModal.present();
@@ -85,7 +84,7 @@ export class HomePage {
     this.commonProvider.goToPage('ProductListPage', { index: index });
   }
 
-  getProducts(order: Order) : string{
+  getProducts(order: Order): string {
     return this.commonProvider.getProductFromOrder(order);
   }
 }

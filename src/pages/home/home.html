@@ -16,7 +16,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
   <ion-grid>
     <ion-row>
@@ -38,9 +38,11 @@
               <h2 class="title">{{ 'LABEL.LASTEST_ORDER' | translate }}</h2>
             </ion-item>
             <button ion-item *ngFor="let order of orders" (click)="showOrder(order)">
-              <p>{{ order.createdDate | moment:'ago':'id' | lowercase}}</p>
-              <p>{{ getProducts(order) }}</p>
-              <span class="primary" item-end>{{ order.createdBy }}</span>
+              <p>
+                <span class="bold primary">{{ order.createdBy }}</span> - 
+                <span class="bold dark">{{ order.createdDate | moment:'ago':'id' | lowercase}}</span>
+              </p>
+              <p text-wrap>{{ getProducts(order) | shorten:100 }}</p>
             </button>
           </ion-list>
         </div>

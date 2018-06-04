@@ -16,7 +16,9 @@
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" (click)="onLogin(loginForm)" type="submit">{{ 'BUTTON.LOGIN' | translate }}</button>
+        <button ion-button ion-button item-end icon-left color="primary" (click)="onLogin(loginForm)" type="submit">
+          <ion-icon name="log-in"></ion-icon> {{ 'BUTTON.LOGIN' | translate }}
+        </button>
       </div>
 
     </ion-list>

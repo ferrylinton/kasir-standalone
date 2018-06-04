@@ -1,7 +1,9 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>{{ 'LABEL.ORDER_DETAIL' | translate }}</ion-title>
-    <ion-buttons start>
+  <ion-navbar color="primary">
+    <ion-title>
+      {{ 'LABEL.ORDER_DETAIL' | translate }}
+    </ion-title>
+    <ion-buttons end>
       <button ion-button (click)="viewCtrl.dismiss(order)">
         <span ion-text color="primary" showWhen="ios">{{ 'BUTTON.EDIT' | translate }}</span>
         <ion-icon name="create" showWhen="core,android,windows"></ion-icon>
