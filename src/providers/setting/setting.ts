@@ -28,6 +28,9 @@ export class SettingProvider {
           this.setting[Setting.LANGUAGE] = Setting.DEFAULT_LANGUAGE;
           this.setting[Setting.CURRENCY] = Setting.DEFAULT_CURRENCY;
           this.setting[Setting.VIEW_TYPE] = Setting.DEFAULT_VIEW_TYPE;
+          this.setting[Setting.DATETIME_FORMAT] = Setting.DEFAULT_DATETIME_FORMAT;
+          this.setting[Setting.DATE_FORMAT] = Setting.DEFAULT_DATE_FORMAT;
+          this.setting[Setting.CURRENCY_SYMBOL] = Setting.DEFAULT_CURRENCY_SYMBOL;
           this.storage.set(Setting.SETTING, JSON.stringify(this.setting));
         }
 
@@ -63,6 +66,17 @@ export class SettingProvider {
     return currency;
   }
 
+  public getCurrencySymbol(): Observable<string> {
+    let currencySymbol: Subject<string> = new Subject<string>();
+
+    this.getSetting().subscribe(setting => {
+      currencySymbol.next(setting[Setting.CURRENCY_SYMBOL]);
+      currencySymbol.complete();
+    });
+
+    return currencySymbol;
+  }
+
   public getView(): Observable<boolean> {
     let view: Subject<boolean> = new Subject<boolean>();
 
@@ -72,6 +86,28 @@ export class SettingProvider {
     });
 
     return view;
+  }
+
+  public getDatetimeFormat(): Observable<string> {
+    let datetimeFormat: Subject<string> = new Subject<string>();
+
+    this.getSetting().subscribe(setting => {
+      datetimeFormat.next(setting[Setting.DATETIME_FORMAT]);
+      datetimeFormat.complete();
+    });
+
+    return datetimeFormat;
+  }
+
+  public getDateFormat(): Observable<string> {
+    let dateFormat: Subject<string> = new Subject<string>();
+
+    this.getSetting().subscribe(setting => {
+      dateFormat.next(setting[Setting.DATE_FORMAT]);
+      dateFormat.complete();
+    });
+
+    return dateFormat;
   }
 
   public setLanguage(value: string) {

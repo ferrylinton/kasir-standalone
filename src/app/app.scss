@@ -13,6 +13,67 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+
+.big-label {
+    font-size: 1.8rem;
+    font-weight: normal;
+}
+
+.round-number {
+    color: white;
+    font-weight: 700;
+    border-radius: 50%;
+    background-color: color($colors, primary);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.box{
+    border: solid 1px color($colors, light);
+    margin: 10px;
+    padding: 10px;
+
+    .title{
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .list-md, .list-ios, .list-wp{
+        margin: 0;
+        background: none;
+    }
+
+    .item-md, .item-ios, .item-wp{
+        margin: 0;
+        padding: 0 0 0 10px;
+        background: none;
+    }
+}
+
+.primary{
+    color: color($colors, primary);
+}
+
+.dark{
+    color: color($colors, dark);
+}
+
+.bold{
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
 .searchbar-ios-cancel {
     margin-right: 0px !important;
     opacity: 1 !important;
@@ -64,38 +125,7 @@
     
 }
 
-.box{
-    border: solid 1px color($colors, light);
-    background-color: color($colors, lighter);
-    margin: 10px;
-    padding: 10px;
 
-    .title{
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    .list-md, .list-ios, .list-wp{
-        margin: 0;
-        background: none;
-    }
-
-    .item-md, .item-ios, .item-wp{
-        margin: 0;
-        padding: 0 0 0 10px;
-        background: none;
-    }
-}
-
-.primary{
-    color: color($colors, primary);
-}
-.dark{
-    color: color($colors, dark);
-}
-.bold{
-    font-weight: bold;
-}
 
 
 

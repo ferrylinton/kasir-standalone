@@ -57,7 +57,9 @@ export class HomePage {
         this.categories = results[0];
         this.totalItem = results[1];
         this.orders = results[2].data;
-        loading.dismiss();
+        setTimeout(() => {
+          loading.dismiss();
+        }, 1000);
       });
   }
 

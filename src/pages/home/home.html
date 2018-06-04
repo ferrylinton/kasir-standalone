@@ -15,9 +15,7 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
-
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
@@ -26,8 +24,8 @@
             <ion-thumbnail item-start>
               <img src="{{category.image}}">
             </ion-thumbnail>
-            <h2 class="name">{{category.name}}</h2>
-            <span class="number-circle" item-end>{{category.products}}</span>
+            <span class="big-label">{{category.name}}</span>
+            <span class="round-number" item-end>{{category.products}}</span>
           </button>
         </ion-card>
       </ion-col>
@@ -39,7 +37,7 @@
             </ion-item>
             <button ion-item *ngFor="let order of orders" (click)="showOrder(order)">
               <p>
-                <span class="bold primary">{{ order.createdBy }}</span> - 
+                <span class="bold primary">{{ order.createdBy }}</span> -
                 <span class="bold dark">{{ order.createdDate | moment:'ago':'id' | lowercase}}</span>
               </p>
               <p text-wrap>{{ getProducts(order) | shorten:100 }}</p>
