@@ -37,7 +37,7 @@
     <ion-item>
       <h2 class="bold">{{ 'LABEL.PRODUCT_LIST' | translate }}</h2>
     </ion-item>
-    <ion-item *ngFor="let item of order.items; let i = index">
+    <ion-item *ngFor="let item of order.items">
       <ion-avatar item-start>
         <img src="{{item.product.image}}">
       </ion-avatar>

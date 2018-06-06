@@ -34,6 +34,7 @@
         "SEARCH": "Cari"
     },
     "LABEL": {
+        "$": "US Dollar",
         "ABOUT": "About",
         "ACCOUNT": "Akun",
         "ACTIVATED": "Aktif",
@@ -48,14 +49,19 @@
         "CREATED_BY": "Dibuat Oleh",
         "CREATED_DATE": "Tanggal Dibuat",
         "CURRENCY": "Mata Uang",
+        "CURRENCY_SYMBOL": "Format Mata Uang",
+        "DATE_FORMAT": "Format tanggal",
+        "DATETIME_FORMAT": "Format tanggal dan waktu",
         "DEACTIVATED": "Tidak Aktif",
         "DESCRIPTION": "Deskripsi",
         "DETAIL": "Detil",
         "EDIT": "Ubah",
+        "en": "English",
         "FULLNAME": "Nama Lengkap",
         "GRID": "Tampilan Ubin",
         "HOME": "Beranda",
         "ID": "Id",
+        "id": "Indonesia",
         "IMAGE": "Gambar",
         "KEYWORD": "kata kunci",
         "LANGUAGE": "Bahasa",
@@ -75,6 +81,7 @@
         "PRODUCT_DATA": "Data Produk",
         "PRODUCT_LIST": "Daftar Produk",
         "ROLE": "Peranan",
+        "Rp": "Rupiah",
         "SEARCH": "Pencarian",
         "SETTING": "Pengaturan",
         "SIGNIN": "Masuk",
@@ -105,6 +112,10 @@
     "TITLE": {
         "CONFIRM": "Konfirmasi",
         "SEARCH": "Pencarian",
-        "VIEW_TYPE": "Tipe Tampilan"
+        "VIEW_TYPE": "Tipe Tampilan",
+        "CHANGE_LANGUAGE": "Ubah Bahasa",
+        "CHANGE_CURRENCY": "Ubah Mata Uang",
+        "CHANGE_DATETIME_FORMAT": "Ubah Format Tangal dan Waktu",
+        "CHANGE_DATE_FORMAT": "Ubah Format Tanggal"
     }
 }

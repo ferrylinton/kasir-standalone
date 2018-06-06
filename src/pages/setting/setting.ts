@@ -4,8 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
 import { SettingProvider } from '../../providers/setting/setting';
-import { LANGUAGES, CURRENCIES, VIEW_TYPES, SETTING } from '../../constant/setting';
-import { BasePage } from '../base/base';
+import { SETTING } from '../../constant/setting';
+import { MessageProvider } from '../../providers/message/message';
 
 
 @IonicPage()
@@ -13,15 +13,9 @@ import { BasePage } from '../base/base';
   selector: 'page-setting',
   templateUrl: 'setting.html',
 })
-export class SettingPage extends BasePage {
+export class SettingPage{
 
   setting: any;
-
-  languages: Array<string>;
-
-  currencies: Array<string>;
-
-  viewTypes: Array<string>;
 
   constructor(
     public toastCtrl: ToastController,
@@ -29,26 +23,20 @@ export class SettingPage extends BasePage {
     public translate: TranslateService,
     public storage: Storage,
     public events: Events,
+    public messageProvider: MessageProvider,
     public settingProvider: SettingProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage, events);
+    this.initSetting();
+  }
+
+  private initSetting(){
     this.settingProvider.getSetting().subscribe(setting => {
       this.setting = JSON.parse(JSON.stringify(setting));
-    })
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingPage');
-  }
-
-  ionViewWillEnter() {
-    this.languages = LANGUAGES;
-    this.currencies = CURRENCIES;
-    this.viewTypes = VIEW_TYPES;
+    });
   }
 
   save() {
-    this.showEditConfirm(SETTING, (base) => this.saveCallback());
+    this.messageProvider.showEditConfirm(SETTING, (base) => this.saveCallback());
   }
 
   saveCallback(): void {
@@ -57,7 +45,7 @@ export class SettingPage extends BasePage {
       this.setting = JSON.parse(JSON.stringify(setting));
     });
 
-    this.showEditToast(SETTING);
+    this.messageProvider.showEditToast(SETTING);
   }
 
 }
