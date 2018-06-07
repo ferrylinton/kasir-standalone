@@ -86,7 +86,7 @@ export class CartProvider {
     return total;
   }
 
-  addProduct(order: Order, product: Product): Order {
+  private addProduct(order: Order, product: Product): Order {
     let isProductExist: boolean = false;
 
     for (let i = 0; i < order.items.length; i++) {
@@ -103,7 +103,7 @@ export class CartProvider {
     return order;
   }
 
-  removeProduct(order: Order, product: Product): Order {
+  private removeProduct(order: Order, product: Product): Order {
     let isQuantityZero: boolean = false;
     let index: number = 0;
 

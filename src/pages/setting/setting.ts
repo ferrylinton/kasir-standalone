@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ToastController, AlertController, Events } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { IonicPage } from 'ionic-angular';
 
 import { SettingProvider } from '../../providers/setting/setting';
 import { SETTING } from '../../constant/setting';
@@ -18,11 +16,6 @@ export class SettingPage{
   setting: any;
 
   constructor(
-    public toastCtrl: ToastController,
-    public alertCtrl: AlertController,
-    public translate: TranslateService,
-    public storage: Storage,
-    public events: Events,
     public messageProvider: MessageProvider,
     public settingProvider: SettingProvider) {
 

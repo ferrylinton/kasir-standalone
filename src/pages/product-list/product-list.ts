@@ -1,11 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, AlertController, Slides, PopoverController, Events, NavParams } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicPage, NavController, Slides, PopoverController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { forkJoin } from "rxjs/observable/forkJoin";
 
-import { PAGE } from '../../constant/constant';
-import { BaseCart } from '../base/base-cart';
-import { UtilProvider } from '../../providers/util/util';
 import { ProductProvider } from '../../providers/product/product';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
@@ -13,6 +10,9 @@ import { Category } from '../../models/category.model';
 import { CategoryProvider } from '../../providers/category/category';
 import { MoreMenuPage } from '../more-menu/more-menu';
 import { MoreMenu } from '../../models/more-menu.model';
+import { CartProvider } from '../../providers/cart/cart';
+import { CommonProvider } from '../../providers/common/common';
+import { Order } from '../../models/order.model';
 
 
 @IonicPage()
@@ -20,17 +20,35 @@ import { MoreMenu } from '../../models/more-menu.model';
   selector: 'page-product-list',
   templateUrl: 'product-list.html',
 })
-export class ProductListPage extends BaseCart {
+export class ProductListPage {
 
   @ViewChild(Slides) slides: Slides;
 
   @ViewChild('searchbar') searchbar: any;
+
+  private LABEL_GRID = 'LABEL.GRID';
+
+  private LABEL_LIST = 'LABEL.LIST';
+
+  private LABEL_ALL_CATEGORIES = 'LABEL.ALL_CATEGORIES';
+
+  private MESSAGE_LOADING = 'MESSAGE.LOADING';
 
   private gridTxt: string = 'Grid';
 
   private listTxt: string = 'List';
 
   private allCategoriesTxt: string = 'All Categories';
+
+  private loadingTxt: string = 'Please wait...';
+
+  private loading: Loading;
+
+  order: Order;
+
+  totalItem: number = 0;
+
+  totalPrice: number;
 
   index: number = 0;
 
@@ -54,47 +72,56 @@ export class ProductListPage extends BaseCart {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public cartProvider: CartProvider,
+    public commonProvider: CommonProvider,
     public popoverCtrl: PopoverController,
     public translate: TranslateService,
-    public storage: Storage,
-    public events: Events,
-    public util: UtilProvider,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(storage, util);
     this.initLanguage();
-    this.init();
-
-    if(navParams.get('index')){
-      console.log('index : ' + navParams.get('index'));
-      this.index = navParams.get('index');
-    }
-  }
-
-  ionViewDidLoad() {
-
+    this.initPage();
+    this.initIndex();
   }
 
   ionViewWillEnter() {
-    this.init();
-    this.getCurrentTotalItems();
     this.slides.slideTo(this.index, this.index);
-  }
+    this.startLoading();
 
-  private initLanguage(): void {
-    this.translate.get([ 'LABEL.GRID', 'LABEL.LIST', 'LABEL.ALL_CATEGORIES']).subscribe(values => {
-        this.listTxt = values['LABEL.LIST'];
-        this.gridTxt = values['LABEL.GRID'];
-        this.allCategoriesTxt = values['LABEL.ALL_CATEGORIES'];
+    forkJoin([
+      this.categoryProvider.findAll(),
+      this.cartProvider.getTotalItem(),
+      this.cartProvider.getOrder(),
+      this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page)]).subscribe(results => {
+
+        this.setCategories(results[0]);
+        this.totalItem = results[1];
+        this.order = results[2];
+        
+        this.page.pageNumber = results[3].pageNumber;
+        this.page.totalData = results[3].totalData;
+        this.page.data = [...this.page.data, ...results[3].data];
+        this.stopLoading();
       });
   }
 
-  private init(): void {
-    this.initPage();
-    this.initCategories();
-    this.loadData();
+  private initLanguage(): void {
+    this.translate.get([this.LABEL_GRID, this.LABEL_LIST,
+    this.LABEL_ALL_CATEGORIES, this.MESSAGE_LOADING]).subscribe(values => {
+
+      this.gridTxt = values[this.LABEL_GRID];
+      this.listTxt = values[this.LABEL_LIST];
+      this.allCategoriesTxt = values[this.LABEL_ALL_CATEGORIES];
+      this.loadingTxt = values[this.MESSAGE_LOADING];
+    });
+  }
+
+  private startLoading(): void {
+    this.loading = this.loadingCtrl.create({
+      content: this.loadingTxt
+    });
+    this.loading.present();
   }
 
   private initPage(): void {
@@ -103,23 +130,28 @@ export class ProductListPage extends BaseCart {
     this.page.sort.isAsc = true;
   }
 
-  private initCategories(): void {
-    if (this.categories == null) {
-      this.categoryProvider.findAll().subscribe(categories => {
-        this.categories = categories;
-        this.categories.unshift(new Category(this.category, this.allCategoriesTxt));
-      })
+  private initIndex(){
+    if (this.navParams.get('index')) {
+      this.index = this.navParams.get('index');
+    } else {
+      this.index = 0;
     }
+  }
 
+  private setCategories(categories: Array<Category>): void {
+    categories.unshift(new Category(this.category, this.allCategoriesTxt));
+    this.categories = categories;
     this.showLeftButton = false;
     this.showRightButton = this.categories.length > 1;
   }
 
-  private loadData() {
+  private loadProducts() {
+    this.startLoading();
     this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
+      this.stopLoading();
     })
   }
 
@@ -129,7 +161,7 @@ export class ProductListPage extends BaseCart {
     this.showRightButton = index !== this.categories.length - 1;
     this.category = index === 0 ? '' : this.categories[index].name;
     this.initPage();
-    this.loadData();
+    this.loadProducts();
   }
 
   public slideNext(): void {
@@ -153,21 +185,16 @@ export class ProductListPage extends BaseCart {
     this.keyword = '';
     this.showSearch = false;
     this.initPage();
-    this.loadData();
+    this.loadProducts();
   }
 
   triggerSearch(ev: any) {
-    this.init();
     let val = ev.target.value;
     if (val && val.trim() != '') {
       this.keyword = val;
       this.initPage();
-      this.loadData();
+      this.loadProducts();
     }
-  }
-
-  viewOrder() {
-    this.events.publish(PAGE, 'OrderPage');
   }
 
   view(product: Product) {
@@ -177,11 +204,9 @@ export class ProductListPage extends BaseCart {
   }
 
   doInfinite(infiniteScroll) {
-    setTimeout(() => {
-      this.page.pageNumber = this.page.pageNumber + 1;
-      this.loadData();
-      infiniteScroll.complete();
-    }, 2000);
+    this.page.pageNumber = this.page.pageNumber + 1;
+    this.loadProducts();
+    infiniteScroll.complete();
   }
 
   showMore(event: Event) {
@@ -200,6 +225,44 @@ export class ProductListPage extends BaseCart {
     });
 
     moreMenuPage.present({ ev: event });
+  }
+
+  addItem(product: Product): void {
+    this.loading.present();
+    this.cartProvider.addItem(product).subscribe(order => {
+      this.totalItem = this.cartProvider.countItem(order);
+      this.stopLoading();
+    })
+  }
+
+  removeItem(product: Product): void {
+    this.loading.present();
+    this.cartProvider.removeItem(product).subscribe(order => {
+      this.totalItem = this.cartProvider.countItem(order);
+      this.stopLoading();
+    })
+  }
+
+  isSelected(product: Product): boolean{
+    for(let i=0; i<this.order.items.length; i++){
+      if(this.order.items[i].product.id === product.id){
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  viewOrder() {
+    this.commonProvider.goToPage('OrderPage', {});
+  }
+
+  refresh() {
+    this.commonProvider.goToPage('ProductListPage', {});
+  }
+
+  private stopLoading() {
+    this.loading.dismiss();
   }
 
 }

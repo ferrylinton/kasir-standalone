@@ -12,8 +12,6 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
-
 .big-label {
     font-size: 1.8rem;
     font-weight: normal;
@@ -30,49 +28,40 @@
     text-align: center;
 }
 
-.box{
+.box {
     border: solid 1px color($colors, light);
     margin: 10px;
     padding: 10px;
-
-    .title{
+    .title {
         font-weight: bold;
         font-size: 18px;
     }
-
-    .list-md, .list-ios, .list-wp{
+    .list-md,
+    .list-ios,
+    .list-wp {
         margin: 0;
         background: none;
     }
-
-    .item-md, .item-ios, .item-wp{
+    .item-md,
+    .item-ios,
+    .item-wp {
         margin: 0;
         padding: 0 0 0 10px;
         background: none;
     }
 }
 
-.primary{
+.primary {
     color: color($colors, primary);
 }
 
-.dark{
+.dark {
     color: color($colors, dark);
 }
 
-.bold{
+.bold {
     font-weight: bold;
 }
-
-
-
-
-
-
-
-
-
-
 
 .searchbar-ios-cancel {
     margin-right: 0px !important;
@@ -115,23 +104,18 @@
         position: relative;
         text-align: center;
         padding: 5px 5px 10px 5px;
-
-        img {
-            border: solid 1px color($colors, light);
-            padding: 10px;
-            background-color: color($colors, lighter);
-        }
+    }
+    img {
+        border: solid 1px color($colors, light);
+        padding: 10px;
+        background-color: color($colors, lighter);
     }
     
 }
 
+.data-list {
 
-
-
-
-
-
-
+}
 
 .list-number {
     width: 40px;

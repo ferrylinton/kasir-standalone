@@ -47,6 +47,8 @@
       <ion-item>
         <ion-label>{{ 'LABEL.CURRENCY_SYMBOL' | translate }}</ion-label>
         <ion-select [(ngModel)]="setting.CurrencySymbol" name="CurrencySymbol" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+          <ion-option value="0.0">0.0</ion-option>
+          <ion-option value="0.1">0.1</ion-option>
           <ion-option value="0.2">0.2</ion-option>
           <ion-option value="0.3">0.3</ion-option>
           <ion-option value="0.4">0.4</ion-option>

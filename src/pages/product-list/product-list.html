@@ -9,11 +9,14 @@
     <ion-buttons end>
       <button *ngIf="!showSearch" ion-button icon-only (click)="viewOrder()">
         <ion-icon name="cart"></ion-icon>
-        {{ totalItems }}
+        {{ totalItem }}
       </button>
       <button *ngIf="!showSearch" ion-button icon-only (click)="toggleSearch()">
         <ion-icon name="search"></ion-icon>
       </button>
+      <button *ngIf="!showSearch" ion-button icon-only (click)="refresh()">
+          <ion-icon name="refresh"></ion-icon>
+        </button>
       <button *ngIf="!showSearch" ion-button icon-only (click)="showMore($event)">
         <ion-icon name="more"></ion-icon>
       </button>
@@ -21,7 +24,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="page">
   <ion-row class="categories" *ngIf="keyword == ''">
     <ion-col class="col-with-arrow" (click)="slidePrev()" no-padding col-1>
       <ion-icon *ngIf="showLeftButton" name="arrow-round-back"></ion-icon>
@@ -45,10 +48,10 @@
           <p>{{product.name}}</p>
           <p>{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</p>
           <div text-center>
-            <button color="light" small ion-button icon-only (click)="removeItem(product)">
+            <button [color]="isSelected(product) ? 'danger' : 'light'" small ion-button icon-only (click)="removeItem(product)">
               <ion-icon name="remove"></ion-icon>
             </button>
-            <button color="light" small ion-button icon-only (click)="addItem(product)">
+            <button [color]="isSelected(product) ? 'secondary' : 'light'" small ion-button icon-only (click)="addItem(product)">
               <ion-icon name="add"></ion-icon>
             </button>
           </div>
@@ -57,14 +60,14 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid *ngIf="!showGrid">
+  <ion-grid class="data-list" *ngIf="!showGrid">
     <ion-row>
       <ion-item col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 *ngFor="let product of page.data; let i = index">
         <ion-thumbnail item-start>
-          <img src="{{product.image}}">
+          <img src="{{product.image}}"/>
         </ion-thumbnail>
         <h2>{{product.name}}</h2>
-        <ion-badge color="dark">{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</ion-badge>
+        <h2>{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</h2>
         <p>{{product.description}}</p>
         <ion-buttons item-end>
           <button color="light" small ion-button icon-only (click)="removeItem(product)">
