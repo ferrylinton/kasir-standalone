@@ -110,11 +110,17 @@
         padding: 10px;
         background-color: color($colors, lighter);
     }
-    
+    .selected {
+        border: solid 1px #b8f7ac;
+        background-color: #d2f8cb;
+    }
 }
 
 .data-list {
-
+    .selected {
+        border: solid 1px #b8f7ac;
+        background-color: #d2f8cb;
+    }
 }
 
 .list-number {

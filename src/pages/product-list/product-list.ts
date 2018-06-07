@@ -228,18 +228,16 @@ export class ProductListPage {
   }
 
   addItem(product: Product): void {
-    this.loading.present();
     this.cartProvider.addItem(product).subscribe(order => {
+      this.order = order;
       this.totalItem = this.cartProvider.countItem(order);
-      this.stopLoading();
     })
   }
 
   removeItem(product: Product): void {
-    this.loading.present();
     this.cartProvider.removeItem(product).subscribe(order => {
+      this.order = order;
       this.totalItem = this.cartProvider.countItem(order);
-      this.stopLoading();
     })
   }
 
@@ -251,6 +249,16 @@ export class ProductListPage {
     }
 
     return false;
+  }
+
+  getQuantity(product: Product): number{
+    for(let i=0; i<this.order.items.length; i++){
+      if(this.order.items[i].product.id === product.id){
+        return this.order.items[i].quantity;
+      }
+    }
+
+    return 0;
   }
 
   viewOrder() {
