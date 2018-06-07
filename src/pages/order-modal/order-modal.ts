@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { CartProvider } from '../../providers/cart/cart';
 
 import { Order } from '../../models/order.model';
 import { SettingProvider } from '../../providers/setting/setting';
-import { DEFAULT_CURRENCY, DEFAULT_DATETIME_FORMAT, DEFAULT_LANGUAGE, DEFAULT_CURRENCY_SYMBOL } from '../../constant/setting';
-import { TranslateService } from '@ngx-translate/core';
-
+import * as Setting from '../../constant/setting';
 
 
 @IonicPage()
@@ -17,11 +16,13 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class OrderModalPage {
 
-  currency: string = DEFAULT_CURRENCY + '. ';
+  lang: string = Setting.DEFAULT_LANGUAGE;
 
-  currencySymbol: string = DEFAULT_CURRENCY_SYMBOL;
+  currency: string = Setting.DEFAULT_CURRENCY + ' ';
 
-  datetimeFormat: string = DEFAULT_DATETIME_FORMAT;
+  symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
+
+  datetimeFormat: string = Setting.DEFAULT_DATETIME_FORMAT;
 
   order: Order;
 
@@ -43,16 +44,11 @@ export class OrderModalPage {
   }
 
   private initSystem(): void {
-    this.settingProvider.getCurrency().subscribe(currency => {
-      this.currency = currency + '. ';
-    });
-
-    this.settingProvider.getDateFormat().subscribe(datetimeFormat => {
-      this.datetimeFormat = datetimeFormat;
-    });
-
-    this.settingProvider.getCurrencySymbol().subscribe(currencySymbol => {
-      this.currencySymbol = currencySymbol;
+    this.settingProvider.getSetting().subscribe(setting => {
+      this.lang = setting[Setting.LANGUAGE];
+      this.currency = setting[Setting.CURRENCY] + ' ';
+      this.symbol = setting[Setting.CURRENCY_SYMBOL];
+      this.datetimeFormat = setting[Setting.DATETIME_FORMAT];
     });
   }
 

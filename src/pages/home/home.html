@@ -19,7 +19,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
-        <ion-card *ngFor="let category of categories;let i=index">
+        <ion-card *ngFor="let category of categories">
           <button ion-item (click)="viewProduct(i)">
             <ion-thumbnail item-start>
               <img src="{{category.image}}">
@@ -38,7 +38,7 @@
             <button ion-item *ngFor="let order of orders" (click)="showOrder(order)">
               <p>
                 <span class="bold primary">{{ order.createdBy }}</span> -
-                <span class="bold dark">{{ order.createdDate | moment:'ago':'id' | lowercase}}</span>
+                <span class="bold dark">{{ order.createdDate | moment:'ago':lang | lowercase}}</span>
               </p>
               <p text-wrap>{{ getProducts(order) | shorten:100 }}</p>
             </button>

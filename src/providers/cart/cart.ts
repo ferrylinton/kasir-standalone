@@ -9,6 +9,7 @@ import { UtilProvider } from '../../providers/util/util';
 import { Order } from "../../models/order.model";
 import { Item } from "../../models/item.model";
 import { Product } from "../../models/product.model";
+import { OrderProvider } from '../order/order';
 
 
 @Injectable()
@@ -16,11 +17,21 @@ export class CartProvider {
 
   constructor(
     public storage: Storage,
-    public util: UtilProvider
+    public util: UtilProvider,
+    public orderProvider: OrderProvider
   ) {
   }
 
   setOrder(order: Order): void {
+    this.storage.get(ORDER).then(data => {
+      if (data) {
+        let currentOrder: Order = JSON.parse(data);
+        if(!currentOrder.isPaid){
+          this.orderProvider.save(currentOrder);
+        }
+      }
+    });
+
     this.storage.set(ORDER, JSON.stringify(order));
   }
 
@@ -29,7 +40,7 @@ export class CartProvider {
       if (order) {
         return JSON.parse(order);
       } else {
-        order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>());
+        order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), false);
         this.storage.set(ORDER, JSON.stringify(order));
         return order;
       }

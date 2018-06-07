@@ -42,13 +42,13 @@
         <img src="{{item.product.image}}">
       </ion-avatar>
       <h2>{{item.product.name}}</h2>
-      <p>{{item.quantity}} x {{item.product.price | currency:currency:symbol:currencySymbol:translateService.currentLang}}</p>
+      <p>{{item.quantity}} x {{item.product.price | currency:currency:symbol:symbol:lang}}</p>
     </ion-item>
     <ion-item no-lines>
       <span item-end>{{ 'LABEL.TOTAL_ITEM' | translate }} : {{totalItem}}</span>
     </ion-item>
     <ion-item no-lines class="bold">
-      <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:currencySymbol:translateService.currentLang}}</span>
+      <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:symbol:lang}}</span>
     </ion-item>
   </ion-list>
 </ion-content>

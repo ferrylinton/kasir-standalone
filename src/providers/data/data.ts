@@ -193,7 +193,7 @@ export class DataProvider {
     for(let i=1; i<=100; i++){
       let remainder = i%3;
       let createdDate = moment().subtract(this.util.randomNumber(2, 360), 'minutes').toDate();
-      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), this.users[remainder].username, createdDate);
+      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), true, this.users[remainder].username, createdDate);
 
       let size = this.util.randomNumber(2, 20);
       for(let j=1; j<=size; j++){

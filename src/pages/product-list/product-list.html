@@ -46,7 +46,7 @@
         <ion-card [class.selected]="isSelected(product)">
           <img src="{{product.image}}" />
           <p>{{product.name}}</p>
-          <p>{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</p>
+          <p>{{product.price | currency:currency:symbol:symbol:lang}}</p>
           <div text-center>
             <button [color]="isSelected(product) ? 'danger' : 'light'" small ion-button icon-only (click)="removeItem(product)">
               <ion-icon name="remove"></ion-icon>
@@ -65,18 +65,21 @@
 
   <ion-grid class="data-list" *ngIf="!showGrid">
     <ion-row>
-      <ion-item col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 *ngFor="let product of page.data">
+      <ion-item [class.selected]="isSelected(product)" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 *ngFor="let product of page.data">
         <ion-thumbnail item-start>
           <img src="{{product.image}}" />
         </ion-thumbnail>
         <h2>{{product.name}}</h2>
-        <h2>{{product.price | currency:'Rp.':symbol:'0.2':'id'}}</h2>
+        <h2>{{product.price | currency:currency:symbol:symbol:lang}}</h2>
         <p>{{product.description}}</p>
         <ion-buttons item-end>
-          <button color="light" small ion-button icon-only (click)="removeItem(product)">
+          <button [color]="isSelected(product) ? 'danger' : 'light'" small ion-button icon-only (click)="removeItem(product)">
             <ion-icon name="remove"></ion-icon>
           </button>
-          <button color="light" small ion-button icon-only (click)="addItem(product)">
+          <button color="dark" small ion-button icon-only clear *ngIf="isSelected(product)">
+            <ion-icon name="cart">{{ getQuantity(product) }}</ion-icon>
+          </button>
+          <button [color]="isSelected(product) ? 'secondary' : 'light'" small ion-button icon-only (click)="addItem(product)">
             <ion-icon name="add"></ion-icon>
           </button>
         </ion-buttons>

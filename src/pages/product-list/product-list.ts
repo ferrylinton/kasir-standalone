@@ -13,7 +13,8 @@ import { MoreMenu } from '../../models/more-menu.model';
 import { CartProvider } from '../../providers/cart/cart';
 import { CommonProvider } from '../../providers/common/common';
 import { Order } from '../../models/order.model';
-
+import { SettingProvider } from '../../providers/setting/setting';
+import * as Setting from '../../constant/setting';
 
 @IonicPage()
 @Component({
@@ -43,6 +44,12 @@ export class ProductListPage {
   private loadingTxt: string = 'Please wait...';
 
   private loading: Loading;
+
+  lang: string = Setting.DEFAULT_LANGUAGE;
+
+  currency: string = Setting.DEFAULT_CURRENCY + ' ';
+
+  symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
 
   order: Order;
 
@@ -75,12 +82,14 @@ export class ProductListPage {
     public loadingCtrl: LoadingController,
     public cartProvider: CartProvider,
     public commonProvider: CommonProvider,
+    public settingProvider: SettingProvider,
     public popoverCtrl: PopoverController,
     public translate: TranslateService,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
     this.initLanguage();
+    this.initSetting();
     this.initPage();
     this.initIndex();
   }
@@ -98,7 +107,7 @@ export class ProductListPage {
         this.setCategories(results[0]);
         this.totalItem = results[1];
         this.order = results[2];
-        
+
         this.page.pageNumber = results[3].pageNumber;
         this.page.totalData = results[3].totalData;
         this.page.data = [...this.page.data, ...results[3].data];
@@ -117,11 +126,12 @@ export class ProductListPage {
     });
   }
 
-  private startLoading(): void {
-    this.loading = this.loadingCtrl.create({
-      content: this.loadingTxt
+  private initSetting(): void {
+    this.settingProvider.getSetting().subscribe(setting => {
+      this.lang = setting[Setting.LANGUAGE];
+      this.currency = setting[Setting.CURRENCY] + ' ';
+      this.symbol = setting[Setting.CURRENCY_SYMBOL];
     });
-    this.loading.present();
   }
 
   private initPage(): void {
@@ -130,7 +140,7 @@ export class ProductListPage {
     this.page.sort.isAsc = true;
   }
 
-  private initIndex(){
+  private initIndex() {
     if (this.navParams.get('index')) {
       this.index = this.navParams.get('index');
     } else {
@@ -146,7 +156,6 @@ export class ProductListPage {
   }
 
   private loadProducts() {
-    this.startLoading();
     this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
@@ -155,7 +164,16 @@ export class ProductListPage {
     })
   }
 
+  private startLoading(): void {
+    this.loading = this.loadingCtrl.create({
+      content: this.loadingTxt
+    });
+
+    this.loading.present();
+  }
+
   public slideChanged(): void {
+    this.startLoading();
     let index = this.slides.getActiveIndex();
     this.showLeftButton = index !== 0;
     this.showRightButton = index !== this.categories.length - 1;
@@ -216,7 +234,6 @@ export class ProductListPage {
 
     let moreMenuPage = this.popoverCtrl.create(MoreMenuPage, { menus: menus });
     moreMenuPage.onDidDismiss(val => {
-      console.log(val);
       if (val === 'grid') {
         this.showGrid = true;
       } else if (val === 'list') {
@@ -241,9 +258,9 @@ export class ProductListPage {
     })
   }
 
-  isSelected(product: Product): boolean{
-    for(let i=0; i<this.order.items.length; i++){
-      if(this.order.items[i].product.id === product.id){
+  isSelected(product: Product): boolean {
+    for (let i = 0; i < this.order.items.length; i++) {
+      if (this.order.items[i].product.id === product.id) {
         return true;
       }
     }
@@ -251,9 +268,9 @@ export class ProductListPage {
     return false;
   }
 
-  getQuantity(product: Product): number{
-    for(let i=0; i<this.order.items.length; i++){
-      if(this.order.items[i].product.id === product.id){
+  getQuantity(product: Product): number {
+    for (let i = 0; i < this.order.items.length; i++) {
+      if (this.order.items[i].product.id === product.id) {
         return this.order.items[i].quantity;
       }
     }
