@@ -26,7 +26,7 @@ export class CartProvider {
     this.storage.get(ORDER).then(data => {
       if (data) {
         let currentOrder: Order = JSON.parse(data);
-        if(!currentOrder.isPaid){
+        if (!currentOrder.isPaid) {
           this.orderProvider.save(currentOrder);
         }
       }
@@ -40,11 +40,15 @@ export class CartProvider {
       if (order) {
         return JSON.parse(order);
       } else {
-        order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), false);
-        this.storage.set(ORDER, JSON.stringify(order));
-        return order;
+        return this.createOrder();
       }
     }));
+  }
+
+  createOrder(): Order {
+    let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), false);
+    this.storage.set(ORDER, JSON.stringify(order));
+    return order;
   }
 
   getTotalItem(): Observable<number> {

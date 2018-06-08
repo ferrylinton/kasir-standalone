@@ -7,6 +7,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import * as Setting from '../../constant/setting';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
 import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
@@ -21,6 +22,8 @@ import { Page } from '../../models/page.model';
 export class OrderPage {
 
   private loadingTxt: string = 'Please wait...';
+
+  private orderTxt: string = 'Order';
 
   lang: string = Setting.DEFAULT_LANGUAGE;
 
@@ -44,6 +47,7 @@ export class OrderPage {
     public navParams: NavParams,
     public translateService: TranslateService,
     public loadingCtrl: LoadingController,
+    public messageProvider: MessageProvider,
     public settingProvider: SettingProvider,
     public commonProvider: CommonProvider,
     public orderProvider: OrderProvider,
@@ -75,8 +79,9 @@ export class OrderPage {
   }
 
   private initLanguage() {
-    this.translateService.get('MESSAGE.LOADING').subscribe(val => {
-      this.loadingTxt = val;
+    this.translateService.get(['MESSAGE.LOADING', 'LABEL.ORDER']).subscribe(val => {
+      this.loadingTxt = val['MESSAGE.LOADING'];
+      this.orderTxt = val['LABEL.ORDER'];
     });
   }
 
@@ -131,6 +136,10 @@ export class OrderPage {
     this.commonProvider.goToPage('OrderPage', {});
   }
 
+  productList() {
+    this.commonProvider.goToPage('ProductListPage', {});
+  }
+
   getProducts(order: Order): string {
     return this.commonProvider.getProductFromOrder(order);
   }
@@ -147,6 +156,60 @@ export class OrderPage {
       this.page.pageNumber = this.page.pageNumber + 1
       this.loadOrderHistory();
     }
+  }
+
+  pay() {
+    const orderModal = this.modalCtrl.create('PaymentPage', { order: this.order });
+    orderModal.onDidDismiss(order => {
+      if (order) {
+        this.save();
+      } else {
+        console.log('cancel payment...');
+      }
+    });
+    orderModal.present();
+  }
+
+  create() {
+    this.cartProvider.createOrder();
+  }
+
+  private save(): void {
+    console.log('save...');
+    if (this.order.isPaid) {
+      console.log('update payment...');
+      this.commonProvider.getLoggedUser().subscribe(user => {
+        this.order.lastModifiedBy = user.username;
+        this.order.lastModifiedDate = new Date();
+        this.orderProvider.update(this.order);
+        this.order = this.cartProvider.createOrder();
+      });
+    } else {
+      console.log('save payment...');
+      this.commonProvider.getLoggedUser().subscribe(user => {
+        this.order.createdBy = user.username;
+        this.order.createdDate = new Date();
+
+        console.log(this.order.createdDate);
+        console.log(this.order.items.length);
+        this.orderProvider.save(this.order).subscribe(order => {
+          console.log(order.createdDate);
+          console.log(order.items.length);
+          
+        });
+        this.order = this.cartProvider.createOrder();
+      });
+    }
+    this.commonProvider.goToPage('OrderPage', {});
+  }
+
+  deleteCallback(): void {
+    this.cartProvider.createOrder();
+    this.commonProvider.goToPage('OrderPage', {});
+  }
+
+  delete() {
+    this.messageProvider.showDeleteConfirm(this.orderTxt, (category) => this.deleteCallback());
   }
 
 }

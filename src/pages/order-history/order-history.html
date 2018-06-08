@@ -4,28 +4,41 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{ 'LABEL.ORDER_HISTORY' | translate }}</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="add()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let order of page.data; let i = index" ion-item (click)="view(order)">
-      <span class="list-number" item-start>{{page.getStartRow() + i}}.</span>
-      {{order.transactionNumber}}
+  <ion-list *ngIf="page; else nodata">
+    <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
+      <p>
+        <span class="bold dark">{{ order.createdDate | moment:'ago':lang | lowercase}}</span>
+        -
+        <span class="bold primary">{{ order.createdBy }}</span>
+      </p>
+      <p>
+        <span class="bold dark">{{ order.transactionNumber }}</span>
+        - 
+        <span>{{ order.id }}</span>
+      </p>
+      <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
+    </button>
+    <ion-item>
+      <ion-buttons>
+        <button ion-button small outline [disabled]="page.isFirst()" (click)="previous()">
+          {{ 'BUTTON.PREVIOUS' | translate }}
+        </button>
+      </ion-buttons>
+      <ion-buttons item-end>
+        <button ion-button small outline [disabled]="page.isLast()" (click)="next()">
+          {{ 'BUTTON.NEXT' | translate }}
+        </button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 
-  <button class="prev-icon" ion-button icon-start round outline [disabled]="page.isFirst()" (click)="previous()">
-    <ion-icon name="ios-arrow-round-back"></ion-icon>
-    {{ 'BUTTON.PREVIOUS' | translate }}
-  </button>
-  <button ion-button icon-end round outline float-right [disabled]="page.isLast()" (click)="next()">
-    {{ 'BUTTON.NEXT' | translate }}
-    <ion-icon name="ios-arrow-round-forward"></ion-icon>
-  </button>
 </ion-content>
+<ng-template #nodata>
+  <ion-item>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-item>
+</ng-template>
