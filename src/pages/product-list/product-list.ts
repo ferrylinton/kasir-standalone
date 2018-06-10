@@ -3,19 +3,20 @@ import { IonicPage, NavController, Slides, PopoverController, NavParams, Loading
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
+import * as Setting from '../../constant/setting';
+import { CategoryProvider } from '../../providers/category/category';
 import { ProductProvider } from '../../providers/product/product';
+import { CartProvider } from '../../providers/cart/cart';
+import { CommonProvider } from '../../providers/common/common';
+import { SettingProvider } from '../../providers/setting/setting';
+import { MoreMenuPage } from '../more-menu/more-menu';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
-import { CategoryProvider } from '../../providers/category/category';
-import { MoreMenuPage } from '../more-menu/more-menu';
 import { MoreMenu } from '../../models/more-menu.model';
-import { CartProvider } from '../../providers/cart/cart';
-import { CommonProvider } from '../../providers/common/common';
-import { Order } from '../../models/order.model';
-import { SettingProvider } from '../../providers/setting/setting';
-import * as Setting from '../../constant/setting';
 import { Cart } from '../../models/cart.model';
+
+
 
 @IonicPage()
 @Component({
@@ -88,7 +89,6 @@ export class ProductListPage {
     this.initLanguage();
     this.initSetting();
     this.initPage();
-    this.initIndex();
   }
 
   private initLanguage(): void {
@@ -110,32 +110,6 @@ export class ProductListPage {
     });
   }
 
-  ionViewWillEnter() {
-    this.startLoading();
-    forkJoin([
-      this.categoryProvider.findAll(),
-      this.cartProvider.getCart(),
-      this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page)]).subscribe(results => {
-
-        this.setCategories(results[0]);
-        this.cart = results[1];
-        this.page.pageNumber = results[2].pageNumber;
-        this.page.totalData = results[2].totalData;
-        this.page.data = results[2].data;
-        this.stopLoading();
-      });
-  }
-
-  ionViewDidEnter() {
-
-    setTimeout(() => {
-      this.slides.slideTo(this.index, 0, false);
-      this.showLeftButton = this.index !== 0;
-      this.showRightButton = this.index !== this.categories.length - 1;
-    }, 100);
-
-  }
-
   private initPage(): void {
     this.page = new Page();
     this.page.sort.column = 'name';
@@ -143,31 +117,29 @@ export class ProductListPage {
   }
 
   private initIndex() {
-    if (this.navParams.get('index')) {
-      this.index = this.navParams.get('index');
-      this.category = this.navParams.get('category');
-    } else {
-      this.index = 0;
-      this.category = '';
-    }
+    this.index = this.navParams.get('index') ? this.navParams.get('index') : 0;
+    this.setSlideProperties();
   }
 
-  private setCategories(categories: Array<Category>): void {
-    categories.unshift(new Category(this.category, this.allCategoriesTxt));
-    this.categories = categories;
-    this.showLeftButton = false;
-    this.showRightButton = this.categories.length > 1;
-  }
-
-  private loadProducts() {
+  ionViewWillEnter() {
     this.startLoading();
-    this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = [...this.page.data, ...page.data];
-      this.stopLoading();
-    })
+    forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
+      this.categories = results[0];
+      this.categories.unshift(new Category(this.category, this.allCategoriesTxt));
+      this.cart = results[1];
+      this.initIndex();
+      this.loadProducts();
+    });
   }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.slides.slideTo(this.index, 0, false);
+      this.setSlideProperties();
+    }, 100);
+  }
+
+  // Loading
 
   private startLoading(): void {
     this.loading = this.loadingCtrl.create({
@@ -177,22 +149,35 @@ export class ProductListPage {
     this.loading.present();
   }
 
-  public slideChanged(): void {
-    let index = this.slides.getActiveIndex();
-    this.showLeftButton = index !== 0;
-    this.showRightButton = index !== this.categories.length - 1;
-    this.category = index === 0 ? '' : this.categories[index].name;
+  private stopLoading() {
+    this.loading.dismiss();
+  }
+
+  // Slides
+
+  slideChanged(): void {
+    this.startLoading();
+    this.index = this.slides.getActiveIndex();
+    this.setSlideProperties();
     this.initPage();
     this.loadProducts();
   }
 
-  public slideNext(): void {
+  slideNext(): void {
     this.slides.slideNext();
   }
 
-  public slidePrev(): void {
+  slidePrev(): void {
     this.slides.slidePrev();
   }
+
+  private setSlideProperties() {
+    this.showLeftButton = this.index !== 0;
+    this.showRightButton = this.index !== this.categories.length - 1;
+    this.category = this.index === 0 ? '' : this.categories[this.index].name;
+  }
+
+  // Search
 
   toggleSearch() {
     this.showSearch = this.showSearch ? false : true;
@@ -204,19 +189,41 @@ export class ProductListPage {
   }
 
   clearSearch() {
-    this.keyword = '';
     this.showSearch = false;
-    this.initPage();
-    this.loadProducts();
+    this.search('');
   }
 
   triggerSearch(ev: any) {
     let val = ev.target.value;
     if (val && val.trim() != '') {
-      this.keyword = val;
-      this.initPage();
-      this.loadProducts();
+      this.search(val);
     }
+  }
+
+  private search(keyword: string){
+    this.category = '';
+    this.keyword = keyword;
+    this.initPage();
+    this.initIndex();
+    this.loadProducts()
+  }
+
+  // Infinite Scroll
+
+  doInfinite(infiniteScroll) {
+    this.page.pageNumber = this.page.pageNumber + 1;
+    this.loadProducts();
+    infiniteScroll.complete();
+  }
+
+  // Page
+
+  viewOrder() {
+    this.commonProvider.goToPage('OrderPage', {});
+  }
+
+  refresh() {
+    this.commonProvider.goToPage('ProductListPage', {});
   }
 
   view(product: Product) {
@@ -225,11 +232,7 @@ export class ProductListPage {
     });
   }
 
-  doInfinite(infiniteScroll) {
-    this.page.pageNumber = this.page.pageNumber + 1;
-    this.loadProducts();
-    infiniteScroll.complete();
-  }
+  // More Menu
 
   showMore(event: Event) {
     let menus = new Array<MoreMenu>();
@@ -246,6 +249,17 @@ export class ProductListPage {
     });
 
     moreMenuPage.present({ ev: event });
+  }
+
+  // Product
+
+  private loadProducts() {
+    this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page).subscribe(page => {
+      this.page.pageNumber = page.pageNumber;
+      this.page.totalData = page.totalData;
+      this.page.data = [...this.page.data, ...page.data];
+      this.stopLoading();
+    })
   }
 
   addItem(product: Product): void {
@@ -282,18 +296,6 @@ export class ProductListPage {
     }
 
     return 0;
-  }
-
-  viewOrder() {
-    this.commonProvider.goToPage('OrderPage', {});
-  }
-
-  refresh() {
-    this.commonProvider.goToPage('ProductListPage', {});
-  }
-
-  private stopLoading() {
-    this.loading.dismiss();
   }
 
 }
