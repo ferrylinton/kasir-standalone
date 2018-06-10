@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, Slides, PopoverController, NavParams, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, Slides, PopoverController, NavParams, LoadingController, Loading, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -75,7 +75,7 @@ export class ProductListPage {
 
 
   constructor(
-    public navCtrl: NavController,
+    public modalCtrl: ModalController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     public cartProvider: CartProvider,
@@ -227,9 +227,8 @@ export class ProductListPage {
   }
 
   view(product: Product) {
-    this.navCtrl.push('ProductDetailPage', {
-      product: product
-    });
+    const productModal = this.modalCtrl.create('ProductModalPage', { product: product });
+    productModal.present();
   }
 
   // More Menu

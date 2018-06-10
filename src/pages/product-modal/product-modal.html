@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      {{ 'LABEL.PRODUCT_DETAIL' | translate }}
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="viewCtrl.dismiss()">
+        <span ion-text showWhen="ios">{{ 'BUTTON.CANCEL' | translate }}</span>
+        <ion-icon name="close" showWhen="core,android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding *ngIf="product; else nodata">
+  <div class="detail-image" [style.background-image]="'url(' + product.image + ')'"></div>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'LABEL.ID' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ product.id }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'LABEL.NAME' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ product.name }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'LABEL.DESCRIPTION' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ product.description }}</ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-content>
+</ng-template>
