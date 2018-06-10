@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { of } from 'rxjs/observable/of';
 import { v4 as uuid } from 'uuid';
 
 import { ORDER } from "../../constant/constant";
 import { UtilProvider } from '../../providers/util/util';
+import { OrderProvider } from '../order/order';
 import { Order } from "../../models/order.model";
 import { Item } from "../../models/item.model";
 import { Product } from "../../models/product.model";
-import { OrderProvider } from '../order/order';
+import { Cart } from '../../models/cart.model';
 
 
 @Injectable()
@@ -17,55 +19,41 @@ export class CartProvider {
 
   constructor(
     public storage: Storage,
-    public util: UtilProvider,
+    public utilProvider: UtilProvider,
     public orderProvider: OrderProvider
   ) {
   }
 
-  setOrder(order: Order): void {
-    this.storage.get(ORDER).then(data => {
-      if (data) {
-        let currentOrder: Order = JSON.parse(data);
-        if (!currentOrder.isPaid) {
-          this.orderProvider.save(currentOrder);
-        }
-      }
-    });
-
-    this.storage.set(ORDER, JSON.stringify(order));
+  setCart(order: Order): Observable<Cart> {
+    if (this.countItem(order) == 0) {
+      return fromPromise(this.storage.set(ORDER, order).then(order => {
+        return this.createCart(JSON.parse(order));
+      }));
+    } else {
+      return of(this.createCart(order));
+    }
   }
 
-  getOrder(): Observable<Order> {
-    return fromPromise(this.storage.get(ORDER).then((order) => {
-      if (order) {
-        return JSON.parse(order);
-      } else {
-        return this.createOrder();
-      }
-    }));
+  getCart(order?: Order): Observable<Cart> {
+    if(order){
+      return of(this.createCart(order));
+    }else{
+      return fromPromise(this.storage.get(ORDER).then((order) => {
+        return this.createCart(JSON.parse(order));
+      }));
+    }
+    
   }
 
-  createOrder(): Order {
-    let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), false);
-    this.storage.set(ORDER, JSON.stringify(order));
-    return order;
-  }
-
-  getTotalItem(): Observable<number> {
-    return fromPromise(this.storage.get(ORDER).then((val) => {
-      return (val == null) ? 0 : this.countItem(JSON.parse(val));
-    }));
-  }
-
-  getTotalPrice(): Observable<number> {
-    return fromPromise(this.storage.get(ORDER).then((val) => {
-      return (val == null) ? 0 : this.countPrice(JSON.parse(val));
+  createOrder(): Observable<Order> {
+    return fromPromise(this.storage.set(ORDER, JSON.stringify(new Order(uuid(), this.utilProvider.transactionNumber(), new Array<Item>(), false))).then(order => {
+      return JSON.parse(order);
     }));
   }
 
   addItem(product: Product): Observable<Order> {
     return fromPromise(this.storage.get(ORDER).then((val) => {
-      let order = (val == null) ? new Order(uuid(), this.util.transactionNumber(), new Array<Item>()) : JSON.parse(val);
+      let order = (val == null) ? new Order(uuid(), this.utilProvider.transactionNumber(), new Array<Item>()) : JSON.parse(val);
       order = this.addProduct(order, product);
       this.storage.set(ORDER, JSON.stringify(order));
       return order;
@@ -74,11 +62,19 @@ export class CartProvider {
 
   removeItem(product: Product): Observable<Order> {
     return fromPromise(this.storage.get(ORDER).then((val) => {
-      let order = (val == null) ? new Order(uuid(), this.util.transactionNumber(), new Array<Item>()) : JSON.parse(val);
+      let order = (val == null) ? new Order(uuid(), this.utilProvider.transactionNumber(), new Array<Item>()) : JSON.parse(val);
       order = this.removeProduct(order, product);
       this.storage.set(ORDER, JSON.stringify(order));
       return order;
     }));
+  }
+
+  private createCart(order: Order): Cart {
+    let cart: Cart = new Cart();
+    cart.order = order;
+    cart.totalItem = this.countItem(order);
+    cart.totalPrice = this.countPrice(order);
+    return cart;
   }
 
   countItem(order: Order): number {

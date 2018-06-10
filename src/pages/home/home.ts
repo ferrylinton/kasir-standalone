@@ -72,9 +72,9 @@ export class HomePage {
 
   ionViewWillEnter() {
     this.startLoading();
-    forkJoin([this.categoryProvider.findAll(), this.cartProvider.getTotalItem(), this.orderProvider.find(this.page)]).subscribe(results => {
+    forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart(null), this.orderProvider.find(this.page)]).subscribe(results => {
         this.categories = results[0];
-        this.totalItem = results[1];
+        this.totalItem = results[1].totalItem;
         this.orders = results[2].data;
         this.loading.dismiss();
       });
@@ -98,9 +98,9 @@ export class HomePage {
     orderModal.present();
   }
 
-  viewProduct(index: number) {
+  viewProduct(index: number, category: string) {
     index = index + 1;
-    this.commonProvider.goToPage('ProductListPage', { index: index });
+    this.commonProvider.goToPage('ProductListPage', { index: index, category: category });
   }
 
   getProducts(order: Order): string {

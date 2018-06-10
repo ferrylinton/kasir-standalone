@@ -6,10 +6,10 @@
     <ion-title *ngIf="!showSearch">{{ 'LABEL.PRODUCT' | translate }}</ion-title>
     <ion-searchbar #searchbar *ngIf="showSearch" [(ngModel)]="keyword" [showCancelButton]="true" (ionCancel)="toggleSearch()"
       (ionClear)="clearSearch()" (ionInput)="triggerSearch($event)" placeholder="{{ 'LABEL.SEARCH' | translate }}"></ion-searchbar>
-    <ion-buttons end>
+    <ion-buttons *ngIf="cart" end>
       <button *ngIf="!showSearch" ion-button icon-only (click)="viewOrder()">
         <ion-icon name="cart"></ion-icon>
-        {{ totalItem }}
+        {{ cart.totalItem }}
       </button>
       <button *ngIf="!showSearch" ion-button icon-only (click)="toggleSearch()">
         <ion-icon name="search"></ion-icon>

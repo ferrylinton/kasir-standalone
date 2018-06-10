@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="page; else nodata">
+  <ion-list *ngIf="page && page.totalData > 0; else nodata">
     <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
       <p>
         <span class="bold dark">{{ order.createdDate | moment:'ago':lang | lowercase}}</span>

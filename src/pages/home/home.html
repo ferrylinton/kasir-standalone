@@ -19,8 +19,8 @@
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
-        <ion-card *ngFor="let category of categories">
-          <button ion-item (click)="viewProduct(i)">
+        <ion-card *ngFor="let category of categories;let i=index">
+          <button ion-item (click)="viewProduct(i, category.name)">
             <ion-thumbnail item-start>
               <img src="{{category.image}}">
             </ion-thumbnail>

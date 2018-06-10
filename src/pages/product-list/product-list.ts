@@ -15,6 +15,7 @@ import { CommonProvider } from '../../providers/common/common';
 import { Order } from '../../models/order.model';
 import { SettingProvider } from '../../providers/setting/setting';
 import * as Setting from '../../constant/setting';
+import { Cart } from '../../models/cart.model';
 
 @IonicPage()
 @Component({
@@ -51,11 +52,7 @@ export class ProductListPage {
 
   symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
 
-  order: Order;
-
-  totalItem: number = 0;
-
-  totalPrice: number;
+  cart: Cart;
 
   index: number = 0;
 
@@ -94,27 +91,6 @@ export class ProductListPage {
     this.initIndex();
   }
 
-  ionViewWillEnter() {
-    this.slides.slideTo(this.index, this.index);
-    this.startLoading();
-
-    forkJoin([
-      this.categoryProvider.findAll(),
-      this.cartProvider.getTotalItem(),
-      this.cartProvider.getOrder(),
-      this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page)]).subscribe(results => {
-
-        this.setCategories(results[0]);
-        this.totalItem = results[1];
-        this.order = results[2];
-
-        this.page.pageNumber = results[3].pageNumber;
-        this.page.totalData = results[3].totalData;
-        this.page.data = [...this.page.data, ...results[3].data];
-        this.stopLoading();
-      });
-  }
-
   private initLanguage(): void {
     this.translate.get([this.LABEL_GRID, this.LABEL_LIST,
     this.LABEL_ALL_CATEGORIES, this.MESSAGE_LOADING]).subscribe(values => {
@@ -134,6 +110,32 @@ export class ProductListPage {
     });
   }
 
+  ionViewWillEnter() {
+    this.startLoading();
+    forkJoin([
+      this.categoryProvider.findAll(),
+      this.cartProvider.getCart(),
+      this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page)]).subscribe(results => {
+
+        this.setCategories(results[0]);
+        this.cart = results[1];
+        this.page.pageNumber = results[2].pageNumber;
+        this.page.totalData = results[2].totalData;
+        this.page.data = results[2].data;
+        this.stopLoading();
+      });
+  }
+
+  ionViewDidEnter() {
+
+    setTimeout(() => {
+      this.slides.slideTo(this.index, 0, false);
+      this.showLeftButton = this.index !== 0;
+      this.showRightButton = this.index !== this.categories.length - 1;
+    }, 100);
+
+  }
+
   private initPage(): void {
     this.page = new Page();
     this.page.sort.column = 'name';
@@ -143,8 +145,10 @@ export class ProductListPage {
   private initIndex() {
     if (this.navParams.get('index')) {
       this.index = this.navParams.get('index');
+      this.category = this.navParams.get('category');
     } else {
       this.index = 0;
+      this.category = '';
     }
   }
 
@@ -156,6 +160,7 @@ export class ProductListPage {
   }
 
   private loadProducts() {
+    this.startLoading();
     this.productProvider.findByCategoryAndName(this.category, this.keyword, this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
@@ -173,7 +178,6 @@ export class ProductListPage {
   }
 
   public slideChanged(): void {
-    this.startLoading();
     let index = this.slides.getActiveIndex();
     this.showLeftButton = index !== 0;
     this.showRightButton = index !== this.categories.length - 1;
@@ -246,21 +250,23 @@ export class ProductListPage {
 
   addItem(product: Product): void {
     this.cartProvider.addItem(product).subscribe(order => {
-      this.order = order;
-      this.totalItem = this.cartProvider.countItem(order);
+      this.cartProvider.getCart(order).subscribe(cart => {
+        this.cart = cart;
+      })
     })
   }
 
   removeItem(product: Product): void {
     this.cartProvider.removeItem(product).subscribe(order => {
-      this.order = order;
-      this.totalItem = this.cartProvider.countItem(order);
+      this.cartProvider.getCart(order).subscribe(cart => {
+        this.cart = cart;
+      })
     })
   }
 
   isSelected(product: Product): boolean {
-    for (let i = 0; i < this.order.items.length; i++) {
-      if (this.order.items[i].product.id === product.id) {
+    for (let i = 0; i < this.cart.order.items.length; i++) {
+      if (this.cart.order.items[i].product.id === product.id) {
         return true;
       }
     }
@@ -269,9 +275,9 @@ export class ProductListPage {
   }
 
   getQuantity(product: Product): number {
-    for (let i = 0; i < this.order.items.length; i++) {
-      if (this.order.items[i].product.id === product.id) {
-        return this.order.items[i].quantity;
+    for (let i = 0; i < this.cart.order.items.length; i++) {
+      if (this.cart.order.items[i].product.id === product.id) {
+        return this.cart.order.items[i].quantity;
       }
     }
 

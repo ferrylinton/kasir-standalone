@@ -12,6 +12,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
+import { Cart } from '../../models/cart.model';
 
 
 @IonicPage()
@@ -33,13 +34,9 @@ export class OrderPage {
 
   loading: Loading;
 
-  order: Order;
-
   page: Page<Order>;
 
-  totalItem: number = 0;
-
-  totalPrice: number = 0;
+  cart: Cart;
 
   constructor(
     public navCtrl: NavController,
@@ -55,34 +52,7 @@ export class OrderPage {
 
     this.initSetting();
     this.initLanguage();
-    this.initOrder();
     this.initPage();
-  }
-
-  ionViewWillEnter() {
-    this.startLoading();
-    forkJoin([
-      this.cartProvider.getTotalItem(),
-      this.cartProvider.getTotalPrice(),
-      this.cartProvider.getOrder(),
-      this.orderProvider.findByDate(new Date(), this.page)])
-      .subscribe(results => {
-
-        this.totalItem = results[0];
-        this.totalPrice = results[1];
-        this.order = results[2];
-        this.page.pageNumber = results[3].pageNumber;
-        this.page.totalData = results[3].totalData;
-        this.page.data = results[3].data;
-        this.loading.dismiss();
-      });
-  }
-
-  private initLanguage() {
-    this.translateService.get(['MESSAGE.LOADING', 'LABEL.ORDER']).subscribe(val => {
-      this.loadingTxt = val['MESSAGE.LOADING'];
-      this.orderTxt = val['LABEL.ORDER'];
-    });
   }
 
   private initSetting(): void {
@@ -93,10 +63,11 @@ export class OrderPage {
     });
   }
 
-  private initOrder(): void {
-    if (this.navParams.get('order')) {
-      this.cartProvider.setOrder(this.navParams.get('order'));
-    }
+  private initLanguage() {
+    this.translateService.get(['MESSAGE.LOADING', 'LABEL.ORDER']).subscribe(val => {
+      this.loadingTxt = val['MESSAGE.LOADING'];
+      this.orderTxt = val['LABEL.ORDER'];
+    });
   }
 
   private initPage(): void {
@@ -104,6 +75,21 @@ export class OrderPage {
     this.page.size = 5;
     this.page.sort.column = 'createdDate';
     this.page.sort.isAsc = false;
+  }
+
+  ionViewWillEnter() {
+    this.loadData(this.navParams.get('order'));
+    this.loadOrderHistory();
+  }
+
+  private loadData(order: Order) {
+    this.startLoading();
+    forkJoin([this.cartProvider.getCart(order), this.orderProvider.findByDate(new Date(), this.page)])
+      .subscribe(results => {
+        this.cart = results[0];
+        this.setPage(results[1]);
+        this.loading.dismiss();
+      });
   }
 
   private loadOrderHistory() {
@@ -126,7 +112,9 @@ export class OrderPage {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        this.commonProvider.goToPage('OrderPage', { order: order });
+        this.cartProvider.setCart(order).subscribe(cart => {
+          this.cart = cart;
+        });
       }
     })
     orderModal.present();
@@ -159,12 +147,10 @@ export class OrderPage {
   }
 
   pay() {
-    const orderModal = this.modalCtrl.create('PaymentPage', { order: this.order });
+    const orderModal = this.modalCtrl.create('PaymentPage', { order: this.cart.order });
     orderModal.onDidDismiss(order => {
       if (order) {
         this.save();
-      } else {
-        console.log('cancel payment...');
       }
     });
     orderModal.present();
@@ -175,41 +161,40 @@ export class OrderPage {
   }
 
   private save(): void {
-    console.log('save...');
-    if (this.order.isPaid) {
-      console.log('update payment...');
+    if (this.cart.order.isPaid) {
       this.commonProvider.getLoggedUser().subscribe(user => {
-        this.order.lastModifiedBy = user.username;
-        this.order.lastModifiedDate = new Date();
-        this.orderProvider.update(this.order);
-        this.order = this.cartProvider.createOrder();
+        this.cart.order.lastModifiedBy = user.username;
+        this.cart.order.lastModifiedDate = new Date();
+        this.orderProvider.update(this.cart.order).subscribe(order => {
+          this.loadData(order);
+        });
+
       });
     } else {
-      console.log('save payment...');
       this.commonProvider.getLoggedUser().subscribe(user => {
-        this.order.createdBy = user.username;
-        this.order.createdDate = new Date();
-
-        console.log(this.order.createdDate);
-        console.log(this.order.items.length);
-        this.orderProvider.save(this.order).subscribe(order => {
-          console.log(order.createdDate);
-          console.log(order.items.length);
-          
+        this.cart.order.createdBy = user.username;
+        this.cart.order.createdDate = new Date();
+        this.orderProvider.save(this.cart.order).subscribe(order => {
+          this.loadData(order);
         });
-        this.order = this.cartProvider.createOrder();
       });
     }
-    this.commonProvider.goToPage('OrderPage', {});
   }
 
   deleteCallback(): void {
-    this.cartProvider.createOrder();
-    this.commonProvider.goToPage('OrderPage', {});
+    this.cartProvider.createOrder().subscribe(order => {
+      this.loadData(order);
+    });
   }
 
   delete() {
     this.messageProvider.showDeleteConfirm(this.orderTxt, (category) => this.deleteCallback());
+  }
+
+  private setPage(page: Page<Order>): void {
+    this.page.pageNumber = page.pageNumber;
+    this.page.totalData = page.totalData;
+    this.page.data = page.data;
   }
 
 }

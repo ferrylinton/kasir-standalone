@@ -4,10 +4,10 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{ 'LABEL.ORDER' | translate }}</ion-title>
-    <ion-buttons end>
+    <ion-buttons *ngIf="cart" end>
       <button ion-button icon-only>
         <ion-icon name="cart"></ion-icon>
-        {{ totalItem }}
+        {{ cart.totalItem }}
       </button>
       <button ion-button icon-only (click)="delete()">
         <ion-icon name="trash"></ion-icon>
@@ -25,14 +25,14 @@
     <ion-row>
       <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
         <div class="box">
-          <ion-list *ngIf="order; else nodata">
+          <ion-list *ngIf="cart; else nodata">
             <ion-item>
               <h2 class="title">{{ 'LABEL.ORDER_DETAIL' | translate }}</h2>
             </ion-item>
-            <ion-item *ngIf="totalItem == 0">
+            <ion-item *ngIf="cart.totalItem == 0">
               {{ 'MESSAGE.NO_ORDER' | translate }}
             </ion-item>
-            <ion-item *ngFor="let item of order.items">
+            <ion-item *ngFor="let item of cart.order.items">
               <ion-thumbnail item-start>
                 <img src="{{item.product.image}}">
               </ion-thumbnail>
@@ -47,10 +47,10 @@
                 </button>
               </ion-buttons>
             </ion-item>
-            <ion-item no-lines *ngIf="totalItem > 0">
-              <span item-end>{{ 'LABEL.TOTAL_ITEM' | translate }} : {{totalItem}}</span>
+            <ion-item no-lines *ngIf="cart.totalItem > 0">
+              <span item-end>{{ 'LABEL.TOTAL_ITEM' | translate }} : {{cart.totalItem}}</span>
             </ion-item>
-            <ion-item no-lines class="bold" *ngIf="totalItem > 0">
+            <ion-item no-lines class="bold" *ngIf="cart.totalItem > 0">
               <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:symbol:lang}}</span>
             </ion-item>
             <ion-item>
@@ -58,7 +58,7 @@
                 <button ion-button color="light" icon-start (click)="productList()">
                   <ion-icon name="medal"></ion-icon> {{ 'LABEL.PRODUCT' | translate }}
                 </button>
-                <button ion-button color="primary" icon-start (click)="pay()" *ngIf="totalItem > 0">
+                <button ion-button color="primary" icon-start (click)="pay()" *ngIf="cart.totalItem > 0">
                   <ion-icon name="card"></ion-icon> {{ 'BUTTON.PAYMENT' | translate }}
                 </button>
               </ion-buttons>

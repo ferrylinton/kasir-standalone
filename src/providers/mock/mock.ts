@@ -91,20 +91,7 @@ export class MockProvider<T extends Base> {
     }
 
     private getSliceDatas(datas: Array<T>, pageable: Pageable): Array<T> {
-        let start: number = (pageable.pageNumber - 1) * pageable.size + 1;
-        let end: number = this.getEnd(pageable, datas.length, start);
-        return pageable.isLast() ? datas.slice(start - 1) : datas.slice(start, end + 1);
-    }
-
-    private getEnd(pageable: Pageable, total: number, start: number): number {
-        let end: number = start + pageable.size - 1;
-        
-        if (pageable.pageNumber === 1 && total < pageable.size) {
-            end = total;
-        } else if (pageable.pageNumber > 1) {
-            end = pageable.isLast() ? total : start + pageable.size - 1;
-        }
-
-        return end;
+        let start: number = (pageable.pageNumber - 1) * pageable.size;
+        return pageable.isLast() ? datas.slice(start, datas.length) : datas.slice(start, start + pageable.size);
     }
 }

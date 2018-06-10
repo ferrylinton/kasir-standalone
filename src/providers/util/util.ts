@@ -33,9 +33,12 @@ export class UtilProvider {
 
   filterByDate(arr: Array<Base>, field: string, date: Date): Array<Base>{
     return arr.filter((data) => {
-      return (date.getFullYear() === data[field].getFullYear() 
-              && date.getMonth() === data[field].getMonth() 
-              && date.getDate() === data[field].getDate());
+      if(data[field]){
+        return (date.getFullYear() === data[field].getFullYear() 
+        && date.getMonth() === data[field].getMonth() 
+        && date.getDate() === data[field].getDate());
+      }
+      
     })
   }
 
