@@ -4,10 +4,10 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{ 'LABEL.HOME' | translate }}</ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="cart">
       <button ion-button icon-only (click)="viewOrder()">
         <ion-icon name="cart"></ion-icon>
-        {{ totalItem }}
+        {{ cart.totalItem }}
       </button>
       <button ion-button icon-only (click)="refresh()">
         <ion-icon name="refresh"></ion-icon>
@@ -33,7 +33,11 @@
         <div class="box">
           <ion-list *ngIf="orders; else nodata">
             <ion-item>
-              <h2 class="title">{{ 'LABEL.LASTEST_ORDER' | translate }}</h2>
+              <ion-icon name="clipboard"></ion-icon>
+              <span class="title">{{ 'LABEL.LASTEST_ORDER' | translate }}</span>
+            </ion-item>
+            <ion-item *ngIf="orders.length == 0">
+              {{ 'MESSAGE.NO_DATA' | translate }}
             </ion-item>
             <button ion-item *ngFor="let order of orders" (click)="showOrder(order)">
               <p>
@@ -48,9 +52,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<ng-template #nodata>
-  <ion-item>
-    {{ 'MESSAGE.NO_DATA' | translate }}
-  </ion-item>
-</ng-template>

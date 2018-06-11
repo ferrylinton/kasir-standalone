@@ -12,7 +12,9 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding *ngIf="product; else nodata">
-  <div class="detail-image" [style.background-image]="'url(' + product.image + ')'"></div>
+  <div class="detail-image">
+    <img src="{{product.image}}" />
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col class="detail-label">{{ 'LABEL.ID' | translate }}</ion-col>
@@ -31,6 +33,12 @@
     </ion-row>
     <ion-row>
       <ion-col class="detail-value">{{ product.description }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'LABEL.PRICE' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{product.price | currency:currency:symbol:symbol:lang}}</ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

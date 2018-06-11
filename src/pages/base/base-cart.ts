@@ -1,139 +1,62 @@
-import { Storage } from '@ionic/storage';
-import { v4 as uuid } from 'uuid';
+import { ModalController, Loading, LoadingController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
-import { LOGGED_USER, ORDER } from "../../constant/constant";
+import { CommonProvider } from '../../providers/common/common';
 import { UtilProvider } from '../../providers/util/util';
-import { User } from "../../models/user.model";
+import { SettingProvider } from '../../providers/setting/setting';
+import { LOGGED_USER, ORDER } from "../../constant/constant";
+import { DEFAULT_LANGUAGE } from '../../constant/setting';
 import { Order } from "../../models/order.model";
-import { Item } from "../../models/item.model";
-import { Product } from "../../models/product.model";
 
 
 export abstract class BaseCart {
 
-    loggedUser: User;
+    loadingTxt: string = 'Please wait...';
 
-    order: Order;
+    lang: string = DEFAULT_LANGUAGE;
 
-    totalItems: number;
-
-    totalPrice: number;
+    loading: Loading;
 
     constructor(
-        public storage: Storage,
-        public util: UtilProvider
+        public modalCtrl: ModalController,
+        public loadingCtrl: LoadingController,
+        public translateService: TranslateService,
+        public commonProvider: CommonProvider,
+        public settingProvider: SettingProvider
     ) {
+    }
 
-        storage.get(LOGGED_USER).then((val) => {
-            this.loggedUser = JSON.parse(val);
+    initLanguage() {
+        this.translateService.get('MESSAGE.LOADING').subscribe(val => {
+            this.loadingTxt = val;
         });
     }
 
-    getOrder(): Promise<Order> {
-        return new Promise((resolve, reject) => {
-            this.storage.get(ORDER).then((order) => {
-                if (order == null) {
-                    let newOrder = new Order(uuid(), this.util.transactionNumber(), new Array<Item>());
-                    this.storage.set(ORDER, JSON.stringify(newOrder));
-                    resolve(newOrder);
-                } else {
-                    resolve(JSON.parse(order));
-                }
-            })
+    initSetting() {
+        this.settingProvider.getLanguage().subscribe(lang => {
+            this.lang = lang;
         });
     }
 
-    getCurrentTotalItems(): void {
-        this.storage.get(ORDER).then((val) => {
-            this.totalItems = (val == null) ? 0 : this.countItems(JSON.parse(val));
-        })
-    }
-
-    getTotalPrice(): void {
-        this.storage.get(ORDER).then((val) => {
-            this.totalPrice = (val == null) ? 0 : this.countPrice(JSON.parse(val));
-        })
-    }
-
-    addItem(product: Product): void {
-        this.storage.get(ORDER).then((val) => {
-            let order = (val == null) ? new Order(uuid(), this.util.transactionNumber(), new Array<Item>()) : JSON.parse(val);
-            order = this.addProduct(order, product);
-            this.storage.set(ORDER, JSON.stringify(order));
-            this.totalItems = this.countItems(order);
-            this.totalPrice = this.countPrice(order);
-            this.order = order;
-        })
-    }
-
-    removeItem(product: Product): void {
-        this.storage.get(ORDER).then((val) => {
-            let order = (val == null) ? new Order(uuid(), this.util.transactionNumber(), new Array<Item>()) : JSON.parse(val);
-            order = this.removeProduct(order, product);
-            this.storage.set(ORDER, JSON.stringify(order));
-            this.totalItems = this.countItems(order);
-            this.totalPrice = this.countPrice(order);
-            this.order = order;
-        })
-    }
-
-    countItems(order: Order): number {
-        let total: number = 0;
-
-        for (let i = 0; i < order.items.length; i++) {
-            total += order.items[i].quantity;
-        }
-
-        return total;
-    }
-
-    countPrice(order: Order): number {
-        let total: number = 0;
-
-        for (let i = 0; i < order.items.length; i++) {
-            total += order.items[i].quantity * order.items[i].product.price;
-        }
-
-        return total;
-    }
-
-    addProduct(order: Order, product: Product): Order {
-        let isProductExist: boolean = false;
-
-        for (let i = 0; i < order.items.length; i++) {
-            if (product.id === order.items[i].product.id) {
-                order.items[i].quantity++;
-                isProductExist = true;
+    showOrder(order: Order) {
+        const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
+        orderModal.onDidDismiss(order => {
+            if (order) {
+                this.commonProvider.goToPage('OrderPage', { order: order });
             }
-        }
-
-        if (!isProductExist) {
-            order.items.push(new Item(uuid(), product, 1));
-        }
-
-        return order;
+        })
+        orderModal.present();
     }
 
-    removeProduct(order: Order, product: Product): Order {
-        let isQuantityZero: boolean = false;
-        let index: number = 0;
-
-        for (let i = 0; i < order.items.length; i++) {
-            if (product.id === order.items[i].product.id) {
-                order.items[i].quantity--;
-
-                if (order.items[i].quantity === 0) {
-                    index = i;
-                    isQuantityZero = true;
-                }
-
-            }
-        }
-
-        if (isQuantityZero) {
-            order.items.splice(index, 1);
-        }
-
-        return order;
+    startLoading(): void {
+        this.loading = this.loadingCtrl.create({
+            content: this.loadingTxt
+        });
+        this.loading.present();
     }
+
+    getProducts(order: Order): string {
+        return this.commonProvider.getProductFromOrder(order);
+    }
+
 }
