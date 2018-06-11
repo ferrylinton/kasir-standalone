@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
-import * as Setting from '../../constant/setting';
+import { BaseCart } from '../base/base-cart';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
@@ -12,7 +12,6 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
-import { Cart } from '../../models/cart.model';
 
 
 @IonicPage()
@@ -20,23 +19,9 @@ import { Cart } from '../../models/cart.model';
   selector: 'page-order',
   templateUrl: 'order.html',
 })
-export class OrderPage {
-
-  private loadingTxt: string = 'Please wait...';
-
-  private orderTxt: string = 'Order';
-
-  lang: string = Setting.DEFAULT_LANGUAGE;
-
-  currency: string = Setting.DEFAULT_CURRENCY + ' ';
-
-  symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
-
-  loading: Loading;
+export class OrderPage extends BaseCart {
 
   page: Page<Order>;
-
-  cart: Cart;
 
   constructor(
     public navCtrl: NavController,
@@ -50,24 +35,8 @@ export class OrderPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    this.initSetting();
-    this.initLanguage();
+    super(modalCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
     this.initPage();
-  }
-
-  private initSetting(): void {
-    this.settingProvider.getSetting().subscribe(setting => {
-      this.lang = setting[Setting.LANGUAGE];
-      this.currency = setting[Setting.CURRENCY] + ' ';
-      this.symbol = setting[Setting.CURRENCY_SYMBOL];
-    });
-  }
-
-  private initLanguage() {
-    this.translateService.get(['MESSAGE.LOADING', 'LABEL.ORDER']).subscribe(val => {
-      this.loadingTxt = val['MESSAGE.LOADING'];
-      this.orderTxt = val['LABEL.ORDER'];
-    });
   }
 
   private initPage(): void {
@@ -98,14 +67,6 @@ export class OrderPage {
       this.page.totalData = page.totalData;
       this.page.data = page.data;
     })
-  }
-
-  private startLoading(): void {
-    this.loading = this.loadingCtrl.create({
-      content: this.loadingTxt
-    });
-
-    this.loading.present();
   }
 
   showOrder(order: Order) {
@@ -167,6 +128,7 @@ export class OrderPage {
         this.cart.order.lastModifiedDate = new Date();
         this.orderProvider.update(this.cart.order).subscribe(order => {
           this.loadData(order);
+          this.deleteCallback();
         });
 
       });
@@ -176,6 +138,7 @@ export class OrderPage {
         this.cart.order.createdDate = new Date();
         this.orderProvider.save(this.cart.order).subscribe(order => {
           this.loadData(order);
+          this.deleteCallback();
         });
       });
     }

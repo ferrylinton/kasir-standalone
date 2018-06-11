@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, PopoverController, NavParams, LoadingController, Loading, ModalController } from 'ionic-angular';
+import { IonicPage, Slides, PopoverController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
-import * as Setting from '../../constant/setting';
+import { BaseCart } from '../base/base-cart';
 import { CategoryProvider } from '../../providers/category/category';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
@@ -14,8 +14,6 @@ import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
 import { MoreMenu } from '../../models/more-menu.model';
-import { Cart } from '../../models/cart.model';
-
 
 
 @IonicPage()
@@ -23,37 +21,11 @@ import { Cart } from '../../models/cart.model';
   selector: 'page-product-list',
   templateUrl: 'product-list.html',
 })
-export class ProductListPage {
+export class ProductListPage extends BaseCart {
 
   @ViewChild(Slides) slides: Slides;
 
   @ViewChild('searchbar') searchbar: any;
-
-  private LABEL_GRID = 'LABEL.GRID';
-
-  private LABEL_LIST = 'LABEL.LIST';
-
-  private LABEL_ALL_CATEGORIES = 'LABEL.ALL_CATEGORIES';
-
-  private MESSAGE_LOADING = 'MESSAGE.LOADING';
-
-  private gridTxt: string = 'Grid';
-
-  private listTxt: string = 'List';
-
-  private allCategoriesTxt: string = 'All Categories';
-
-  private loadingTxt: string = 'Please wait...';
-
-  private loading: Loading;
-
-  lang: string = Setting.DEFAULT_LANGUAGE;
-
-  currency: string = Setting.DEFAULT_CURRENCY + ' ';
-
-  symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
-
-  cart: Cart;
 
   index: number = 0;
 
@@ -73,7 +45,6 @@ export class ProductListPage {
 
   page: Page<Product>;
 
-
   constructor(
     public modalCtrl: ModalController,
     public navParams: NavParams,
@@ -82,32 +53,12 @@ export class ProductListPage {
     public commonProvider: CommonProvider,
     public settingProvider: SettingProvider,
     public popoverCtrl: PopoverController,
-    public translate: TranslateService,
+    public translateService: TranslateService,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    this.initLanguage();
-    this.initSetting();
+    super(modalCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
     this.initPage();
-  }
-
-  private initLanguage(): void {
-    this.translate.get([this.LABEL_GRID, this.LABEL_LIST,
-    this.LABEL_ALL_CATEGORIES, this.MESSAGE_LOADING]).subscribe(values => {
-
-      this.gridTxt = values[this.LABEL_GRID];
-      this.listTxt = values[this.LABEL_LIST];
-      this.allCategoriesTxt = values[this.LABEL_ALL_CATEGORIES];
-      this.loadingTxt = values[this.MESSAGE_LOADING];
-    });
-  }
-
-  private initSetting(): void {
-    this.settingProvider.getSetting().subscribe(setting => {
-      this.lang = setting[Setting.LANGUAGE];
-      this.currency = setting[Setting.CURRENCY] + ' ';
-      this.symbol = setting[Setting.CURRENCY_SYMBOL];
-    });
   }
 
   private initPage(): void {
@@ -137,20 +88,6 @@ export class ProductListPage {
       this.slides.slideTo(this.index, 0, false);
       this.setSlideProperties();
     }, 100);
-  }
-
-  // Loading
-
-  private startLoading(): void {
-    this.loading = this.loadingCtrl.create({
-      content: this.loadingTxt
-    });
-
-    this.loading.present();
-  }
-
-  private stopLoading() {
-    this.loading.dismiss();
   }
 
   // Slides
@@ -200,7 +137,7 @@ export class ProductListPage {
     }
   }
 
-  private search(keyword: string){
+  private search(keyword: string) {
     this.category = '';
     this.keyword = keyword;
     this.initPage();
@@ -257,23 +194,7 @@ export class ProductListPage {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
-      this.stopLoading();
-    })
-  }
-
-  addItem(product: Product): void {
-    this.cartProvider.addItem(product).subscribe(order => {
-      this.cartProvider.getCart(order).subscribe(cart => {
-        this.cart = cart;
-      })
-    })
-  }
-
-  removeItem(product: Product): void {
-    this.cartProvider.removeItem(product).subscribe(order => {
-      this.cartProvider.getCart(order).subscribe(cart => {
-        this.cart = cart;
-      })
+      this.loading.dismiss();
     })
   }
 

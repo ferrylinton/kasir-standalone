@@ -27,7 +27,8 @@
         <div class="box">
           <ion-list *ngIf="cart; else nodata">
             <ion-item>
-              <h2 class="title">{{ 'LABEL.ORDER_DETAIL' | translate }}</h2>
+              <ion-icon name="menu"></ion-icon>
+              <span class="title">{{ 'LABEL.ORDER_DETAIL' | translate }}</span>
             </ion-item>
             <ion-item *ngIf="cart.totalItem == 0">
               {{ 'MESSAGE.NO_ORDER' | translate }}
@@ -67,10 +68,14 @@
         </div>
       </ion-col>
       <ion-col col-12 col-sm-12 col-md-5 col-lg-4 col-xl-4>
-        <div class="box">
+        <div class="box gray">
           <ion-list *ngIf="page; else nodata">
             <ion-item>
-              <h2 class="title">{{ 'LABEL.ORDER_LIST' | translate }}</h2>
+              <ion-icon name="clipboard"></ion-icon>
+              <span class="title">{{ 'LABEL.ORDER_LIST' | translate }}</span>
+            </ion-item>
+            <ion-item *ngIf="page.data.length == 0">
+              {{ 'MESSAGE.NO_DATA' | translate }}
             </ion-item>
             <button ion-item *ngFor="let orderHistory of page.data" (click)="showOrder(orderHistory)">
               <p>
@@ -79,7 +84,7 @@
               </p>
               <p text-wrap>{{ getProducts(orderHistory) | shorten:100 }}</p>
             </button>
-            <ion-item>
+            <ion-item *ngIf="page.data.length > 0">
               <ion-buttons>
                 <button ion-button small outline [disabled]="page.isFirst()" (click)="previous()">
                   {{ 'BUTTON.PREVIOUS' | translate }}
@@ -98,9 +103,6 @@
   </ion-grid>
 
 </ion-content>
-<ng-template #empty>
-  <ion-label>-</ion-label>
-</ng-template>
 <ng-template #nodata>
   <ion-item>
     {{ 'MESSAGE.NO_DATA' | translate }}

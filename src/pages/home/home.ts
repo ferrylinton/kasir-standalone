@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -9,7 +9,6 @@ import { CategoryProvider } from '../../providers/category/category';
 import { OrderProvider } from '../../providers/order/order';
 import { SettingProvider } from '../../providers/setting/setting';
 import { BaseCart } from '../base/base-cart';
-import { DEFAULT_LANGUAGE } from '../../constant/setting';
 import { Page } from '../../models/page.model';
 import { Category } from '../../models/category.model';
 import { Order } from '../../models/order.model';
@@ -42,9 +41,7 @@ export class HomePage extends BaseCart{
     public cartProvider: CartProvider,
     public commonProvider: CommonProvider) {
 
-      super(modalCtrl, loadingCtrl, translateService, commonProvider, settingProvider);
-      this.initLanguage();
-      this.initSetting();
+      super(modalCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
       this.initPage();
   }
 
