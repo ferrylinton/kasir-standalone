@@ -8,7 +8,9 @@ export class Cart {
 
         public totalItem?: number,
 
-        public totalPrice?: number) {
+        public totalPrice?: number,
+
+        public isModified?: boolean) {
     }
 
 }

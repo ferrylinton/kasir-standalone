@@ -14,6 +14,8 @@ export abstract class BaseCart {
 
     loadingTxt: string = 'Please wait...';
 
+    unsaveOrderTxt: string = 'Order is not saved yet';
+
     orderTxt: string = 'Order';
 
     gridTxt: string = 'Grid';
@@ -21,6 +23,10 @@ export abstract class BaseCart {
     listTxt: string = 'List';
 
     allCategoriesTxt: string = 'All Categories';
+
+    editTxt: string = 'Edit';
+
+    addTxt: string = 'Add';
 
     lang: string = Setting.DEFAULT_LANGUAGE;
 
@@ -47,18 +53,24 @@ export abstract class BaseCart {
     initLanguage() {
         let keys: string[] = [
             'MESSAGE.LOADING',
+            'MESSAGE.UNSAVE_ORDER',
             'LABEL.ORDER',
             'LABEL.GRID',
             'LABEL.LIST',
-            'LABEL.ALL_CATEGORIES'
+            'LABEL.ALL_CATEGORIES',
+            'LABEL.ADD',
+            'LABEL.EDIT'
         ];
 
         this.translateService.get(keys).subscribe(val => {
             this.loadingTxt = val[keys[0]];
-            this.orderTxt = val[keys[1]];
-            this.gridTxt = val[keys[2]];
-            this.listTxt = val[keys[3]];
-            this.allCategoriesTxt = val[keys[4]];
+            this.unsaveOrderTxt = val[keys[1]];
+            this.orderTxt = val[keys[2]];
+            this.gridTxt = val[keys[3]];
+            this.listTxt = val[keys[4]];
+            this.allCategoriesTxt = val[keys[5]];
+            this.addTxt = val[keys[6]];
+            this.editTxt = val[keys[7]];
         });
     }
 
@@ -93,18 +105,21 @@ export abstract class BaseCart {
 
     addItem(product: Product): void {
         this.cartProvider.addItem(product).subscribe(order => {
-          this.cartProvider.getCart(order).subscribe(cart => {
-            this.cart = cart;
-          })
+            this.cartProvider.getCart(order).subscribe(cart => {
+                this.cart = cart;
+            })
         })
-      }
-    
-      removeItem(product: Product): void {
-        this.cartProvider.removeItem(product).subscribe(order => {
-          this.cartProvider.getCart(order).subscribe(cart => {
-            this.cart = cart;
-          })
-        })
-      }
+    }
 
+    removeItem(product: Product): void {
+        this.cartProvider.removeItem(product).subscribe(order => {
+            this.cartProvider.getCart(order).subscribe(cart => {
+                this.cart = cart;
+            })
+        })
+    }
+
+    getOperation(): string{
+        return this.cart.isModified ? this.editTxt : this.addTxt;
+    }
 }

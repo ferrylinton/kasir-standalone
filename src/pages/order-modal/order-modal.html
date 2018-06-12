@@ -19,6 +19,10 @@
 <ion-content padding>
   <ion-list *ngIf="order; else nodata">
     <ion-item>
+      <ion-label>{{ 'LABEL.PAID' | translate }}</ion-label>
+      <ion-icon [color]="order.isPaid ? 'secondary' : 'danger'" item-end [name]="order.isPaid ? 'checkmark' : 'close'"></ion-icon>
+    </ion-item>
+    <ion-item>
       {{ 'LABEL.CREATED_BY' | translate }}
       <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy }}</span>
     </ion-item>

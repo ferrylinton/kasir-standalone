@@ -49,9 +49,13 @@
     .item-md,
     .item-ios,
     .item-wp {
-        margin: 0;
-        padding: 0 0 0 10px;
         background: none;
+    }
+    .paid{
+        color: color($colors, secondary);
+    }
+    .notpaid{
+        color: color($colors, danger);
     }
 }
 
@@ -61,6 +65,14 @@
 
 .primary {
     color: color($colors, primary);
+}
+
+.secondary {
+    color: color($colors, secondary);
+}
+
+.danger {
+    color: color($colors, danger);
 }
 
 .dark {

@@ -9,6 +9,9 @@
         <ion-icon name="cart"></ion-icon>
         {{ cart.totalItem }}
       </button>
+      <button ion-button icon-only (click)="save()" [disabled]="cart.totalItem == 0">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="delete()">
         <ion-icon name="trash"></ion-icon>
       </button>
@@ -25,10 +28,11 @@
     <ion-row>
       <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
         <div class="box">
-          <ion-list *ngIf="cart; else nodata">
+          <ion-list *ngIf="cart && cart.order; else nodata">
             <ion-item>
               <ion-icon name="menu"></ion-icon>
               <span class="title">{{ 'LABEL.ORDER_DETAIL' | translate }}</span>
+              <ion-icon item-end [color]="cart.order.isPaid ? 'secondary' : 'danger'" [name]="cart.isModified ? 'create' : 'add'"></ion-icon>
             </ion-item>
             <ion-item *ngIf="cart.totalItem == 0">
               {{ 'MESSAGE.NO_ORDER' | translate }}
@@ -52,7 +56,7 @@
               <span item-end>{{ 'LABEL.TOTAL_ITEM' | translate }} : {{cart.totalItem}}</span>
             </ion-item>
             <ion-item no-lines class="bold" *ngIf="cart.totalItem > 0">
-              <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:symbol:lang}}</span>
+              <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{cart.totalPrice | currency:currency:symbol:symbol:lang}}</span>
             </ion-item>
             <ion-item>
               <ion-buttons item-end>
@@ -77,9 +81,10 @@
             <ion-item *ngIf="page.data.length == 0">
               {{ 'MESSAGE.NO_DATA' | translate }}
             </ion-item>
-            <button ion-item *ngFor="let orderHistory of page.data" (click)="showOrder(orderHistory)">
+            <button [class.paid]="orderHistory.isPaid" [class.notpaid]="!orderHistory.isPaid" ion-item *ngFor="let orderHistory of page.data"
+              (click)="showOrder(orderHistory)">
               <p>
-                <span class="bold primary">{{ orderHistory.createdBy }}</span> -
+                <span [class]="orderHistory.isPaid ? 'bold secondary' : 'bold danger'">{{ orderHistory.createdBy }}</span> -
                 <span class="bold dark">{{ orderHistory.createdDate | moment:'ago':lang | lowercase}}</span>
               </p>
               <p text-wrap>{{ getProducts(orderHistory) | shorten:100 }}</p>

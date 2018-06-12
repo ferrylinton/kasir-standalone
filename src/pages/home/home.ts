@@ -53,7 +53,7 @@ export class HomePage extends BaseCart{
 
   ionViewWillEnter() {
     this.startLoading();
-    forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart(null), this.orderProvider.find(this.page)]).subscribe(results => {
+    forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart(), this.orderProvider.find(this.page)]).subscribe(results => {
         this.categories = results[0];
         this.cart = results[1];
         this.orders = results[2].data;

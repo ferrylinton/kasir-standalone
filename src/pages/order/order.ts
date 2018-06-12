@@ -12,6 +12,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
+import { Cart } from '../../models/cart.model';
 
 
 @IonicPage()
@@ -73,9 +74,13 @@ export class OrderPage extends BaseCart {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        this.cartProvider.setCart(order).subscribe(cart => {
-          this.cart = cart;
-        });
+        if (this.cartProvider.countItem(this.cart.order) > 0) {
+          this.messageProvider.showToast(this.unsaveOrderTxt);
+        } else {
+          this.cartProvider.setCart(order).subscribe(cart => {
+            this.cart = cart;
+          });
+        }
       }
     })
     orderModal.present();
@@ -111,47 +116,54 @@ export class OrderPage extends BaseCart {
     const orderModal = this.modalCtrl.create('PaymentPage', { order: this.cart.order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        this.save();
+        this.commonProvider.getLoggedUser().subscribe(user => {
+          this.saveOrPay(this.cart, true);
+        });
       }
     });
     orderModal.present();
   }
 
-  create() {
-    this.cartProvider.createOrder();
-  }
-
-  private save(): void {
-    if (this.cart.order.isPaid) {
-      this.commonProvider.getLoggedUser().subscribe(user => {
-        this.cart.order.lastModifiedBy = user.username;
-        this.cart.order.lastModifiedDate = new Date();
-        this.orderProvider.update(this.cart.order).subscribe(order => {
-          this.loadData(order);
-          this.deleteCallback();
-        });
-
-      });
-    } else {
-      this.commonProvider.getLoggedUser().subscribe(user => {
-        this.cart.order.createdBy = user.username;
-        this.cart.order.createdDate = new Date();
-        this.orderProvider.save(this.cart.order).subscribe(order => {
-          this.loadData(order);
-          this.deleteCallback();
-        });
-      });
-    }
-  }
-
-  deleteCallback(): void {
-    this.cartProvider.createOrder().subscribe(order => {
-      this.loadData(order);
-    });
+  save() {
+    this.messageProvider.showAddConfirm(this.orderTxt, () => this.saveCallback());
   }
 
   delete() {
-    this.messageProvider.showDeleteConfirm(this.orderTxt, (category) => this.deleteCallback());
+    this.messageProvider.showDeleteConfirm(this.orderTxt, () => this.deleteOrderFromStorage());
+  }
+
+  private saveCallback(){
+    this.commonProvider.getLoggedUser().subscribe(user => {
+      this.saveOrPay(this.cart, false);
+    });
+  }
+
+  private saveOrPay(cart: Cart, isPaid: boolean): void {
+    console.log('saveOrPay : ' + cart.isModified + ' : ' + isPaid);
+    this.commonProvider.getLoggedUser().subscribe(user => {
+      if (cart.isModified) {
+        cart.order.isPaid = cart.order.isPaid || isPaid;
+        cart.order.lastModifiedBy = user.username;
+        cart.order.lastModifiedDate = new Date();
+        this.orderProvider.update(cart.order).subscribe(order => {
+          this.deleteOrderFromStorage();
+        });
+      } else {
+        cart.order.isPaid = isPaid;
+        cart.order.createdBy = user.username;
+        cart.order.createdDate = new Date();
+        this.orderProvider.save(cart.order).subscribe(order => {
+          this.deleteOrderFromStorage();
+        });
+      }
+    });
+  }
+
+  private deleteOrderFromStorage(): void {
+    this.cart = this.cartProvider.deleteCart();
+    this.cartProvider.getCart().subscribe(cart => {
+      this.cart = cart;
+    });
   }
 
   private setPage(page: Page<Order>): void {

@@ -24,6 +24,48 @@ export class CartProvider {
   ) {
   }
 
+  getCart(order?: Order): Observable<Cart> {
+    if (order) {
+      let cart = this.createCart(order);
+      cart.isModified = true;
+      return of(cart);
+    } else {
+      return fromPromise(this.storage.get(ORDER).then((order) => {
+        if (order) {
+          return this.createCart(JSON.parse(order));
+        } else {
+          let cart = this.createCart();
+          cart.isModified = false;
+          return cart;
+        }
+      }));
+    }
+  }
+
+  deleteCart() {
+    let cart = this.createCart();
+    cart.isModified = false;
+    this.storage.set(ORDER, JSON.stringify(cart.order));
+    return cart;
+  }
+
+  private createCart(order?: Order): Cart {
+    let cart;
+    if (order) {
+      cart = new Cart(order, this.countItem(order), this.countPrice(order));
+    } else {
+      cart = new Cart(this.createOrder(), 0, 0);
+    }
+
+    this.storage.set(ORDER, JSON.stringify(cart.order));
+    return cart;
+  }
+
+  private createOrder(): Order {
+    return new Order(uuid(), this.utilProvider.transactionNumber(), new Array<Item>(), false);
+  }
+
+
   setCart(order: Order): Observable<Cart> {
     if (this.countItem(order) == 0) {
       return fromPromise(this.storage.set(ORDER, order).then(order => {
@@ -34,22 +76,9 @@ export class CartProvider {
     }
   }
 
-  getCart(order?: Order): Observable<Cart> {
-    if(order){
-      return of(this.createCart(order));
-    }else{
-      return fromPromise(this.storage.get(ORDER).then((order) => {
-        return this.createCart(JSON.parse(order));
-      }));
-    }
-    
-  }
 
-  createOrder(): Observable<Order> {
-    return fromPromise(this.storage.set(ORDER, JSON.stringify(new Order(uuid(), this.utilProvider.transactionNumber(), new Array<Item>(), false))).then(order => {
-      return JSON.parse(order);
-    }));
-  }
+
+
 
   addItem(product: Product): Observable<Order> {
     return fromPromise(this.storage.get(ORDER).then((val) => {
@@ -69,13 +98,7 @@ export class CartProvider {
     }));
   }
 
-  private createCart(order: Order): Cart {
-    let cart: Cart = new Cart();
-    cart.order = order;
-    cart.totalItem = this.countItem(order);
-    cart.totalPrice = this.countPrice(order);
-    return cart;
-  }
+
 
   countItem(order: Order): number {
     let total: number = 0;

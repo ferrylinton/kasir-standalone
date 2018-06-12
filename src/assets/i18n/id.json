@@ -63,6 +63,7 @@
         "ID": "Id",
         "id": "Indonesia",
         "IMAGE": "Gambar",
+        "PAID": "Dibayar",
         "ITEM": "item",
         "KEYWORD": "kata kunci",
         "LANGUAGE": "Bahasa",
@@ -112,7 +113,8 @@
         "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
         "NO_DATA": "Data tidak ditemukan",
         "NO_ORDER": "Pesanan tidak ada",
-        "RELOAD_PAGE": "Memuat ulang halaman"
+        "RELOAD_PAGE": "Memuat ulang halaman",
+        "UNSAVE_ORDER": "Pesanan belum disimpan"
     },
     "TITLE": {
         "CONFIRM": "Konfirmasi",
