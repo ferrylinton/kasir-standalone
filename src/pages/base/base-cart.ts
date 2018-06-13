@@ -104,22 +104,15 @@ export abstract class BaseCart {
     }
 
     addItem(product: Product): void {
-        this.cartProvider.addItem(product).subscribe(order => {
-            this.cartProvider.getCart(order).subscribe(cart => {
-                this.cart = cart;
-            })
-        })
+        this.cartProvider.addItem(product).subscribe(cart => {
+            this.cart = cart;
+        });
     }
 
     removeItem(product: Product): void {
-        this.cartProvider.removeItem(product).subscribe(order => {
-            this.cartProvider.getCart(order).subscribe(cart => {
-                this.cart = cart;
-            })
-        })
+        this.cartProvider.removeItem(product).subscribe(cart => {
+            this.cart = cart;
+        });
     }
 
-    getOperation(): string{
-        return this.cart.isModified ? this.editTxt : this.addTxt;
-    }
 }

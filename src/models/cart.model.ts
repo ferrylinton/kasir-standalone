@@ -4,13 +4,13 @@ export class Cart {
 
     constructor(
 
-        public order?: Order,
+        public order: Order,
 
-        public totalItem?: number,
+        public totalItem: number = 0,
 
-        public totalPrice?: number,
+        public totalPrice: number = 0,
 
-        public isModified?: boolean) {
+        public isModified: boolean = false) {
     }
 
 }

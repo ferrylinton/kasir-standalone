@@ -48,18 +48,21 @@ export class OrderPage extends BaseCart {
   }
 
   ionViewWillEnter() {
-    this.loadData(this.navParams.get('order'));
+    this.loadOrder();
     this.loadOrderHistory();
   }
 
-  private loadData(order: Order) {
-    this.startLoading();
-    forkJoin([this.cartProvider.getCart(order), this.orderProvider.findByDate(new Date(), this.page)])
-      .subscribe(results => {
-        this.cart = results[0];
-        this.setPage(results[1]);
-        this.loading.dismiss();
+  private loadOrder() {
+    console.log('loadOrder.....');
+    if (this.navParams.get('order')) {
+      this.cartProvider.setCart(JSON.parse(this.navParams.get('order'))).subscribe(cart => {
+        this.cart = cart;
       });
+    } else {
+      this.cartProvider.getCart().subscribe(cart => {
+        this.cart = cart;
+      });
+    }
   }
 
   private loadOrderHistory() {
@@ -132,7 +135,7 @@ export class OrderPage extends BaseCart {
     this.messageProvider.showDeleteConfirm(this.orderTxt, () => this.deleteOrderFromStorage());
   }
 
-  private saveCallback(){
+  private saveCallback() {
     this.commonProvider.getLoggedUser().subscribe(user => {
       this.saveOrPay(this.cart, false);
     });
@@ -160,8 +163,8 @@ export class OrderPage extends BaseCart {
   }
 
   private deleteOrderFromStorage(): void {
-    this.cart = this.cartProvider.deleteCart();
-    this.cartProvider.getCart().subscribe(cart => {
+    let cart: Cart = this.cartProvider.createNewCart();
+    this.cartProvider.setCart(cart).subscribe(cart => {
       this.cart = cart;
     });
   }

@@ -8,7 +8,7 @@ export const MENU: string = 'MENU';
 
 export const LOGGED_USER: string = 'LOGGED_USER';
 
-export const ORDER: string = 'ORDER';
+export const CART: string = 'CART';
 
 export const ERROR: string = 'ERROR';
 
