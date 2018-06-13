@@ -104,13 +104,13 @@ export abstract class BaseCart {
     }
 
     addItem(product: Product): void {
-        this.cartProvider.addItem(product).subscribe(cart => {
+        this.cartProvider.addItem(this.cart, product).subscribe(cart => {
             this.cart = cart;
         });
     }
 
     removeItem(product: Product): void {
-        this.cartProvider.removeItem(product).subscribe(cart => {
+        this.cartProvider.removeItem(this.cart, product).subscribe(cart => {
             this.cart = cart;
         });
     }

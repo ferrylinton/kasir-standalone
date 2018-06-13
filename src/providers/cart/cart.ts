@@ -24,31 +24,37 @@ export class CartProvider {
   ) {
   }
 
-  getCart(): Observable<Cart>{
-    console.log('getCart.............');
-    return fromPromise(this.storage.get(CART).then((cart) => {
-      if (cart) {
-        return JSON.parse(cart);
+  getCart(): Observable<Cart> {
+    return fromPromise(this.storage.get(CART).then((json) => {
+      if (json) {
+        let cart: Cart = JSON.parse(json);
+        cart.isModified = cart.order.createdBy ? true : false;
+        return cart;
       } else {
         return this.createNewCart();
       }
     }));
   }
 
-  createCartFromOrder(order: Order): Cart{
-    return new Cart(order, this.countItem(order), this.countPrice(order));
+  createCartFromOrder(order: Order): Cart {
+    let cart: Cart = new Cart(order, this.countItem(order), this.countPrice(order));
+    cart.isModified = cart.order.createdBy ? true : false;
+    return cart;
   }
 
-  createNewCart(): Cart{
+  createNewCart(): Cart {
     return new Cart(this.createOrder());
   }
 
-  setCart(arg: Order | Cart): Observable<Cart> {
-    console.log('setCart.............');
-    let cart: Cart = arg instanceof Order ? this.createCartFromOrder(arg) : arg; 
+  setCartFromOrder(order: Order): Observable<Cart> {
+    return this.setCart(this.createCartFromOrder(order));
+  }
 
-    return fromPromise(this.storage.set(CART, JSON.stringify(cart)).then(cart => {
-      return JSON.parse(cart);
+  setCart(cart: Cart): Observable<Cart> {
+    return fromPromise(this.storage.set(CART, JSON.stringify(cart)).then(json => {
+      cart = JSON.parse(json);
+      cart.isModified = cart.order.createdBy ? true : false;
+      return cart;
     }));
   }
 
@@ -56,22 +62,20 @@ export class CartProvider {
     return new Order(uuid(), this.utilProvider.transactionNumber(), new Array<Item>(), false);
   }
 
-  addItem(product: Product): Observable<Cart> {
-    return fromPromise(this.storage.get(CART).then((val) => {
-      let cart = this.addProduct((val == null) ? this.createNewCart() : JSON.parse(val), product);
-      cart.totalItem = this.countItem(cart.order);
-      cart.totalPrice = this.countPrice(cart.order);
-      this.storage.set(CART, JSON.stringify(cart));
+  addItem(cart: Cart, product: Product): Observable<Cart> {
+    cart = this.addProduct(cart, product);
+    cart.totalItem = this.countItem(cart.order);
+    cart.totalPrice = this.countPrice(cart.order);
+    return fromPromise(this.storage.set(CART, JSON.stringify(cart)).then(() => {
       return cart;
     }));
   }
 
-  removeItem(product: Product): Observable<Cart> {
-    return fromPromise(this.storage.get(CART).then((val) => {
-      let cart = this.removeProduct((val == null) ? this.createNewCart() : JSON.parse(val), product);
-      cart.totalItem = this.countItem(cart.order);
-      cart.totalPrice = this.countPrice(cart.order);
-      this.storage.set(CART, JSON.stringify(cart));
+  removeItem(cart: Cart, product: Product): Observable<Cart> {
+    cart = this.removeProduct(cart, product);
+    cart.totalItem = this.countItem(cart.order);
+    cart.totalPrice = this.countPrice(cart.order);
+    return fromPromise(this.storage.set(CART, JSON.stringify(cart)).then(() => {
       return cart;
     }));
   }

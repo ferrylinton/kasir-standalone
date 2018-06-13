@@ -53,7 +53,6 @@ export class OrderPage extends BaseCart {
   }
 
   private loadOrder() {
-    console.log('loadOrder.....');
     if (this.navParams.get('order')) {
       this.cartProvider.setCart(JSON.parse(this.navParams.get('order'))).subscribe(cart => {
         this.cart = cart;
@@ -73,6 +72,12 @@ export class OrderPage extends BaseCart {
     })
   }
 
+  /**
+   * Get Order from Order history and
+   * set order to current cart if there is no item
+   * 
+   * @param order 
+   */
   showOrder(order: Order) {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
@@ -80,7 +85,7 @@ export class OrderPage extends BaseCart {
         if (this.cartProvider.countItem(this.cart.order) > 0) {
           this.messageProvider.showToast(this.unsaveOrderTxt);
         } else {
-          this.cartProvider.setCart(order).subscribe(cart => {
+          this.cartProvider.setCartFromOrder(order).subscribe(cart => {
             this.cart = cart;
           });
         }
@@ -120,7 +125,7 @@ export class OrderPage extends BaseCart {
     orderModal.onDidDismiss(order => {
       if (order) {
         this.commonProvider.getLoggedUser().subscribe(user => {
-          this.saveOrPay(this.cart, true);
+          this.saveOrPay(true);
         });
       }
     });
@@ -137,25 +142,25 @@ export class OrderPage extends BaseCart {
 
   private saveCallback() {
     this.commonProvider.getLoggedUser().subscribe(user => {
-      this.saveOrPay(this.cart, false);
+      this.saveOrPay(false);
     });
   }
 
-  private saveOrPay(cart: Cart, isPaid: boolean): void {
-    console.log('saveOrPay : ' + cart.isModified + ' : ' + isPaid);
+  private saveOrPay(isPaid: boolean): void {
     this.commonProvider.getLoggedUser().subscribe(user => {
-      if (cart.isModified) {
-        cart.order.isPaid = cart.order.isPaid || isPaid;
-        cart.order.lastModifiedBy = user.username;
-        cart.order.lastModifiedDate = new Date();
-        this.orderProvider.update(cart.order).subscribe(order => {
+      if (this.cart.isModified) {
+        this.cart.order.isPaid = this.cart.order.isPaid || isPaid;
+        this.cart.order.lastModifiedBy = user.username;
+        this.cart.order.lastModifiedDate = new Date();
+        this.cart.order.createdDate = new Date(this.cart.order.createdDate);
+        this.orderProvider.update(this.cart.order).subscribe(() => {
           this.deleteOrderFromStorage();
         });
       } else {
-        cart.order.isPaid = isPaid;
-        cart.order.createdBy = user.username;
-        cart.order.createdDate = new Date();
-        this.orderProvider.save(cart.order).subscribe(order => {
+        this.cart.order.isPaid = isPaid;
+        this.cart.order.createdBy = user.username;
+        this.cart.order.createdDate = new Date();
+        this.orderProvider.save(this.cart.order).subscribe(() => {
           this.deleteOrderFromStorage();
         });
       }
@@ -163,10 +168,10 @@ export class OrderPage extends BaseCart {
   }
 
   private deleteOrderFromStorage(): void {
-    let cart: Cart = this.cartProvider.createNewCart();
-    this.cartProvider.setCart(cart).subscribe(cart => {
-      this.cart = cart;
-    });
+    this.initPage();
+    this.loadOrderHistory();
+    this.cart = this.cartProvider.createNewCart();
+    this.cartProvider.setCart(this.cart);
   }
 
   private setPage(page: Page<Order>): void {
