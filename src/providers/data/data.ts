@@ -186,22 +186,22 @@ export class DataProvider {
       let end = start + 3;
       for(let j=start; j<=end; j++){
         this.products.push(new Product('product-0000-0000-0000-' + j, 'Product ' + j, 'Description ' + j, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
-        //this.products.push(new Product(this.util.randomString(30), this.util.randomString(30), this.description, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
+        this.products.push(new Product(this.util.randomString(30), this.util.randomString(30), this.description, j + 100000, DEFAULT_IMAGE, category.name, admin.username, new Date()));
       }
     }
 
-    // for(let i=1; i<=100; i++){
-    //   let remainder = i%3;
-    //   let createdDate = moment().subtract(this.util.randomNumber(2, 360), 'minutes').toDate();
-    //   let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), true, this.users[remainder].username, createdDate);
+    for(let i=1; i<=100; i++){
+      let remainder = i%3;
+      let createdDate = moment().subtract(this.util.randomNumber(2, 3000), 'minutes').toDate();
+      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), true, this.users[remainder].username, createdDate);
 
-    //   let size = this.util.randomNumber(2, 20);
-    //   for(let j=1; j<=size; j++){
-    //     order.items.push(new Item(uuid(), this.products[j], j+1));
-    //   }
+      let size = this.util.randomNumber(2, 20);
+      for(let j=1; j<=size; j++){
+        order.items.push(new Item(uuid(), this.products[j], j+1));
+      }
 
-    //   this.orders.push(order);
-    // }
+      this.orders.push(order);
+    }
 
   }
 

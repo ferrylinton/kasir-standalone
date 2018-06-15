@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import { forkJoin } from 'rxjs/observable/forkJoin';
-
 import { BaseCart } from '../base/base-cart';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
@@ -12,7 +10,6 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
-import { Cart } from '../../models/cart.model';
 
 
 @IonicPage()
@@ -172,12 +169,6 @@ export class OrderPage extends BaseCart {
     this.loadOrderHistory();
     this.cart = this.cartProvider.createNewCart();
     this.cartProvider.setCart(this.cart);
-  }
-
-  private setPage(page: Page<Order>): void {
-    this.page.pageNumber = page.pageNumber;
-    this.page.totalData = page.totalData;
-    this.page.data = page.data;
   }
 
 }

@@ -37,6 +37,14 @@ export class OrderHistoryPage {
 
   page: Page<Order>;
 
+  monthNames: any = {};
+
+  orderDate: string = new Date().toISOString();
+
+  min: string;
+
+  max: string;
+
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
@@ -49,10 +57,11 @@ export class OrderHistoryPage {
 
     this.initSetting();
     this.initLanguage();
-    this.initPage();
+    this.initDatePicker();
   }
 
   ionViewWillEnter() {
+    this.initPage();
     this.loadData();
   }
 
@@ -71,6 +80,15 @@ export class OrderHistoryPage {
     });
   }
 
+  private initDatePicker(): void{
+    let today : Date = new Date();
+    today.setMonth(today.getMonth() - 12);
+    this.min = today.toJSON().split('T')[0];
+    this.max = new Date().toJSON().split('T')[0];
+    this.monthNames['id'] = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    this.monthNames['en'] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  }
+
   private initPage(): void {
     this.page = new Page();
     this.page.sort.column = 'createdDate';
@@ -79,10 +97,10 @@ export class OrderHistoryPage {
 
   private loadData() {
     this.startLoading();
-    this.orderProvider.findByDate(new Date(), this.page).subscribe(page => {
+    this.orderProvider.findByDate(new Date(this.orderDate), this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
-      this.page.data = page.data;
+      this.page.data = [...this.page.data, ...page.data];
       this.loading.dismiss();
     })
   }
@@ -113,18 +131,18 @@ export class OrderHistoryPage {
     return this.commonProvider.getProductFromOrder(order);
   }
 
-  previous(): void {
-    if (this.page.pageNumber > 1) {
-      this.page.pageNumber = this.page.pageNumber - 1
-      this.loadData();
-    }
+  // Infinite Scroll
+
+  doInfinite(infiniteScroll) {
+    this.page.pageNumber = this.page.pageNumber + 1;
+    this.loadData();
+    infiniteScroll.complete();
   }
 
-  next(): void {
-    if (this.page.pageNumber < this.page.getTotalPage()) {
-      this.page.pageNumber = this.page.pageNumber + 1
-      this.loadData();
-    }
+  search(){
+    console.log('orderDate : ' + this.orderDate);
+    this.initPage();
+    this.loadData();
   }
 
 }

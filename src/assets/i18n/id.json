@@ -75,6 +75,7 @@
         "MENU": "Menu",
         "NAME": "Nama",
         "ORDER": "Pesanan",
+        "ORDER_DATE": "Tanggal Pesanan",
         "ORDER_DETAIL": "Detil Pesanan",
         "ORDER_LIST": "Daftar Pesanan",
         "ORDER_HISTORY": "Sejarah Pesanan",

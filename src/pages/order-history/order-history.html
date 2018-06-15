@@ -8,6 +8,25 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-row>
+    <ion-item col-8 col-sm-8 col-md-4 col-lg-3 col-xl-3>
+      <ion-label>{{ 'LABEL.ORDER_DATE' | translate }}</ion-label>
+      <ion-datetime 
+        cancelText="{{ 'BUTTON.CANCEL' | translate }}"
+        doneText="{{ 'BUTTON.DONE' | translate }}"
+        [min]="min"
+        [max]="max"
+        displayFormat="YYYY-MM-DD" 
+        pickerFormat="YYYY-MMM-DD"
+        [monthShortNames]="monthNames[lang]" 
+        [(ngModel)]="orderDate"></ion-datetime>
+    </ion-item>
+    <button ion-button icon-start (click)="search()">
+      <ion-icon name="search"></ion-icon>
+      {{ 'BUTTON.SEARCH' | translate }}
+    </button>
+  </ion-row>
+
   <ion-list *ngIf="page && page.totalData > 0; else nodata">
     <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
       <p>
@@ -17,25 +36,15 @@
       </p>
       <p>
         <span class="bold dark">{{ order.transactionNumber }}</span>
-        - 
+        -
         <span>{{ order.id }}</span>
       </p>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
     </button>
-    <ion-item>
-      <ion-buttons>
-        <button ion-button small outline [disabled]="page.isFirst()" (click)="previous()">
-          {{ 'BUTTON.PREVIOUS' | translate }}
-        </button>
-      </ion-buttons>
-      <ion-buttons item-end>
-        <button ion-button small outline [disabled]="page.isLast()" (click)="next()">
-          {{ 'BUTTON.NEXT' | translate }}
-        </button>
-      </ion-buttons>
-    </ion-item>
   </ion-list>
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 <ng-template #nodata>
   <ion-item>

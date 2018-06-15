@@ -115,4 +115,8 @@ export abstract class BaseCart {
         });
     }
 
+    getOperation(): string {
+        return this.cart.isModified ? this.editTxt : this.addTxt;
+    }
+
 }

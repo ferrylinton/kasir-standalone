@@ -32,7 +32,7 @@
             <ion-item>
               <ion-icon name="menu"></ion-icon>
               <span class="title">{{ 'LABEL.ORDER_DETAIL' | translate }}</span>
-              <ion-icon item-end [color]="cart.order.isPaid ? 'secondary' : 'danger'" [name]="cart.isModified ? 'create' : 'add'"></ion-icon>
+              <ion-badge item-end [color]="cart.order.isPaid ? 'secondary' : 'danger'">{{ getOperation() }}</ion-badge>
             </ion-item>
             <ion-item *ngIf="cart.totalItem == 0">
               {{ 'MESSAGE.NO_ORDER' | translate }}
@@ -63,7 +63,10 @@
                 <button ion-button color="light" icon-start (click)="productList()">
                   <ion-icon name="medal"></ion-icon> {{ 'LABEL.PRODUCT' | translate }}
                 </button>
-                <button ion-button color="primary" icon-start (click)="pay()" *ngIf="cart.totalItem > 0">
+                <button ion-button color="light" icon-start (click)="save()" [disabled]="cart.totalItem == 0">
+                  <ion-icon name="checkmark"></ion-icon> {{ 'BUTTON.SAVE' | translate }}
+                </button>
+                <button ion-button color="secondary" icon-start (click)="pay()" [disabled]="cart.totalItem == 0">
                   <ion-icon name="card"></ion-icon> {{ 'BUTTON.PAYMENT' | translate }}
                 </button>
               </ion-buttons>
