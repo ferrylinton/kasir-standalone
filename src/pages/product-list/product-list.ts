@@ -47,17 +47,17 @@ export class ProductListPage extends BaseCart {
 
   constructor(
     public modalCtrl: ModalController,
+    public popoverCtrl: PopoverController,
     public navParams: NavParams,
     public loadingCtrl: LoadingController,
     public cartProvider: CartProvider,
     public commonProvider: CommonProvider,
     public settingProvider: SettingProvider,
-    public popoverCtrl: PopoverController,
     public translateService: TranslateService,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
     this.initPage();
   }
 
@@ -159,10 +159,6 @@ export class ProductListPage extends BaseCart {
     this.commonProvider.goToPage('OrderPage', {});
   }
 
-  refresh() {
-    this.commonProvider.goToPage('ProductListPage', {});
-  }
-
   view(product: Product) {
     const productModal = this.modalCtrl.create('ProductModalPage', { product: product });
     productModal.present();
@@ -172,12 +168,14 @@ export class ProductListPage extends BaseCart {
 
   showMore(event: Event) {
     let menus = new Array<MoreMenu>();
-    menus.push(new MoreMenu('apps', this.gridTxt, 'grid'));
-    menus.push(new MoreMenu('menu', this.listTxt, 'list'));
+    menus.push(new MoreMenu(this.gridTxt, 'grid'));
+    menus.push(new MoreMenu(this.listTxt, 'list'));
 
     let moreMenuPage = this.popoverCtrl.create(MoreMenuPage, { menus: menus });
     moreMenuPage.onDidDismiss(val => {
-      if (val === 'grid') {
+      if (val === 'reload') {
+        this.commonProvider.goToPage('ProductListPage', {});
+      } else if (val === 'grid') {
         this.showGrid = true;
       } else if (val === 'list') {
         this.showGrid = false;

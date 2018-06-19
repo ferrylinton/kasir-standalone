@@ -9,14 +9,8 @@
         <ion-icon name="cart"></ion-icon>
         {{ cart.totalItem }}
       </button>
-      <button ion-button icon-only (click)="save()" [disabled]="cart.totalItem == 0">
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="delete()">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="refresh()">
-        <ion-icon name="refresh"></ion-icon>
+      <button ion-button icon-only (click)="showMore($event)">
+        <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -62,9 +56,6 @@
               <ion-buttons item-end>
                 <button ion-button color="light" icon-start (click)="productList()">
                   <ion-icon name="medal"></ion-icon> {{ 'LABEL.PRODUCT' | translate }}
-                </button>
-                <button ion-button color="light" icon-start (click)="save()" [disabled]="cart.totalItem == 0">
-                  <ion-icon name="checkmark"></ion-icon> {{ 'BUTTON.SAVE' | translate }}
                 </button>
                 <button ion-button color="secondary" icon-start (click)="pay()" [disabled]="cart.totalItem == 0">
                   <ion-icon name="card"></ion-icon> {{ 'BUTTON.PAYMENT' | translate }}

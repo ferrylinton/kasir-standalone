@@ -1,24 +1,29 @@
-<div class="">
-<ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content>
-    <ion-list>
-      <ion-item-group *ngFor="let group of menus">
-        <ion-item-divider color="light">{{ group.title | translate }}</ion-item-divider>
-        <button menuClose ion-item *ngFor="let menu of group.menus" (click)="openPage(menu)">
-            <ion-icon [name]="menu.icon"></ion-icon> {{ menu.title | translate }}
+<div class="menu">
+  <ion-menu [content]="content">
+    <ion-content>
+      <div class="menu-header" *ngIf="user">
+        <img class="user-avatar" src="{{user.image}}" />
+        <button color="dark" ion-button icon-left clear block menuToggle (click)="openPage('ProfilePage')">
+          <ion-icon color="dark" name='contact'></ion-icon>
+          {{ user.fullname }}
         </button>
-      </ion-item-group>
-    </ion-list>
-  </ion-content>
+        <button color="danger" ion-button icon-left clear block menuToggle (click)="openPage('LoginPage')">
+          <ion-icon color="danger" name='log-out'></ion-icon>
+          {{ 'LOGOUT' | translate }}
+        </button>
+      </div>
+      <ion-list>
+        <ion-item-group *ngFor="let group of menus">
+          <ion-list-header>{{ group.title | translate }}</ion-list-header>
+          <button menuClose ion-item detail-none *ngFor="let menu of group.menus" (click)="openPage(menu.page)">
+            <ion-icon [name]="menu.icon"></ion-icon> {{ menu.title | translate }}
+          </button>
+        </ion-item-group>
+      </ion-list>
+    </ion-content>
 
-</ion-menu>
+  </ion-menu>
 
-<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+  <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+  <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
 </div>

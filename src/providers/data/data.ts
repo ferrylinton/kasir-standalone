@@ -12,6 +12,7 @@ import { Category } from '../../models/category.model';
 import { Product } from '../../models/product.model';
 import { Order } from '../../models/order.model';
 import { Item } from '../../models/item.model';
+import { DEFAULT_USER } from '../../constant/user-image';
 
 
 
@@ -110,8 +111,9 @@ export class DataProvider {
     admin.role = roleAdmin.name;
     admin.activated = true;
     admin.authorities = roleAdmin.authorities
-    let manager = new User('user-0000-0000-0000-002', 'manager', 'password', 'Manager', roleManager.name, roleManager.authorities, true, admin.username, new Date());
-    let employee = new User('user-0000-0000-0000-003', 'employee', 'password', 'Employee', roleEmployee.name, roleEmployee.authorities, false, admin.username, new Date());
+    admin.image = DEFAULT_USER;
+    let manager = new User('user-0000-0000-0000-002', 'manager', 'password', 'Manager', roleManager.name, roleManager.authorities, true, DEFAULT_USER, admin.username, new Date());
+    let employee = new User('user-0000-0000-0000-003', 'employee', 'password', 'Employee', roleEmployee.name, roleEmployee.authorities, false, DEFAULT_USER, admin.username, new Date());
 
     let mainGroup = new Menu('menu-0000-0000-0000-100', 'Main');
     let homePage = new Menu('menu-0000-0000-0000-101', 'Home', mainGroup, null, 'HomePage', 'home', basicAuthority.name);
@@ -121,16 +123,10 @@ export class DataProvider {
     let dataGroup = new Menu('menu-0000-0000-0000-200', 'Data');
     let userPage = new Menu('menu-0000-0000-0000-201', 'User', dataGroup, null, 'UserPage', 'people', userView.name);
     let rolePage =new Menu('menu-0000-0000-0000-202', 'Role', dataGroup, null, 'RolePage', 'build', roleView.name);
-    let auhtorityPage = new Menu('menu-0000-0000-0000-203', 'Authority', dataGroup, null, 'AuthorityPage', 'hammer', authorityView.name);
-    let menuPage = new Menu('menu-0000-0000-0000-204', 'Menu', dataGroup, null, 'MenuPage', 'list', menuView.name);
     let productPage = new Menu('menu-0000-0000-0000-205', 'Product', dataGroup, null, 'ProductPage', 'medal', productView.name);
     let categoryPage = new Menu('menu-0000-0000-0000-206', 'Category', dataGroup, null, 'CategoryPage', 'albums', categoryView.name);
-    let databaseGroup = new Menu('menu-0000-0000-0000-300', 'DB');
-    let databasePage = new Menu('menu-0000-0000-0000-301', 'Database', databaseGroup, null, 'DatabasePage', 'archive', dbView.name);
-    let settingPage = new Menu('menu-0000-0000-0000-302', 'Setting', databaseGroup, null, 'SettingPage', 'settings', settingView.name);
-    let accountGroup = new Menu('menu-0000-0000-0000-400', 'Account');
-    let profilePage = new Menu('menu-0000-0000-0000-401', 'Profile', accountGroup, null, 'ProfilePage', 'person', basicAuthority.name);
-    let logoutPage = new Menu('menu-0000-0000-0000-402', 'Logout', accountGroup, null, 'LoginPage', 'log-out', basicAuthority.name);
+    let databasePage = new Menu('menu-0000-0000-0000-301', 'Database', dataGroup, null, 'DatabasePage', 'archive', dbView.name);
+    let settingPage = new Menu('menu-0000-0000-0000-302', 'Setting', dataGroup, null, 'SettingPage', 'settings', settingView.name);
     
     this.menus.push(mainGroup);
     this.menus.push(homePage);
@@ -140,16 +136,10 @@ export class DataProvider {
     this.menus.push(dataGroup);
     this.menus.push(userPage);
     this.menus.push(rolePage);
-    this.menus.push(auhtorityPage);
-    this.menus.push(menuPage);
     this.menus.push(productPage);
     this.menus.push(categoryPage);
-    this.menus.push(databaseGroup);
     this.menus.push(databasePage);
     this.menus.push(settingPage);
-    this.menus.push(accountGroup);
-    this.menus.push(profilePage);
-    this.menus.push(logoutPage);
 
     this.authorities.push(basicAuthority);
     this.authorities.push(authorityView);

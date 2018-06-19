@@ -42,7 +42,9 @@ $colors: (
   lighter:    #f7f7f7,
   lightgray:  #dddddd,
   grey:       #999,
-  darkgray:   #727272
+  darkgray:   #727272,
+  border:     #ddd,
+  white:      #fff
 );
 
 $grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px );

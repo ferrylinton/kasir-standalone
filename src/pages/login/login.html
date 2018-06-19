@@ -3,24 +3,21 @@
   <div class="splash-info">
     <div class="splash-logo"></div>
   </div>
-  <form #loginForm="ngForm" novalidate>
+  <form class="login" (ngSubmit)="login()">
     <ion-list>
       <ion-item>
-        <ion-label floating>{{ 'LABEL.USERNAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="login.username" name="username" required></ion-input>
+        <ion-label floating>{{ 'USERNAME' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="data.username" name="username"></ion-input>
       </ion-item>
-
       <ion-item>
-        <ion-label floating>{{ 'LABEL.PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="login.password" name="password" required></ion-input>
+        <ion-label floating>{{ 'PASSWORD' | translate }}</ion-label>
+        <ion-input type="password" [(ngModel)]="data.password" name="password"></ion-input>
       </ion-item>
-
       <div padding>
-        <button ion-button ion-button item-end icon-left color="primary" (click)="onLogin(loginForm)" type="submit">
-          <ion-icon name="log-in"></ion-icon> {{ 'BUTTON.LOGIN' | translate }}
+        <button ion-button block round icon-left color="primary" type="submit">
+          <ion-icon name="log-in"></ion-icon> {{ 'LOGIN' | translate }}
         </button>
       </div>
-
     </ion-list>
   </form>
 </ion-content>

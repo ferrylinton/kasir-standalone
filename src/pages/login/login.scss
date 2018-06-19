@@ -6,15 +6,6 @@ page-login {
         height: 45%;
         z-index: 1;
         background-repeat: repeat-x;
-        animation: animatedBackground 40s linear infinite;
-    }
-    @keyframes animatedBackground {
-        from {
-            background-position: 0 0;
-        }
-        to {
-            background-position: 100% 0;
-        }
     }
     .splash-info {
         position: relative;
@@ -29,7 +20,27 @@ page-login {
         width: 128px;
         height: 128px;
     }
-    form {
-        margin-top: -20px;
+    .login {
+        margin: 20px;
+    }
+
+    .list-md,
+    .list-ios,
+    .list-wp {
+        margin: 0;
+        padding: 0;
+    }
+    .item-md,
+    .item-ios,
+    .item-wp {
+        margin: 0;
+        padding: 0 10px;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .login {
+            margin: 0 auto;
+            max-width: 40%;
+        }
     }
 }

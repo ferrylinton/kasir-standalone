@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, LoadingController, PopoverController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -33,6 +33,7 @@ export class HomePage extends BaseCart{
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
+    public popoverCtrl: PopoverController,
     public loadingCtrl: LoadingController,
     public translateService: TranslateService,
     public settingProvider: SettingProvider,
@@ -41,7 +42,7 @@ export class HomePage extends BaseCart{
     public cartProvider: CartProvider,
     public commonProvider: CommonProvider) {
 
-      super(modalCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
+      super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
       this.initPage();
   }
 

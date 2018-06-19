@@ -1,4 +1,4 @@
-import { ModalController, Loading, LoadingController } from 'ionic-angular';
+import { ModalController, Loading, LoadingController, PopoverController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as Setting from '../../constant/setting';
@@ -8,6 +8,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { Order } from "../../models/order.model";
 import { Cart } from '../../models/cart.model';
 import { Product } from '../../models/product.model';
+import { MoreMenuPage } from '../more-menu/more-menu';
 
 
 export abstract class BaseCart {
@@ -28,6 +29,10 @@ export abstract class BaseCart {
 
     addTxt: string = 'Add';
 
+    deleteTxt: string = 'Delete';
+
+    saveTxt: string = 'Save';
+
     lang: string = Setting.DEFAULT_LANGUAGE;
 
     currency: string = Setting.DEFAULT_CURRENCY + ' ';
@@ -40,6 +45,7 @@ export abstract class BaseCart {
 
     constructor(
         public modalCtrl: ModalController,
+        public popoverCtrl: PopoverController,
         public loadingCtrl: LoadingController,
         public translateService: TranslateService,
         public commonProvider: CommonProvider,
@@ -52,14 +58,16 @@ export abstract class BaseCart {
 
     initLanguage() {
         let keys: string[] = [
-            'MESSAGE.LOADING',
-            'MESSAGE.UNSAVE_ORDER',
-            'LABEL.ORDER',
-            'LABEL.GRID',
-            'LABEL.LIST',
-            'LABEL.ALL_CATEGORIES',
-            'LABEL.ADD',
-            'LABEL.EDIT'
+            'LOADING',
+            'UNSAVE_ORDER',
+            'ORDER',
+            'GRID',
+            'LIST',
+            'ALL_CATEGORIES',
+            'ADD',
+            'EDIT',
+            'SAVE',
+            'DELETE'
         ];
 
         this.translateService.get(keys).subscribe(val => {
@@ -71,6 +79,8 @@ export abstract class BaseCart {
             this.allCategoriesTxt = val[keys[5]];
             this.addTxt = val[keys[6]];
             this.editTxt = val[keys[7]];
+            this.saveTxt = val[keys[8]];
+            this.deleteTxt = val[keys[9]];
         });
     }
 
@@ -119,4 +129,16 @@ export abstract class BaseCart {
         return this.cart.isModified ? this.editTxt : this.addTxt;
     }
 
+    // More Menu
+
+    showMore(event: Event) {
+        let moreMenuPage = this.popoverCtrl.create(MoreMenuPage);
+        moreMenuPage.onDidDismiss(val => {
+            if (val === 'reload') {
+                this.commonProvider.goToPage('ProductListPage', {});
+            }
+        });
+
+        moreMenuPage.present({ ev: event });
+    }
 }

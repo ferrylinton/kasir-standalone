@@ -19,6 +19,8 @@ export class User implements Audit{
         
         public activated?: boolean,
 
+        public image?: string,
+
         public createdBy?: string,
 
         public createdDate?: Date,
