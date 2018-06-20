@@ -12,6 +12,19 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.label-segment {
+    font-size: 1.6rem;
+    line-height: 4rem;
+    text-transform: capitalize;
+    padding-right:6px;
+}
+@media only screen and (max-width: 768px) {
+    .label-segment {
+        display: none;
+    }
+}
+
 .menu {
     .list-header-md,
     .list-header-ios,
@@ -119,21 +132,6 @@
     .list-wp {
         margin: 8px 0;
     }
-}
-
-.searchbar-ios-cancel {
-    margin-right: 0px !important;
-    opacity: 1 !important;
-    padding-left: 10px !important;
-}
-
-.searchbar-md .searchbar-md-cancel {
-    display: inline-flex !important;
-    background-color: white !important;
-}
-
-.searchbar-search-icon {
-    display: none;
 }
 
 .categories {

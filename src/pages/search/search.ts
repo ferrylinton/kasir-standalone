@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, PopoverController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { IonicPage, Slides, PopoverController, NavParams, LoadingController, ModalController, NavController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -13,25 +13,16 @@ import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
 
-
 @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'page-search',
+  templateUrl: 'search.html',
 })
-export class HomePage extends BaseCart {
+export class SearchPage extends BaseCart {
 
-  @ViewChild(Slides) slides: Slides;
+  segment = 'SearchPage';
 
-  segment = 'HomePage';
-
-  category: string = '';
-
-  categories: Array<Category>;
-
-  showLeftButton: boolean;
-
-  showRightButton: boolean;
+  keyword: string = '';
 
   page: Page<Product>;
 
@@ -48,7 +39,12 @@ export class HomePage extends BaseCart {
     public categoryProvider: CategoryProvider) {
 
     super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
-    this.initPage();
+  }
+
+  ionViewWillEnter() {
+    this.cartProvider.getCart().subscribe(cart => {
+      this.cart = cart;
+    })
   }
 
   private initPage(): void {
@@ -57,44 +53,15 @@ export class HomePage extends BaseCart {
     this.page.sort.isAsc = true;
   }
 
-  ionViewWillEnter() {
-    this.startLoading();
-    forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
-      this.categories = results[0];
-      this.categories.unshift(new Category(this.category, this.allCategoriesTxt));
-      this.cart = results[1];
-      this.loadProducts();
-    });
-  }
-
-  ionViewDidEnter() {
-      setTimeout(() => {
-        this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
-        this.setSlideProperties();
-      }, 100);
-  }
-
-  // Slides
-
-  slideChanged(): void {
-      this.startLoading();
-      this.setSlideProperties();
+  search() {
+    if (this.keyword && this.keyword.trim() != '') {
       this.initPage();
-      this.loadProducts();
+      this.loadProducts()
+    }
   }
 
-  slideNext(): void {
-    this.slides.slideNext();
-  }
-
-  slidePrev(): void {
-    this.slides.slidePrev();
-  }
-
-  private setSlideProperties() {
-    this.showLeftButton = this.slides.getActiveIndex() !== 0;
-    this.showRightButton = this.slides.getActiveIndex() !== this.categories.length - 1;
-    this.category = this.slides.getActiveIndex() === 0 ? '' : this.categories[this.slides.getActiveIndex()].name;
+  clear() {
+    this.page = null;
   }
 
   // Infinite Scroll
@@ -113,11 +80,10 @@ export class HomePage extends BaseCart {
   }
 
   private loadProducts() {
-    this.productProvider.findByCategory(this.category, this.page).subscribe(page => {
+    this.productProvider.findByName(this.keyword, this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
-      this.loading.dismiss();
     })
   }
 
@@ -141,11 +107,12 @@ export class HomePage extends BaseCart {
     return 0;
   }
 
+  // Segment
+  
   updateContent(): void {
-    if(this.segment !== 'HomePage'){
+    if (this.segment !== 'SearchPage') {
       this.commonProvider.goToPage(this.segment, {});
     }
   }
 
 }
-
