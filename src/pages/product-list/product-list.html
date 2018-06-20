@@ -1,27 +1,35 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar *ngIf="cart">
     <button *ngIf="!showSearch" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title *ngIf="!showSearch">{{ 'LABEL.PRODUCT' | translate }}</ion-title>
-    <ion-searchbar #searchbar *ngIf="showSearch" [(ngModel)]="keyword" [showCancelButton]="true" (ionCancel)="toggleSearch()"
-      (ionClear)="clearSearch()" (ionInput)="triggerSearch($event)" placeholder="{{ 'LABEL.SEARCH' | translate }}"></ion-searchbar>
-    <ion-buttons *ngIf="cart" end>
-      <button *ngIf="!showSearch" ion-button icon-only (click)="viewOrder()">
+    <ion-segment *ngIf="!showSearch" [(ngModel)]="segment" (ionChange)="update()">
+      <ion-segment-button value="product">
+        <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
+        <ion-icon name="clipboard"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="search">
+        <span class="label-segment">{{ 'SEARCH' | translate }}</span>
+        <ion-icon name="search"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="history">
+        <span class="label-segment">{{ 'ORDER' | translate }}</span>
+        <ion-icon name="clock"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="order">
+        <span class="label-segment">{{ 'CART' | translate }}</span>
         <ion-icon name="cart"></ion-icon>
         {{ cart.totalItem }}
-      </button>
-      <button *ngIf="!showSearch" ion-button icon-only (click)="toggleSearch()">
-        <ion-icon name="search"></ion-icon>
-      </button>
-      <button *ngIf="!showSearch" ion-button icon-only (click)="showMore($event)">
-        <ion-icon name="more"></ion-icon>
-      </button>
-    </ion-buttons>
+      </ion-segment-button>
+
+    </ion-segment>
+    <ion-searchbar #searchbar *ngIf="showSearch" [(ngModel)]="keyword" [showCancelButton]="true" (ionCancel)="toggleSearch()"
+      (ionClear)="clearSearch()" (ionInput)="triggerSearch($event)" placeholder="{{ 'LABEL.SEARCH' | translate }}"></ion-searchbar>
   </ion-navbar>
 </ion-header>
 
 <ion-content *ngIf="page">
+
   <ion-row class="categories" *ngIf="keyword == ''">
     <ion-col class="col-with-arrow" (click)="slidePrev()" no-padding col-1>
       <ion-icon *ngIf="showLeftButton" name="arrow-round-back"></ion-icon>
@@ -41,7 +49,7 @@
     <ion-row>
       <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 *ngFor="let product of page.data">
         <ion-card [class.selected]="isSelected(product)">
-          <img src="{{product.image}}" (click)="view(product)"/>
+          <img src="{{product.image}}" (click)="view(product)" />
           <p>{{product.name}}</p>
           <p>{{product.price | currency:currency:symbol:symbol:lang}}</p>
           <div text-center>

@@ -29,6 +29,8 @@ export class ProductListPage extends BaseCart {
 
   index: number = 0;
 
+  segment = 'product';
+
   showSearch: boolean = false;
 
   showGrid: boolean = true;
@@ -214,6 +216,10 @@ export class ProductListPage extends BaseCart {
     }
 
     return 0;
+  }
+
+  update(): void{
+    console.log('update : ' + this.segment);
   }
 
 }

@@ -1,54 +1,80 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'HOME' | translate }}</ion-title>
-    <ion-buttons end *ngIf="cart">
-      <button ion-button icon-only (click)="viewOrder()">
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
+      <ion-segment-button value="product">
+        <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
+        <ion-icon name="clipboard"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="search">
+        <span class="label-segment">{{ 'SEARCH' | translate }}</span>
+        <ion-icon name="search"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="order">
+        <span class="label-segment">{{ 'ORDER' | translate }}</span>
+        <ion-icon name="clock"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="cart">
+        <span class="label-segment">{{ 'CART' | translate }}</span>
         <ion-icon name="cart"></ion-icon>
-        {{ cart.totalItem }}
-      </button>
-      <button ion-button icon-only (click)="showMore($event)">
-        <ion-icon name="more"></ion-icon>
-      </button>
-    </ion-buttons>
+        <span *ngIf="cart">{{ cart.totalItem }}</span>
+      </ion-segment-button>
+    </ion-segment>
   </ion-navbar>
 </ion-header>
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
-        <ion-card *ngFor="let category of categories;let i=index">
-          <button ion-item (click)="viewProduct(i, category.name)">
-            <ion-thumbnail item-start>
-              <img src="{{category.image}}">
-            </ion-thumbnail>
-            <span class="big-label">{{category.name}}</span>
-            <span class="round-number" item-end>{{category.products}}</span>
-          </button>
-        </ion-card>
+
+<ion-content *ngIf="page">
+  <div *ngIf="segment == 'product'">
+    <ion-row class="categories">
+      <ion-col class="col-with-arrow" (click)="slidePrev()" no-padding col-1>
+        <ion-icon *ngIf="showLeftButton" name="arrow-round-back"></ion-icon>
       </ion-col>
-      <ion-col col-12 col-sm-12 col-md-5 col-lg-4 col-xl-4>
-        <div class="box gray">
-          <ion-list *ngIf="orders; else nodata">
-            <ion-item>
-              <ion-icon name="clipboard"></ion-icon>
-              <span class="title">{{ 'ORDER_HISTORY' | translate }}</span>
-            </ion-item>
-            <ion-item *ngIf="orders.length == 0">
-              {{ 'MESSAGE.NO_DATA' | translate }}
-            </ion-item>
-            <button ion-item *ngFor="let order of orders" (click)="showOrder(order)">
-              <p>
-                <span class="bold primary">{{ order.createdBy }}</span> -
-                <span class="bold dark">{{ order.createdDate | moment:'ago':lang | lowercase}}</span>
-              </p>
-              <p text-wrap>{{ getProducts(order) | shorten:100 }}</p>
-            </button>
-          </ion-list>
-        </div>
+      <ion-col no-padding col-10>
+        <ion-slides (ionSlideDidChange)="slideChanged()">
+          <ion-slide *ngFor="let category of categories">
+            <p>{{ category.name }}</p>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+      <ion-col class="col-with-arrow" (click)="slideNext()" no-padding col-1>
+        <ion-icon *ngIf="showRightButton" name="arrow-round-forward"></ion-icon>
       </ion-col>
     </ion-row>
-  </ion-grid>
+    <ion-grid class="data-grid">
+      <ion-row>
+        <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 *ngFor="let product of page.data">
+          <ion-card [class.selected]="isSelected(product)">
+            <img src="{{product.image}}" (click)="view(product)" />
+            <p>{{product.name}}</p>
+            <p>{{product.price | currency:currency:symbol:symbol:lang}}</p>
+            <div text-center>
+              <button [color]="isSelected(product) ? 'danger' : 'light'" small ion-button icon-only (click)="removeItem(product)">
+                <ion-icon name="remove"></ion-icon>
+              </button>
+              <button color="dark" small ion-button icon-only clear *ngIf="isSelected(product)">
+                <ion-icon name="cart">{{ getQuantity(product) }}</ion-icon>
+              </button>
+              <button [color]="isSelected(product) ? 'secondary' : 'light'" small ion-button icon-only (click)="addItem(product)">
+                <ion-icon name="add"></ion-icon>
+              </button>
+            </div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+  <div *ngIf="segment == 'search'">
+      <ion-searchbar #searchbar [(ngModel)]="keyword"
+      (ionClear)="clearSearch()" (ionInput)="triggerSearch($event)" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
+  </div>
+  <div *ngIf="segment == 'order'"></div>
+  <div *ngIf="segment == 'cart'"></div>
+
+
+
 </ion-content>

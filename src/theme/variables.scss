@@ -63,7 +63,9 @@ $grid-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px);
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
+$toolbar-md-background: color($colors, primary);
 
+$toolbar-md-active-color: #fff;
 
 
 // App Windows Variables
