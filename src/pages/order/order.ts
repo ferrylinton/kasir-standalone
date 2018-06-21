@@ -23,6 +23,8 @@ export class OrderPage extends BaseCart {
 
   page: Page<Order>;
 
+  segment = 'OrderPage';
+
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
@@ -185,6 +187,14 @@ export class OrderPage extends BaseCart {
     this.loadOrderHistory();
     this.cart = this.cartProvider.createNewCart();
     this.cartProvider.setCart(this.cart);
+  }
+
+  // Segment
+  
+  updateContent(): void {
+    if (this.segment !== 'OrderPage') {
+      this.commonProvider.goToPage(this.segment, {});
+    }
   }
 
 }

@@ -1,29 +1,41 @@
 page-login {
-    .splash-bg {
-        position: relative;
-        background: url('../assets/img/splashbg.png') no-repeat transparent;
+    ion-content {
         background-size: cover;
-        height: 45%;
-        z-index: 1;
-        background-repeat: repeat-x;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-color: transparent;
     }
-    .splash-info {
-        position: relative;
-        z-index: 2;
-        margin-top: -64px;
+    .logo-wrapper {
+        margin: 0 auto;
+        width: 250px;
+    }
+    .logo {
         text-align: center;
+        padding: 0;
+        margin: 0 0 20px 0;
     }
-    .splash-logo {
-        margin: auto;
-        background: url('../assets/img/appicon.png') repeat transparent;
-        background-size: 100%;
-        width: 128px;
-        height: 128px;
+    .logo span {
+        display: inline-block;
+        font-size: 4.8rem;
+        font-weight: 500;
+        text-transform: lowercase;
+        font-family: 'Paytone One', sans-serif;
+        color: color($colors, dark);
+        line-height: 1;
     }
-    .login {
-        margin: 20px;
+    .logo span ion-icon{
+        font-size: 4.4rem;
+        margin-right: 2px;
+        text-shadow: none;
     }
-
+    form {
+        margin: 0 auto;
+        margin-top: 15%;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        max-width: 90%;
+    }
     .list-md,
     .list-ios,
     .list-wp {
@@ -36,11 +48,29 @@ page-login {
         margin: 0;
         padding: 0 10px;
     }
+    @media only screen and (min-width: 576px) {
+        form {
+            max-width: 60%;
+        }
+    }
 
     @media only screen and (min-width: 768px) {
-        .login {
-            margin: 0 auto;
+        form {
+            max-width: 50%;
+        }
+    }
+
+    @media only screen and (min-width: 992px) {
+        form {
+            max-width: 45%;
+        }
+    }
+    
+    @media only screen and (min-width: 1200px) {
+        form {
             max-width: 40%;
         }
     }
+
+   
 }

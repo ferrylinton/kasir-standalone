@@ -3,7 +3,25 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'LABEL.ORDER_HISTORY' | translate }}</ion-title>
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
+      <ion-segment-button value="HomePage">
+        <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
+        <ion-icon name="clipboard"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="SearchPage">
+        <span class="label-segment">{{ 'SEARCH' | translate }}</span>
+        <ion-icon name="search"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="OrderHistoryPage">
+        <span class="label-segment">{{ 'ORDER' | translate }}</span>
+        <ion-icon name="clock"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="OrderPage">
+        <span class="label-segment">{{ 'CART' | translate }}</span>
+        <ion-icon name="cart"></ion-icon>
+        <span *ngIf="cart">{{ cart.totalItem }}</span>
+      </ion-segment-button>
+    </ion-segment>
   </ion-navbar>
 </ion-header>
 

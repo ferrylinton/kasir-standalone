@@ -22,6 +22,8 @@ export class LoginPage {
 
   private EMPTY_USERNAME_PASSWORD: string;
 
+  backgroundImage = 'assets/img/login-background.jpg';
+
   data = {username: '', password: ''};
 
   constructor(

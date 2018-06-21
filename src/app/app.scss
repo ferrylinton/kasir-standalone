@@ -12,15 +12,26 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+@font-face {
+    font-family: 'Paytone One';
+    src: url('../assets/fonts/PaytoneOne.ttf');
+}
 
-.label-segment {
+.header .label-segment {
+    display: inline-block;
     font-size: 1.6rem;
     line-height: 4rem;
     text-transform: capitalize;
-    padding-right:6px;
+    padding-right: 6px;
 }
+
+.header .segment-md .segment-button ion-icon {
+    font-size: 2.0rem;
+    line-height: 4rem;
+}
+
 @media only screen and (max-width: 768px) {
-    .label-segment {
+    .header .label-segment {
         display: none;
     }
 }

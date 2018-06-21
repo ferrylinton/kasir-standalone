@@ -31,6 +31,8 @@ export class OrderHistoryPage {
 
   symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
 
+  segment = 'OrderHistoryPage';
+
   loading: Loading;
 
   order: Order;
@@ -143,6 +145,14 @@ export class OrderHistoryPage {
     console.log('orderDate : ' + this.orderDate);
     this.initPage();
     this.loadData();
+  }
+
+  // Segment
+  
+  updateContent(): void {
+    if (this.segment !== 'OrderHistoryPage') {
+      this.commonProvider.goToPage(this.segment, {});
+    }
   }
 
 }
