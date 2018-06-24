@@ -17,24 +17,7 @@
     src: url('../assets/fonts/PaytoneOne.ttf');
 }
 
-.header .label-segment {
-    display: inline-block;
-    font-size: 1.6rem;
-    line-height: 4rem;
-    text-transform: capitalize;
-    padding-right: 6px;
-}
-
-.header .segment-md .segment-button ion-icon {
-    font-size: 2.0rem;
-    line-height: 4rem;
-}
-
-@media only screen and (max-width: 768px) {
-    .header .label-segment {
-        display: none;
-    }
-}
+/* =================== MENU =================== */
 
 .menu {
     .list-header-md,
@@ -51,21 +34,89 @@
 }
 
 .menu-header {
-    padding: 5px;
+    padding: 0;
     background-image: url('../assets/img/menu-profile.jpg');
     background-size: cover;
     text-align: center;
-    .button-inner {
-        text-shadow: 1px 1px 1px rgba(255, 255, 255, 2);
-    }
 }
 
-.user-avatar {
+.menu-avatar {
+    margin: 20px 0;
     width: 120px;
     height: 120px;
     border-radius: 50%;
     border: solid 1px color($colors, border);
 }
+
+.menu-buttons{
+    background: $black-overlay;
+}
+
+.menu-buttons .button-md, .menu-buttons .button-ios, .menu-buttons .button-wp{
+    margin: 0;
+    border-left: solid 1px #a3a2a2;
+}
+
+.menu-buttons ion-row ion-col:first-child .button-md{
+    border-left: none;
+}
+
+/* =================== DATA GRID =================== */
+
+.data-grid {
+    ion-card {
+        position: relative;
+        text-align: center;
+        padding: 5px 5px 10px 5px;
+    }
+    img {
+        border: solid 2px color($colors, light);
+        padding: 10px;
+        background-color: color($colors, lighter);
+    }
+    ion-card:hover {
+        background-color: #ddfcd7;
+    }
+    ion-card:hover img {
+        border: solid 2px #b0fca3;
+    }
+    .selected {
+        border: solid 2px #b8f7ac;
+        background-color: #d2f8cb;
+    }
+    .selected img {
+        border: solid 2px #b8f7ac;
+        background-color: #fff;
+    }
+}
+
+/* =================== CATEGORIES =================== */
+
+.categories {
+    padding: 10px;
+    background-color: color($colors, light);
+    border-bottom: solid 1px color($colors, lightgray);
+    ion-col {
+        text-align: center;
+        font-size: 1.6rem;
+        line-height: 1.6rem;
+        &.col-with-arrow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    p {
+        margin: 0;
+        font-size: 1.6rem;
+        line-height: 1.6rem;
+    }
+}
+
+
+
+
+
 
 .big-label {
     font-size: 1.8rem;
@@ -145,51 +196,9 @@
     }
 }
 
-.categories {
-    padding: 10px;
-    background-color: color($colors, light);
-    border-bottom: solid 1px color($colors, lightgray);
-    ion-col {
-        text-align: center;
-        font-size: 1.6rem;
-        line-height: 1.6rem;
-        &.col-with-arrow {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
-    p {
-        margin: 0;
-        font-size: 1.6rem;
-        line-height: 1.6rem;
-    }
-}
 
-.data-grid {
-    ion-card {
-        position: relative;
-        text-align: center;
-        padding: 5px 5px 10px 5px;
-    }
-    img {
-        border: solid 2px color($colors, light);
-        padding: 10px;
-        background-color: color($colors, lighter);
-    }
-    img:hover {
-        cursor: pointer;
-        border: solid 2px color($colors, secondary);
-    }
-    .selected {
-        border: solid 2px #b8f7ac;
-        background-color: #d2f8cb;
-    }
-    .selected img {
-        border: solid 2px #b8f7ac;
-        background-color: #fff;
-    }
-}
+
+
 
 .data-list {
     img:hover {

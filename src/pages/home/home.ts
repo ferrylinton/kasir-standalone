@@ -64,23 +64,18 @@ export class HomePage extends BaseCart {
       this.categories.unshift(new Category(this.category, this.allCategoriesTxt));
       this.cart = results[1];
       this.loadProducts();
+      this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
+      this.setSlideProperties();
     });
-  }
-
-  ionViewDidEnter() {
-      setTimeout(() => {
-        this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
-        this.setSlideProperties();
-      }, 100);
   }
 
   // Slides
 
   slideChanged(): void {
-      this.startLoading();
-      this.setSlideProperties();
-      this.initPage();
-      this.loadProducts();
+    this.startLoading();
+    this.setSlideProperties();
+    this.initPage();
+    this.loadProducts();
   }
 
   slideNext(): void {
@@ -142,7 +137,7 @@ export class HomePage extends BaseCart {
   }
 
   updateContent(): void {
-    if(this.segment !== 'HomePage'){
+    if (this.segment !== 'HomePage') {
       this.commonProvider.goToPage(this.segment, {});
     }
   }

@@ -25,7 +25,7 @@ $app-direction: ltr;
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
 
-
+$black-overlay: rgba(0,0,0,.3);
 
 // Named Color Variables
 // --------------------------------------------------
@@ -43,7 +43,7 @@ $colors: (
   dark:       #222,
   lighter:    #f7f7f7,
   lightgray:  #dddddd,
-  grey:       #999,
+  gray:       #999,
   darkgray:   #727272,
   border:     #ddd,
   white:      #fff
@@ -66,8 +66,8 @@ $grid-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px);
 // Material Design only Sass variables can go here
 
 $toolbar-md-background: color($colors, primary);
-
 $toolbar-md-active-color: #fff;
+$segment-button-md-opacity: .5;
 
 
 // App Windows Variables

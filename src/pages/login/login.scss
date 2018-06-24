@@ -28,6 +28,14 @@ page-login {
         margin-right: 2px;
         text-shadow: none;
     }
+    .logo span em{
+        margin-top: -8px;
+        position: absolute;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        color: color($colors, secondary);
+    }
     form {
         margin: 0 auto;
         margin-top: 15%;

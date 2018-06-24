@@ -2,15 +2,23 @@
   <ion-menu [content]="content">
     <ion-content>
       <div class="menu-header" *ngIf="user">
-        <img class="user-avatar" src="{{user.image}}" />
-        <button color="dark" ion-button icon-left clear block menuToggle (click)="openPage('ProfilePage')">
-          <ion-icon color="dark" name='contact'></ion-icon>
-          {{ user.fullname }}
-        </button>
-        <button color="danger" ion-button icon-left clear block menuToggle (click)="openPage('LoginPage')">
-          <ion-icon color="danger" name='log-out'></ion-icon>
-          {{ 'LOGOUT' | translate }}
-        </button>
+        <img class="menu-avatar" src="{{user.image}}" />
+        <div class="menu-buttons">
+          <ion-row>
+            <ion-col no-padding col-6>
+              <button color="white" ion-button clear block icon-left menuToggle (click)="openPage('LoginPage')">
+                <ion-icon name='log-out'></ion-icon>
+                {{ 'LOGOUT' | translate }}
+              </button>
+            </ion-col>
+            <ion-col no-padding col-6>
+              <button color="white" ion-button clear block icon-left menuToggle (click)="openPage('ProfilePage')">
+                <ion-icon name='contact'></ion-icon>
+                {{ user.fullname }}
+              </button>
+            </ion-col>
+          </ion-row>
+        </div>
       </div>
       <ion-list>
         <ion-item-group *ngFor="let group of menus">

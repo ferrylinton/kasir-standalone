@@ -115,21 +115,21 @@ export class DataProvider {
     let manager = new User('user-0000-0000-0000-002', 'manager', 'password', 'Manager', roleManager.name, roleManager.authorities, true, DEFAULT_USER, admin.username, new Date());
     let employee = new User('user-0000-0000-0000-003', 'employee', 'password', 'Employee', roleEmployee.name, roleEmployee.authorities, false, DEFAULT_USER, admin.username, new Date());
 
-    let mainGroup = new Menu('menu-0000-0000-0000-100', 'Main');
-    let homePage = new Menu('menu-0000-0000-0000-101', 'Home', mainGroup, null, 'HomePage', 'home', basicAuthority.name);
-    let dataGroup = new Menu('menu-0000-0000-0000-200', 'Data');
-    let userPage = new Menu('menu-0000-0000-0000-201', 'User', dataGroup, null, 'UserPage', 'people', userView.name);
-    let rolePage =new Menu('menu-0000-0000-0000-202', 'Role', dataGroup, null, 'RolePage', 'build', roleView.name);
-    let productPage = new Menu('menu-0000-0000-0000-205', 'Product', dataGroup, null, 'ProductPage', 'medal', productView.name);
-    let categoryPage = new Menu('menu-0000-0000-0000-206', 'Category', dataGroup, null, 'CategoryPage', 'albums', categoryView.name);
-    let databasePage = new Menu('menu-0000-0000-0000-301', 'Database', dataGroup, null, 'DatabasePage', 'archive', dbView.name);
-    let settingPage = new Menu('menu-0000-0000-0000-302', 'Setting', dataGroup, null, 'SettingPage', 'settings', settingView.name);
+    let mainGroup = new Menu('menu-0000-0000-0000-100', 'MAIN');
+    let homePage = new Menu('menu-0000-0000-0000-101', 'HOME', mainGroup, null, 'HomePage', 'home', basicAuthority.name);
+    let aboutPage = new Menu('menu-0000-0000-0000-102', 'ABOUT', mainGroup, null, 'AboutPage', 'information-circle', basicAuthority.name);
+    let dataGroup = new Menu('menu-0000-0000-0000-200', 'DATA');
+    let userPage = new Menu('menu-0000-0000-0000-201', 'USER', dataGroup, null, 'UserPage', 'people', userView.name);
+    let productPage = new Menu('menu-0000-0000-0000-202', 'PRODUCT', dataGroup, null, 'ProductPage', 'medal', productView.name);
+    let categoryPage = new Menu('menu-0000-0000-0000-203', 'CATEGORY', dataGroup, null, 'CategoryPage', 'albums', categoryView.name);
+    let databasePage = new Menu('menu-0000-0000-0000-204', 'DATABASE', dataGroup, null, 'DatabasePage', 'archive', dbView.name);
+    let settingPage = new Menu('menu-0000-0000-0000-205', 'SETTING', dataGroup, null, 'SettingPage', 'settings', settingView.name);
     
     this.menus.push(mainGroup);
     this.menus.push(homePage);
+    this.menus.push(aboutPage);
     this.menus.push(dataGroup);
     this.menus.push(userPage);
-    this.menus.push(rolePage);
     this.menus.push(productPage);
     this.menus.push(categoryPage);
     this.menus.push(databasePage);
