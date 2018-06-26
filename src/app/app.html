@@ -21,10 +21,31 @@
         </div>
       </div>
       <ion-list>
-        <ion-item-group *ngFor="let group of menus">
-          <ion-list-header>{{ group.title | translate }}</ion-list-header>
-          <button menuClose ion-item detail-none *ngFor="let menu of group.menus" (click)="openPage(menu.page)">
-            <ion-icon [name]="menu.icon"></ion-icon> {{ menu.title | translate }}
+        <ion-item-group *ngIf="hasAuthority('BASIC_AUTHORITY')">
+          <ion-list-header>{{ 'MAIN' | translate }}</ion-list-header>
+          <button menuClose ion-item (click)="openPage('HomePage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
+            <ion-icon name="home"></ion-icon> {{ 'HOME' | translate }}
+          </button>
+          <button menuClose ion-item (click)="openPage('AboutPage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
+            <ion-icon name="information-circle"></ion-icon> {{ 'ABOUT' | translate }}
+          </button>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-list-header>{{ 'DATA' | translate }}</ion-list-header>
+          <button menuClose ion-item (click)="openPage('UserPage')" *ngIf="hasAuthority('USER_VIEW')">
+            <ion-icon name="people"></ion-icon> {{ 'USER' | translate }}
+          </button>
+          <button menuClose ion-item (click)="openPage('ProductPage')" *ngIf="hasAuthority('PRODUCT_VIEW')">
+            <ion-icon name="medal"></ion-icon> {{ 'PRODUCT' | translate }}
+          </button>
+          <button menuClose ion-item (click)="openPage('CategoryPage')" *ngIf="hasAuthority('CATEGORY_VIEW')">
+            <ion-icon name="albums"></ion-icon> {{ 'CATEGORY' | translate }}
+          </button>
+          <button menuClose ion-item (click)="openPage('DatabasePage')" *ngIf="hasAuthority('DATABASE_VIEW')">
+            <ion-icon name="archive"></ion-icon> {{ 'DATABASE' | translate }}
+          </button>
+          <button menuClose ion-item (click)="openPage('SettingPage')" *ngIf="hasAuthority('SETTING_VIEW')">
+            <ion-icon name="settings"></ion-icon> {{ 'SETTING' | translate }}
           </button>
         </ion-item-group>
       </ion-list>

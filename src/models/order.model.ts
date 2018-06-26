@@ -13,6 +13,8 @@ export class Order implements Audit {
 
         public isPaid?: boolean,
 
+        public isCanceled?: boolean,
+
         public createdBy?: string,
 
         public createdDate?: Date,

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, ModalController, PopoverController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import { BaseCart } from '../base/base-cart';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+
+import * as Setting from '../../constant/setting';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
@@ -10,8 +12,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
-import { MoreMenu } from '../../models/more-menu.model';
-import { MoreMenuPage } from '../more-menu/more-menu';
+import { BaseCart } from '../base/base-cart';
 
 
 @IonicPage()
@@ -21,9 +22,19 @@ import { MoreMenuPage } from '../more-menu/more-menu';
 })
 export class OrderPage extends BaseCart {
 
+  segment = 'OrderPage';
+
+  order: Order;
+
   page: Page<Order>;
 
-  segment = 'OrderPage';
+  monthNames: any = {};
+
+  orderDate: string = new Date().toISOString();
+
+  min: string;
+
+  max: string;
 
   constructor(
     public navCtrl: NavController,
@@ -39,154 +50,72 @@ export class OrderPage extends BaseCart {
     public cartProvider: CartProvider) {
 
     super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    this.initDatePicker();
+  }
+
+  ionViewWillEnter() {
+    this.cartProvider.getCart().subscribe(cart => {
+      this.cart = cart;
+    })
     this.initPage();
+    this.loadData();
+  }
+
+  private initDatePicker(): void{
+    let today : Date = new Date();
+    today.setMonth(today.getMonth() - 12);
+    this.min = today.toJSON().split('T')[0];
+    this.max = new Date().toJSON().split('T')[0];
+    this.monthNames['id'] = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    this.monthNames['en'] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   }
 
   private initPage(): void {
     this.page = new Page();
-    this.page.size = 5;
     this.page.sort.column = 'createdDate';
     this.page.sort.isAsc = false;
   }
 
-  ionViewWillEnter() {
-    this.loadOrder();
-    this.loadOrderHistory();
-  }
-
-  private loadOrder() {
-    if (this.navParams.get('order')) {
-      this.cartProvider.setCart(JSON.parse(this.navParams.get('order'))).subscribe(cart => {
-        this.cart = cart;
-      });
-    } else {
-      this.cartProvider.getCart().subscribe(cart => {
-        this.cart = cart;
-      });
-    }
-  }
-
-  private loadOrderHistory() {
-    this.orderProvider.findByDate(new Date(), this.page).subscribe(page => {
+  private loadData() {
+    this.startLoading();
+    this.orderProvider.findByDate(new Date(this.orderDate), this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
-      this.page.data = page.data;
+      this.page.data = [...this.page.data, ...page.data];
+      this.loading.dismiss();
     })
   }
 
-  /**
-   * Get Order from Order history and
-   * set order to current cart if there is no item
-   * 
-   * @param order 
-   */
   showOrder(order: Order) {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        if (this.cartProvider.countItem(this.cart.order) > 0) {
-          this.messageProvider.showToast(this.unsaveOrderTxt);
-        } else {
-          this.cartProvider.setCartFromOrder(order).subscribe(cart => {
-            this.cart = cart;
-          });
-        }
+        this.commonProvider.goToPage('OrderPage', { order: order });
       }
     })
     orderModal.present();
   }
 
   refresh() {
-    this.commonProvider.goToPage('OrderPage', {});
-  }
-
-  productList() {
-    this.commonProvider.goToPage('ProductListPage', {});
+    this.commonProvider.goToPage('OrderHistoryPage', {});
   }
 
   getProducts(order: Order): string {
     return this.commonProvider.getProductFromOrder(order);
   }
 
-  previous(): void {
-    if (this.page.pageNumber > 1) {
-      this.page.pageNumber = this.page.pageNumber - 1
-      this.loadOrderHistory();
-    }
+  // Infinite Scroll
+
+  doInfinite(infiniteScroll) {
+    this.page.pageNumber = this.page.pageNumber + 1;
+    this.loadData();
+    infiniteScroll.complete();
   }
 
-  next(): void {
-    if (this.page.pageNumber < this.page.getTotalPage()) {
-      this.page.pageNumber = this.page.pageNumber + 1
-      this.loadOrderHistory();
-    }
-  }
-
-  pay() {
-    const orderModal = this.modalCtrl.create('PaymentPage', { order: this.cart.order });
-    orderModal.onDidDismiss(order => {
-      if (order) {
-        this.commonProvider.getLoggedUser().subscribe(user => {
-          this.saveOrPay(true);
-        });
-      }
-    });
-    orderModal.present();
-  }
-
-  // More Menu
-
-  showMore(event: Event) {
-    let menus = new Array<MoreMenu>();
-    menus.push(new MoreMenu(this.saveTxt, 'save'));
-    menus.push(new MoreMenu(this.deleteTxt, 'delete'));
-
-    let moreMenuPage = this.popoverCtrl.create(MoreMenuPage, { menus: menus });
-    moreMenuPage.onDidDismiss(val => {
-      if (val === 'reload') {
-        this.commonProvider.goToPage('ProductListPage', {});
-      } else if (val === 'save') {
-        this.messageProvider.showAddConfirm(this.orderTxt, () => this.saveCallback());
-      } else if (val === 'delete') {
-        this.messageProvider.showDeleteConfirm(this.orderTxt, () => this.deleteOrderFromStorage());
-      }
-    });
-
-    moreMenuPage.present({ ev: event });
-  }
-
-  private saveCallback() {
-    this.commonProvider.getLoggedUser().subscribe(user => {
-      this.saveOrPay(false);
-    });
-  }
-
-  private saveOrPay(isPaid: boolean): void {
-    this.commonProvider.getLoggedUser().subscribe(user => {
-      if (this.cart.isModified) {
-        this.cart.order.isPaid = this.cart.order.isPaid || isPaid;
-        this.cart.order.lastModifiedBy = user.username;
-        this.cart.order.lastModifiedDate = new Date();
-        this.cart.order.createdDate = new Date(this.cart.order.createdDate);
-        this.orderProvider.update(this.cart.order).subscribe(() => {
-          this.deleteOrderFromStorage();
-        });
-      } else {
-        this.cart.order.isPaid = isPaid;
-        this.cart.order.createdBy = user.username;
-        this.cart.order.createdDate = new Date();
-        this.orderProvider.save(this.cart.order).subscribe(() => {
-          this.deleteOrderFromStorage();
-        });
-      }
-    });
-  }
-
-  private deleteOrderFromStorage(): void {
+  search(){
+    console.log('orderDate : ' + this.orderDate);
     this.initPage();
-    this.loadOrderHistory();
-    this.cart = this.cartProvider.createNewCart();
-    this.cartProvider.setCart(this.cart);
+    this.loadData();
   }
 
   // Segment

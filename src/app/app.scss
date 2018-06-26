@@ -48,16 +48,18 @@
     border: solid 1px color($colors, border);
 }
 
-.menu-buttons{
+.menu-buttons {
     background: $black-overlay;
 }
 
-.menu-buttons .button-md, .menu-buttons .button-ios, .menu-buttons .button-wp{
+.menu-buttons .button-md,
+.menu-buttons .button-ios,
+.menu-buttons .button-wp {
     margin: 0;
     border-left: solid 1px #a3a2a2;
 }
 
-.menu-buttons ion-row ion-col:first-child .button-md{
+.menu-buttons ion-row ion-col:first-child .button-md {
     border-left: none;
 }
 
@@ -81,12 +83,39 @@
         border: solid 2px #b0fca3;
     }
     .selected {
-        border: solid 2px #b8f7ac;
-        background-color: #d2f8cb;
+        background-color: #ddfcd7;
     }
     .selected img {
-        border: solid 2px #b8f7ac;
-        background-color: #fff;
+        border: solid 2px #b0fca3;
+    }
+}
+
+/* =================== SEGMENT =================== */
+
+.segment-md .segment-button.segment-activated,
+.segment-ios .segment-button.segment-activated,
+.segment-wp .segment-button.segment-activated {
+    background-color: #5c96fa;
+}
+
+.header .label-segment {
+    display: inline-block;
+    font-size: 1.6rem;
+    line-height: 4rem;
+    text-transform: capitalize;
+    padding-right: 6px;
+}
+
+.header .segment-md .segment-button ion-icon,
+.header .segment-ios .segment-button ion-icon,
+.header .segment-wp .segment-button ion-icon {
+    font-size: 2.0rem;
+    line-height: 4rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .header .label-segment {
+        display: none;
     }
 }
 
@@ -113,10 +142,15 @@
     }
 }
 
+/* =================== NO DATA =================== */
 
-
-
-
+.no-data {
+    margin: 10px;
+    padding: 20px;
+    color: color($colors, danger);
+    border: solid 1px #facbcb;
+    background-color: #fdf2f2;
+}
 
 .big-label {
     font-size: 1.8rem;
@@ -183,6 +217,9 @@
 .dark {
     color: color($colors, dark);
 }
+.gray {
+    color: color($colors, gray);
+}
 
 .bold {
     font-weight: bold;
@@ -195,10 +232,6 @@
         margin: 8px 0;
     }
 }
-
-
-
-
 
 .data-list {
     img:hover {

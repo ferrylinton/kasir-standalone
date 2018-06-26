@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
+      <ion-segment-button value="HomePage">
+        <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
+        <ion-icon name="clipboard"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="SearchPage">
+        <span class="label-segment">{{ 'SEARCH' | translate }}</span>
+        <ion-icon name="search"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="OrderPage">
+        <span class="label-segment">{{ 'ORDER' | translate }}</span>
+        <ion-icon name="clock"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="CartPage">
+        <span class="label-segment">{{ 'CART' | translate }}</span>
+        <ion-icon name="cart"></ion-icon>
+        <span *ngIf="cart">{{ cart.totalItem }}</span>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm-12 col-md-7 col-lg-8 col-xl-8>
+        <div class="box">
+          <ion-list *ngIf="cart && cart.order; else nodata">
+            <ion-item>
+              <ion-icon name="menu"></ion-icon>
+              <span class="title">{{ 'LABEL.ORDER_DETAIL' | translate }}</span>
+              <ion-badge item-end [color]="cart.order.isPaid ? 'secondary' : 'danger'">{{ getOperation() }}</ion-badge>
+            </ion-item>
+            <ion-item *ngIf="cart.totalItem == 0">
+              {{ 'MESSAGE.NO_ORDER' | translate }}
+            </ion-item>
+            <ion-item *ngFor="let item of cart.order.items">
+              <ion-thumbnail item-start>
+                <img src="{{item.product.image}}">
+              </ion-thumbnail>
+              <h2>{{item.product.name}}</h2>
+              <h2>{{item.quantity}} x {{item.product.price | currency:currency:symbol:symbol:lang}}</h2>
+              <ion-buttons item-end>
+                <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
+                  <ion-icon name="remove"></ion-icon>
+                </button>
+                <button color="light" small ion-button icon-only (click)="addItem(item.product)">
+                  <ion-icon name="add"></ion-icon>
+                </button>
+              </ion-buttons>
+            </ion-item>
+            <ion-item no-lines *ngIf="cart.totalItem > 0">
+              <span item-end>{{ 'LABEL.TOTAL_ITEM' | translate }} : {{cart.totalItem}}</span>
+            </ion-item>
+            <ion-item no-lines class="bold" *ngIf="cart.totalItem > 0">
+              <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{cart.totalPrice | currency:currency:symbol:symbol:lang}}</span>
+            </ion-item>
+            <ion-item>
+              <ion-buttons item-end>
+                <button ion-button color="light" icon-start (click)="productList()">
+                  <ion-icon name="medal"></ion-icon> {{ 'LABEL.PRODUCT' | translate }}
+                </button>
+                <button ion-button color="secondary" icon-start (click)="pay()" [disabled]="cart.totalItem == 0">
+                  <ion-icon name="card"></ion-icon> {{ 'BUTTON.PAYMENT' | translate }}
+                </button>
+              </ion-buttons>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+      <ion-col col-12 col-sm-12 col-md-5 col-lg-4 col-xl-4>
+        <div class="box gray">
+          <ion-list *ngIf="page; else nodata">
+            <ion-item>
+              <ion-icon name="clipboard"></ion-icon>
+              <span class="title">{{ 'LABEL.ORDER_LIST' | translate }}</span>
+            </ion-item>
+            <ion-item *ngIf="page.data.length == 0">
+              {{ 'MESSAGE.NO_DATA' | translate }}
+            </ion-item>
+            <button [class.paid]="orderHistory.isPaid" [class.notpaid]="!orderHistory.isPaid" ion-item *ngFor="let orderHistory of page.data"
+              (click)="showOrder(orderHistory)">
+              <p>
+                <span [class]="orderHistory.isPaid ? 'bold secondary' : 'bold danger'">{{ orderHistory.createdBy }}</span> -
+                <span class="bold dark">{{ orderHistory.createdDate | moment:'ago':lang | lowercase}}</span>
+              </p>
+              <p text-wrap>{{ getProducts(orderHistory) | shorten:100 }}</p>
+            </button>
+            <ion-item *ngIf="page.data.length > 0">
+              <ion-buttons>
+                <button ion-button small outline [disabled]="page.isFirst()" (click)="previous()">
+                  {{ 'BUTTON.PREVIOUS' | translate }}
+                </button>
+              </ion-buttons>
+              <ion-buttons item-end>
+                <button ion-button small outline [disabled]="page.isLast()" (click)="next()">
+                  {{ 'BUTTON.NEXT' | translate }}
+                </button>
+              </ion-buttons>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+<ng-template #nodata>
+  <ion-item>
+    {{ 'MESSAGE.NO_DATA' | translate }}
+  </ion-item>
+</ng-template>

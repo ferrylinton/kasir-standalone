@@ -61,8 +61,8 @@ export class DataProvider {
     let orderChange = new Authority('authority-0000-0000-0000-014', 'ORDER_CHANGE', 'Change Order Data');
     let settingView = new Authority('authority-0000-0000-0000-015', 'SETTING_VIEW', 'View Setting Data');
     let settingChange = new Authority('authority-0000-0000-0000-016', 'SETTING_CHANGE', 'Change Setting Data');
-    let dbView = new Authority('authority-0000-0000-0000-017', 'DB_VIEW', 'View DB Data');
-    let dbChange = new Authority('authority-0000-0000-0000-018', 'DB_CHANGE', 'Change DB Data');
+    let dbView = new Authority('authority-0000-0000-0000-017', 'DATABASE_VIEW', 'View DB Data');
+    let dbChange = new Authority('authority-0000-0000-0000-018', 'DATABASE_CHANGE', 'Change DB Data');
 
     let roleAdmin = new Role('role-0000-0000-0000-001', 'Admin', 'Role as Admin', new Array<string>(), admin.username, new Date());
     roleAdmin.authorities.push(basicAuthority.name);
@@ -177,7 +177,7 @@ export class DataProvider {
     for(let i=1; i<=100; i++){
       let remainder = i%3;
       let createdDate = moment().subtract(this.util.randomNumber(2, 3000), 'minutes').toDate();
-      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), true, this.users[remainder].username, createdDate);
+      let order = new Order(uuid(), this.util.transactionNumber(), new Array<Item>(), true, false, this.users[remainder].username, createdDate);
 
       let size = this.util.randomNumber(2, 20);
       for(let j=1; j<=size; j++){

@@ -12,11 +12,11 @@
         <span class="label-segment">{{ 'SEARCH' | translate }}</span>
         <ion-icon name="search"></ion-icon>
       </ion-segment-button>
-      <ion-segment-button value="OrderHistoryPage">
+      <ion-segment-button value="OrderPage">
         <span class="label-segment">{{ 'ORDER' | translate }}</span>
         <ion-icon name="clock"></ion-icon>
       </ion-segment-button>
-      <ion-segment-button value="OrderPage">
+      <ion-segment-button value="CartPage">
         <span class="label-segment">{{ 'CART' | translate }}</span>
         <ion-icon name="cart"></ion-icon>
         <span *ngIf="cart">{{ cart.totalItem }}</span>
@@ -50,6 +50,9 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <div class="no-data" *ngIf="page.totalData == 0">
+        <ion-icon name="warning"></ion-icon> {{ 'NO_DATA' | translate }}
+    </div>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
       <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
     </ion-infinite-scroll>

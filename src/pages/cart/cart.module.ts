@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { OrderHistoryPage } from './order-history';
+import { CartPage } from './cart';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
-    OrderHistoryPage,
+    CartPage,
   ],
   imports: [
-    IonicPageModule.forChild(OrderHistoryPage),
+    IonicPageModule.forChild(CartPage),
     TranslateModule.forChild(),
     PipesModule,
   ],
 })
-export class OrderHistoryPageModule {}
+export class CartPageModule {}

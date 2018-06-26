@@ -9,7 +9,6 @@ import { SettingProvider } from '../providers/setting/setting';
 
 import { MENU, FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
 import { DEFAULT_LANGUAGE } from '../constant/setting';
-import { Menu } from '../models/menu.model';
 import { User } from '../models/user.model';
 
 
@@ -20,8 +19,6 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = FIRST_RUN_PAGE;
-
-  menus: Array<Menu>;
 
   pages: Array<{ title: string, component: any }>;
 
@@ -41,7 +38,6 @@ export class MyApp {
 
   initializeApp() {
     this.initLang();
-    this.initMenus();
     this.initUser();
     this.initEvents();
 
@@ -58,14 +54,6 @@ export class MyApp {
     })
   }
 
-  initMenus(): void {
-    this.storage.get(MENU).then((result) => {
-      if (result) {
-        this.menus = JSON.parse(result);
-      }
-    });
-  }
-
   initUser(): void {
     this.storage.get(LOGGED_USER).then((result) => {
       if (result) {
@@ -75,13 +63,7 @@ export class MyApp {
   }
 
   initEvents(): void {
-    this.events.subscribe(MENU, menus => {
-      this.menus = menus;
-      this.storage.set(MENU, JSON.stringify(menus));
-    });
-
     this.events.subscribe(LOGGED_USER, user => {
-      console.log('user : ' + user.username);
       this.user = user;
     });
 
@@ -98,6 +80,14 @@ export class MyApp {
     } else {
       this.nav.setRoot(page);
     }
+  }
+
+  hasAuthority(authority: string): boolean{
+    if(this.user){
+      return this.user.authorities.indexOf(authority) > -1;
+    }
+    
+    return false;
   }
 
 }

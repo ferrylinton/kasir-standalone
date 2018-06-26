@@ -20,6 +20,11 @@
     "PRODUCT": "Produk",
     "DATABASE": "Basis Data",
     "SETTING": "Pengaturan",
+    "NO_DATA": "Data tidak ditemukan",
+    "ORDER_DATE": "Tanggal Pesanan",
+    "ORDER_DETAIL": "Detil Pesanan",
+    "CANCEL": "Batal",
+    "DONE": "Selesai",
 
 
     "temp": {
@@ -36,7 +41,7 @@
         "AUTHORITIES": "Wewenang",
         "Authority": "Wewenang",
         "AUTHORITY": "Wewenang",
-        "CANCEL": "Batal",
+        
         "Category": "Kategori",
         
         
@@ -65,7 +70,7 @@
         "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil",
         "DESCRIPTION": "Deskripsi",
         "DETAIL": "Detil",
-        "DONE": "Selesai",
+        
         "EDIT": "Ubah",
         "EDIT_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
         "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
@@ -95,13 +100,12 @@
         "MENU": "Menu",
         "NAME": "Nama",
         "NEXT": "Berikut",
-        "NO_DATA": "Data tidak ditemukan",
+        
         "NO_ORDER": "Pesanan tidak ada",
         "OK": "OK",
         "Order": "Pesanan",
         
-        "ORDER_DATE": "Tanggal Pesanan",
-        "ORDER_DETAIL": "Detil Pesanan",
+        
         
         "ORDER_LIST": "Daftar Pesanan",
         "OrderHistory": "Daftar Pesanan",
