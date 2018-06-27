@@ -4,8 +4,6 @@ export const HOME_PAGE: string = 'HomePage';
 
 export const MD5_KEY: string = 'minishopkey';
 
-export const MENU: string = 'MENU';
-
 export const LOGGED_USER: string = 'LOGGED_USER';
 
 export const CART: string = 'CART';

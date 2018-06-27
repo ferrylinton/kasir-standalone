@@ -7,7 +7,7 @@ import { Storage } from '@ionic/storage';
 
 import { SettingProvider } from '../providers/setting/setting';
 
-import { MENU, FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
+import { FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
 import { DEFAULT_LANGUAGE } from '../constant/setting';
 import { User } from '../models/user.model';
 
@@ -75,7 +75,6 @@ export class MyApp {
   openPage(page: string): void {
     if (page === FIRST_RUN_PAGE) {
       this.nav.setRoot(FIRST_RUN_PAGE);
-      this.storage.remove(MENU);
       this.storage.remove(LOGGED_USER);
     } else {
       this.nav.setRoot(page);

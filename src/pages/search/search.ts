@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, PopoverController, NavParams, LoadingController, ModalController, NavController } from 'ionic-angular';
+import { IonicPage, Slides, ModalController, NavController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -28,9 +28,6 @@ export class SearchPage extends BaseCart {
 
   constructor(
     public modalCtrl: ModalController,
-    public popoverCtrl: PopoverController,
-    public navParams: NavParams,
-    public loadingCtrl: LoadingController,
     public cartProvider: CartProvider,
     public commonProvider: CommonProvider,
     public settingProvider: SettingProvider,
@@ -38,7 +35,7 @@ export class SearchPage extends BaseCart {
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
   }
 
   ionViewWillEnter() {
@@ -110,9 +107,7 @@ export class SearchPage extends BaseCart {
   // Segment
   
   updateContent(): void {
-    if (this.segment !== 'SearchPage') {
-      this.commonProvider.goToPage(this.segment, {});
-    }
+    this.commonProvider.goToPage(this.segment, {});
   }
 
 }

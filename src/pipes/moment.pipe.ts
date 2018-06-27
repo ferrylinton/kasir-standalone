@@ -9,19 +9,19 @@ export class MomentPipe {
 
   private CalendarSpec : any = {
     "en": {
-      sameDay: '[Today]',
-      nextDay: '[Tomorrow]',
+      sameDay: '[Today] ( DD-MM-YYYY )',
+      nextDay: '[Tomorrow] ( DD-MM-YYYY )',
       nextWeek: 'dddd',
-      lastDay: '[Yesterday]',
-      lastWeek: '[Last] dddd',
+      lastDay: '[Yesterday] ( DD-MM-YYYY )',
+      lastWeek: '[Last] dddd ( DD-MM-YYYY )',
       sameElse: 'DD-MM-YYYY'
     },
     "id":{
-      sameDay: '[Hari ini]',
-      nextDay: '[Besok]',
-      nextWeek: 'dddd [depan]',
-      lastDay: '[Kemarin]',
-      lastWeek: 'dddd [kemarin]',
+      sameDay: '[Hari ini] ( DD-MM-YYYY )',
+      nextDay: '[Besok] ( DD-MM-YYYY )',
+      nextWeek: 'dddd [depan] ( DD-MM-YYYY )',
+      lastDay: '[Kemarin] ( DD-MM-YYYY )',
+      lastWeek: 'dddd [kemarin] ( DD-MM-YYYY )',
       sameElse: 'DD-MM-YYYY'
     }
   }

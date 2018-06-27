@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, ModalController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -39,17 +39,14 @@ export class OrderPage extends BaseCart {
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
-    public popoverCtrl: PopoverController,
-    public navParams: NavParams,
     public translateService: TranslateService,
-    public loadingCtrl: LoadingController,
     public messageProvider: MessageProvider,
     public settingProvider: SettingProvider,
     public commonProvider: CommonProvider,
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
     this.initDatePicker();
   }
 
@@ -77,12 +74,10 @@ export class OrderPage extends BaseCart {
   }
 
   private loadData() {
-    this.startLoading();
     this.orderProvider.findByDate(new Date(this.orderDate), this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
-      this.loading.dismiss();
     })
   }
 
@@ -96,12 +91,28 @@ export class OrderPage extends BaseCart {
     orderModal.present();
   }
 
-  refresh() {
-    this.commonProvider.goToPage('OrderHistoryPage', {});
-  }
-
   getProducts(order: Order): string {
     return this.commonProvider.getProductFromOrder(order);
+  }
+
+  getIcon(order: Order): string{
+    if(order.isCanceled){
+      return 'remove-circle';
+    }else if(order.isPaid){
+      return 'cash';
+    }
+
+    return 'checkmark-circle';
+  }
+
+  getIconColor(order: Order): string{
+    if(order.isCanceled){
+      return 'danger';
+    }else if(order.isPaid){
+      return 'secondary';
+    }
+
+    return 'primary';
   }
 
   // Infinite Scroll
@@ -121,9 +132,7 @@ export class OrderPage extends BaseCart {
   // Segment
   
   updateContent(): void {
-    if (this.segment !== 'OrderPage') {
-      this.commonProvider.goToPage(this.segment, {});
-    }
+    this.commonProvider.goToPage(this.segment, {});
   }
 
 }

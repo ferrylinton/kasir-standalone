@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, PopoverController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { IonicPage, Slides, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -37,9 +37,7 @@ export class HomePage extends BaseCart {
 
   constructor(
     public modalCtrl: ModalController,
-    public popoverCtrl: PopoverController,
     public navParams: NavParams,
-    public loadingCtrl: LoadingController,
     public cartProvider: CartProvider,
     public commonProvider: CommonProvider,
     public settingProvider: SettingProvider,
@@ -47,7 +45,7 @@ export class HomePage extends BaseCart {
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
     this.initPage();
   }
 
@@ -58,7 +56,6 @@ export class HomePage extends BaseCart {
   }
 
   ionViewWillEnter() {
-    this.startLoading();
     forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
       this.categories = results[0];
       this.categories.unshift(new Category(this.category, this.allCategoriesTxt));
@@ -72,7 +69,6 @@ export class HomePage extends BaseCart {
   // Slides
 
   slideChanged(): void {
-    this.startLoading();
     this.setSlideProperties();
     this.initPage();
     this.loadProducts();
@@ -112,7 +108,6 @@ export class HomePage extends BaseCart {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
-      this.loading.dismiss();
     })
   }
 
@@ -137,9 +132,7 @@ export class HomePage extends BaseCart {
   }
 
   updateContent(): void {
-    if (this.segment !== 'HomePage') {
-      this.commonProvider.goToPage(this.segment, {});
-    }
+    this.commonProvider.goToPage(this.segment, {});
   }
 
 }

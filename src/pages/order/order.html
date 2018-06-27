@@ -31,34 +31,36 @@
       <ion-item>
         <ion-icon name="calendar" item-start></ion-icon>
         <ion-label>{{ 'ORDER_DATE' | translate }}</ion-label>
-        <ion-datetime (ionChange)="search()" cancelText="{{ 'CANCEL' | translate }}" doneText="{{ 'DONE' | translate }}" [min]="min" [max]="max" displayFormat="YYYY-MM-DD"
-          pickerFormat="YYYY-MMM-DD" [monthShortNames]="monthNames[lang]" [(ngModel)]="orderDate"></ion-datetime>
+        <ion-datetime (ionChange)="search()" cancelText="{{ 'CANCEL' | translate }}" doneText="{{ 'DONE' | translate }}" [min]="min"
+          [max]="max" displayFormat="DD-MM-YYYY" pickerFormat="DD-MM-YYYY" [monthShortNames]="monthNames[lang]" [(ngModel)]="orderDate"></ion-datetime>
       </ion-item>
     </ion-list>
   </div>
 
 
   <ion-list *ngIf="page && page.totalData > 0; else nodata">
-    <ion-item>{{ orderDate | moment:'cal':lang | lowercase}}</ion-item>
+    <ion-item>{{ orderDate | moment:'cal':lang | uppercase}}</ion-item>
     <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
+      <ion-icon [name]="getIcon(order)" [color]="getIconColor(order)" item-start></ion-icon>
       <p>
         <span class="bold primary">{{ order.createdBy }}</span>
-          -
+        -
         <span class="bold dark">{{ order.transactionNumber }}</span>
       </p>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
       <ion-badge color="gray" item-end>
-          {{order.createdDate | date:'hh:mm'}}
+        {{order.createdDate | date:'hh:mm'}}
       </ion-badge>
     </button>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
 </ion-content>
 <ng-template #nodata>
   <ion-item>
-    {{ 'NO_DATA' | translate }}
+    <ion-icon name="warning" item-start></ion-icon>
+    <ion-label>{{ 'NO_DATA' | translate }}</ion-label>
   </ion-item>
 </ng-template>

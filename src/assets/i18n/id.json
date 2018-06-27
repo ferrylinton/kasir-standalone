@@ -25,6 +25,18 @@
     "ORDER_DETAIL": "Detil Pesanan",
     "CANCEL": "Batal",
     "DONE": "Selesai",
+    "LOADING": "Memuat data",
+    "PAID": "Dibayar",
+    "SAVED": "Disimpan",
+    "CREATED_BY": "Dibuat Oleh",
+    "CREATED_DATE": "Tanggal Dibuat",
+    "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
+    "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
+    "PRODUCT_LIST": "Daftar Produk",
+    "TOTAL_ITEM": "Jumlah Item",
+    "TOTAL_PRICE": "Total Harga",
+    "PAYMENT": "Pembayaran",
+    "NO_ORDER": "Pesanan tidak ada",
 
 
     "temp": {
@@ -53,8 +65,7 @@
         "CHANGE_LANGUAGE": "Ubah Bahasa",
         "CONFIRM": "Konfirmasi",
         "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
-        "CREATED_BY": "Dibuat Oleh",
-        "CREATED_DATE": "Tanggal Dibuat",
+        
         "CURRENCY": "Mata Uang",
         "CURRENCY_SYMBOL": "Format Mata Uang",
         
@@ -87,11 +98,10 @@
         "ITEM": "item",
         "KEYWORD": "kata kunci",
         "LANGUAGE": "Bahasa",
-        "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
-        "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
+        
         "LASTEST_ORDER": "Pesanan Terbaru",
         "LIST": "Tampilan Daftar",
-        "LOADING": "Memuat data",
+        
         
         "Logout": "Keluar",
         
@@ -101,7 +111,7 @@
         "NAME": "Nama",
         "NEXT": "Berikut",
         
-        "NO_ORDER": "Pesanan tidak ada",
+        
         "OK": "OK",
         "Order": "Pesanan",
         
@@ -109,17 +119,17 @@
         
         "ORDER_LIST": "Daftar Pesanan",
         "OrderHistory": "Daftar Pesanan",
-        "PAID": "Dibayar",
+        
         
         "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
-        "PAYMENT": "Pembayaran",
+        
         "PREVIOUS": "Sebelum",
         "PRICE": "Harga",
         "Product": "Produk",
         
         "PRODUCT_DATA": "Data Produk",
         "PRODUCT_DETAIL": "Detil Produk",
-        "PRODUCT_LIST": "Daftar Produk",
+        
         "ProductList": "Daftar Produk",
         "Profile": "Profil",
         "RELOAD": "Muat Ulang",
@@ -134,8 +144,7 @@
         
         "SIGNIN": "Masuk",
         "STATUS": "Status",
-        "TOTAL_ITEM": "Jumlah Item",
-        "TOTAL_PRICE": "Total Harga",
+        
         "UNSAVE_ORDER": "Pesanan belum disimpan",
         "User": "Pengguna",
         

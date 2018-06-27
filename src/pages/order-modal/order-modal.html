@@ -1,7 +1,14 @@
 <ion-header>
   <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only>
+        <ion-icon *ngIf="!isCanceled && order.isPaid" name="cash"></ion-icon>
+        <ion-icon *ngIf="!isCanceled && !order.isPaid" name="checkmark-circle"></ion-icon>
+        <ion-icon *ngIf="isCanceled" name="remove-circle"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>
-      {{ 'LABEL.ORDER_DETAIL' | translate }}
+      {{ order.transactionNumber }}
     </ion-title>
     <ion-buttons end>
       <button ion-button (click)="viewCtrl.dismiss(order)">
@@ -19,27 +26,23 @@
 <ion-content padding>
   <ion-list *ngIf="order; else nodata">
     <ion-item>
-      <ion-label>{{ 'LABEL.PAID' | translate }}</ion-label>
-      <ion-icon [color]="order.isPaid ? 'secondary' : 'danger'" item-end [name]="order.isPaid ? 'checkmark' : 'close'"></ion-icon>
-    </ion-item>
-    <ion-item>
-      {{ 'LABEL.CREATED_BY' | translate }}
+      {{ 'CREATED_BY' | translate }}
       <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy }}</span>
     </ion-item>
     <ion-item>
-      {{ 'LABEL.CREATED_DATE' | translate }}
+      {{ 'CREATED_DATE' | translate }}
       <span item-end *ngIf="order.createdDate; else empty">{{ order.createdDate | date: datetimeFormat }}</span>
     </ion-item>
     <ion-item>
-      {{ 'LABEL.LAST_MODIFIED_BY' | translate }}
+      {{ 'LAST_MODIFIED_BY' | translate }}
       <span item-end *ngIf="order.lastModifiedBy; else empty">{{ order.lastModifiedBy }}</span>
     </ion-item>
     <ion-item>
-      {{ 'LABEL.LAST_MODIFIED_DATE' | translate }}
+      {{ 'LAST_MODIFIED_DATE' | translate }}
       <span item-end *ngIf="order.modifiedDate; else empty">{{ order.modifiedDate | date: datetimeFormat }}</span>
     </ion-item>
     <ion-item>
-      <h2 class="bold">{{ 'LABEL.PRODUCT_LIST' | translate }}</h2>
+      <h2 class="bold">{{ 'PRODUCT_LIST' | translate }}</h2>
     </ion-item>
     <ion-item *ngFor="let item of order.items">
       <ion-avatar item-start>
@@ -49,10 +52,10 @@
       <p>{{item.quantity}} x {{item.product.price | currency:currency:symbol:symbol:lang}}</p>
     </ion-item>
     <ion-item no-lines>
-      <span item-end>{{ 'LABEL.TOTAL_ITEM' | translate }} : {{totalItem}}</span>
+      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{totalItem}}</span>
     </ion-item>
     <ion-item no-lines class="bold">
-      <span item-end>{{ 'LABEL.TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:symbol:lang}}</span>
+      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:symbol:lang}}</span>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -23,9 +23,6 @@ import { RoleMockProvider } from '../providers/role/role-mock';
 import { UserProvider } from '../providers/user/user';
 import { UserMockProvider } from '../providers/user/user-mock';
 
-import { MenuProvider } from '../providers/menu/menu';
-import { MenuMockProvider } from '../providers/menu/menu-mock';
-
 import { LoginProvider } from '../providers/login/login';
 import { LoginMockProvider } from '../providers/login/login-mock';
 
@@ -41,7 +38,6 @@ import { OrderMockProvider } from '../providers/order/order-mock';
 import { DataProvider } from '../providers/data/data';
 import { UtilProvider } from '../providers/util/util';
 
-import { MoreMenuPage } from '../pages/more-menu/more-menu';
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
@@ -56,8 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp,
-    MoreMenuPage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -78,8 +73,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    MoreMenuPage
+    MyApp
   ],
   providers: [
     StatusBar,
@@ -89,7 +83,6 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: AuthorityProvider, useClass: AuthorityMockProvider },
     { provide: RoleProvider, useClass: RoleMockProvider },
     { provide: UserProvider, useClass: UserMockProvider },
-    { provide: MenuProvider, useClass: MenuMockProvider },
     { provide: LoginProvider, useClass: LoginMockProvider },
     { provide: CategoryProvider, useClass: CategoryMockProvider },
     { provide: ProductProvider, useClass: ProductMockProvider },

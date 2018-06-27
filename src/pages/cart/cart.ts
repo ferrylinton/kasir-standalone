@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseCart } from '../base/base-cart';
@@ -10,8 +10,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
-import { MoreMenu } from '../../models/more-menu.model';
-import { MoreMenuPage } from '../more-menu/more-menu';
+
 
 @IonicPage()
 @Component({
@@ -27,17 +26,15 @@ export class CartPage extends BaseCart {
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
-    public popoverCtrl: PopoverController,
     public navParams: NavParams,
     public translateService: TranslateService,
-    public loadingCtrl: LoadingController,
     public messageProvider: MessageProvider,
     public settingProvider: SettingProvider,
     public commonProvider: CommonProvider,
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, popoverCtrl, loadingCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
     this.initPage();
   }
 
@@ -133,25 +130,12 @@ export class CartPage extends BaseCart {
     orderModal.present();
   }
 
-  // More Menu
+  save(): void{
+    this.messageProvider.showAddConfirm(this.orderTxt, () => this.saveCallback());
+  }
 
-  showMore(event: Event) {
-    let menus = new Array<MoreMenu>();
-    menus.push(new MoreMenu(this.saveTxt, 'save'));
-    menus.push(new MoreMenu(this.deleteTxt, 'delete'));
-
-    let moreMenuPage = this.popoverCtrl.create(MoreMenuPage, { menus: menus });
-    moreMenuPage.onDidDismiss(val => {
-      if (val === 'reload') {
-        this.commonProvider.goToPage('ProductListPage', {});
-      } else if (val === 'save') {
-        this.messageProvider.showAddConfirm(this.orderTxt, () => this.saveCallback());
-      } else if (val === 'delete') {
-        this.messageProvider.showDeleteConfirm(this.orderTxt, () => this.deleteOrderFromStorage());
-      }
-    });
-
-    moreMenuPage.present({ ev: event });
+  delete(): void{
+    this.messageProvider.showDeleteConfirm(this.orderTxt, () => this.deleteOrderFromStorage());
   }
 
   private saveCallback() {
@@ -191,9 +175,7 @@ export class CartPage extends BaseCart {
   // Segment
   
   updateContent(): void {
-    if (this.segment !== 'CartPage') {
-      this.commonProvider.goToPage(this.segment, {});
-    }
+    this.commonProvider.goToPage(this.segment, {});
   }
 
 }
