@@ -1,20 +1,9 @@
 import { Observable } from 'rxjs/Observable';
-import { Pageable } from '../../models/pageable.model';
-import { Page } from '../../models/page.model';
 import { Category } from "../../models/category.model";
+import { CrudProvider } from '../crud/crud';
 
-export abstract class CategoryProvider {
-
-  abstract findById(id: string): Observable<Category>;
+export abstract class CategoryProvider extends CrudProvider<Category> {
 
   abstract findAll(): Observable<Array<Category>>;
-
-  abstract find(pageable: Pageable): Observable<Page<Category>>;
-
-  abstract save(category: Category): Observable<Category>;
-
-  abstract update(category: Category): Observable<Category>;
-
-  abstract delete(id: string): Observable<Category>;
 
 }

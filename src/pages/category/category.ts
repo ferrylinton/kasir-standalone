@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { v4 as uuid } from 'uuid';
 
+import { TranslateService } from '@ngx-translate/core';
+import { CommonProvider } from '../../providers/common/common';
+import { SettingProvider } from '../../providers/setting/setting';
 import { CategoryProvider } from '../../providers/category/category';
 
-import { Pageable } from '../../models/pageable.model';
-import { Page } from '../../models/page.model';
+import { BaseCrud } from '../base/base-crud';
 import { Category } from '../../models/category.model';
 
 @IonicPage()
@@ -13,60 +15,29 @@ import { Category } from '../../models/category.model';
   selector: 'page-category',
   templateUrl: 'category.html',
 })
-export class CategoryPage {
-
-  pageable: Pageable;
-
-  page: Page<Category>;
+export class CategoryPage extends BaseCrud<Category>{
 
   constructor(
     public navCtrl: NavController,
+    public modalCtrl: ModalController,
+    public translateService: TranslateService,
+    public commonProvider: CommonProvider,
+    public settingProvider: SettingProvider,
     public categoryProvider: CategoryProvider) {
 
-    this.init();
+    super(modalCtrl, translateService, commonProvider, settingProvider, categoryProvider, 'name');
   }
 
   ionViewWillEnter() {
-    this.init();
-  }
-
-  private init(): void {
-    this.pageable = new Pageable(1);
-    this.loadData(this.pageable);
-  }
-
-  private loadData(pageable: Pageable) {
-    this.categoryProvider.find(pageable).subscribe(page => {
-      this.page = page;
-    })
-  }
-
-  previous(): void {
-    if (this.pageable.pageNumber > 1) {
-      this.pageable = new Pageable(this.page.pageNumber - 1, this.page.totalData);
-      this.loadData(this.pageable);
-    }
-  }
-
-  next(): void {
-    if (this.pageable.pageNumber < this.page.getTotalPage()) {
-      this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
-      this.loadData(this.pageable);
-    }
+    this.loadData();
   }
 
   view(category: Category) {
-    this.navCtrl.push('CategoryDetailPage', {
-      category: category
-    });
+    this.navCtrl.push('CategoryDetailPage', { category: category });
   }
 
   add() {
-    let category = new Category(uuid());
-    
-    this.navCtrl.push('CategoryAddPage', {
-      category: category
-    });
+    this.navCtrl.push('CategoryAddPage', { category: new Category(uuid()) });
   }
 
 }

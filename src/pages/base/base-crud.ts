@@ -1,138 +1,103 @@
-import { ToastController, AlertController, Events } from "ionic-angular";
-import { TranslateService } from "@ngx-translate/core";
-import { Storage } from '@ionic/storage';
-import { User } from "../../models/user.model";
-import { LOGGED_USER, PAGE } from "../../constant/constant";
-import { Base } from "../../models/base.model";
+import { ModalController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
-export abstract class BaseCrud {
+import * as Setting from '../../constant/setting';
+import { CommonProvider } from '../../providers/common/common';
+import { SettingProvider } from '../../providers/setting/setting';
+import { CrudProvider } from '../../providers/crud/crud';
+import { Base } from '../../models/base.model';
+import { Page } from '../../models/page.model';
 
-    private cancelTxt: string;
 
-    private okTxt: string;
+export abstract class BaseCrud<T extends Base> {
 
-    private confirmTxt: string;
+    loadingTxt: string = 'Please wait...';
 
-    private reloadTxt: string;
+    unsaveOrderTxt: string = 'Order is not saved yet';
 
-    loggedUser: User;
+    orderTxt: string = 'Order';
+
+    allCategoriesTxt: string = 'All Categories';
+
+    modifyTxt: string = 'Modify';
+
+    addTxt: string = 'Add';
+
+    deleteTxt: string = 'Delete';
+
+    saveTxt: string = 'Save';
+
+    lang: string = Setting.DEFAULT_LANGUAGE;
+
+    currency: string = Setting.DEFAULT_CURRENCY + ' ';
+
+    symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
+
+    page: Page<T>;
 
     constructor(
-        public toastCtrl: ToastController,
-        public alertCtrl: AlertController,
-        public translate: TranslateService,
-        public storage: Storage,
-        public events: Events
+        public modalCtrl: ModalController,
+        public translateService: TranslateService,
+        public commonProvider: CommonProvider,
+        public settingProvider: SettingProvider,
+        public crudProvider: CrudProvider<T>,
+        public sortBy: string,
     ) {
+        this.initLanguage();
+        this.initSetting();
+        this.initPage();
+    }
 
-        storage.get(LOGGED_USER).then((val) => {
-            this.loggedUser = JSON.parse(val);
-        });
+    initLanguage() {
+        let keys: string[] = [
+            'LOADING',
+            'UNSAVE_ORDER',
+            'ORDER',
+            'ALL_CATEGORIES',
+            'ADD',
+            'EDIT',
+            'SAVE',
+            'DELETE'
+        ];
 
-        this.translate.get(['BUTTON.OK', 'BUTTON.CANCEL', 'TITLE.CONFIRM', 'MESSAGE.RELOAD_PAGE']).subscribe(values => {
-            this.okTxt = values['BUTTON.OK'];
-            this.cancelTxt = values['BUTTON.CANCEL'];
-            this.confirmTxt = values['TITLE.CONFIRM'];
-            this.reloadTxt = values['MESSAGE.RELOAD_PAGE'];
-        }, error => {
-            this.okTxt = 'Ok';
-            this.cancelTxt = 'Cancel';
-            this.confirmTxt = 'Confirm';
-            this.reloadTxt = 'Reload page';
+        this.translateService.get(keys).subscribe(values => {
+            this.loadingTxt = values[keys[0]];
+            this.unsaveOrderTxt = values[keys[1]];
+            this.orderTxt = values[keys[2]];
+            this.allCategoriesTxt = values[keys[3]];
+            this.addTxt = values[keys[4]];
+            this.modifyTxt = values[keys[5]];
+            this.saveTxt = values[keys[6]];
+            this.deleteTxt = values[keys[7]];
         });
     }
 
-    reloadPage(page: string): void {
-        this.showToast(this.reloadTxt);
-        this.events.publish(PAGE, page);
-    }
-
-    showToast(message: string): void {
-        let toast = this.toastCtrl.create({
-            message: message,
-            duration: 3000,
-            position: 'top'
+    initSetting() {
+        this.settingProvider.getLanguage().subscribe(setting => {
+            this.lang = setting[Setting.LANGUAGE];
+            this.currency = setting[Setting.CURRENCY] + ' ';
+            this.symbol = setting[Setting.CURRENCY_SYMBOL];
         });
-
-        toast.present();
     }
 
-    showAddToast(data: string): void {
-        let message = 'Add new data[' + data + '] is successfully'
-        this.translate.get('MESSAGE.ADD_SUCCESS', { data: data }).subscribe((value: string) => {
-            message = value;
-        });
-
-        this.showToast(message);
+    initPage(): void {
+        this.page = new Page();
+        this.page.sort.column = this.sortBy;
+        this.page.sort.isAsc = true;
     }
 
-    showEditToast(data: string): void {
-        let message = 'Edit data[' + data + '] is successfully'
-        this.translate.get('MESSAGE.EDIT_SUCCESS', { data: data }).subscribe((value: string) => {
-            message = value;
-        });
-
-        this.showToast(message);
+    loadData() {
+        this.crudProvider.find(this.page).subscribe(page => {
+            this.page.pageNumber = page.pageNumber;
+            this.page.totalData = page.totalData;
+            this.page.data = [...this.page.data, ...page.data];
+        })
     }
 
-    showDeleteToast(data: string): void {
-        let message = 'Delete data[' + data + '] is successfully'
-        this.translate.get('MESSAGE.DELETE_SUCCESS', { data: data }).subscribe((value: string) => {
-            message = value;
-        });
-
-        this.showToast(message);
+    doInfinite(infiniteScroll) {
+        this.page.pageNumber = this.page.pageNumber + 1;
+        this.loadData();
+        infiniteScroll.complete();
     }
-
-    showAddConfirm(data: string, callback: (dt: Base) => void): void {
-        let message = 'Do you want to add new data[' + data + ']?'
-        this.translate.get('MESSAGE.ADD_CONFIRM', { data: data }).subscribe((value: string) => {
-            message = value;
-        });
-
-        this.showConfirm(message, callback);
-    }
-
-    showEditConfirm(data: string, callback: (dt: Base) => void): void {
-        let message = 'Do you want to edit data[' + data + ']?'
-        this.translate.get('MESSAGE.EDIT_CONFIRM', { data: data }).subscribe((res: string) => {
-            message = res;
-        });
-
-        this.showConfirm(message, callback);
-    }
-
-    showDeleteConfirm(data: string, callback: (dt: Base) => void): void {
-        let message = 'Do you want to delete data[' + data + ']?'
-        this.translate.get('MESSAGE.DELETE_CONFIRM', { data: data }).subscribe((res: string) => {
-            message = res;
-        });
-
-        this.showConfirm(message, callback);
-    }
-
-    showConfirm(message: string, callback: (dt: Base) => void): void {
-        let alert = this.alertCtrl.create({
-            title: this.confirmTxt,
-            message: message,
-            buttons: [
-                {
-                    text: this.cancelTxt,
-                    role: 'cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
-                },
-                {
-                    text: this.okTxt,
-                    handler: callback
-                }
-            ]
-        });
-
-        alert.present();
-    }
-
-
 
 }
