@@ -1,17 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, ModalController, NavController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
-import { forkJoin } from "rxjs/observable/forkJoin";
 
 import { BaseCart } from '../base/base-cart';
-import { CategoryProvider } from '../../providers/category/category';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
-import { Category } from '../../models/category.model';
+
 
 @IonicPage()
 @Component({
@@ -32,8 +30,7 @@ export class SearchPage extends BaseCart {
     public commonProvider: CommonProvider,
     public settingProvider: SettingProvider,
     public translateService: TranslateService,
-    public productProvider: ProductProvider,
-    public categoryProvider: CategoryProvider) {
+    public productProvider: ProductProvider) {
 
     super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
   }

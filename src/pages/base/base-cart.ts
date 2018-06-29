@@ -59,15 +59,15 @@ export abstract class BaseCart {
             'DELETE'
         ];
 
-        this.translateService.get(keys).subscribe(val => {
-            this.loadingTxt = val[keys[0]];
-            this.unsaveOrderTxt = val[keys[1]];
-            this.orderTxt = val[keys[2]];
-            this.allCategoriesTxt = val[keys[3]];
-            this.addTxt = val[keys[4]];
-            this.editTxt = val[keys[5]];
-            this.saveTxt = val[keys[6]];
-            this.deleteTxt = val[keys[7]];
+        this.translateService.get(keys).subscribe(values => {
+            this.loadingTxt = values[keys[0]];
+            this.unsaveOrderTxt = values[keys[1]];
+            this.orderTxt = values[keys[2]];
+            this.allCategoriesTxt = values[keys[3]];
+            this.addTxt = values[keys[4]];
+            this.editTxt = values[keys[5]];
+            this.saveTxt = values[keys[6]];
+            this.deleteTxt = values[keys[7]];
         });
     }
 

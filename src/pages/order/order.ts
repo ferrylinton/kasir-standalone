@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import { forkJoin } from 'rxjs/observable/forkJoin';
-
-import * as Setting from '../../constant/setting';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';

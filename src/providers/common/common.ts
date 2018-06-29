@@ -16,7 +16,7 @@ import { Product } from '../../models/product.model';
 @Injectable()
 export class CommonProvider {
 
-  private MESSAGE_RELOAD_PAGE: string = 'MESSAGE.RELOAD_PAGE';
+  private MESSAGE_RELOAD_PAGE: string = 'RELOAD_PAGE';
 
   private reloadTxt: string = 'Reload page';
 

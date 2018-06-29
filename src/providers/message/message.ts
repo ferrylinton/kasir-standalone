@@ -17,11 +17,20 @@ export class MessageProvider {
     public alertCtrl: AlertController,
     public translate: TranslateService
   ) {
+    this.initLanguage();
+  }
 
-    this.translate.get(['BUTTON.OK', 'BUTTON.CANCEL', 'TITLE.CONFIRM']).subscribe(values => {
-      this.okTxt = values['BUTTON.OK'];
-      this.cancelTxt = values['BUTTON.CANCEL'];
-      this.confirmTxt = values['TITLE.CONFIRM'];
+  private initLanguage(): void {
+    let keys: string[] = [
+      'OK',
+      'CANCEL',
+      'CONFIRM'
+  ];
+
+    this.translate.get(keys).subscribe(values => {
+      this.okTxt = values[keys[0]];
+      this.cancelTxt = values[keys[1]];
+      this.confirmTxt = values[keys[2]];
     });
   }
 
@@ -37,7 +46,7 @@ export class MessageProvider {
 
   showAddToast(data: string): void {
     let message = 'Add new data[' + data + '] is successfully'
-    this.translate.get('MESSAGE.ADD_SUCCESS', { data: data }).subscribe((value: string) => {
+    this.translate.get('ADD_SUCCESS', { data: data }).subscribe((value: string) => {
       message = value;
     });
 
@@ -45,8 +54,8 @@ export class MessageProvider {
   }
 
   showEditToast(data: string): void {
-    let message = 'Edit data[' + data + '] is successfully'
-    this.translate.get('MESSAGE.EDIT_SUCCESS', { data: data }).subscribe((value: string) => {
+    let message = 'Modify data[' + data + '] is successfully'
+    this.translate.get('MODIFY_SUCCESS', { data: data }).subscribe((value: string) => {
       message = value;
     });
 
@@ -55,7 +64,7 @@ export class MessageProvider {
 
   showDeleteToast(data: string): void {
     let message = 'Delete data[' + data + '] is successfully'
-    this.translate.get('MESSAGE.DELETE_SUCCESS', { data: data }).subscribe((value: string) => {
+    this.translate.get('DELETE_SUCCESS', { data: data }).subscribe((value: string) => {
       message = value;
     });
 
@@ -64,7 +73,7 @@ export class MessageProvider {
 
   showAddConfirm(data: string, callback: (dt: Base) => void): void {
     let message = 'Do you want to add new data[' + data + ']?'
-    this.translate.get('MESSAGE.ADD_CONFIRM', { data: data }).subscribe((value: string) => {
+    this.translate.get('ADD_CONFIRM', { data: data }).subscribe((value: string) => {
       message = value;
     });
 
@@ -73,7 +82,7 @@ export class MessageProvider {
 
   showEditConfirm(data: string, callback: (dt: Base) => void): void {
     let message = 'Do you want to edit data[' + data + ']?'
-    this.translate.get('MESSAGE.EDIT_CONFIRM', { data: data }).subscribe((res: string) => {
+    this.translate.get('MODIFY_CONFIRM', { data: data }).subscribe((res: string) => {
       message = res;
     });
 
@@ -82,7 +91,7 @@ export class MessageProvider {
 
   showDeleteConfirm(data: string, callback: (dt: Base) => void): void {
     let message = 'Do you want to delete data[' + data + ']?'
-    this.translate.get('MESSAGE.DELETE_CONFIRM', { data: data }).subscribe((res: string) => {
+    this.translate.get('DELETE_CONFIRM', { data: data }).subscribe((res: string) => {
       message = res;
     });
 

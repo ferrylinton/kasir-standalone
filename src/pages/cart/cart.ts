@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseCart } from '../base/base-cart';
@@ -24,7 +24,6 @@ export class CartPage extends BaseCart {
   segment = 'CartPage';
 
   constructor(
-    public navCtrl: NavController,
     public modalCtrl: ModalController,
     public navParams: NavParams,
     public translateService: TranslateService,
@@ -46,8 +45,11 @@ export class CartPage extends BaseCart {
   }
 
   ionViewWillEnter() {
+    console.log('ionViewWillEnter..........');
+    console.log(this.currency);
+    console.log(this.symbol);
+    console.log(this.lang);
     this.loadOrder();
-    this.loadOrderHistory();
   }
 
   private loadOrder() {
@@ -62,13 +64,6 @@ export class CartPage extends BaseCart {
     }
   }
 
-  private loadOrderHistory() {
-    this.orderProvider.findByDate(new Date(), this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = page.data;
-    })
-  }
 
   /**
    * Get Order from Order history and
@@ -92,30 +87,8 @@ export class CartPage extends BaseCart {
     orderModal.present();
   }
 
-  refresh() {
-    this.commonProvider.goToPage('OrderPage', {});
-  }
-
-  productList() {
-    this.commonProvider.goToPage('ProductListPage', {});
-  }
-
   getProducts(order: Order): string {
     return this.commonProvider.getProductFromOrder(order);
-  }
-
-  previous(): void {
-    if (this.page.pageNumber > 1) {
-      this.page.pageNumber = this.page.pageNumber - 1
-      this.loadOrderHistory();
-    }
-  }
-
-  next(): void {
-    if (this.page.pageNumber < this.page.getTotalPage()) {
-      this.page.pageNumber = this.page.pageNumber + 1
-      this.loadOrderHistory();
-    }
   }
 
   pay() {
@@ -167,7 +140,6 @@ export class CartPage extends BaseCart {
 
   private deleteOrderFromStorage(): void {
     this.initPage();
-    this.loadOrderHistory();
     this.cart = this.cartProvider.createNewCart();
     this.cartProvider.setCart(this.cart);
   }

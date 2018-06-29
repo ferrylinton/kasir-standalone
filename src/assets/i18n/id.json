@@ -37,7 +37,17 @@
     "TOTAL_PRICE": "Total Harga",
     "PAYMENT": "Pembayaran",
     "NO_ORDER": "Pesanan tidak ada",
-
+    "DELETE": "Hapus",
+    "DELETE_CONFIRM": "Apakah Anda ingin menghapus data [ '{{data}}' ] ?",
+    "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil",
+    "MODIFY": "Ubah",
+    "MODIFY_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
+    "MODIFY_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
+    "ADD": "Tambah",
+    "ADD_CONFIRM": "Apakah Anda ingin menambah data [ '{{data}}' ] ?",
+    "ADD_IMAGE": "Tambah Gambar",
+    "ADD_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
+    "CONFIRM": "Konfirmasi",
 
     "temp": {
         "$": "US Dollar",
@@ -45,10 +55,7 @@
         "Account": "Akun",
         "ACCOUNT": "Akun",
         "ACTIVATED": "Aktif",
-        "ADD": "Tambah",
-        "ADD_CONFIRM": "Apakah Anda ingin menambah data [ '{{data}}' ] ?",
-        "ADD_IMAGE": "Tambah Gambar",
-        "ADD_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
+        
         
         "AUTHORITIES": "Wewenang",
         "Authority": "Wewenang",
@@ -63,7 +70,7 @@
         "CHANGE_DATE_FORMAT": "Ubah Format Tanggal",
         "CHANGE_DATETIME_FORMAT": "Ubah Format Tangal dan Waktu",
         "CHANGE_LANGUAGE": "Ubah Bahasa",
-        "CONFIRM": "Konfirmasi",
+        
         "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
         
         "CURRENCY": "Mata Uang",
@@ -76,15 +83,11 @@
         "DB_IS_ALREADY_DELETED": "DB sudah dihapus",
         "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
         "DEACTIVATED": "Tidak Aktif",
-        "DELETE": "Hapus",
-        "DELETE_CONFIRM": "Apakah Anda ingin menghapus data [ '{{data}}' ] ?",
-        "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil",
+        
         "DESCRIPTION": "Deskripsi",
         "DETAIL": "Detil",
         
-        "EDIT": "Ubah",
-        "EDIT_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
-        "EDIT_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
+        
         
         "en": "English",
         "FULLNAME": "Nama Lengkap",
