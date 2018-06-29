@@ -20,7 +20,7 @@ export abstract class BaseCart {
 
     allCategoriesTxt: string = 'All Categories';
 
-    editTxt: string = 'Edit';
+    modifyTxt: string = 'Modify';
 
     addTxt: string = 'Add';
 
@@ -65,7 +65,7 @@ export abstract class BaseCart {
             this.orderTxt = values[keys[2]];
             this.allCategoriesTxt = values[keys[3]];
             this.addTxt = values[keys[4]];
-            this.editTxt = values[keys[5]];
+            this.modifyTxt = values[keys[5]];
             this.saveTxt = values[keys[6]];
             this.deleteTxt = values[keys[7]];
         });
@@ -106,7 +106,7 @@ export abstract class BaseCart {
     }
 
     getOperation(): string {
-        return this.cart.isModified ? this.editTxt : this.addTxt;
+        return this.cart.isModified ? this.modifyTxt : this.addTxt;
     }
 
 }

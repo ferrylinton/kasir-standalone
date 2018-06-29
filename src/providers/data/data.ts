@@ -109,6 +109,7 @@ export class DataProvider {
     admin.activated = true;
     admin.authorities = roleAdmin.authorities
     admin.image = DEFAULT_USER;
+    admin.createdDate = new Date();
     let manager = new User('user-0000-0000-0000-002', 'manager', 'password', 'Manager', roleManager.name, roleManager.authorities, true, DEFAULT_USER, admin.username, new Date());
     let employee = new User('user-0000-0000-0000-003', 'employee', 'password', 'Employee', roleEmployee.name, roleEmployee.authorities, false, DEFAULT_USER, admin.username, new Date());
 
@@ -138,6 +139,10 @@ export class DataProvider {
     this.users.push(admin);
     this.users.push(manager);
     this.users.push(employee);
+
+    for(let i=100; i<= 125; i++){
+      this.users.push(new User('user-0000-0000-0000-' + i, 'employee' + i, 'password', 'Employee' + i, roleEmployee.name, roleEmployee.authorities, false, DEFAULT_USER, admin.username, new Date()));
+    }
 
     for(let i=1; i<5; i++){
       let category: Category = new Category('category-0000-0000-0000-' + this.zeroPad(i, 3), 'Category ' + this.zeroPad(i, 3), 'Category Description ' + this.zeroPad(i, 3), DEFAULT_IMAGE, admin.username, new Date());

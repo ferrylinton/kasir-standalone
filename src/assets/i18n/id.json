@@ -48,6 +48,7 @@
     "ADD_IMAGE": "Tambah Gambar",
     "ADD_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
     "CONFIRM": "Konfirmasi",
+    "VIEW": "Lihat",
 
     "temp": {
         "$": "US Dollar",

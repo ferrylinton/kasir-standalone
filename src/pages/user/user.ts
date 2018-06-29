@@ -17,45 +17,32 @@ import { User } from '../../models/user.model';
 })
 export class UserPage {
 
-  pageable: Pageable;
-
-  page: Page<Role>;
+  page: Page<User>;
 
   constructor(
     public navCtrl: NavController,
     public roleProvider: RoleProvider,
     public userProvider: UserProvider) {
 
-    this.init();
+    this.initPage();
   }
 
   ionViewWillEnter() {
-    this.init();
+    this.loadData();
   }
 
-  private init(): void {
-    this.pageable = new Pageable(1);
-    this.loadData(this.pageable);
+  private initPage(): void {
+    this.page = new Page();
+    this.page.sort.column = 'fullname';
+    this.page.sort.isAsc = true;
   }
 
-  private loadData(pageable: Pageable) {
-    this.userProvider.find(pageable).subscribe(page => {
-      this.page = page;
+  private loadData() {
+    this.userProvider.find(this.page).subscribe(page => {
+      this.page.pageNumber = page.pageNumber;
+      this.page.totalData = page.totalData;
+      this.page.data = [...this.page.data, ...page.data];
     })
-  }
-
-  previous(): void {
-    if (this.pageable.pageNumber > 1) {
-      this.pageable = new Pageable(this.page.pageNumber - 1, this.page.totalData);
-      this.loadData(this.pageable);
-    }
-  }
-
-  next(): void {
-    if (this.pageable.pageNumber < this.page.getTotalPage()) {
-      this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
-      this.loadData(this.pageable);
-    }
   }
 
   view(user: User) {
@@ -72,4 +59,9 @@ export class UserPage {
     });
   }
 
+  doInfinite(infiniteScroll) {
+    this.page.pageNumber = this.page.pageNumber + 1;
+    this.loadData();
+    infiniteScroll.complete();
+  }
 }

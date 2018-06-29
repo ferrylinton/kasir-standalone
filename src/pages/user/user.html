@@ -3,10 +3,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'LABEL.USER' | translate }}</ion-title>
+    <ion-title>{{ 'USER' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="add()">
-        <ion-icon name="add"></ion-icon>
+        <ion-icon name="add-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -14,18 +14,15 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let user of page.data; let i = index" ion-item (click)="view(user)">
-      <span class="list-number" item-start>{{page.getStartRow() + i}}.</span>
-      {{user.fullname}}
+    <ion-item *ngFor="let user of page.data; let i = index" ion-item>
+      <span class="list-number" item-start>{{ i + 1 }}.</span>
+      <h2>{{user.fullname}}</h2>
+      <p>{{user.role}} | {{user.createdDate | date:'dd-MM-yyyy'}}</p>
+      <button ion-button outline item-end (click)="view(user)">{{ 'VIEW' | translate}}</button>
     </ion-item>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
-  <button class="prev-icon" ion-button icon-start round outline [disabled]="page.isFirst()" (click)="previous()">
-    <ion-icon name="ios-arrow-round-back"></ion-icon>
-    {{ 'BUTTON.PREVIOUS' | translate }}
-  </button>
-  <button ion-button icon-end round outline float-right [disabled]="page.isLast()" (click)="next()">
-    {{ 'BUTTON.NEXT' | translate }}
-    <ion-icon name="ios-arrow-round-forward"></ion-icon>
-  </button>
 </ion-content>
