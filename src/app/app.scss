@@ -152,6 +152,74 @@
     background-color: #fdf2f2;
 }
 
+.total{
+    font-size: 13px;
+    font-weight: bold;
+    color: color($colors, darkgray);
+}
+
+.detail-label {
+    color: color($colors, darkgray);
+}
+
+.detail-value {
+    border-bottom: solid 1px color($colors, lightgray);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.image-wrapper {
+    text-align: center;
+    margin: 20px 0;
+    .image {
+        padding: 10px;
+        width: 230px;
+        height: 230px;
+        display: inline-block;
+        border: solid 1px color($colors, light);
+        background-color: color($colors, lighter);
+        .background {
+            width: 200px;
+            height: 200px;
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            ion-icon {
+                color: color($colors, lightgray);
+                font-size: 44px;
+                margin-bottom: -80px;
+                margin-top: 80px;
+            }
+        }
+    }
+}
+
+.image:hover {
+    border: solid 1px color($colors, lightgray);
+    .background {
+        ion-icon {
+            color: color($colors, gray);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .big-label {
     font-size: 1.8rem;
     font-weight: normal;
@@ -250,25 +318,7 @@
     margin-left: 18px;
 }
 
-.detail-label {
-    color: color($colors, darkgray);
-}
 
-.detail-value {
-    border-bottom: solid 1px color($colors, lightgray);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.detail-image {
-    margin: 0 auto;
-    margin-bottom: 20px;
-    padding: 10px;
-    width: 256px;
-    height: 256px;
-    border: solid 2px color($colors, lightgray);
-    background-color: color($colors, lighter);
-}
 
 .list-price {
     display: inline-block;
@@ -299,38 +349,3 @@
     }
 }
 
-.image-wrapper {
-    text-align: center;
-    margin: 20px 0;
-    .image {
-        padding: 10px;
-        width: 230px;
-        height: 230px;
-        display: inline-block;
-        border: solid 4px color($colors, light);
-        background-color: color($colors, light);
-        .background {
-            width: 200px;
-            height: 200px;
-            display: inline-block;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            ion-icon {
-                color: color($colors, light);
-                font-size: 44px;
-                margin-bottom: -80px;
-                margin-top: 80px;
-            }
-        }
-    }
-}
-
-.image:hover {
-    border: solid 4px color($colors, light);
-    .background {
-        ion-icon {
-            color: color($colors, light);
-        }
-    }
-}

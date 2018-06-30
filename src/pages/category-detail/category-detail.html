@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{ 'LABEL.CATEGORY' | translate}} - {{ 'LABEL.DETAIL' | translate}}</ion-title>
+    <ion-title *ngIf="category">{{ category.name }}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only color="grey" (click)="delete()">
+      <button ion-button icon-only (click)="delete()">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <button ion-button icon-only (click)="edit()">
+      <button ion-button icon-only (click)="modify()">
         <ion-icon name="create"></ion-icon>
       </button>
     </ion-buttons>
@@ -21,43 +21,43 @@
   </div>
   <ion-grid>
     <ion-row>
-      <ion-col class="detail-label">{{ 'LABEL.ID' | translate }}</ion-col>
+      <ion-col class="detail-label">{{ 'ID' | translate }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-value">{{ category.id }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detail-label">{{ 'LABEL.NAME' | translate }}</ion-col>
+      <ion-col class="detail-label">{{ 'NAME' | translate }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-value">{{ category.name }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detail-label">{{ 'LABEL.DESCRIPTION' | translate }}</ion-col>
+      <ion-col class="detail-label">{{ 'DESCRIPTION' | translate }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-value">{{ category.description }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detail-label">{{ 'LABEL.CREATED_BY' | translate }}</ion-col>
+      <ion-col class="detail-label">{{ 'CREATED_BY' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="category.createdBy; else empty">
       <ion-col class="detail-value">{{ category.createdBy }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detail-label">{{ 'LABEL.CREATED_DATE' | translate }}</ion-col>
+      <ion-col class="detail-label">{{ 'CREATED_DATE' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="category.createdDate; else empty">
       <ion-col class="detail-value">{{ category.createdDate | date: 'dd/MM/yyyy hh:mm' }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detail-label">{{ 'LABEL.LAST_MODIFIED_BY' | translate }}</ion-col>
+      <ion-col class="detail-label">{{ 'LAST_MODIFIED_BY' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="category.lastModifiedBy; else empty">
       <ion-col class="detail-value">{{ category.lastModifiedBy }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detail-label">{{ 'LABEL.LAST_MODIFIED_DATE' | translate }}</ion-col>
+      <ion-col class="detail-label">{{ 'LAST_MODIFIED_DATE' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="category.lastModifiedDate; else empty">
       <ion-col class="detail-value">{{ category.lastModifiedDate | date: 'dd/MM/yyyy hh:mm' }}</ion-col>
@@ -71,6 +71,6 @@
 </ng-template>
 <ng-template #nodata>
   <ion-content padding>
-    {{ 'MESSAGE.NO_DATA' | translate }}
+    {{ 'NO_DATA' | translate }}
   </ion-content>
 </ng-template>

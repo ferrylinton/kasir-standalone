@@ -1,34 +1,39 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
-import { v4 as uuid } from 'uuid';
+import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+
 
 import { TranslateService } from '@ngx-translate/core';
-import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
 import { CategoryProvider } from '../../providers/category/category';
 
-import { BaseCrud } from '../base/base-crud';
+import { BaseListPage } from '../base/base-list';
 import { Category } from '../../models/category.model';
+
 
 @IonicPage()
 @Component({
   selector: 'page-category',
   templateUrl: 'category.html',
 })
-export class CategoryPage extends BaseCrud<Category>{
+export class CategoryPage extends BaseListPage<Category>{
 
   constructor(
     public navCtrl: NavController,
-    public modalCtrl: ModalController,
+    public storage: Storage,
+    public events: Events,
     public translateService: TranslateService,
-    public commonProvider: CommonProvider,
     public settingProvider: SettingProvider,
+    public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, translateService, commonProvider, settingProvider, categoryProvider, 'name');
+    super(storage, events, translateService, settingProvider, messageProvider, categoryProvider, 'name');
   }
 
   ionViewWillEnter() {
+    this.initPage();
     this.loadData();
   }
 
@@ -36,8 +41,8 @@ export class CategoryPage extends BaseCrud<Category>{
     this.navCtrl.push('CategoryDetailPage', { category: category });
   }
 
-  add() {
-    this.navCtrl.push('CategoryAddPage', { category: new Category(uuid()) });
+  create() {
+    this.navCtrl.push('CategoryFormPage', { category: new Category('') });
   }
 
 }

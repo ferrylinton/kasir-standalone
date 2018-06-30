@@ -5,7 +5,7 @@
     </button>
     <ion-title>{{ 'CATEGORY' | translate }}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="add()">
+      <button ion-button icon-only (click)="create()">
         <ion-icon name="add-circle"></ion-icon>
       </button>
     </ion-buttons>
@@ -14,8 +14,10 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item detail-push *ngFor="let category of page.data; let i = index" ion-item>
-      <span class="list-number" item-start>{{ i + 1 }}.</span>
+    <ion-item>
+      <span class="total">{{ 'TOTAL' | translate }} : {{ page.totalData }}</span>
+    </ion-item>
+    <ion-item detail-push *ngFor="let category of page.data" ion-item>
       <h2>{{category.name}}</h2>
       <p>{{category.description}} | {{category.createdDate | date:'dd-MM-yyyy'}}</p>
       <button ion-button outline item-end (click)="view(category)">{{ 'VIEW' | translate}}</button>

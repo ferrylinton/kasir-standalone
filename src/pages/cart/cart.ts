@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import { BaseCart } from '../base/base-cart';
+import { BaseCartPage } from '../base/base-cart';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
@@ -17,7 +17,7 @@ import { Page } from '../../models/page.model';
   selector: 'page-cart',
   templateUrl: 'cart.html',
 })
-export class CartPage extends BaseCart {
+export class CartPage extends BaseCartPage {
 
   page: Page<Order>;
 

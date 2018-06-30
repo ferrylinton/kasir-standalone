@@ -45,8 +45,8 @@ export class MessageProvider {
   }
 
   showAddToast(data: string): void {
-    let message = 'Add new data[' + data + '] is successfully'
-    this.translate.get('ADD_SUCCESS', { data: data }).subscribe((value: string) => {
+    let message = 'Create new data[' + data + '] is successfully'
+    this.translate.get('CREATE_SUCCESS', { data: data }).subscribe((value: string) => {
       message = value;
     });
 
@@ -73,7 +73,7 @@ export class MessageProvider {
 
   showAddConfirm(data: string, callback: (dt: Base) => void): void {
     let message = 'Do you want to add new data[' + data + ']?'
-    this.translate.get('ADD_CONFIRM', { data: data }).subscribe((value: string) => {
+    this.translate.get('CREATE_CONFIRM', { data: data }).subscribe((value: string) => {
       message = value;
     });
 

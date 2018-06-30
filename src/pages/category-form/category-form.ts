@@ -4,19 +4,22 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
+import { v4 as uuid } from 'uuid';
 
 import { BasePage } from '../base/base';
-import { CategoryProvider } from '../../providers/category/category';
+import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
+import { CategoryProvider } from '../../providers/category/category'
 
 import { Category } from '../../models/category.model';
 
 
 @IonicPage()
 @Component({
-  selector: 'page-category-add',
-  templateUrl: 'category-add.html',
+  selector: 'page-category-form',
+  templateUrl: 'category-form.html',
 })
-export class CategoryAddPage extends BasePage {
+export class CategoryFormPage extends BasePage {
 
   @ViewChild('fileInput') fileInput;
 
@@ -27,23 +30,23 @@ export class CategoryAddPage extends BasePage {
   category: Category;
 
   constructor(
-    public toastCtrl: ToastController,
-    public alertCtrl: AlertController,
-    public translate: TranslateService,
-    public storage: Storage,
-    public events: Events,
-    public camera: Camera,
     public navCtrl: NavController,
     public navParams: NavParams,
-    public formBuilder: FormBuilder,
-    public categoryProvider: CategoryProvider) {
+    public storage: Storage,
+    public events: Events,
+    public translateService: TranslateService,
+    public settingProvider: SettingProvider,
+    public messageProvider: MessageProvider,
+    public categoryProvider: CategoryProvider,
+    public camera: Camera,
+    public formBuilder: FormBuilder) {
 
-    super(toastCtrl, alertCtrl, translate, storage, events);
-    this.init(navParams);
+    super(storage, events, translateService, settingProvider, messageProvider);
+    this.init();
   }
 
-  private init(navParams: NavParams): void {
-    this.category = navParams.get('category');
+  private init(): void {
+    this.category = this.navParams.get('category');
 
     if (this.category === undefined) {
       this.reloadPage('CategoryPage');
@@ -58,7 +61,6 @@ export class CategoryAddPage extends BasePage {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      id: [this.category.id],
       name: [this.category.name, Validators.required],
       description: [this.category.description, Validators.required],
       image: [this.category.image, Validators.required]
@@ -66,21 +68,42 @@ export class CategoryAddPage extends BasePage {
 
   }
 
-  saveCallback(category: Category): void {
-    category.createdBy = this.loggedUser.username;
-    category.createdDate = new Date();
-    this.categoryProvider.save(category).subscribe(result => {
-      this.navCtrl.popToRoot();
-      this.showAddToast(result.name);
-    });
-  }
-
   save() {
     if (!this.form.valid) {
       return;
     } else {
-      this.showAddConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
+      this.messageProvider.showAddConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
     }
+  }
+
+  private saveCallback(category: Category): void {
+    if (this.category.id === '') {
+      category.id = uuid();
+      this.create(category);
+    } else {
+      category.id = this.category.id;
+      this.modify(category);
+    }
+  }
+
+  private create(category: Category): void {
+    category.createdBy = this.loggedUser.username;
+    category.createdDate = new Date();
+    this.categoryProvider.save(category).subscribe(result => {
+      this.navCtrl.popToRoot();
+      this.messageProvider.showAddToast(result.name);
+    });
+  }
+
+  private modify(category: Category): void {
+    category.createdBy = this.category.createdBy;
+    category.createdDate = this.category.createdDate;
+    category.lastModifiedBy = this.loggedUser.username;
+    category.lastModifiedDate = new Date();
+    this.categoryProvider.update(category).subscribe(result => {
+      this.navCtrl.popToRoot();
+      this.messageProvider.showEditToast(result.name);
+    });
   }
 
   getPicture() {

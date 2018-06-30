@@ -10,7 +10,7 @@ import { Cart } from '../../models/cart.model';
 import { Product } from '../../models/product.model';
 
 
-export abstract class BaseCart {
+export abstract class BaseCartPage {
 
     loadingTxt: string = 'Please wait...';
 

@@ -9,7 +9,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
-import { BaseCart } from '../base/base-cart';
+import { BaseCartPage } from '../base/base-cart';
 
 
 @IonicPage()
@@ -17,7 +17,7 @@ import { BaseCart } from '../base/base-cart';
   selector: 'page-order',
   templateUrl: 'order.html',
 })
-export class OrderPage extends BaseCart {
+export class OrderPage extends BaseCartPage {
 
   segment = 'OrderPage';
 

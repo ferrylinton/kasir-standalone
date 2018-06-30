@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
+import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
 import { TranslateService } from '@ngx-translate/core';
-import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
 import { UserProvider } from '../../providers/user/user';
 
-import { BaseCrud } from '../base/base-crud';
+import { BaseListPage } from '../base/base-list';
 import { User } from '../../models/user.model';
 
 
@@ -16,17 +18,18 @@ import { User } from '../../models/user.model';
   selector: 'page-user',
   templateUrl: 'user.html',
 })
-export class UserPage extends BaseCrud<User>{
+export class UserPage extends BaseListPage<User>{
 
   constructor(
     public navCtrl: NavController,
-    public modalCtrl: ModalController,
+    public storage: Storage,
+    public events: Events,
     public translateService: TranslateService,
-    public commonProvider: CommonProvider,
     public settingProvider: SettingProvider,
+    public messageProvider: MessageProvider,
     public userProvider: UserProvider) {
 
-    super(modalCtrl, translateService, commonProvider, settingProvider, userProvider, 'fullname');
+    super(storage, events, translateService, settingProvider, messageProvider, userProvider, 'fullname');
   }
 
   ionViewWillEnter() {

@@ -9,7 +9,7 @@ import { Base } from '../../models/base.model';
 import { Page } from '../../models/page.model';
 
 
-export abstract class BaseCrud<T extends Base> {
+export abstract class BaseCrudPage<T extends Base> {
 
     loadingTxt: string = 'Please wait...';
 

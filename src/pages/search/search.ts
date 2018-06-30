@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import { BaseCart } from '../base/base-cart';
+import { BaseCartPage } from '../base/base-cart';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
 import { CommonProvider } from '../../providers/common/common';
@@ -16,7 +16,7 @@ import { Product } from '../../models/product.model';
   selector: 'page-search',
   templateUrl: 'search.html',
 })
-export class SearchPage extends BaseCart {
+export class SearchPage extends BaseCartPage {
 
   segment = 'SearchPage';
 

@@ -43,12 +43,17 @@
     "MODIFY": "Ubah",
     "MODIFY_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
     "MODIFY_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
-    "ADD": "Tambah",
-    "ADD_CONFIRM": "Apakah Anda ingin menambah data [ '{{data}}' ] ?",
-    "ADD_IMAGE": "Tambah Gambar",
-    "ADD_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
+    "CREATE": "Tambah",
+    "CREATE_CONFIRM": "Apakah Anda ingin menambah data [ '{{data}}' ] ?",
+    "CREATE_IMAGE": "Tambah Gambar",
+    "CREATE_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
     "CONFIRM": "Konfirmasi",
     "VIEW": "Lihat",
+    "ID": "Id",
+    "NAME": "Nama",
+    "DESCRIPTION": "Deskripsi",
+    "RELOAD_PAGE": "Memuat ulang halaman",
+    "TOTAL" : "Total",
 
     "temp": {
         "$": "US Dollar",
@@ -85,7 +90,7 @@
         "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
         "DEACTIVATED": "Tidak Aktif",
         
-        "DESCRIPTION": "Deskripsi",
+        
         "DETAIL": "Detil",
         
         
@@ -95,7 +100,7 @@
         "GRID": "Tampilan Ubin",
         "Home": "Beranda",
         
-        "ID": "Id",
+        
         "id": "Indonesia",
         "IMAGE": "Gambar",
         
@@ -112,7 +117,7 @@
         
         "Menu": "Menu",
         "MENU": "Menu",
-        "NAME": "Nama",
+        
         "NEXT": "Berikut",
         
         

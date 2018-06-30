@@ -3,9 +3,13 @@ import { IonicPage, NavController, NavParams, ToastController, Events, AlertCont
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
+import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
 import { CategoryProvider } from '../../providers/category/category';
 import { BasePage } from '../base/base';
 import { Category } from '../../models/category.model';
+
+
 
 @IonicPage()
 @Component({
@@ -14,45 +18,43 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryDetailPage extends BasePage {
 
-  private category: Category;
+  category: Category;
 
   constructor(
-    public toastCtrl: ToastController,
-    public alertCtrl: AlertController,
-    public translate: TranslateService,
-    public storage: Storage,
-    public events: Events,
     public navCtrl: NavController,
     public navParams: NavParams,
+    public storage: Storage,
+    public events: Events,
+    public translateService: TranslateService,
+    public settingProvider: SettingProvider,
+    public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage, events);
-    this.init(navParams);
+    super(storage, events, translateService, settingProvider, messageProvider);
+    this.init();
   }
 
-  private init(navParams: NavParams): void {
-    this.category = navParams.get('category');
+  private init(): void {
+    this.category = this.navParams.get('category');
 
     if (this.category === undefined) {
       this.reloadPage('CategoryPage');
     }
   }
 
-  edit() {
-    this.navCtrl.push('CategoryEditPage', {
-      category: this.category
-    });
+  modify() {
+    this.navCtrl.push('CategoryFormPage', { category: this.category });
   }
 
-  deleteCallback(category: Category): void {
-    this.categoryProvider.delete(category.id).subscribe(result => {
+  deleteCallback(): void {
+    this.categoryProvider.delete(this.category.id).subscribe(data => {
       this.navCtrl.popToRoot();
-      this.showDeleteToast(result.name);
+      this.messageProvider.showDeleteToast(this.category.name);
     });
   }
 
   delete() {
-    this.showDeleteConfirm(this.category.name, (category) => this.deleteCallback(this.category));
+    this.messageProvider.showDeleteConfirm(this.category.name, (category) => this.deleteCallback());
   }
 
 }

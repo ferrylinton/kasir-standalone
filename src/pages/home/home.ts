@@ -3,7 +3,7 @@ import { IonicPage, Slides, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
-import { BaseCart } from '../base/base-cart';
+import { BaseCartPage } from '../base/base-cart';
 import { CategoryProvider } from '../../providers/category/category';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
@@ -19,7 +19,7 @@ import { Category } from '../../models/category.model';
   selector: 'page-home',
   templateUrl: 'home.html',
 })
-export class HomePage extends BaseCart {
+export class HomePage extends BaseCartPage {
 
   @ViewChild(Slides) slides: Slides;
 
