@@ -18,6 +18,12 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryDetailPage extends BasePage {
 
+  private RELOAD_PAGE: string = 'CategoryPage';
+
+  private FORM_PAGE: string = 'CategoryFormPage';
+
+  private DATA: string = 'category';
+  
   category: Category;
 
   constructor(
@@ -35,15 +41,15 @@ export class CategoryDetailPage extends BasePage {
   }
 
   private init(): void {
-    this.category = this.navParams.get('category');
+    this.category = this.navParams.get(this.DATA);
 
     if (this.category === undefined) {
-      this.reloadPage('CategoryPage');
+      this.reloadPage(this.RELOAD_PAGE);
     }
   }
 
   modify() {
-    this.navCtrl.push('CategoryFormPage', { category: this.category });
+    this.navCtrl.push(this.FORM_PAGE, { category: this.category });
   }
 
   deleteCallback(): void {

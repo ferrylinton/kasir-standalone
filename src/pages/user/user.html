@@ -5,7 +5,7 @@
     </button>
     <ion-title>{{ 'USER' | translate }}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="add()">
+      <button ion-button icon-only (click)="create()">
         <ion-icon name="add-circle"></ion-icon>
       </button>
     </ion-buttons>
@@ -14,12 +14,17 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let user of page.data; let i = index" ion-item>
-      <span class="list-number" item-start>{{ i + 1 }}.</span>
-      <h2>{{user.fullname}}</h2>
-      <p>{{user.role}} | {{user.createdDate | date:'dd-MM-yyyy'}}</p>
-      <button ion-button outline item-end (click)="view(user)">{{ 'VIEW' | translate}}</button>
+    <ion-item>
+      <span class="total">{{ 'TOTAL_LABEL' | translate:{length:page.data.length, total:page.totalData} }}</span>
     </ion-item>
+    <ion-item ion-item *ngFor="let user of page.data">
+        <ion-avatar item-start>
+          <img src="{{user.image}}">
+        </ion-avatar>
+        <h2>{{user.fullname}}</h2>
+        <p>{{user.createdDate | date:'dd-MM-yyyy'}}</p>
+        <button ion-button outline item-end (click)="view(user)">{{ 'VIEW' | translate}}</button>
+      </ion-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>

@@ -21,6 +21,10 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryFormPage extends BasePage {
 
+  private RELOAD_PAGE: string = 'CategoryPage';
+
+  private DATA: string = 'category';
+
   @ViewChild('fileInput') fileInput;
 
   isReadyToSave: boolean;
@@ -46,10 +50,10 @@ export class CategoryFormPage extends BasePage {
   }
 
   private init(): void {
-    this.category = this.navParams.get('category');
+    this.category = this.navParams.get(this.DATA);
 
     if (this.category === undefined) {
-      this.reloadPage('CategoryPage');
+      this.reloadPage(this.RELOAD_PAGE);
     } else {
       this.initForm();
 

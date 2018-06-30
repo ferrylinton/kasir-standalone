@@ -53,7 +53,7 @@
     "NAME": "Nama",
     "DESCRIPTION": "Deskripsi",
     "RELOAD_PAGE": "Memuat ulang halaman",
-    "TOTAL" : "Total",
+    "TOTAL_LABEL" : "Menampilkan {{ length }} dari {{ total }}",
 
     "temp": {
         "$": "US Dollar",

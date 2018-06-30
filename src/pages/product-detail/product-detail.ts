@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, ToastController, Events, AlertCont
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
+import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
 import { ProductProvider } from '../../providers/product/product';
 import { BasePage } from '../base/base';
 import { Product } from '../../models/product.model';
@@ -15,45 +17,49 @@ import { Product } from '../../models/product.model';
 })
 export class ProductDetailPage extends BasePage {
 
+  private RELOAD_PAGE: string = 'ProductPage';
+
+  private FORM_PAGE: string = 'ProductFormPage';
+
+  private DATA: string = 'product';
+
   private product: Product;
 
   constructor(
-    public toastCtrl: ToastController,
-    public alertCtrl: AlertController,
-    public translate: TranslateService,
-    public storage: Storage,
-    public events: Events,
     public navCtrl: NavController,
     public navParams: NavParams,
+    public storage: Storage,
+    public events: Events,
+    public translateService: TranslateService,
+    public settingProvider: SettingProvider,
+    public messageProvider: MessageProvider,
     public productProvider: ProductProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage, events);
-    this.init(navParams);
+    super(storage, events, translateService, settingProvider, messageProvider);
+    this.init();
   }
 
-  private init(navParams: NavParams): void {
-    this.product = navParams.get('product');
+  private init(): void {
+    this.product = this.navParams.get(this.DATA);
 
     if (this.product === undefined) {
-      this.reloadPage('ProductPage');
+      this.reloadPage(this.RELOAD_PAGE);
     }
   }
 
-  edit() {
-    this.navCtrl.push('ProductEditPage', {
-      product: this.product
-    });
+  modify() {
+    this.navCtrl.push(this.FORM_PAGE, { product: this.product });
   }
 
   deleteCallback(product: Product): void {
     this.productProvider.delete(product.id).subscribe(result => {
       this.navCtrl.popToRoot();
-      this.showDeleteToast(result.name);
+      this.messageProvider.showDeleteToast(result.name);
     });
   }
 
   delete() {
-    this.showDeleteConfirm(this.product.name, (product) => this.deleteCallback(this.product));
+    this.messageProvider.showDeleteConfirm(this.product.name, (product) => this.deleteCallback(this.product));
   }
 
 }

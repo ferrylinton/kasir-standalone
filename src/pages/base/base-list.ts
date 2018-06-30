@@ -19,14 +19,15 @@ export abstract class BaseListPage<T extends Base> extends BasePage {
 
     page: Page<T>;
 
+    sortBy: string = 'id';
+
     constructor(
         public storage: Storage,
         public events: Events,
         public translateService: TranslateService,
         public settingProvider: SettingProvider,
         public messageProvider: MessageProvider,
-        public crudProvider: CrudProvider<T>,
-        public sortBy: string,
+        public crudProvider: CrudProvider<T>
     ) {
         super(storage, events, translateService, settingProvider, messageProvider);
         this.initPage();

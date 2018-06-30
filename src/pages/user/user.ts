@@ -20,6 +20,10 @@ import { User } from '../../models/user.model';
 })
 export class UserPage extends BaseListPage<User>{
 
+  private DETAIL_PAGE: string = 'UserDetailPage';
+
+  private FORM_PAGE: string = 'UserFormPage';
+
   constructor(
     public navCtrl: NavController,
     public storage: Storage,
@@ -29,7 +33,8 @@ export class UserPage extends BaseListPage<User>{
     public messageProvider: MessageProvider,
     public userProvider: UserProvider) {
 
-    super(storage, events, translateService, settingProvider, messageProvider, userProvider, 'fullname');
+    super(storage, events, translateService, settingProvider, messageProvider, userProvider);
+    this.sortBy = 'fullname';
   }
 
   ionViewWillEnter() {
@@ -37,11 +42,11 @@ export class UserPage extends BaseListPage<User>{
   }
 
   view(user: User) {
-    this.navCtrl.push('UserDetailPage', { user: user });
+    this.navCtrl.push(this.DETAIL_PAGE, { user: user });
   }
 
-  add() {
-    this.navCtrl.push('UserAddPage', { user: new User(uuid()) });
+  create() {
+    this.navCtrl.push(this.FORM_PAGE, { user: new User('') });
   }
 
 }

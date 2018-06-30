@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
-import { v4 as uuid } from 'uuid';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
+import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
+import { TranslateService } from '@ngx-translate/core';
+import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
 import { ProductProvider } from '../../providers/product/product';
 
-import { Pageable } from '../../models/pageable.model';
-import { Page } from '../../models/page.model';
+import { BaseListPage } from '../base/base-list';
 import { Product } from '../../models/product.model';
 
 @IonicPage()
@@ -13,60 +16,37 @@ import { Product } from '../../models/product.model';
   selector: 'page-product',
   templateUrl: 'product.html',
 })
-export class ProductPage {
+export class ProductPage extends BaseListPage<Product>{
 
-  pageable: Pageable;
+  private DETAIL_PAGE: string = 'ProductDetailPage';
 
-  page: Page<Product>;
+  private FORM_PAGE: string = 'ProductFormPage';
 
   constructor(
     public navCtrl: NavController,
+    public storage: Storage,
+    public events: Events,
+    public translateService: TranslateService,
+    public settingProvider: SettingProvider,
+    public messageProvider: MessageProvider,
     public productProvider: ProductProvider) {
 
-    this.init();
+    super(storage, events, translateService, settingProvider, messageProvider, productProvider);
+    this.sortBy = 'name';
   }
 
   ionViewWillEnter() {
-    this.init();
+    this.initPage();
+    this.loadData();
   }
 
-  private init(): void {
-    this.pageable = new Pageable(1);
-    this.loadData(this.pageable);
-  }
-
-  private loadData(pageable: Pageable) {
-    this.productProvider.find(pageable).subscribe(page => {
-      this.page = page;
-    })
-  }
-
-  previous(): void {
-    if (this.pageable.pageNumber > 1) {
-      this.pageable = new Pageable(this.page.pageNumber - 1, this.page.totalData);
-      this.loadData(this.pageable);
-    }
-  }
-
-  next(): void {
-    if (this.pageable.pageNumber < this.page.getTotalPage()) {
-      this.pageable = new Pageable(this.page.pageNumber + 1, this.page.totalData);
-      this.loadData(this.pageable);
-    }
-  }
 
   view(product: Product) {
-    this.navCtrl.push('ProductDetailPage', {
-      product: product
-    });
+    this.navCtrl.push(this.DETAIL_PAGE, { product: product });
   }
 
-  add() {
-    let product = new Product(uuid());
-    
-    this.navCtrl.push('ProductAddPage', {
-      product: product
-    });
+  create() {
+    this.navCtrl.push(this.FORM_PAGE, { product: new Product('') });
   }
 
 }

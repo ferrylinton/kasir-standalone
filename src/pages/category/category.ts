@@ -3,7 +3,6 @@ import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-
 import { TranslateService } from '@ngx-translate/core';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
@@ -20,6 +19,10 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryPage extends BaseListPage<Category>{
 
+  private DETAIL_PAGE: string = 'CategoryDetailPage';
+
+  private FORM_PAGE: string = 'CategoryFormPage';
+
   constructor(
     public navCtrl: NavController,
     public storage: Storage,
@@ -29,7 +32,8 @@ export class CategoryPage extends BaseListPage<Category>{
     public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(storage, events, translateService, settingProvider, messageProvider, categoryProvider, 'name');
+    super(storage, events, translateService, settingProvider, messageProvider, categoryProvider);
+    this.sortBy = 'name';
   }
 
   ionViewWillEnter() {
@@ -38,11 +42,11 @@ export class CategoryPage extends BaseListPage<Category>{
   }
 
   view(category: Category) {
-    this.navCtrl.push('CategoryDetailPage', { category: category });
+    this.navCtrl.push(this.DETAIL_PAGE, { category: category });
   }
 
   create() {
-    this.navCtrl.push('CategoryFormPage', { category: new Category('') });
+    this.navCtrl.push(this.FORM_PAGE, { category: new Category('') });
   }
 
 }

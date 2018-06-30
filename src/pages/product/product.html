@@ -3,10 +3,10 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'LABEL.PRODUCT' | translate }}</ion-title>
+    <ion-title>{{ 'PRODUCT' | translate }}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="add()">
-        <ion-icon name="add"></ion-icon>
+      <button ion-button icon-only (click)="create()">
+        <ion-icon name="add-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -14,18 +14,20 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let product of page.data; let i = index" ion-item (click)="view(product)">
-      <span class="list-number" item-start>{{page.getStartRow() + i}}.</span>
-      {{product.name}}
+    <ion-item>
+      <span class="total">{{ 'TOTAL_LABEL' | translate:{length:page.data.length, total:page.totalData} }}</span>
+    </ion-item>
+    <ion-item ion-item *ngFor="let product of page.data">
+      <ion-thumbnail item-start>
+        <img src="{{product.image}}">
+      </ion-thumbnail>
+      <h2>{{product.name}}</h2>
+      <p>{{product.description}}</p>
+      <p>{{product.createdDate | date:'dd-MM-yyyy'}}</p>
+      <button ion-button outline item-end (click)="view(product)">{{ 'VIEW' | translate}}</button>
     </ion-item>
   </ion-list>
-
-  <button class="prev-icon" ion-button icon-start round outline [disabled]="page.isFirst()" (click)="previous()">
-    <ion-icon name="ios-arrow-round-back"></ion-icon>
-    {{ 'BUTTON.PREVIOUS' | translate }}
-  </button>
-  <button ion-button icon-end round outline float-right [disabled]="page.isLast()" (click)="next()">
-    {{ 'BUTTON.NEXT' | translate }}
-    <ion-icon name="ios-arrow-round-forward"></ion-icon>
-  </button>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

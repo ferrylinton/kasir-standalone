@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, ToastController, Events, AlertCont
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
+import { SettingProvider } from '../../providers/setting/setting';
+import { MessageProvider } from '../../providers/message/message';
 import { UserProvider } from '../../providers/user/user';
 import { BasePage } from '../base/base';
 import { User } from '../../models/user.model';
@@ -14,45 +16,49 @@ import { User } from '../../models/user.model';
 })
 export class UserDetailPage extends BasePage {
 
+  private RELOAD_PAGE: string = 'UserPage';
+
+  private FORM_PAGE: string = 'UserFormPage';
+
+  private DATA: string = 'user';
+
   private user: User;
 
   constructor(
-    public toastCtrl: ToastController,
-    public alertCtrl: AlertController,
-    public translate: TranslateService,
-    public storage: Storage,
-    public events: Events,
     public navCtrl: NavController,
     public navParams: NavParams,
+    public storage: Storage,
+    public events: Events,
+    public translateService: TranslateService,
+    public settingProvider: SettingProvider,
+    public messageProvider: MessageProvider,
     public userProvider: UserProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage, events);
-    this.init(navParams);
+    super(storage, events, translateService, settingProvider, messageProvider);
+    this.init();
   }
 
-  private init(navParams: NavParams): void {
-    this.user = navParams.get('user');
+  private init(): void {
+    this.user = this.navParams.get(this.DATA);
 
     if (this.user === undefined) {
-      this.reloadPage('UserPage');
+      this.reloadPage(this.RELOAD_PAGE);
     }
   }
 
-  edit() {
-    this.navCtrl.push('UserEditPage', {
-      user: this.user
-    });
+  modify() {
+    this.navCtrl.push(this.FORM_PAGE, { user: this.user });
   }
 
   deleteCallback(user: User): void {
     this.userProvider.delete(user.id).subscribe(result => {
       this.navCtrl.popToRoot();
-      this.showDeleteToast(result.username);
+      this.messageProvider.showDeleteToast(result.fullname);
     });
   }
 
   delete() {
-    this.showDeleteConfirm(this.user.username, (user) => this.deleteCallback(this.user));
+    this.messageProvider.showDeleteConfirm(this.user.fullname, (user) => this.deleteCallback(this.user));
   }
 
 }
