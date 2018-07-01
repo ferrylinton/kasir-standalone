@@ -3,11 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-
-import * as Constant from "../../constant/constant";
-import * as Setting from '../../constant/setting';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { CrudProvider } from '../../providers/crud/crud';
@@ -26,15 +21,14 @@ export abstract class BaseListPage<T extends Base> extends BasePage {
 
     page: Page<T>;
 
-    sortBy: string = 'id';
-
     constructor(
         public storage: Storage,
         public events: Events,
         public translateService: TranslateService,
         public settingProvider: SettingProvider,
         public messageProvider: MessageProvider,
-        public crudProvider: CrudProvider<T>
+        public crudProvider: CrudProvider<T>,
+        public sortBy: string
     ) {
         super(storage, events, translateService, settingProvider, messageProvider);
         this.initPage();
@@ -55,7 +49,7 @@ export abstract class BaseListPage<T extends Base> extends BasePage {
     }
 
     toggleSearch() {
-        this.showSearch = this.showSearch ? false : true;
+        this.showSearch = !this.showSearch;
         if (this.showSearch) {
             setTimeout(() => {
                 this.searchbar.setFocus();

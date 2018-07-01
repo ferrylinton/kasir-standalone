@@ -27,6 +27,8 @@ export class CategoryFormPage extends BasePage {
 
   @ViewChild('fileInput') fileInput;
 
+  isCreate: boolean;
+
   isReadyToSave: boolean;
 
   form: FormGroup;
@@ -56,11 +58,12 @@ export class CategoryFormPage extends BasePage {
       this.reloadPage(this.RELOAD_PAGE);
     } else {
       this.initForm();
-
-      this.form.valueChanges.subscribe((v) => {
-        this.isReadyToSave = this.form.valid;
-      });
+      this.initVariable();
     }
+  }
+
+  private initVariable(): void{
+    this.isCreate = this.category.id === '';
   }
 
   private initForm(): void {
@@ -70,44 +73,50 @@ export class CategoryFormPage extends BasePage {
       image: [this.category.image, Validators.required]
     });
 
+    this.form.valueChanges.subscribe((v) => {
+      this.isReadyToSave = this.form.valid;
+    });
   }
 
   save() {
     if (!this.form.valid) {
       return;
     } else {
-      this.messageProvider.showAddConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
+      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.name, (category) => this.saveCallback(this.form.value));
     }
   }
 
   private saveCallback(category: Category): void {
-    if (this.category.id === '') {
-      category.id = uuid();
+    if (this.isCreate) {
       this.create(category);
     } else {
-      category.id = this.category.id;
       this.modify(category);
     }
   }
 
   private create(category: Category): void {
+    category.id = uuid();
     category.createdBy = this.loggedUser.username;
     category.createdDate = new Date();
     this.categoryProvider.save(category).subscribe(result => {
-      this.navCtrl.popToRoot();
-      this.messageProvider.showAddToast(result.name);
+      this.showSaveResult(result);
     });
   }
 
   private modify(category: Category): void {
+    category.id = this.category.id;
     category.createdBy = this.category.createdBy;
     category.createdDate = this.category.createdDate;
     category.lastModifiedBy = this.loggedUser.username;
     category.lastModifiedDate = new Date();
     this.categoryProvider.update(category).subscribe(result => {
-      this.navCtrl.popToRoot();
-      this.messageProvider.showEditToast(result.name);
+      this.showSaveResult(result);
     });
+  }
+
+  private showSaveResult(category: Category): void{
+    this.navCtrl.popToRoot();
+    this.messageProvider.showSaveToast(this.isCreate, category.name);
   }
 
   getPicture() {

@@ -44,18 +44,9 @@ export class MessageProvider {
     toast.present();
   }
 
-  showAddToast(data: string): void {
-    let message = 'Create new data[' + data + '] is successfully'
-    this.translate.get('CREATE_SUCCESS', { data: data }).subscribe((value: string) => {
-      message = value;
-    });
-
-    this.showToast(message);
-  }
-
-  showEditToast(data: string): void {
-    let message = 'Modify data[' + data + '] is successfully'
-    this.translate.get('MODIFY_SUCCESS', { data: data }).subscribe((value: string) => {
+  showSaveToast(isCreate: boolean,data: string): void {
+    let message = 'Save data[' + data + '] is successfully'
+    this.translate.get(isCreate ? 'CREATE_SUCCESS': 'MODIFY_SUCCESS', { data: data }).subscribe((value: string) => {
       message = value;
     });
 
@@ -71,18 +62,9 @@ export class MessageProvider {
     this.showToast(message);
   }
 
-  showAddConfirm(data: string, callback: (dt: Base) => void): void {
-    let message = 'Do you want to add new data[' + data + ']?'
-    this.translate.get('CREATE_CONFIRM', { data: data }).subscribe((value: string) => {
-      message = value;
-    });
-
-    this.showConfirm(message, callback);
-  }
-
-  showEditConfirm(data: string, callback: (dt: Base) => void): void {
-    let message = 'Do you want to edit data[' + data + ']?'
-    this.translate.get('MODIFY_CONFIRM', { data: data }).subscribe((res: string) => {
+  showSaveConfirm(isCreate: boolean, data: string, callback: (dt: Base) => void): void {
+    let message = 'Do you want to save data[' + data + ']?'
+    this.translate.get(isCreate ? 'CREATE_CONFIRM' : 'MODIFY_CONFIRM', { data: data }).subscribe((res: string) => {
       message = res;
     });
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
@@ -29,10 +29,9 @@ export class ProductPage extends BaseListPage<Product>{
     public translateService: TranslateService,
     public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
-    public productProvider: ProductProvider) {
-
-    super(storage, events, translateService, settingProvider, messageProvider, productProvider);
-    this.sortBy = 'name';
+    public productProvider: ProductProvider
+  ) {
+    super(storage, events, translateService, settingProvider, messageProvider, productProvider, 'name');
   }
 
   ionViewWillEnter() {

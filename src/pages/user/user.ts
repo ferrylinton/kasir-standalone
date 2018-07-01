@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { v4 as uuid } from 'uuid';
 
 import { TranslateService } from '@ngx-translate/core';
 import { SettingProvider } from '../../providers/setting/setting';
@@ -31,10 +30,9 @@ export class UserPage extends BaseListPage<User>{
     public translateService: TranslateService,
     public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
-    public userProvider: UserProvider) {
-
-    super(storage, events, translateService, settingProvider, messageProvider, userProvider);
-    this.sortBy = 'fullname';
+    public userProvider: UserProvider
+  ) {
+    super(storage, events, translateService, settingProvider, messageProvider, userProvider, 'fullname');
   }
 
   ionViewWillEnter() {

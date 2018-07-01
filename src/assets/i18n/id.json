@@ -41,7 +41,7 @@
     "DELETE_CONFIRM": "Apakah Anda ingin menghapus data [ '{{data}}' ] ?",
     "DELETE_SUCCESS": "Hapus data [ '{{data}}' ] berhasil",
     "MODIFY": "Ubah",
-    "MODIFY_CONFIRM": "Apakah Anda ingin menyimpan data [ '{{data}}' ] ?",
+    "MODIFY_CONFIRM": "Apakah Anda ingin menyimpan perubahan data [ '{{data}}' ] ?",
     "MODIFY_SUCCESS": "Ubah data [ '{{data}}' ] berhasil",
     "CREATE": "Tambah",
     "CREATE_CONFIRM": "Apakah Anda ingin menambah data [ '{{data}}' ] ?",
@@ -54,6 +54,7 @@
     "DESCRIPTION": "Deskripsi",
     "RELOAD_PAGE": "Memuat ulang halaman",
     "TOTAL_LABEL" : "Menampilkan {{ length }} dari {{ total }}",
+    "PRICE": "Harga",
 
     "temp": {
         "$": "US Dollar",
@@ -133,7 +134,7 @@
         "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
         
         "PREVIOUS": "Sebelum",
-        "PRICE": "Harga",
+        
         "Product": "Produk",
         
         "PRODUCT_DATA": "Data Produk",

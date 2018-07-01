@@ -39,6 +39,18 @@
       <ion-col class="detail-value">{{ product.description }}</ion-col>
     </ion-row>
     <ion-row>
+      <ion-col class="detail-label">{{ 'PRICE' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{product.price | currency:currency:symbol:symbol:lang}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'CATEGORY' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ product.category }}</ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col class="detail-label">{{ 'CREATED_BY' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="product.createdBy; else empty">

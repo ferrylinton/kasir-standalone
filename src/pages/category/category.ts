@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
@@ -30,10 +30,9 @@ export class CategoryPage extends BaseListPage<Category>{
     public translateService: TranslateService,
     public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
-    public categoryProvider: CategoryProvider) {
-
-    super(storage, events, translateService, settingProvider, messageProvider, categoryProvider);
-    this.sortBy = 'name';
+    public categoryProvider: CategoryProvider
+  ) {
+    super(storage, events, translateService, settingProvider, messageProvider, categoryProvider, 'name');
   }
 
   ionViewWillEnter() {

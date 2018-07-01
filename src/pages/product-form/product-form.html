@@ -28,5 +28,15 @@
       <ion-label color="primary" stacked>{{ 'DESCRIPTION' | translate }}</ion-label>
       <ion-input type="text" placeholder="{{ 'DESCRIPTION' | translate }}" formControlName="description"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>{{ 'PRICE' | translate }}</ion-label>
+      <ion-input type="number" placeholder="{{ 'PRICE' | translate }}" formControlName="price"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>{{ 'CATEGORY' | translate }}</ion-label>
+      <ion-select formControlName="category" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+        <ion-option *ngFor="let category of categories">{{ category.name }}</ion-option>
+      </ion-select>
+    </ion-item>
   </form>
 </ion-content>

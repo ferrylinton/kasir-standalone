@@ -10,8 +10,11 @@ import { BasePage } from '../base/base';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { ProductProvider } from '../../providers/product/product';
+import { CategoryProvider } from '../../providers/category/category';
 
 import { Product } from '../../models/product.model';
+import { Category } from '../../models/category.model';
+
 
 @IonicPage()
 @Component({
@@ -32,6 +35,8 @@ export class ProductFormPage extends BasePage {
 
   product: Product;
 
+  categories: Array<Category>;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -41,6 +46,7 @@ export class ProductFormPage extends BasePage {
     public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
     public productProvider: ProductProvider,
+    public categoryProvider: CategoryProvider,
     public camera: Camera,
     public formBuilder: FormBuilder) {
 
@@ -54,6 +60,7 @@ export class ProductFormPage extends BasePage {
     if (this.product === undefined) {
       this.reloadPage(this.RELOAD_PAGE);
     } else {
+      this.initCategories();
       this.initForm();
 
       this.form.valueChanges.subscribe((v) => {
@@ -62,20 +69,35 @@ export class ProductFormPage extends BasePage {
     }
   }
 
+  private initCategories(): void{
+    this.categoryProvider.findAll().subscribe(categories => {
+      this.categories = categories;
+    })
+  }
+
   private initForm(): void {
+    if (this.product.id === '') {
+      this.product.category = this.categories[0].name;
+    }
+
     this.form = this.formBuilder.group({
       name: [this.product.name, Validators.required],
       description: [this.product.description, Validators.required],
-      image: [this.product.image, Validators.required]
+      image: [this.product.image, Validators.required],
+      price: [this.product.price, Validators.required],
+      category: [this.product.category, Validators.required]
     });
-
   }
 
   save() {
     if (!this.form.valid) {
       return;
     } else {
-      this.messageProvider.showAddConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
+      if (this.product.id === '') {
+        this.messageProvider.showAddConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
+      }else{
+        this.messageProvider.showEditConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
+      }
     }
   }
 
