@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title *ngIf="category && category.id === ''">{{ 'CATEGORY' | translate }} - {{ 'CREATE' | translate }}</ion-title>
     <ion-title *ngIf="category && category.id !== ''">{{ 'CATEGORY' | translate }} - {{ 'MODIFY' | translate }}</ion-title>
@@ -9,9 +8,7 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
