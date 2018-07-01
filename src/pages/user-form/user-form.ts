@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,6 +29,8 @@ export class UserFormPage extends BasePage {
 
   @ViewChild('fileInput') fileInput;
 
+  isCreate: boolean;
+
   isReadyToSave: boolean;
 
   form: FormGroup;
@@ -39,7 +41,6 @@ export class UserFormPage extends BasePage {
 
   passwordNotMatch: string;
 
-  
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -56,20 +57,21 @@ export class UserFormPage extends BasePage {
     super(storage, events, translateService, settingProvider, messageProvider);
     this.init();
   }
-  
+
   private init(): void {
     this.user = this.navParams.get(this.DATA);
 
     if (this.user === undefined) {
-      this.reloadPage('UserPage');
+      this.reloadPage(this.RELOAD_PAGE);
     } else {
+      this.initVariable();
       this.initRoles();
       this.initForm();
-
-      this.form.valueChanges.subscribe((v) => {
-        this.isReadyToSave = this.form.valid;
-      });
     }
+  }
+
+  private initVariable(): void {
+    this.isCreate = this.user.id === '';
 
     this.translateService.get('MESSAGE.PASSWORD_NOT_MATCH').subscribe(value => {
       this.passwordNotMatch = value;
@@ -77,32 +79,28 @@ export class UserFormPage extends BasePage {
   }
 
   private initRoles(): void {
-    this.roleProvider.findAll()
-      .subscribe(roles => {
-        this.roles = roles;
+    this.roleProvider.findAll().subscribe(roles => {
+      this.roles = roles;
+
+      if(this.isCreate && roles.length > 0){
         this.user.role = this.roles[0].name;
-      })
+      }
+    })
   }
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      id: [this.user.id],
-      username: ['', Validators.required],
-      fullname: ['', Validators.required],
-      password: ['', Validators.required],
-      passwordConfirm: ['', Validators.required],
-      role: [this.user.role, Validators.required]
+      username: [this.user.username, Validators.required],
+      fullname: [this.user.fullname, Validators.required],
+      password: [this.user.password, Validators.required],
+      passwordConfirm: [this.user.password, Validators.required],
+      role: [this.user.role, Validators.required],
+      activated: [this.user.activated],
+      image: [this.user.image, Validators.required]
     });
 
-  }
-
-  saveCallback(user: User): void {
-    user.activated = true;
-    user.createdBy = this.loggedUser.username;
-    user.createdDate = new Date();
-    this.userProvider.save(user).subscribe(result => {
-      this.navCtrl.popToRoot();
-      this.messageProvider.showAddToast(result.username);
+    this.form.valueChanges.subscribe((v) => {
+      this.isReadyToSave = this.form.valid;
     });
   }
 
@@ -112,7 +110,77 @@ export class UserFormPage extends BasePage {
     } else if (this.form.value.password !== this.form.value.passwordConfirm) {
       this.messageProvider.showToast(this.passwordNotMatch);
     } else {
-      this.messageProvider.showAddConfirm(this.form.value.username, (user) => this.saveCallback(this.form.value));
+      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.name, (category) => this.saveCallback(this.form.value));
     }
   }
+
+  private saveCallback(user: User): void {
+    if (this.isCreate) {
+      this.create(user);
+    } else {
+      this.modify(user);
+    }
+  }
+
+  create(user: User): void {
+    user.id = uuid();
+    user.activated = true;
+    user.createdBy = this.loggedUser.username;
+    user.createdDate = new Date();
+    this.userProvider.save(user).subscribe(result => {
+      this.showSaveResult(result);
+    });
+  }
+
+  modify(user: User): void {
+    user.id = this.user.id;
+    user.createdBy = this.user.username;
+    user.createdDate = this.user.createdDate;
+    user.lastModifiedBy = this.loggedUser.username;
+    user.lastModifiedDate = new Date();
+    this.userProvider.update(user).subscribe(result => {
+      this.showSaveResult(result);
+    });
+  }
+  
+  private showSaveResult(user: User): void{
+    this.navCtrl.popToRoot();
+    this.messageProvider.showSaveToast(this.isCreate, user.fullname);
+  }
+
+  getPicture() {
+    if (Camera['installed']()) {
+      this.camera.getPicture({
+        destinationType: this.camera.DestinationType.DATA_URL,
+        targetWidth: 96,
+        targetHeight: 96
+      }).then((data) => {
+        this.form.patchValue({ 'image': 'data:image/png;base64,' + data });
+      }, (err) => {
+        alert('Unable to take photo');
+      })
+    } else {
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  processWebImage(event) {
+    if (event.target.files.length != 0) {
+      let reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        let imageData = (readerEvent.target as any).result;
+        this.form.patchValue({ 'image': imageData });
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+    } else {
+      console.log('cancel...................');
+    }
+
+  }
+
+  getImageStyle() {
+    return 'url(' + this.form.controls['image'].value + ')'
+  }
+
 }

@@ -29,6 +29,8 @@ export class ProductFormPage extends BasePage {
 
   @ViewChild('fileInput') fileInput;
 
+  isCreate: boolean;
+
   isReadyToSave: boolean;
 
   form: FormGroup;
@@ -60,26 +62,27 @@ export class ProductFormPage extends BasePage {
     if (this.product === undefined) {
       this.reloadPage(this.RELOAD_PAGE);
     } else {
+      this.initVariable()
       this.initCategories();
       this.initForm();
-
-      this.form.valueChanges.subscribe((v) => {
-        this.isReadyToSave = this.form.valid;
-      });
     }
+  }
+
+  private initVariable(): void{
+    this.isCreate = this.product.id === '';
   }
 
   private initCategories(): void{
     this.categoryProvider.findAll().subscribe(categories => {
       this.categories = categories;
+
+      if(this.isCreate && categories.length > 0){
+        this.product.category = categories[0].name;
+      }
     })
   }
 
   private initForm(): void {
-    if (this.product.id === '') {
-      this.product.category = this.categories[0].name;
-    }
-
     this.form = this.formBuilder.group({
       name: [this.product.name, Validators.required],
       description: [this.product.description, Validators.required],
@@ -87,48 +90,51 @@ export class ProductFormPage extends BasePage {
       price: [this.product.price, Validators.required],
       category: [this.product.category, Validators.required]
     });
+
+    this.form.valueChanges.subscribe((v) => {
+      this.isReadyToSave = this.form.valid;
+    });
   }
 
   save() {
     if (!this.form.valid) {
       return;
     } else {
-      if (this.product.id === '') {
-        this.messageProvider.showAddConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
-      }else{
-        this.messageProvider.showEditConfirm(this.form.value.name, (category) => this.saveCallback(this.form.value));
-      }
+      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.name, (category) => this.saveCallback(this.form.value));
     }
   }
 
   private saveCallback(product: Product): void {
-    if (this.product.id === '') {
-      product.id = uuid();
+    if (this.isCreate) {
       this.create(product);
     } else {
-      product.id = this.product.id;
       this.modify(product);
     }
   }
 
   private create(product: Product): void {
+    product.id = uuid();
     product.createdBy = this.loggedUser.username;
     product.createdDate = new Date();
     this.productProvider.save(product).subscribe(result => {
-      this.navCtrl.popToRoot();
-      this.messageProvider.showAddToast(result.name);
+      this.showSaveResult(result);
     });
   }
 
   private modify(product: Product): void {
+    product.id = this.product.id;
     product.createdBy = this.product.createdBy;
     product.createdDate = this.product.createdDate;
     product.lastModifiedBy = this.loggedUser.username;
     product.lastModifiedDate = new Date();
     this.productProvider.update(product).subscribe(result => {
-      this.navCtrl.popToRoot();
-      this.messageProvider.showEditToast(result.name);
+      this.showSaveResult(result);
     });
+  }
+
+  private showSaveResult(product: Product): void{
+    this.navCtrl.popToRoot();
+    this.messageProvider.showSaveToast(this.isCreate, product.name);
   }
 
   getPicture() {

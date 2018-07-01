@@ -12,7 +12,7 @@
 
 <ion-content padding>
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
-    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
+    <input type="file" #fileInput class="fileinput" name="files[]" (change)="processWebImage($event)" />
     <div class="image-wrapper">
       <div class="image" (click)="getPicture()">
         <div class="background" [style.backgroundImage]="getImageStyle()">

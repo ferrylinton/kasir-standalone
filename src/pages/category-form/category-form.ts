@@ -57,8 +57,8 @@ export class CategoryFormPage extends BasePage {
     if (this.category === undefined) {
       this.reloadPage(this.RELOAD_PAGE);
     } else {
-      this.initForm();
       this.initVariable();
+      this.initForm();
     }
   }
 

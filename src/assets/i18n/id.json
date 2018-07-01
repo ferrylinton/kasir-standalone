@@ -55,6 +55,9 @@
     "RELOAD_PAGE": "Memuat ulang halaman",
     "TOTAL_LABEL" : "Menampilkan {{ length }} dari {{ total }}",
     "PRICE": "Harga",
+    "FULLNAME": "Nama Lengkap",
+    "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
+    "ROLE": "Peranan",
 
     "temp": {
         "$": "US Dollar",
@@ -78,7 +81,7 @@
         "CHANGE_DATETIME_FORMAT": "Ubah Format Tangal dan Waktu",
         "CHANGE_LANGUAGE": "Ubah Bahasa",
         
-        "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
+        
         
         "CURRENCY": "Mata Uang",
         "CURRENCY_SYMBOL": "Format Mata Uang",
@@ -97,7 +100,7 @@
         
         
         "en": "English",
-        "FULLNAME": "Nama Lengkap",
+        
         "GRID": "Tampilan Ubin",
         "Home": "Beranda",
         
@@ -145,7 +148,7 @@
         "RELOAD": "Muat Ulang",
         "RELOAD_PAGE": "Memuat ulang halaman",
         "REMOVE": "Kurang",
-        "Role": "Peranan",
+        
         
         "Rp": "Rupiah",
         "SAVE": "Simpan",
