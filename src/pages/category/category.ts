@@ -41,6 +41,14 @@ export class CategoryPage extends BaseListPage<Category>{
     this.loadData();
   }
 
+  loadData() {
+    this.categoryProvider.findByName(this.keyword, this.page).subscribe(page => {
+      this.page.pageNumber = page.pageNumber;
+      this.page.totalData = page.totalData;
+      this.page.data = [...this.page.data, ...page.data];
+    })
+  }
+
   view(category: Category) {
     this.navCtrl.push(this.DETAIL_PAGE, { category: category });
   }

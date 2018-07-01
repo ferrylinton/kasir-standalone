@@ -40,6 +40,13 @@ export class ProductPage extends BaseListPage<Product>{
     this.loadData();
   }
 
+  loadData() {
+    this.productProvider.findByName(this.keyword, this.page).subscribe(page => {
+      this.page.pageNumber = page.pageNumber;
+      this.page.totalData = page.totalData;
+      this.page.data = [...this.page.data, ...page.data];
+    })
+  }
 
   view(product: Product) {
     this.navCtrl.push(this.DETAIL_PAGE, { product: product });

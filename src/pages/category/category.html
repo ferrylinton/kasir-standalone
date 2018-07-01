@@ -1,14 +1,21 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar *ngIf="!showSearch">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{ 'CATEGORY' | translate }}</ion-title>
     <ion-buttons end>
+      <button ion-button icon-only (click)="toggleSearch()">
+        <ion-icon name="search"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="create()">
-        <ion-icon name="add-circle"></ion-icon>
+        <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
+  </ion-navbar>
+  <ion-navbar *ngIf="showSearch">
+    <ion-searchbar #searchbar [(ngModel)]="keyword" [showCancelButton]="true" (ionCancel)="toggleSearch()" (ionClear)="clearSearch()"
+      (ionInput)="triggerSearch($event)" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
   </ion-navbar>
 </ion-header>
 

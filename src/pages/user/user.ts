@@ -41,6 +41,14 @@ export class UserPage extends BaseListPage<User>{
     this.loadData();
   }
 
+  loadData() {
+    this.userProvider.findByFullname(this.keyword, this.page).subscribe(page => {
+      this.page.pageNumber = page.pageNumber;
+      this.page.totalData = page.totalData;
+      this.page.data = [...this.page.data, ...page.data];
+    })
+  }
+  
   view(user: User) {
     this.navCtrl.push(this.DETAIL_PAGE, { user: user });
   }

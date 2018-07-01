@@ -17,7 +17,7 @@ export class ProductMockProvider extends MockProvider<Product> implements Produc
 
   constructor(
     public dataProvider: DataProvider,
-    public util: UtilProvider) {
+    public utilProvider: UtilProvider) {
     super();
     this.init();
   }
@@ -30,7 +30,7 @@ export class ProductMockProvider extends MockProvider<Product> implements Produc
     let datas: Array<Product> = this.datas;
 
     if (pageable.sort != null) {
-      datas = this.util.sortObject(datas, pageable.sort);
+      datas = this.utilProvider.sortObject(datas, pageable.sort);
     }
 
     return of(this.getPage(datas, pageable));
@@ -40,11 +40,11 @@ export class ProductMockProvider extends MockProvider<Product> implements Produc
     let datas: Array<Product> = this.datas;
 
     if (name && name.trim() != '') {
-      datas = this.util.filterObject(datas, 'name', name);
+      datas = this.utilProvider.filterObject(datas, 'name', name);
     }
 
     if (pageable.sort != null) {
-      datas = this.util.sortObject(datas, pageable.sort);
+      datas = this.utilProvider.sortObject(datas, pageable.sort);
     }
 
     return of(this.getPage(datas, pageable));
@@ -54,18 +54,18 @@ export class ProductMockProvider extends MockProvider<Product> implements Produc
     let datas: Array<Product> = this.datas;
 
     if (category && category.trim() != '0') {
-      datas = this.util.filterObject(datas, 'category', category);
+      datas = this.utilProvider.filterObject(datas, 'category', category);
     }
 
     if (pageable.sort != null) {
-      datas = this.util.sortObject(datas, pageable.sort);
+      datas = this.utilProvider.sortObject(datas, pageable.sort);
     }
 
     return of(this.getPage(datas, pageable));
   }
 
   countByCategory(category: string): Observable<number> {
-    let datas: Array<Product> = this.util.filterObject(this.datas, 'category', category);
+    let datas: Array<Product> = this.utilProvider.filterObject(this.datas, 'category', category);
     return of(datas.length);
   }
 
@@ -73,15 +73,15 @@ export class ProductMockProvider extends MockProvider<Product> implements Produc
     let datas: Array<Product> = this.datas;
 
     if (category && category.trim() != '') {
-      datas = this.util.filterObject(datas, 'category', category);
+      datas = this.utilProvider.filterObject(datas, 'category', category);
     }
     
     if (name && name.trim() != '') {
-      datas = this.util.filterObject(datas, 'name', name);
+      datas = this.utilProvider.filterObject(datas, 'name', name);
     }
 
     if (pageable.sort != null) {
-      datas = this.util.sortObject(datas, pageable.sort);
+      datas = this.utilProvider.sortObject(datas, pageable.sort);
     }
 
     return of(this.getPage(datas, pageable));
