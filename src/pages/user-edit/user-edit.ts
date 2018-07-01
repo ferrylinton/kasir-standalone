@@ -17,7 +17,7 @@ import { Role } from '../../models/role.model';
   selector: 'page-user-edit',
   templateUrl: 'user-edit.html',
 })
-export class UserEditPage extends BasePage {
+export class UserEditPage{
 
   status: Array<{ label: string, value: boolean }>;
 
@@ -43,11 +43,11 @@ export class UserEditPage extends BasePage {
     public roleProvider: RoleProvider,
     public userProvider: UserProvider) {
 
-    super(toastCtrl, alertCtrl, translate, storage, events);
-    this.init(navParams);
+    
+
   }
 
-  private init(navParams: NavParams): void {
+  /* private init(navParams: NavParams): void {
     this.user = navParams.get('user');
 
     if (this.user === undefined) {
@@ -114,7 +114,7 @@ export class UserEditPage extends BasePage {
     } else {
       this.showEditConfirm(this.form.value.username, (user) => this.saveCallback(this.form.value));
     }
-  }
+  } */
 
 }
 

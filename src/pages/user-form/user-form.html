@@ -1,18 +1,48 @@
-<!--
-  Generated template for the UserFormPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>user-form</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+    <ion-navbar>
+      <ion-title *ngIf="product && product.id === ''">{{ 'PRODUCT' | translate }} - {{ 'CREATE' | translate }}</ion-title>
+      <ion-title *ngIf="product && product.id !== ''">{{ 'PRODUCT' | translate }} - {{ 'MODIFY' | translate }}</ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="save()" [disabled]="!isReadyToSave" strong>
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  
+  
+  <ion-content padding *ngIf="user; else nodata">
+    <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
+      <ion-item>
+        <ion-label color="primary" stacked>{{ 'ID' | translate }}</ion-label>
+        <ion-input type="text" readonly="true" placeholder="{{ 'ID' | translate }}" formControlName="id"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>{{ 'FULLNAME' | translate }}</ion-label>
+        <ion-input type="text" placeholder="{{ 'FULLNAME' | translate }}" formControlName="fullname"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>{{ 'USERNAME' | translate }}</ion-label>
+        <ion-input type="text" placeholder="{{ 'USERNAME' | translate }}" formControlName="username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>{{ 'PASSWORD' | translate }}</ion-label>
+        <ion-input type="password" placeholder="{{ 'PASSWORD' | translate }}" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>{{ 'CONFIRM_PASSWORD' | translate }}</ion-label>
+        <ion-input type="password" placeholder="{{ 'CONFIRM_PASSWORD' | translate }}" formControlName="passwordConfirm"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>{{ 'ROLE' | translate }}</ion-label>
+        <ion-select formControlName="role" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+          <ion-option *ngFor="let role of roles">{{ role.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </form>
+  </ion-content>
+  <ng-template #nodata>
+    <ion-content padding>
+      {{ 'MESSAGE.NO_DATA' | translate }}
+    </ion-content>
+  </ng-template>
