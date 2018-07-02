@@ -39,8 +39,14 @@
     </ion-item>
     <ion-item>
       <ion-label color="primary" stacked>{{ 'ROLE' | translate }}</ion-label>
-      <ion-select formControlName="role" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+      <ion-select formControlName="role" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
         <ion-option *ngFor="let role of roles">{{ role.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>{{ 'STATUS' | translate }}</ion-label>
+      <ion-select formControlName="activated" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+        <ion-option *ngFor="let s of status" value="{{ s.value }}">{{ s.label | translate }}</ion-option>
       </ion-select>
     </ion-item>
   </form>

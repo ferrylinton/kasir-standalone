@@ -39,6 +39,8 @@ export class UserFormPage extends BasePage {
 
   roles: Role[];
 
+  status: Array<{ label: string, value: boolean }>;
+
   passwordNotMatch: string;
 
   constructor(
@@ -66,6 +68,7 @@ export class UserFormPage extends BasePage {
     } else {
       this.initVariable();
       this.initRoles();
+      this.initStatus();
       this.initForm();
     }
   }
@@ -73,7 +76,11 @@ export class UserFormPage extends BasePage {
   private initVariable(): void {
     this.isCreate = this.user.id === '';
 
-    this.translateService.get('MESSAGE.PASSWORD_NOT_MATCH').subscribe(value => {
+    if (this.isCreate) {
+      this.user.activated = true;
+    }
+
+    this.translateService.get('PASSWORD_NOT_MATCH').subscribe(value => {
       this.passwordNotMatch = value;
     });
   }
@@ -82,10 +89,17 @@ export class UserFormPage extends BasePage {
     this.roleProvider.findAll().subscribe(roles => {
       this.roles = roles;
 
-      if(this.isCreate && roles.length > 0){
+      if (this.isCreate && roles.length > 0) {
         this.user.role = this.roles[0].name;
       }
     })
+  }
+
+  private initStatus(): void {
+    this.status = [
+      { label: 'ACTIVATED', value: true },
+      { label: 'DEACTIVATED', value: false }
+    ];
   }
 
   private initForm(): void {
@@ -110,7 +124,7 @@ export class UserFormPage extends BasePage {
     } else if (this.form.value.password !== this.form.value.passwordConfirm) {
       this.messageProvider.showToast(this.passwordNotMatch);
     } else {
-      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.name, (category) => this.saveCallback(this.form.value));
+      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.fullname, (user) => this.saveCallback(this.form.value));
     }
   }
 
@@ -142,8 +156,8 @@ export class UserFormPage extends BasePage {
       this.showSaveResult(result);
     });
   }
-  
-  private showSaveResult(user: User): void{
+
+  private showSaveResult(user: User): void {
     this.navCtrl.popToRoot();
     this.messageProvider.showSaveToast(this.isCreate, user.fullname);
   }

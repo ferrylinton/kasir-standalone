@@ -36,6 +36,7 @@ export class UserPage extends BaseListPage<User>{
   }
 
   ionViewWillEnter() {
+    this.initPage();
     this.loadData();
   }
 

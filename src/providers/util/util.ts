@@ -80,6 +80,7 @@ export class UtilProvider {
   }
 
   sortObject(arr: Array<Base>, sort: Sort): Array<Base>{
+    console.log('sort : ' + sort.column);
     if(sort.isAsc){
       return this.sortObjectAsc(arr, sort.column);
     }else{
@@ -89,9 +90,9 @@ export class UtilProvider {
 
   sortObjectAsc(arr: Array<Base>, field: string): Array<Base> {
     return arr.sort(function (a, b) {
-      if (a[field] < b[field]) {
+      if (a[field].toLowerCase() < b[field].toLowerCase()) {
         return -1;
-      } else if (a[field] > b[field]) {
+      } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
         return 1;
       } else {
         return 0;
@@ -101,9 +102,9 @@ export class UtilProvider {
 
   sortObjectDesc(arr: Array<Base>, field: string): Array<Base> {
     return arr.sort(function (a, b) {
-      if (a[field] > b[field]) {
+      if (a[field].toLowerCase() > b[field].toLowerCase()) {
         return -1;
-      } else if (a[field] < b[field]) {
+      } else if (a[field].toLowerCase() < b[field].toLowerCase()) {
         return 1;
       } else {
         return 0;

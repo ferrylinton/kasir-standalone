@@ -58,13 +58,17 @@
     "FULLNAME": "Nama Lengkap",
     "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
     "ROLE": "Peranan",
+    "ACTIVATED": "Aktif",
+    "DEACTIVATED": "Tidak Aktif",
+    "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
+    "STATUS": "Status",
 
     "temp": {
         "$": "US Dollar",
         
         "Account": "Akun",
         "ACCOUNT": "Akun",
-        "ACTIVATED": "Aktif",
+        
         
         
         "AUTHORITIES": "Wewenang",
@@ -134,7 +138,7 @@
         "OrderHistory": "Daftar Pesanan",
         
         
-        "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
+        
         
         "PREVIOUS": "Sebelum",
         
@@ -156,7 +160,7 @@
         "Setting": "Pengaturan",
         
         "SIGNIN": "Masuk",
-        "STATUS": "Status",
+        
         
         "UNSAVE_ORDER": "Pesanan belum disimpan",
         "User": "Pengguna",
