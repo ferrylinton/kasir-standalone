@@ -62,6 +62,7 @@
     "DEACTIVATED": "Tidak Aktif",
     "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
     "STATUS": "Status",
+    "CURRENCY": "Mata Uang",
 
     "temp": {
         "$": "US Dollar",
@@ -87,7 +88,7 @@
         
         
         
-        "CURRENCY": "Mata Uang",
+        
         "CURRENCY_SYMBOL": "Format Mata Uang",
         
         

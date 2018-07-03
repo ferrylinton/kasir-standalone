@@ -35,13 +35,16 @@ import { ProductMockProvider } from '../providers/product/product-mock';
 import { OrderProvider } from '../providers/order/order';
 import { OrderMockProvider } from '../providers/order/order-mock';
 
+import { CurrencyProvider } from '../providers/currency/currency';
+import { CurrencyMockProvider } from '../providers/currency/currency-mock';
+
 import { DataProvider } from '../providers/data/data';
 import { UtilProvider } from '../providers/util/util';
-
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
 import { CommonProvider } from '../providers/common/common';
+
 
 
 registerLocaleData(localeId, 'id');
@@ -87,6 +90,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: CategoryProvider, useClass: CategoryMockProvider },
     { provide: ProductProvider, useClass: ProductMockProvider },
     { provide: OrderProvider, useClass: OrderMockProvider },
+    { provide: CurrencyProvider, useClass: CurrencyMockProvider },
     DataProvider,
     UtilProvider,
     SettingProvider,

@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="currency">{{ currency.name }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="delete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="modify()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding *ngIf="currency; else nodata">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'ID' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ currency.id }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'NAME' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ currency.name }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'DESCRIPTION' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ currency.description }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'CREATED_BY' | translate }}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="currency.createdBy; else empty">
+      <ion-col class="detail-value">{{ currency.createdBy }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'CREATED_DATE' | translate }}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="currency.createdDate; else empty">
+      <ion-col class="detail-value">{{ currency.createdDate | date: 'dd/MM/yyyy hh:mm' }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'LAST_MODIFIED_BY' | translate }}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="currency.lastModifiedBy; else empty">
+      <ion-col class="detail-value">{{ currency.lastModifiedBy }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'LAST_MODIFIED_DATE' | translate }}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="currency.lastModifiedDate; else empty">
+      <ion-col class="detail-value">{{ currency.lastModifiedDate | date: 'dd/MM/yyyy hh:mm' }}</ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ng-template #empty>
+  <ion-row>
+    <ion-col class="detail-value">-</ion-col>
+  </ion-row>
+</ng-template>
+<ng-template #nodata>
+  <ion-content padding>
+    {{ 'NO_DATA' | translate }}
+  </ion-content>
+</ng-template>

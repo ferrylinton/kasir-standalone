@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="currency && currency.id === ''">{{ 'CURRENCY' | translate }} - {{ 'CREATE' | translate }}</ion-title>
+    <ion-title *ngIf="currency && currency.id !== ''">{{ 'CURRENCY' | translate }} - {{ 'MODIFY' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="save()" [disabled]="!isReadyToSave" strong>
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="save()">
+    <ion-item>
+      <ion-label color="primary" stacked>{{ 'NAME' | translate }}</ion-label>
+      <ion-input type="text" placeholder="{{ 'NAME' | translate }}" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>{{ 'DESCRIPTION' | translate }}</ion-label>
+      <ion-input type="text" placeholder="{{ 'DESCRIPTION' | translate }}" formControlName="description"></ion-input>
+    </ion-item>
+  </form>
+</ion-content>

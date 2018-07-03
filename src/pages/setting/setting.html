@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'LABEL.SETTING' | translate }}</ion-title>
+    <ion-title>{{ 'SETTING' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,22 +11,22 @@
   <form (submit)="save()">
     <ion-list>
       <ion-item>
-        <ion-label>{{ 'LABEL.LANGUAGE' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.Language" name="Language" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
-          <ion-option value="id">{{ 'LABEL.id' | translate }}</ion-option>
-          <ion-option value="en">{{ 'LABEL.en' | translate }}</ion-option>
+        <ion-label>{{ 'LANGUAGE' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.Language" name="Language" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+          <ion-option value="id">{{ 'id' | translate }}</ion-option>
+          <ion-option value="en">{{ 'en' | translate }}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'LABEL.CURRENCY' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.Currency" name="Currency" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
-          <ion-option value="$">{{ 'LABEL.$' | translate }}</ion-option>
-          <ion-option value="Rp">{{ 'LABEL.Rp' | translate }}</ion-option>
+        <ion-label>{{ 'CURRENCY' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.Currency" name="Currency" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+          <ion-option value="$">{{ '$' | translate }}</ion-option>
+          <ion-option value="Rp">{{ 'Rp' | translate }}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'LABEL.DATETIME_FORMAT' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.DatetimeFormat" name="DatetimeFormat" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+        <ion-label>{{ 'DATETIME_FORMAT' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.DatetimeFormat" name="DatetimeFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
           <ion-option value="dd/MM/yy hh:mm">dd/MM/yy hh:mm</ion-option>
           <ion-option value="dd/MM/yyyy hh:mm">dd/MM/yyyy hh:mm</ion-option>
           <ion-option value="dd/MM/yyyy hh:mm:ss">dd/MM/yyyy hh:mm:ss</ion-option>
@@ -36,8 +36,8 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'LABEL.DATE_FORMAT' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.DateFormat" name="DateFormat" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+        <ion-label>{{ 'DATE_FORMAT' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.DateFormat" name="DateFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
           <ion-option value="dd/MM/yy">dd/MM/yy</ion-option>
           <ion-option value="dd/MM/yyyy">dd/MM/yyyy</ion-option>
           <ion-option value="yy/MM/dd">yy/MM/dd</ion-option>
@@ -45,8 +45,8 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'LABEL.CURRENCY_SYMBOL' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.CurrencySymbol" name="CurrencySymbol" okText="{{ 'BUTTON.OK' | translate }}" cancelText="{{ 'BUTTON.CANCEL' | translate }}">
+        <ion-label>{{ 'CURRENCY_SYMBOL' | translate }}</ion-label>
+        <ion-select [(ngModel)]="setting.CurrencySymbol" name="CurrencySymbol" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
           <ion-option value="0.0">0.0</ion-option>
           <ion-option value="0.1">0.1</ion-option>
           <ion-option value="0.2">0.2</ion-option>
@@ -57,7 +57,7 @@
       </ion-item>
       <div padding>
         <button color="primary" ion-button icon-left>
-          {{ 'BUTTON.SAVE' | translate }}
+          {{ 'SAVE' | translate }}
         </button>
       </div>
     </ion-list>
@@ -65,6 +65,6 @@
 </ion-content>
 <ng-template #nodata>
   <ion-content padding>
-    {{ 'MESSAGE.NO_DATA' | translate }}
+    {{ 'NO_DATA' | translate }}
   </ion-content>
 </ng-template>

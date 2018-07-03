@@ -80,7 +80,6 @@ export class UtilProvider {
   }
 
   sortObject(arr: Array<Base>, sort: Sort): Array<Base>{
-    console.log('sort : ' + sort.column);
     if(sort.isAsc){
       return this.sortObjectAsc(arr, sort.column);
     }else{
@@ -90,9 +89,12 @@ export class UtilProvider {
 
   sortObjectAsc(arr: Array<Base>, field: string): Array<Base> {
     return arr.sort(function (a, b) {
-      if (a[field].toLowerCase() < b[field].toLowerCase()) {
+      let val1 = typeof a[field] === 'string' ? a[field].toLowerCase() : a[field];
+      let val2 = typeof b[field] === 'string' ? b[field].toLowerCase() : b[field];
+
+      if (val1 < val2) {
         return -1;
-      } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
+      } else if (val1 > val2) {
         return 1;
       } else {
         return 0;
@@ -102,9 +104,12 @@ export class UtilProvider {
 
   sortObjectDesc(arr: Array<Base>, field: string): Array<Base> {
     return arr.sort(function (a, b) {
-      if (a[field].toLowerCase() > b[field].toLowerCase()) {
+      let val1 = typeof a[field] === 'string' ? a[field].toLowerCase() : a[field];
+      let val2 = typeof b[field] === 'string' ? b[field].toLowerCase() : b[field];
+
+      if (val1 > val2) {
         return -1;
-      } else if (a[field].toLowerCase() < b[field].toLowerCase()) {
+      } else if (val1 < val2) {
         return 1;
       } else {
         return 0;

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar *ngIf="!showSearch">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'CURRENCY' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="toggleSearch()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="create()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-navbar *ngIf="showSearch">
+    <ion-searchbar #searchbar [(ngModel)]="keyword" [showCancelButton]="true" (ionCancel)="toggleSearch()" (ionClear)="clearSearch()"
+      (ionInput)="triggerSearch($event)" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <span class="total">{{ 'TOTAL_LABEL' | translate:{length:page.data.length, total:page.totalData} }}</span>
+    </ion-item>
+    <ion-item ion-item *ngFor="let currency of page.data">
+      <h2>{{currency.name}}</h2>
+      <p>{{currency.description}}</p>
+      <p>{{currency.createdDate | date:'dd-MM-yyyy'}}</p>
+      <button ion-button outline item-end (click)="view(currency)">{{ 'VIEW' | translate}}</button>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

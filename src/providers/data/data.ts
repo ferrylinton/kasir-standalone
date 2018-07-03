@@ -8,6 +8,7 @@ import { Authority } from '../../models/authority.model';
 import { Role } from '../../models/role.model';
 import { User } from '../../models/user.model';
 import { Category } from '../../models/category.model';
+import { Currency } from '../../models/currency.model';
 import { Product } from '../../models/product.model';
 import { Order } from '../../models/order.model';
 import { Item } from '../../models/item.model';
@@ -18,17 +19,19 @@ import { DEFAULT_USER } from '../../constant/user-image';
 @Injectable()
 export class DataProvider {
 
-  authorities: Authority[] = new Array<Authority>();
+  authorities: Array<Authority> = new Array<Authority>();
 
-  roles: Role[] = new Array<Role>();
+  roles: Array<Role> = new Array<Role>();
 
-  users: User[] = new Array<User>();
+  users: Array<User> = new Array<User>();
 
-  categories: Category[] = new Array<Category>();
+  categories: Array<Category> = new Array<Category>();
 
-  products: Product[] = new Array<Product>();
+  currencies: Array<Currency> = new Array<Category>();
 
-  orders: Order[] = new Array<Order>();
+  products: Array<Product> = new Array<Product>();
+
+  orders: Array<Order> = new Array<Order>();
 
   description: string = `Parsley amaranth tigernut silver beet maize fennel spinach. Ricebean black-eyed pea maize
   scallion green bean spinach cabbage jícama bell pepper carrot onion corn plantain garbanzo.
@@ -60,6 +63,8 @@ export class DataProvider {
     let settingChange = new Authority('authority-0000-0000-0000-016', 'SETTING_CHANGE', 'Change Setting Data');
     let dbView = new Authority('authority-0000-0000-0000-017', 'DATABASE_VIEW', 'View DB Data');
     let dbChange = new Authority('authority-0000-0000-0000-018', 'DATABASE_CHANGE', 'Change DB Data');
+    let currencyView = new Authority('authority-0000-0000-0000-019', 'CURRENCY_VIEW', 'View Currency Data');
+    let currencyChange = new Authority('authority-0000-0000-0000-020', 'CURRENCY_CHANGE', 'Change Currency Data');
 
     let roleAdmin = new Role('role-0000-0000-0000-001', 'Admin', 'Role as Admin', new Array<string>(), admin.username, new Date());
     roleAdmin.authorities.push(basicAuthority.name);
@@ -78,6 +83,8 @@ export class DataProvider {
     roleAdmin.authorities.push(settingChange.name);
     roleAdmin.authorities.push(dbView.name);
     roleAdmin.authorities.push(dbChange.name);
+    roleAdmin.authorities.push(currencyView.name);
+    roleAdmin.authorities.push(currencyChange.name);
 
     let roleManager = new Role('role-0000-0000-0000-002', 'Manager', 'Role as Manager', new Array<string>(), admin.username, new Date());
     roleManager.authorities.push(basicAuthority.name);
@@ -97,6 +104,8 @@ export class DataProvider {
     roleManager.authorities.push(settingView.name);
     roleManager.authorities.push(settingChange.name);
     roleManager.authorities.push(dbView.name);
+    roleManager.authorities.push(currencyView.name);
+    roleManager.authorities.push(currencyChange.name);
 
     let roleEmployee = new Role('role-0000-0000-0000-003', 'Employee', 'Role as Employee', new Array<string>(), admin.username, new Date());
     roleEmployee.authorities.push(basicAuthority.name);
@@ -104,6 +113,7 @@ export class DataProvider {
     roleEmployee.authorities.push(productView.name);
     roleEmployee.authorities.push(orderView.name);
     roleEmployee.authorities.push(orderChange.name);
+    roleEmployee.authorities.push(currencyView.name);
 
     admin.role = roleAdmin.name;
     admin.activated = true;
@@ -169,6 +179,8 @@ export class DataProvider {
       this.orders.push(order);
     }
 
+    this.currencies.push(new Currency('currency-0000-0000-0000-1', 'IDR', 'Indonesian Rupiah' , admin.username, new Date()));
+    this.currencies.push(new Currency('currency-0000-0000-0000-1', 'USD', 'US Dollar' , admin.username, new Date()));
   }
 
   zeroPad(num: number, places: number): string {
