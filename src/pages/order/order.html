@@ -48,9 +48,7 @@
         <span class="bold dark">{{ order.transactionNumber }}</span>
       </p>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
-      <ion-badge color="gray" item-end>
-        {{order.createdDate | date:'hh:mm'}}
-      </ion-badge>
+      <ion-badge color="gray" item-end>{{ order.createdDate | date:'hh:mm' }}</ion-badge>
     </button>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">

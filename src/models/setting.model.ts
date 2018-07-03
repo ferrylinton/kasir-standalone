@@ -2,15 +2,15 @@ export class Setting {
 
     constructor(
 
-        public language: string,
+        public language?: string,
 
-        public currency: string,
+        public currency?: string,
 
-        public currencyFormat: string,
+        public currencyFormat?: string,
 
-        public dateFormat: string,
+        public dateFormat?: string,
 
-        public datetimeFormat: string) {
+        public datetimeFormat?: string) {
     }
 
 }

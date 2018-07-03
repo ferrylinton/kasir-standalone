@@ -1,29 +1,27 @@
 import { Pipe } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { SettingProvider } from '../providers/setting/setting';
-import { Setting } from '../models/setting.model';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 
 @Pipe({
-  name: 'currency'
+  name: 'currency',
+  pure: false
 })
 export class CurrencyPipe {
 
-  setting: Setting;
+  formated: string;
 
-  constructor(settingProvider: SettingProvider) {
-    if (!this.setting) {
-      settingProvider.getSetting().subscribe(setting => {
-        this.setting = setting;
-      })
-    }
+  constructor(public settingProvider: SettingProvider) {
   }
 
   transform(value) {
-    if (value) {
-      let decimalPipe = new DecimalPipe(this.setting.language);
-      return this.setting.currency + ' ' + decimalPipe.transform(value, this.setting.currencyFormat);
-    }
+    this.settingProvider.getSetting().subscribe(setting => {
+      if (value) {
+        let decimalPipe = new DecimalPipe(setting.language);
+        this.formated = setting.currency + ' ' + decimalPipe.transform(value, setting.currencyFormat);
+      }
+    })
 
-    return value;
+    return this.formated;
   }
 }

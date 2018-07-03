@@ -15,13 +15,6 @@ export class SettingProvider {
   private setting: Setting;
 
   constructor(public storage: Storage) {
-    this.setting = new Setting(
-      Contant.LANGUAGE, 
-      Contant.CURRENCY,
-      Contant.CURRENCY_FORMAT,
-      Contant.DATE_FORMAT,
-      Contant.DATETIME_FORMAT
-    )
   }
 
   public getSetting(): Observable<Setting> {
@@ -32,6 +25,7 @@ export class SettingProvider {
         if (result) {
           this.setting = JSON.parse(result);
         } else {
+          this.setting = new Setting();
           this.setting.language = Contant.LANGUAGE;
           this.setting.currency = Contant.CURRENCY;
           this.setting.currencyFormat = Contant.CURRENCY_FORMAT;

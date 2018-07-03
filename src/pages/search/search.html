@@ -32,9 +32,9 @@
       <ion-row>
         <ion-col col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 *ngFor="let product of page.data">
           <ion-card [class.selected]="isSelected(product)">
-            <img src="{{product.image}}" (click)="view(product)" />
-            <p>{{product.name}}</p>
-            <p>{{product.price | currency:currency:symbol:symbol:lang}}</p>
+            <img src="{{ product.image }}" (click)="view(product)" />
+            <p>{{ product.name }}</p>
+            <p>{{ product.price | currency }}</p>
             <div text-center>
               <button [color]="isSelected(product) ? 'danger' : 'light'" small ion-button icon-only (click)="removeItem(product)">
                 <ion-icon name="remove"></ion-icon>
@@ -54,7 +54,7 @@
         <ion-icon name="warning"></ion-icon> {{ 'NO_DATA' | translate }}
     </div>
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
-      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </div>
 </ion-content>

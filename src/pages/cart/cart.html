@@ -35,8 +35,8 @@
       <ion-thumbnail item-start>
         <img src="{{item.product.image}}">
       </ion-thumbnail>
-      <h2>{{item.product.name}}</h2>
-      <h2>{{item.quantity}} x {{item.product.price | currency:currency:symbol:symbol:lang}}</h2>
+      <h2>{{ item.product.name }}</h2>
+      <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
       <ion-buttons item-end>
         <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
           <ion-icon name="remove"></ion-icon>
@@ -47,10 +47,10 @@
       </ion-buttons>
     </ion-item>
     <ion-item no-lines *ngIf="cart.totalItem > 0">
-      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{cart.totalItem}}</span>
+      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{ cart.totalItem }}</span>
     </ion-item>
     <ion-item no-lines class="bold" *ngIf="cart.totalItem > 0">
-      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{cart.totalPrice | currency:currency:symbol:symbol:lang}}</span>
+      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{ cart.totalPrice | currency }}</span>
     </ion-item>
     <ion-item>
       <ion-buttons item-end>
