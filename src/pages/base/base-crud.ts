@@ -1,10 +1,11 @@
 import { ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import * as Setting from '../../constant/setting';
+
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { CrudProvider } from '../../providers/crud/crud';
+import { Setting } from '../../models/setting.model';
 import { Base } from '../../models/base.model';
 import { Page } from '../../models/page.model';
 
@@ -27,11 +28,7 @@ export abstract class BaseCrudPage<T extends Base> {
 
     saveTxt: string = 'Save';
 
-    lang: string = Setting.DEFAULT_LANGUAGE;
-
-    currency: string = Setting.DEFAULT_CURRENCY + ' ';
-
-    symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
+    setting: Setting;
 
     page: Page<T>;
 
@@ -73,10 +70,8 @@ export abstract class BaseCrudPage<T extends Base> {
     }
 
     initSetting() {
-        this.settingProvider.getLanguage().subscribe(setting => {
-            this.lang = setting[Setting.LANGUAGE];
-            this.currency = setting[Setting.CURRENCY] + ' ';
-            this.symbol = setting[Setting.CURRENCY_SYMBOL];
+        this.settingProvider.getSetting().subscribe(setting => {
+            this.setting = setting;
         });
     }
 

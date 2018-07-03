@@ -47,7 +47,7 @@
         <ion-card [class.selected]="isSelected(product)">
           <img src="{{product.image}}" (click)="view(product)" />
           <p>{{product.name}}</p>
-          <p>{{product.price | currency:currency:symbol:symbol:lang}}</p>
+          <p>{{product.price | currency}}</p>
           <div text-center>
             <button [color]="isSelected(product) ? 'danger' : 'light'" small ion-button icon-only (click)="removeItem(product)">
               <ion-icon name="remove"></ion-icon>
@@ -64,6 +64,6 @@
     </ion-row>
   </ion-grid>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'MESSAGE.LOADING' | translate }}"></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

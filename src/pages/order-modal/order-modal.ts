@@ -3,10 +3,10 @@ import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { CartProvider } from '../../providers/cart/cart';
+import { SettingProvider } from '../../providers/setting/setting';
 
 import { Order } from '../../models/order.model';
-import { SettingProvider } from '../../providers/setting/setting';
-import * as Setting from '../../constant/setting';
+import { Setting } from '../../models/setting.model';
 
 
 @IonicPage()
@@ -16,13 +16,7 @@ import * as Setting from '../../constant/setting';
 })
 export class OrderModalPage {
 
-  lang: string = Setting.DEFAULT_LANGUAGE;
-
-  currency: string = Setting.DEFAULT_CURRENCY + ' ';
-
-  symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
-
-  datetimeFormat: string = Setting.DEFAULT_DATETIME_FORMAT;
+  setting: Setting;
 
   order: Order;
 
@@ -45,10 +39,7 @@ export class OrderModalPage {
 
   private initSystem(): void {
     this.settingProvider.getSetting().subscribe(setting => {
-      this.lang = setting[Setting.LANGUAGE];
-      this.currency = setting[Setting.CURRENCY] + ' ';
-      this.symbol = setting[Setting.CURRENCY_SYMBOL];
-      this.datetimeFormat = setting[Setting.DATETIME_FORMAT];
+      this.setting = setting;
     });
   }
 

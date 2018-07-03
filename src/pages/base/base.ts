@@ -6,10 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
 import * as Constant from "../../constant/constant";
-import * as Setting from '../../constant/setting';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { User } from '../../models/user.model';
+import { Setting } from '../../models/setting.model';
 
 
 export abstract class BasePage {
@@ -32,11 +32,7 @@ export abstract class BasePage {
 
     reloadPageTxt: string = 'Reload Page';
 
-    lang: string = Setting.DEFAULT_LANGUAGE;
-
-    currency: string = Setting.DEFAULT_CURRENCY + ' ';
-
-    symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
+    setting: Setting;
 
     loggedUser: User;
 
@@ -81,10 +77,8 @@ export abstract class BasePage {
     }
 
     initSetting() {
-        this.settingProvider.getLanguage().subscribe(setting => {
-            this.lang = setting[Setting.LANGUAGE];
-            this.currency = setting[Setting.CURRENCY] + ' ';
-            this.symbol = setting[Setting.CURRENCY_SYMBOL];
+        this.settingProvider.getSetting().subscribe(setting => {
+            this.setting = setting;
         });
     }
 

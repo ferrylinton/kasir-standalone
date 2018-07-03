@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 import { SettingProvider } from '../../providers/setting/setting';
-import * as Setting from '../../constant/setting';
 import { TranslateService } from '@ngx-translate/core';
+
 import { Product } from '../../models/product.model';
+import { Setting } from '../../models/setting.model';
 
 @IonicPage()
 @Component({
@@ -13,9 +14,7 @@ import { Product } from '../../models/product.model';
 })
 export class ProductModalPage {
 
-  lang: string = Setting.DEFAULT_LANGUAGE;
-
-  currency: string = Setting.DEFAULT_CURRENCY + ' ';
+  setting: Setting;
 
   product: Product;
 
@@ -31,8 +30,7 @@ export class ProductModalPage {
 
   private initSystem(): void {
     this.settingProvider.getSetting().subscribe(setting => {
-      this.lang = setting[Setting.LANGUAGE];
-      this.currency = setting[Setting.CURRENCY] + ' ';
+      this.setting = setting;
     });
   }
 

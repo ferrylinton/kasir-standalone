@@ -1,6 +1,6 @@
 import { Pipe } from '@angular/core';
 import moment from 'moment';
-import { DEFAULT_LANGUAGE } from '../constant/setting';
+import { LANGUAGE } from '../constant/setting';
 
 @Pipe({
   name: 'moment'
@@ -28,7 +28,7 @@ export class MomentPipe {
 
   transform(value, type, language) {
     type = type || '';
-    language = language || DEFAULT_LANGUAGE;
+    language = language || LANGUAGE;
     moment.locale(language);
 
     if(type === 'ago'){

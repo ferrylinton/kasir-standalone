@@ -1,13 +1,13 @@
 import { ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import * as Setting from '../../constant/setting';
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { CartProvider } from '../../providers/cart/cart';
 import { Order } from "../../models/order.model";
 import { Cart } from '../../models/cart.model';
 import { Product } from '../../models/product.model';
+import { Setting } from '../../models/setting.model';
 
 
 export abstract class BaseCartPage {
@@ -28,11 +28,7 @@ export abstract class BaseCartPage {
 
     saveTxt: string = 'Save';
 
-    lang: string = Setting.DEFAULT_LANGUAGE;
-
-    currency: string = Setting.DEFAULT_CURRENCY + ' ';
-
-    symbol: string = Setting.DEFAULT_CURRENCY_SYMBOL;
+    setting: Setting;
 
     cart: Cart;
 
@@ -72,10 +68,8 @@ export abstract class BaseCartPage {
     }
 
     initSetting() {
-        this.settingProvider.getLanguage().subscribe(setting => {
-            this.lang = setting[Setting.LANGUAGE];
-            this.currency = setting[Setting.CURRENCY] + ' ';
-            this.symbol = setting[Setting.CURRENCY_SYMBOL];
+        this.settingProvider.getSetting().subscribe(setting => {
+            this.setting = setting;
         });
     }
 

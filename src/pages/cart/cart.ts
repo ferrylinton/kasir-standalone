@@ -45,10 +45,6 @@ export class CartPage extends BaseCartPage {
   }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter..........');
-    console.log(this.currency);
-    console.log(this.symbol);
-    console.log(this.lang);
     this.loadOrder();
   }
 

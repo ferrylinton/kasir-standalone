@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
 import { SettingProvider } from '../providers/setting/setting';
 
 import { FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
-import { DEFAULT_LANGUAGE } from '../constant/setting';
+import { LANGUAGE } from '../constant/setting';
 import { User } from '../models/user.model';
 
 
@@ -48,9 +48,9 @@ export class MyApp {
   }
 
   initLang() {
-    this.translate.setDefaultLang(DEFAULT_LANGUAGE);
-    this.setting.getLanguage().subscribe(language => {
-      this.translate.use(language);
+    this.translate.setDefaultLang(LANGUAGE);
+    this.setting.getSetting().subscribe(setting => {
+      this.translate.use(setting.language);
     })
   }
 

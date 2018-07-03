@@ -180,7 +180,7 @@ export class DataProvider {
     }
 
     this.currencies.push(new Currency('currency-0000-0000-0000-1', 'IDR', 'Indonesian Rupiah' , admin.username, new Date()));
-    this.currencies.push(new Currency('currency-0000-0000-0000-1', 'USD', 'US Dollar' , admin.username, new Date()));
+    this.currencies.push(new Currency('currency-0000-0000-0000-2', 'USD', 'US Dollar' , admin.username, new Date()));
   }
 
   zeroPad(num: number, places: number): string {
