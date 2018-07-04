@@ -36,8 +36,12 @@ export class CategoryPage extends BaseListPage<Category>{
   }
 
   ionViewWillEnter() {
-    this.initPage();
-    this.loadData();
+    this.settingProvider.getSetting().subscribe(setting => {
+      this.setting = setting;
+      this.initPage();
+      this.loadData();
+    });
+    this.initLanguage();
   }
 
   loadData() {

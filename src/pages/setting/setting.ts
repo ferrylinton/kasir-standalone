@@ -4,6 +4,9 @@ import { IonicPage } from 'ionic-angular';
 import { SettingProvider } from '../../providers/setting/setting';
 import { SETTING } from '../../constant/setting';
 import { MessageProvider } from '../../providers/message/message';
+import { Setting } from '../../models/setting.model';
+import { CurrencyProvider } from '../../providers/currency/currency';
+import { Currency } from '../../models/currency.model';
 
 
 @IonicPage()
@@ -12,14 +15,20 @@ import { MessageProvider } from '../../providers/message/message';
   templateUrl: 'setting.html',
 })
 export class SettingPage{
+  
+  setting: Setting;
 
-  setting: any;
+  currencies: Array<Currency>;
 
   constructor(
     public messageProvider: MessageProvider,
+    public currencyProvider: CurrencyProvider,
     public settingProvider: SettingProvider) {
+  }
 
+  ionViewWillEnter() {
     this.initSetting();
+    this.initCurrencies();
   }
 
   private initSetting(){
@@ -28,8 +37,14 @@ export class SettingPage{
     });
   }
 
+  private initCurrencies(){
+    this.currencyProvider.findAll().subscribe(currencies => {
+      this.currencies = currencies;
+    })
+  }
+
   save() {
-    this.messageProvider.showEditConfirm(SETTING, (base) => this.saveCallback());
+    this.messageProvider.showSaveConfirm(false, SETTING, (base) => this.saveCallback());
   }
 
   saveCallback(): void {
@@ -40,5 +55,6 @@ export class SettingPage{
 
     this.messageProvider.showEditToast(SETTING);
   }
+  
 
 }

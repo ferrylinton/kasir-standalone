@@ -1,12 +1,12 @@
 import { Pipe } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { SettingProvider } from '../providers/setting/setting';
 
 @Pipe({
-  name: 'currency',
+  name: 'datetime',
   pure: false
 })
-export class CurrencyPipe {
+export class DatetimePipe {
 
   formated: string = '';
 
@@ -16,8 +16,8 @@ export class CurrencyPipe {
   transform(value) {
     this.settingProvider.getSetting().subscribe(setting => {
       if (value && setting) {
-        let pipe = new DecimalPipe(setting.language);
-        this.formated = setting.currency + ' ' + pipe.transform(value, setting.currencyFormat);
+        let pipe = new DatePipe(setting.language);
+        this.formated = pipe.transform(value, setting.datetimeFormat);
       }
     })
 

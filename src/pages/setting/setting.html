@@ -7,64 +7,63 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding *ngIf="setting; else nodata">
-  <form (submit)="save()">
-    <ion-list>
-      <ion-item>
-        <ion-label>{{ 'LANGUAGE' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.Language" name="Language" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-          <ion-option value="id">{{ 'id' | translate }}</ion-option>
-          <ion-option value="en">{{ 'en' | translate }}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>{{ 'CURRENCY' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.Currency" name="Currency" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-          <ion-option value="$">{{ '$' | translate }}</ion-option>
-          <ion-option value="Rp">{{ 'Rp' | translate }}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>{{ 'DATETIME_FORMAT' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.DatetimeFormat" name="DatetimeFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-          <ion-option value="dd/MM/yy hh:mm">dd/MM/yy hh:mm</ion-option>
-          <ion-option value="dd/MM/yyyy hh:mm">dd/MM/yyyy hh:mm</ion-option>
-          <ion-option value="dd/MM/yyyy hh:mm:ss">dd/MM/yyyy hh:mm:ss</ion-option>
-          <ion-option value="yy/MM/dd hh:mm">yy/MM/dd hh:mm</ion-option>
-          <ion-option value="yyyy/MM/dd hh:mm">yyyy/MM/dd hh:mm</ion-option>
-          <ion-option value="yyyy/MM/dd hh:mm:ss">yyyy/MM/dd hh:mm:ss</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>{{ 'DATE_FORMAT' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.DateFormat" name="DateFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-          <ion-option value="dd/MM/yy">dd/MM/yy</ion-option>
-          <ion-option value="dd/MM/yyyy">dd/MM/yyyy</ion-option>
-          <ion-option value="yy/MM/dd">yy/MM/dd</ion-option>
-          <ion-option value="yyyy/MM/dd">yyyy/MM/dd</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>{{ 'CURRENCY_SYMBOL' | translate }}</ion-label>
-        <ion-select [(ngModel)]="setting.CurrencySymbol" name="CurrencySymbol" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-          <ion-option value="0.0">0.0</ion-option>
-          <ion-option value="0.1">0.1</ion-option>
-          <ion-option value="0.2">0.2</ion-option>
-          <ion-option value="0.3">0.3</ion-option>
-          <ion-option value="0.4">0.4</ion-option>
-          <ion-option value="0.5">0.5</ion-option>
-        </ion-select>
-      </ion-item>
-      <div padding>
-        <button color="primary" ion-button icon-left>
-          {{ 'SAVE' | translate }}
-        </button>
-      </div>
-    </ion-list>
-  </form>
+<ion-content padding>
+  <div *ngIf="setting; else nodata">
+    <form (submit)="save()">
+      <ion-list>
+        <ion-item>
+          <ion-label>{{ 'LANGUAGE' | translate }}</ion-label>
+          <ion-select [(ngModel)]="setting.language" name="language" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+            <ion-option value="id">{{ 'INDONESIA' | translate }}</ion-option>
+            <ion-option value="en">{{ 'ENGLISH' | translate }}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{ 'CURRENCY' | translate }}</ion-label>
+          <ion-select [(ngModel)]="setting.currency" name="currency" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+              <ion-option *ngFor="let currency of currencies" [value]="currency.name">{{ currency.description }}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{ 'DATETIME_FORMAT' | translate }}</ion-label>
+          <ion-select [(ngModel)]="setting.datetimeFormat" name="datetimeFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+            <ion-option value="dd/MM/yy hh:mm">dd/MM/yy hh:mm</ion-option>
+            <ion-option value="dd/MM/yyyy hh:mm">dd/MM/yyyy hh:mm</ion-option>
+            <ion-option value="dd/MM/yyyy hh:mm:ss">dd/MM/yyyy hh:mm:ss</ion-option>
+            <ion-option value="yy/MM/dd hh:mm">yy/MM/dd hh:mm</ion-option>
+            <ion-option value="yyyy/MM/dd hh:mm">yyyy/MM/dd hh:mm</ion-option>
+            <ion-option value="yyyy/MM/dd hh:mm:ss">yyyy/MM/dd hh:mm:ss</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{ 'DATE_FORMAT' | translate }}</ion-label>
+          <ion-select [(ngModel)]="setting.dateFormat" name="dateFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+            <ion-option value="dd/MM/yy">dd/MM/yy</ion-option>
+            <ion-option value="dd/MM/yyyy">dd/MM/yyyy</ion-option>
+            <ion-option value="yy/MM/dd">yy/MM/dd</ion-option>
+            <ion-option value="yyyy/MM/dd">yyyy/MM/dd</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{ 'CURRENCY_FORMAT' | translate }}</ion-label>
+          <ion-select [(ngModel)]="setting.currencyFormat" name="currencyFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+            <ion-option value="0.0">{{ 10000.1234 | number:'0.0-0':setting.language }}</ion-option>
+            <ion-option value="0.1">{{ 10000.1234 | number:'0.0-1':setting.language }}</ion-option>
+            <ion-option value="0.2">{{ 10000.1234 | number:'0.0-2':setting.language }}</ion-option>
+            <ion-option value="0.3">{{ 10000.1234 | number:'0.0-3':setting.language }}</ion-option>
+            <ion-option value="0.4">{{ 10000.1234 | number:'0.0-4':setting.language }}</ion-option>
+            <ion-option value="0.5">{{ 10000.1234 | number:'0.0-5':setting.language }}</ion-option>
+          </ion-select>
+        </ion-item>
+        <div padding>
+          <button color="primary" ion-button icon-left>
+            {{ 'SAVE' | translate }}
+          </button>
+        </div>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>
 <ng-template #nodata>
-  <ion-content padding>
-    {{ 'NO_DATA' | translate }}
-  </ion-content>
+  <div class="no-data">{{ 'NO_DATA' | translate }}</div>
 </ng-template>

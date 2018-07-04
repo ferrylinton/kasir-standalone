@@ -20,17 +20,20 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
+  <ion-list *ngIf="page">
+    <ion-item *ngIf="page.totalData == 0">
+      <div class="no-data">{{ 'NO_DATA' | translate }}</div>
+    </ion-item>
+    <ion-item *ngIf="page.totalData != 0">
       <span class="total">{{ 'TOTAL_LABEL' | translate:{length:page.data.length, total:page.totalData} }}</span>
     </ion-item>
     <ion-item ion-item *ngFor="let category of page.data">
       <ion-thumbnail item-start>
         <img src="{{category.image}}">
       </ion-thumbnail>
-      <h2>{{category.name}}</h2>
-      <p>{{category.description}}</p>
-      <p>{{category.createdDate | date:'dd-MM-yyyy'}}</p>
+      <h2>{{ category.name }}</h2>
+      <p>{{ category.description }}</p>
+      <p>{{ category.createdDate | datetime }}</p>
       <button ion-button outline item-end (click)="view(category)">{{ 'VIEW' | translate}}</button>
     </ion-item>
   </ion-list>

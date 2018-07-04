@@ -63,6 +63,12 @@
     "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
     "STATUS": "Status",
     "CURRENCY": "Mata Uang",
+    "LANGUAGE": "Bahasa",
+    "INDONESIA": "Indonesia",
+    "ENGLISH" : "English",
+    "DATE_FORMAT": "Format tanggal",
+    "DATETIME_FORMAT": "Format tanggal dan waktu",
+    "CURRENCY_FORMAT": "Format Mata Uang",
 
     "temp": {
         "$": "US Dollar",
@@ -89,11 +95,10 @@
         
         
         
-        "CURRENCY_SYMBOL": "Format Mata Uang",
         
         
-        "DATE_FORMAT": "Format tanggal",
-        "DATETIME_FORMAT": "Format tanggal dan waktu",
+        
+        
         "DB": "DB",
         "DB_IS_ALREADY_DELETED": "DB sudah dihapus",
         "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
@@ -115,7 +120,7 @@
         
         "ITEM": "item",
         "KEYWORD": "kata kunci",
-        "LANGUAGE": "Bahasa",
+        
         
         "LASTEST_ORDER": "Pesanan Terbaru",
         "LIST": "Tampilan Daftar",

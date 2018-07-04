@@ -98,15 +98,6 @@ export class MessageProvider {
     this.showConfirm(message, callback);
   }
 
-  showEditConfirm(data: string, callback: (dt: Base) => void): void {
-    let message = 'Do you want to edit data[' + data + ']?'
-    this.translate.get('MESSAGE.EDIT_CONFIRM', { data: data }).subscribe((res: string) => {
-      message = res;
-    });
-
-    this.showConfirm(message, callback);
-  }
-
   showDeleteConfirm(data: string, callback: (dt: Base) => void): void {
     let message = 'Do you want to delete data[' + data + ']?'
     this.translate.get('DELETE_CONFIRM', { data: data }).subscribe((res: string) => {

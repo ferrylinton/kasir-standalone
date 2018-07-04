@@ -162,9 +162,8 @@
 .no-data {
     margin: 10px;
     padding: 20px;
-    color: color($colors, danger);
-    border: solid 1px #facbcb;
-    background-color: #fdf2f2;
+    border: solid 1px color($colors, border);
+    background-color: color($colors, light);
 }
 
 .total{
