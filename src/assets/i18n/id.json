@@ -48,6 +48,8 @@
     "CREATE_IMAGE": "Tambah Gambar",
     "CREATE_SUCCESS": "Tambah data [ '{{data}}' ] berhasil",
     "CONFIRM": "Konfirmasi",
+    "SAVE_MESSAGE": "Apakah Anda ingin menyimpan data ?",
+    "SAVE_SUCCESS": "Data berhasil disimpan",
     "VIEW": "Lihat",
     "ID": "Id",
     "NAME": "Nama",

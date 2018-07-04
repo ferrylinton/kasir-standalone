@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
+import { TranslateService } from "@ngx-translate/core";
 
-import { SettingProvider } from '../../providers/setting/setting';
-import { SETTING } from '../../constant/setting';
 import { MessageProvider } from '../../providers/message/message';
-import { Setting } from '../../models/setting.model';
+import { SettingProvider } from '../../providers/setting/setting';
 import { CurrencyProvider } from '../../providers/currency/currency';
+import { Setting } from '../../models/setting.model';
 import { Currency } from '../../models/currency.model';
 
 
@@ -20,7 +20,10 @@ export class SettingPage{
 
   currencies: Array<Currency>;
 
+  current: Date;
+
   constructor(
+    public translate: TranslateService,
     public messageProvider: MessageProvider,
     public currencyProvider: CurrencyProvider,
     public settingProvider: SettingProvider) {
@@ -29,6 +32,7 @@ export class SettingPage{
   ionViewWillEnter() {
     this.initSetting();
     this.initCurrencies();
+    this.current = new Date();
   }
 
   private initSetting(){
@@ -44,7 +48,10 @@ export class SettingPage{
   }
 
   save() {
-    this.messageProvider.showSaveConfirm(false, SETTING, (base) => this.saveCallback());
+    this.translate.get('SAVE_MESSAGE').subscribe(value => {
+      this.messageProvider.confirm(value, (base) => this.saveCallback());
+    })
+    
   }
 
   saveCallback(): void {
@@ -53,8 +60,9 @@ export class SettingPage{
       this.setting = JSON.parse(JSON.stringify(setting));
     });
 
-    this.messageProvider.showEditToast(SETTING);
+    this.translate.get('SAVE_SUCCESS').subscribe(value => {
+      this.messageProvider.toast(value);
+    })
   }
   
-
 }

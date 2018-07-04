@@ -20,12 +20,52 @@ export class MessageProvider {
     this.initLanguage();
   }
 
+  toast(message: string): void {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.present();
+  }
+
+  confirm(message: string, callback: (dt: Base) => void): void {
+    let keys: string[] = ['CONFIRM', 'CANCEL', 'OK'];
+
+    this.translate.get(keys).subscribe(values => {
+      const alert = this.alertCtrl.create({
+        title: values[keys[0]],
+        message: message,
+        buttons: [
+          {
+            text: values[keys[1]],
+            role: 'cancel'
+          },
+          {
+            text: values[keys[2]],
+            handler: callback
+          }
+        ]
+      });
+
+      alert.present();
+
+    });
+  }
+
+
+
+
+
+
+
   private initLanguage(): void {
     let keys: string[] = [
       'OK',
       'CANCEL',
       'CONFIRM'
-  ];
+    ];
 
     this.translate.get(keys).subscribe(values => {
       this.okTxt = values[keys[0]];
@@ -44,9 +84,9 @@ export class MessageProvider {
     toast.present();
   }
 
-  showSaveToast(isCreate: boolean,data: string): void {
+  showSaveToast(isCreate: boolean, data: string): void {
     let message = 'Save data[' + data + '] is successfully'
-    this.translate.get(isCreate ? 'CREATE_SUCCESS': 'MODIFY_SUCCESS', { data: data }).subscribe((value: string) => {
+    this.translate.get(isCreate ? 'CREATE_SUCCESS' : 'MODIFY_SUCCESS', { data: data }).subscribe((value: string) => {
       message = value;
     });
 

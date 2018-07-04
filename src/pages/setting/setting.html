@@ -4,6 +4,11 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{ 'SETTING' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="save()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -21,27 +26,27 @@
         <ion-item>
           <ion-label>{{ 'CURRENCY' | translate }}</ion-label>
           <ion-select [(ngModel)]="setting.currency" name="currency" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-              <ion-option *ngFor="let currency of currencies" [value]="currency.name">{{ currency.description }}</ion-option>
+            <ion-option *ngFor="let currency of currencies" [value]="currency.name">{{ currency.description }}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item>
           <ion-label>{{ 'DATETIME_FORMAT' | translate }}</ion-label>
           <ion-select [(ngModel)]="setting.datetimeFormat" name="datetimeFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-            <ion-option value="dd/MM/yy hh:mm">dd/MM/yy hh:mm</ion-option>
-            <ion-option value="dd/MM/yyyy hh:mm">dd/MM/yyyy hh:mm</ion-option>
-            <ion-option value="dd/MM/yyyy hh:mm:ss">dd/MM/yyyy hh:mm:ss</ion-option>
-            <ion-option value="yy/MM/dd hh:mm">yy/MM/dd hh:mm</ion-option>
-            <ion-option value="yyyy/MM/dd hh:mm">yyyy/MM/dd hh:mm</ion-option>
-            <ion-option value="yyyy/MM/dd hh:mm:ss">yyyy/MM/dd hh:mm:ss</ion-option>
+            <ion-option value="dd/MM/yy hh:mm">{{ current | date: 'dd/MM/yy hh:mm' }}</ion-option>
+            <ion-option value="dd/MM/yyyy hh:mm">{{ current | date: 'dd/MM/yyyy hh:mm' }}</ion-option>
+            <ion-option value="dd/MM/yyyy hh:mm:ss">{{ current | date: 'dd/MM/yyyy hh:mm:ss' }}</ion-option>
+            <ion-option value="yy/MM/dd hh:mm">{{ current | date: 'yy/MM/dd hh:mm' }}</ion-option>
+            <ion-option value="yyyy/MM/dd hh:mm">{{ current | date: 'yyyy/MM/dd hh:mm' }}</ion-option>
+            <ion-option value="yyyy/MM/dd hh:mm:ss">{{ current | date: 'yyyy/MM/dd hh:mm:ss' }}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item>
           <ion-label>{{ 'DATE_FORMAT' | translate }}</ion-label>
           <ion-select [(ngModel)]="setting.dateFormat" name="dateFormat" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-            <ion-option value="dd/MM/yy">dd/MM/yy</ion-option>
-            <ion-option value="dd/MM/yyyy">dd/MM/yyyy</ion-option>
-            <ion-option value="yy/MM/dd">yy/MM/dd</ion-option>
-            <ion-option value="yyyy/MM/dd">yyyy/MM/dd</ion-option>
+            <ion-option value="dd/MM/yy">{{ current | date: 'dd/MM/yy' }}</ion-option>
+            <ion-option value="dd/MM/yyyy">{{ current | date: 'dd/MM/yyyy' }}</ion-option>
+            <ion-option value="yy/MM/dd">{{ current | date: 'yy/MM/dd' }}</ion-option>
+            <ion-option value="yyyy/MM/dd">{{ current | date: 'yyyy/MM/dd' }}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item>
@@ -55,11 +60,6 @@
             <ion-option value="0.5">{{ 10000.1234 | number:'0.0-5':setting.language }}</ion-option>
           </ion-select>
         </ion-item>
-        <div padding>
-          <button color="primary" ion-button icon-left>
-            {{ 'SAVE' | translate }}
-          </button>
-        </div>
       </ion-list>
     </form>
   </div>
