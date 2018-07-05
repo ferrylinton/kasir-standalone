@@ -10,6 +10,7 @@ import { SettingProvider } from '../providers/setting/setting';
 import { FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
 import { LANGUAGE } from '../constant/setting';
 import { User } from '../models/user.model';
+import { TableProvider } from '../providers/table/table';
 
 
 @Component({
@@ -31,9 +32,23 @@ export class MyApp {
     public translate: TranslateService,
     public events: Events,
     public storage: Storage,
-    public setting: SettingProvider) {
+    public settingProvider: SettingProvider,
+    public tableProvider: TableProvider) {
 
     this.initializeApp();
+
+    //let db = openDatabase('mydb', '1.0', 'my first database', 2 * 1024 * 1024);
+    // let db = (<any>window).openDatabase('xshop', '2.0', 'xshop db for testing', 2 * 1024 * 1024);
+    // db.transaction(function (tx) {
+    //   tx.executeSql("CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
+    // });
+
+    tableProvider.createTables().then((data) => {
+      console.log(JSON.stringify(data));
+    }).catch((error) => {
+      console.log('app : ' + error);
+      console.log('app : ' + JSON.stringify(error));
+    });
   }
 
   initializeApp() {
@@ -49,7 +64,7 @@ export class MyApp {
 
   initLang() {
     this.translate.setDefaultLang(LANGUAGE);
-    this.setting.getSetting().subscribe(setting => {
+    this.settingProvider.getSetting().subscribe(setting => {
       this.translate.use(setting.language);
     })
   }
@@ -81,11 +96,11 @@ export class MyApp {
     }
   }
 
-  hasAuthority(authority: string): boolean{
-    if(this.user){
+  hasAuthority(authority: string): boolean {
+    if (this.user) {
       return this.user.authorities.indexOf(authority) > -1;
     }
-    
+
     return false;
   }
 

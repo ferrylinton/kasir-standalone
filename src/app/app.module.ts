@@ -11,6 +11,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { PipesModule } from '../pipes/pipes.module';
+import { SQLite } from '@ionic-native/sqlite';
+import { SQLiteMock } from '../mock/sqlite';
 
 import { MyApp } from './app.component';
 
@@ -44,6 +46,8 @@ import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
 import { CommonProvider } from '../providers/common/common';
+import { TableProvider } from '../providers/table/table';
+
 
 
 
@@ -83,6 +87,7 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    { provide: SQLite, useClass: SQLiteMock},
     { provide: AuthorityProvider, useClass: AuthorityMockProvider },
     { provide: RoleProvider, useClass: RoleMockProvider },
     { provide: UserProvider, useClass: UserMockProvider },
@@ -96,7 +101,8 @@ export function createTranslateLoader(http: HttpClient) {
     SettingProvider,
     MessageProvider,
     CartProvider,
-    CommonProvider
+    CommonProvider,
+    TableProvider
   ]
 
 })
