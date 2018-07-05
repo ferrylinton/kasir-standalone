@@ -11,39 +11,48 @@ export class SQLiteObject{
     executeSql(statement: string, params: any): Promise<any>{
       return new Promise((resolve, reject) => {
         this._objectInstance.transaction((tx) => {
-          tx.executeSql(statement, params, (tx, result) => { resolve(result) }, (error) => reject(error));
+          tx.executeSql(
+            statement, 
+            params, 
+            (tx, result) => { resolve(result) }, 
+            (tx, error) => { reject(error.message) }
+          );
         });
       });
     };
+
+    transaction(fn: any): Promise<any>{
+      return new Promise((resolve, reject) => {
+        this._objectInstance.transaction((tx) => {
+          fn(tx);
+        });
+
+        resolve();
+      });
+    }
 
     sqlBatch(statements: string[], params: any): Promise<any>{
       return new Promise((resolve, reject) => {
         this._objectInstance.transaction((tx) => {
-
-          let isError: boolean = false;
-          let error: any;
+          let message: any = null;
 
           for(let i=0; i<statements.length; i++){
 
-            if(isError){
-              reject(error);
+            if(message){
+              reject(message);
             }
 
             tx.executeSql(
-              statements[i], params, 
-              (tx, result) => { 
-                resolve(result);
-              }, 
-              (tx, err) => { 
-                console.log('sqlite : ' + err.message);
-                console.log('sqlite : ' + JSON.stringify(err));
-                isError = true;
-                error = err;
-              });
+              statements[i], 
+              params, 
+              (tx, result) => { resolve(result) }, 
+              (tx, error) => { message = error.message }
+            );
           }
         });
       });
     };
+
 }
 
 export class SQLiteMock {

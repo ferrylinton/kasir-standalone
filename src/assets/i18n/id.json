@@ -71,6 +71,7 @@
     "DATE_FORMAT": "Format tanggal",
     "DATETIME_FORMAT": "Format tanggal dan waktu",
     "CURRENCY_FORMAT": "Format Mata Uang",
+    "CHECKING_DB" : "Mengecek DB",
 
     "temp": {
         "$": "US Dollar",

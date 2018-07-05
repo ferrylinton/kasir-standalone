@@ -1,4 +1,6 @@
 import { SQLite } from "@ionic-native/sqlite";
+import { Observable } from "rxjs/Observable";
+import { of } from "rxjs/observable/of";
 
 export abstract class BaseDb {
 
@@ -13,18 +15,15 @@ export abstract class BaseDb {
         public sqlite: SQLite) {
     }
 
-    createDB(): Promise<any> {
-        console.log('createDB............');
+    connect(): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (this.db != null || this.db != undefined) {
+            if (this.db) {
                 resolve(this.db);
             } else {
                 this.sqlite.create(this.dbConfig).then((db) => {
                     this.db = db;
                     resolve(db);
                 }).catch((error) => {
-                    console.log('db : ' + error);
-                    console.log('db : ' + JSON.stringify(error));
                     reject(error);
                 });
             }

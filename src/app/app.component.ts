@@ -43,12 +43,7 @@ export class MyApp {
     //   tx.executeSql("CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
     // });
 
-    tableProvider.createTables().then((data) => {
-      console.log(JSON.stringify(data));
-    }).catch((error) => {
-      console.log('app : ' + error);
-      console.log('app : ' + JSON.stringify(error));
-    });
+
   }
 
   initializeApp() {
