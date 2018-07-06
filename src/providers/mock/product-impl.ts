@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
+import { BaseProvider } from './base';
+import { DataProvider } from './data';
 import { UtilProvider } from '../util/util';
-import { MockProvider } from '../mock/mock';
-import { DataProvider } from '../data/data';
-import { ProductProvider } from './product';
+import { ProductProvider } from '../product/product';
 
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
@@ -13,27 +13,12 @@ import { Product } from '../../models/product.model';
 
 
 @Injectable()
-export class ProductMockProvider extends MockProvider<Product> implements ProductProvider {
+export class ProductProviderImpl extends BaseProvider<Product> implements ProductProvider {
 
   constructor(
     public dataProvider: DataProvider,
     public utilProvider: UtilProvider) {
-    super();
-    this.init();
-  }
-
-  private init(): void {
-    this.setDatas(this.dataProvider.products);
-  }
-
-  find(pageable: Pageable): Observable<Page<Product>> {
-    let datas: Array<Product> = this.datas;
-
-    if (pageable.sort != null) {
-      datas = this.utilProvider.sortObject(datas, pageable.sort);
-    }
-
-    return of(this.getPage(datas, pageable));
+    super(dataProvider.products);
   }
 
   findByName(name: string, pageable: Pageable): Observable<Page<Product>> {

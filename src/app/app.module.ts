@@ -12,43 +12,41 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { PipesModule } from '../pipes/pipes.module';
 import { SQLite } from '@ionic-native/sqlite';
-import { SQLiteMock } from '../mock/sqlite';
 
 import { MyApp } from './app.component';
 
-import { AuthorityProvider } from '../providers/authority/authority';
-import { AuthorityMockProvider } from '../providers/authority/authority-mock';
-
-import { RoleProvider } from '../providers/role/role';
-import { RoleMockProvider } from '../providers/role/role-mock';
-
-import { UserProvider } from '../providers/user/user';
-import { UserMockProvider } from '../providers/user/user-mock';
-
+// Provider's Interface
 import { LoginProvider } from '../providers/login/login';
-import { LoginMockProvider } from '../providers/login/login-mock';
-
+import { AuthorityProvider } from '../providers/authority/authority';
+import { RoleProvider } from '../providers/role/role';
+import { UserProvider } from '../providers/user/user';
 import { CategoryProvider } from '../providers/category/category';
-import { CategoryMockProvider } from '../providers/category/category-mock';
-
 import { ProductProvider } from '../providers/product/product';
-import { ProductMockProvider } from '../providers/product/product-mock';
-
 import { OrderProvider } from '../providers/order/order';
-import { OrderMockProvider } from '../providers/order/order-mock';
-
 import { CurrencyProvider } from '../providers/currency/currency';
-import { CurrencyMockProvider } from '../providers/currency/currency-mock';
-import { CurrencySQLiteProvider } from '../providers/currency/currency-sqlite';
 
-import { DataProvider } from '../providers/data/data';
+// Provider's Implementation
+import { LoginProviderImpl } from '../providers/mock/login-impl';
+import { AuthorityProviderImpl } from '../providers/mock/authority-impl';
+import { RoleProviderImpl } from '../providers/mock/role-impl';
+import { UserProviderImpl } from '../providers/mock/user-impl';
+import { CategoryProviderImpl } from '../providers/mock/category-impl';
+import { ProductProviderImpl } from '../providers/mock/product-impl';
+import { OrderProviderImpl } from '../providers/mock/order-impl';
+import { CurrencyProviderImpl } from '../providers/sqlite/currency-impl';
+
+// Mock
+import { DataProvider } from '../providers/mock/data';
+
+// Sqlite
+import { SQLiteMock } from '../providers/sqlite/sqlite';
+import { SchemaProvider } from '../providers/sqlite/schema';
+
 import { UtilProvider } from '../providers/util/util';
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
 import { CommonProvider } from '../providers/common/common';
-import { TableProvider } from '../providers/table/table';
-
 
 registerLocaleData(localeId, 'id');
 
@@ -87,21 +85,21 @@ export function createTranslateLoader(http: HttpClient) {
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     { provide: SQLite, useClass: SQLiteMock},
-    { provide: AuthorityProvider, useClass: AuthorityMockProvider },
-    { provide: RoleProvider, useClass: RoleMockProvider },
-    { provide: UserProvider, useClass: UserMockProvider },
-    { provide: LoginProvider, useClass: LoginMockProvider },
-    { provide: CategoryProvider, useClass: CategoryMockProvider },
-    { provide: ProductProvider, useClass: ProductMockProvider },
-    { provide: OrderProvider, useClass: OrderMockProvider },
-    { provide: CurrencyProvider, useClass: CurrencySQLiteProvider },
+    { provide: AuthorityProvider, useClass: AuthorityProviderImpl },
+    { provide: RoleProvider, useClass: RoleProviderImpl },
+    { provide: UserProvider, useClass: UserProviderImpl },
+    { provide: LoginProvider, useClass: LoginProviderImpl },
+    { provide: CategoryProvider, useClass: CategoryProviderImpl },
+    { provide: ProductProvider, useClass: ProductProviderImpl },
+    { provide: OrderProvider, useClass: OrderProviderImpl },
+    { provide: CurrencyProvider, useClass: CurrencyProviderImpl },
     DataProvider,
     UtilProvider,
     SettingProvider,
     MessageProvider,
     CartProvider,
     CommonProvider,
-    TableProvider
+    SchemaProvider
   ]
 
 })

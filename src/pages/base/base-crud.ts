@@ -40,12 +40,20 @@ export abstract class BaseCrudPage<T extends Base> {
         public crudProvider: CrudProvider<T>,
         public sortBy: string,
     ) {
-        this.initLanguage();
-        this.initSetting();
-        this.initPage();
     }
 
-    initLanguage() {
+    abstract loadData(): void;
+
+    init(): void {
+        this.settingProvider.getSetting().subscribe(setting => {
+            this.setting = setting;
+            this.initLanguage();
+            this.initPage();
+            this.loadData();
+        });
+    }
+
+    initLanguage(): void {
         let keys: string[] = [
             'LOADING',
             'UNSAVE_ORDER',
@@ -69,27 +77,13 @@ export abstract class BaseCrudPage<T extends Base> {
         });
     }
 
-    initSetting() {
-        this.settingProvider.getSetting().subscribe(setting => {
-            this.setting = setting;
-        });
-    }
-
     initPage(): void {
         this.page = new Page();
         this.page.sort.column = this.sortBy;
         this.page.sort.isAsc = true;
     }
 
-    loadData() {
-        this.crudProvider.find(this.page).subscribe(page => {
-            this.page.pageNumber = page.pageNumber;
-            this.page.totalData = page.totalData;
-            this.page.data = [...this.page.data, ...page.data];
-        })
-    }
-
-    doInfinite(infiniteScroll) {
+    doInfinite(infiniteScroll): void {
         this.page.pageNumber = this.page.pageNumber + 1;
         this.loadData();
         infiniteScroll.complete();

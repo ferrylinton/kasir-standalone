@@ -11,7 +11,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 
 
 @Injectable()
-export class CurrencySQLiteProvider extends BaseDb implements CurrencyProvider {
+export class CurrencyProviderImpl extends BaseDb implements CurrencyProvider {
 
   constructor(public sqlite: SQLite) {
     super(sqlite);
@@ -25,14 +25,6 @@ export class CurrencySQLiteProvider extends BaseDb implements CurrencyProvider {
     return fromPromise(this.connect()
       .then(db => this.executeSqlCountByName(db, name, pageable))
       .then(result => this.executeSqlFindByName(result.db, result.total, name, pageable)));
-  }
-
-  findById(id: string): Observable<Currency> {
-    throw new Error("Method not implemented.");
-  }
-
-  find(pageable: Pageable): Observable<Page<Currency>> {
-    throw new Error("Method not implemented.");
   }
 
   save(data: Currency): Observable<Currency> {

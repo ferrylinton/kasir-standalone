@@ -7,7 +7,7 @@ import { of } from "rxjs/observable/of";
 
 
 @Injectable()
-export class TableProvider extends BaseDb {
+export class SchemaProvider extends BaseDb {
 
   private readonly DROP_CURRENCY = 'DROP TABLE IF EXISTS mst_currency';
 

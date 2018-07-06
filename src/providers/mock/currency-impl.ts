@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
+import { BaseProvider } from './base';
+import { DataProvider } from './data';
 import { UtilProvider } from '../util/util';
-import { MockProvider } from '../mock/mock';
-import { DataProvider } from '../data/data';
 import { CurrencyProvider } from '../../providers/currency/currency';
 import { ProductProvider } from '../product/product';
 import { Currency } from '../../models/currency.model';
@@ -13,19 +13,14 @@ import { Page } from '../../models/page.model';
 
 
 @Injectable()
-export class CurrencyMockProvider extends MockProvider<Currency> implements CurrencyProvider {
+export class CurrencyProviderImpl extends BaseProvider<Currency> implements CurrencyProvider {
 
   constructor(
     public utilProvider: UtilProvider,
     public dataProvider: DataProvider,
     public productProvider: ProductProvider
   ) {
-    super();
-    this.init();
-  }
-
-  private init(): void {
-    this.setDatas(this.dataProvider.currencies);
+    super(dataProvider.currencies);
   }
 
   findByName(name: string, pageable: Pageable): Observable<Page<Currency>> {

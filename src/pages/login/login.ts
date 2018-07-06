@@ -5,7 +5,7 @@ import { Storage } from '@ionic/storage';
 
 import { HOME_PAGE, LOGGED_USER } from '../../constant/constant';
 import { LoginProvider } from '../../providers/login/login';
-import { TableProvider } from '../../providers/table/table';
+import { SchemaProvider } from '../../providers/sqlite/schema';
 
 import { User } from '../../models/user.model';
 
@@ -36,7 +36,7 @@ export class LoginPage {
     public events: Events,
     public storage: Storage,
     public loginProvider: LoginProvider,
-    public tableProvider: TableProvider) {
+    public schemaProvider: SchemaProvider) {
   }
 
   ionViewWillEnter() {
@@ -61,7 +61,7 @@ export class LoginPage {
     //this.tableProvider.createTables().subscribe(result => {
     //  loading.dismiss();
     //});
-    this.tableProvider.createTables();
+    this.schemaProvider.createTables();
   }
 
   private showMessage(txt: string): void {

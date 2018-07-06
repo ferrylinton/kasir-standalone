@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UserProvider } from '../user/user';
-import { LoginProvider } from './login';
+import { LoginProvider } from '../login/login';
 import { User } from '../../models/user.model';
 
 
 @Injectable()
-export class LoginMockProvider extends LoginProvider {
+export class LoginProviderImpl extends LoginProvider {
 
   constructor(
     public userProvider: UserProvider) {

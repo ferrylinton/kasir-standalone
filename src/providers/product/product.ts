@@ -2,12 +2,9 @@ import { Observable } from 'rxjs/Observable';
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
 import { Product } from "../../models/product.model";
+import { CrudProvider } from '../crud/crud';
 
-export abstract class ProductProvider {
-
-  abstract findById(id: string): Observable<Product>;
-
-  abstract find(pageable: Pageable): Observable<Page<Product>>;
+export abstract class ProductProvider extends CrudProvider<Product> {
 
   abstract findByName(name: string, pageable: Pageable): Observable<Page<Product>>;
 
@@ -16,11 +13,5 @@ export abstract class ProductProvider {
   abstract countByCategory(category:string): Observable<number>;
 
   abstract findByCategoryAndName(category:string, name: string, pageable: Pageable): Observable<Page<Product>>;
-
-  abstract save(product: Product): Observable<Product>;
-
-  abstract update(productproduct: Product): Observable<Product>;
-
-  abstract delete(id: string): Observable<Product>;
 
 }

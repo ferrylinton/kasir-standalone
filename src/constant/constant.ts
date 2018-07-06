@@ -1,4 +1,3 @@
-export const FIRST_RUN_PAGE: string = 'LoginPage';
 
 export const HOME_PAGE: string = 'HomePage';
 

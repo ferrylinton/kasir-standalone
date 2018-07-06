@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
+import { BaseProvider } from './base';
+import { DataProvider } from './data';
 import { UtilProvider } from '../util/util';
-import { MockProvider } from '../mock/mock';
-import { DataProvider } from '../data/data';
 import { CategoryProvider } from '../../providers/category/category';
 import { ProductProvider } from '../product/product';
 import { Category } from '../../models/category.model';
@@ -13,19 +13,14 @@ import { Page } from '../../models/page.model';
 
 
 @Injectable()
-export class CategoryMockProvider extends MockProvider<Category> implements CategoryProvider {
+export class CategoryProviderImpl extends BaseProvider<Category> implements CategoryProvider {
 
   constructor(
     public utilProvider: UtilProvider,
     public dataProvider: DataProvider,
     public productProvider: ProductProvider
   ) {
-    super();
-    this.init();
-  }
-
-  private init(): void {
-    this.setDatas(this.dataProvider.categories);
+    super(dataProvider.categories);
   }
 
   findByName(name: string, pageable: Pageable): Observable<Page<Category>> {
@@ -54,6 +49,5 @@ export class CategoryMockProvider extends MockProvider<Category> implements Cate
 
     }));
   }
-
 
 }

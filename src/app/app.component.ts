@@ -7,10 +7,9 @@ import { Storage } from '@ionic/storage';
 
 import { SettingProvider } from '../providers/setting/setting';
 
-import { FIRST_RUN_PAGE, PAGE, LOGGED_USER } from '../constant/constant';
+import { PAGE, LOGGED_USER } from '../constant/constant';
 import { LANGUAGE } from '../constant/setting';
 import { User } from '../models/user.model';
-import { TableProvider } from '../providers/table/table';
 
 
 @Component({
@@ -19,7 +18,9 @@ import { TableProvider } from '../providers/table/table';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = FIRST_RUN_PAGE;
+  private LOGIN_PAGE: string = 'LoginPage';
+
+  rootPage: any = this.LOGIN_PAGE;
 
   pages: Array<{ title: string, component: any }>;
 
@@ -32,18 +33,9 @@ export class MyApp {
     public translate: TranslateService,
     public events: Events,
     public storage: Storage,
-    public settingProvider: SettingProvider,
-    public tableProvider: TableProvider) {
+    public settingProvider: SettingProvider) {
 
     this.initializeApp();
-
-    //let db = openDatabase('mydb', '1.0', 'my first database', 2 * 1024 * 1024);
-    // let db = (<any>window).openDatabase('xshop', '2.0', 'xshop db for testing', 2 * 1024 * 1024);
-    // db.transaction(function (tx) {
-    //   tx.executeSql("CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
-    // });
-
-
   }
 
   initializeApp() {
@@ -83,8 +75,8 @@ export class MyApp {
   }
 
   openPage(page: string): void {
-    if (page === FIRST_RUN_PAGE) {
-      this.nav.setRoot(FIRST_RUN_PAGE);
+    if (page === this.LOGIN_PAGE) {
+      this.nav.setRoot(this.LOGIN_PAGE);
       this.storage.remove(LOGGED_USER);
     } else {
       this.nav.setRoot(page);
