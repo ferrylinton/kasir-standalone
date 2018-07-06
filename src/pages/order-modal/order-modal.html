@@ -2,9 +2,9 @@
   <ion-navbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only>
-        <ion-icon *ngIf="!isCanceled && order.isPaid" name="cash"></ion-icon>
-        <ion-icon *ngIf="!isCanceled && !order.isPaid" name="checkmark-circle"></ion-icon>
-        <ion-icon *ngIf="isCanceled" name="remove-circle"></ion-icon>
+        <ion-icon *ngIf="!canceled && order.paid" name="cash"></ion-icon>
+        <ion-icon *ngIf="!canceled && !order.paid" name="checkmark-circle"></ion-icon>
+        <ion-icon *ngIf="canceled" name="remove-circle"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>

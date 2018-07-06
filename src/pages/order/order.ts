@@ -93,9 +93,9 @@ export class OrderPage extends BaseCartPage {
   }
 
   getIcon(order: Order): string{
-    if(order.isCanceled){
+    if(order.canceled){
       return 'remove-circle';
-    }else if(order.isPaid){
+    }else if(order.paid){
       return 'cash';
     }
 
@@ -103,9 +103,9 @@ export class OrderPage extends BaseCartPage {
   }
 
   getIconColor(order: Order): string{
-    if(order.isCanceled){
+    if(order.canceled){
       return 'danger';
-    }else if(order.isPaid){
+    }else if(order.paid){
       return 'secondary';
     }
 

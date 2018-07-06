@@ -113,10 +113,10 @@ export class CartPage extends BaseCartPage {
     });
   }
 
-  private saveOrPay(isPaid: boolean): void {
+  private saveOrPay(paid: boolean): void {
     this.commonProvider.getLoggedUser().subscribe(user => {
       if (this.cart.isModified) {
-        this.cart.order.isPaid = this.cart.order.isPaid || isPaid;
+        this.cart.order.paid = this.cart.order.paid || paid;
         this.cart.order.lastModifiedBy = user.username;
         this.cart.order.lastModifiedDate = new Date();
         this.cart.order.createdDate = new Date(this.cart.order.createdDate);
@@ -124,7 +124,7 @@ export class CartPage extends BaseCartPage {
           this.deleteOrderFromStorage();
         });
       } else {
-        this.cart.order.isPaid = isPaid;
+        this.cart.order.paid = paid;
         this.cart.order.createdBy = user.username;
         this.cart.order.createdDate = new Date();
         this.orderProvider.save(this.cart.order).subscribe(() => {

@@ -11,9 +11,9 @@ export class Order implements Audit {
 
         public items?: Item[],
 
-        public isPaid?: boolean,
+        public paid?: boolean,
 
-        public isCanceled?: boolean,
+        public canceled?: boolean,
 
         public createdBy?: string,
 

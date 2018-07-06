@@ -42,6 +42,7 @@ export class SQLiteObject{
               reject(message);
             }
 
+            console.log('execute : ' + statements[i]);
             tx.executeSql(
               statements[i], 
               params, 
