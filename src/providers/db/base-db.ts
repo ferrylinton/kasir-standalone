@@ -24,6 +24,7 @@ export abstract class BaseDb {
                     this.db = db;
                     resolve(db);
                 }).catch((error) => {
+                    console.log('BaseDb -> connect :: ' + JSON.stringify(error));
                     reject(error);
                 });
             }

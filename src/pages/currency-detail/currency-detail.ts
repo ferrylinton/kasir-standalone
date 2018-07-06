@@ -56,6 +56,8 @@ export class CurrencyDetailPage extends BasePage {
     this.currencyProvider.delete(this.currency.id).subscribe(data => {
       this.navCtrl.popToRoot();
       this.messageProvider.showDeleteToast(this.currency.name);
+    }, error => {
+      this.messageProvider.showDeleteToast(error);
     });
   }
 
