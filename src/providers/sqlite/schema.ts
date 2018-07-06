@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseDb } from '../db/base-db';
 import { SQLite } from '@ionic-native/sqlite';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -92,7 +93,7 @@ export class SchemaProvider extends BaseDb {
                                     created_date DATE,
                                     last_modified_by VARCHAR(30),
                                     last_modified_date DATE
-                                  )`; 
+                                  )`;
 
   private readonly DROP_ITEM = 'DROP TABLE IF EXISTS trx_item';
   private readonly CREATE_ITEM = `CREATE TABLE IF NOT EXISTS trx_item (
@@ -100,7 +101,7 @@ export class SchemaProvider extends BaseDb {
                                     quantity INTEGER NOT NULL, 
                                     product_id VARCHAR(40) NOT NULL REFERENCES mst_product(id),
                                     order_id VARCHAR(40) NOT NULL REFERENCES trx_order(id)
-                                  )`;                      
+                                  )`;
 
   private readonly createQueries = [
     this.DROP_AUTHORITY,
@@ -128,23 +129,48 @@ export class SchemaProvider extends BaseDb {
     super(sqlite);
   }
 
-  createTables(): void {
-    this.connect().then(db => {
-      db.sqlBatch(this.createQueries);
-      this.insertData(db);
-    }).catch((error) => {
-      console.log('createTables : ' + JSON.stringify(error));
+  initDB(): Observable<any> {
+    return new Observable(observer => {
+      this.connect()
+        .then(db => this.initTables(db))
+        .then(db => this.initDatas(db).then(result => {
+          observer.next(result);
+          observer.complete();
+        }))
+        .catch((error) => {
+          observer.next(error);
+          observer.complete();
+        })
+    })
+
+
+  }
+
+  private initTables(db: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      db.sqlBatch(this.createQueries).then((result) => {
+        resolve(db);
+      }).catch((error) => {
+        reject(error);
+      });
     });
   }
 
-  insertData(db: any): void {
-    db.transaction((tx) => {
-      let current: Date = new Date();
+  private initDatas(db: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        let current: Date = new Date();
 
-      let insertCurrencies: String = 'INSERT INTO mst_currency(id, name, description, created_by, created_date) VALUES (?, ?, ?, ?, ?)';
-      tx.executeSql(insertCurrencies, ['eba61b8f-2f9e-4520-9dc4-currency1', 'IDR', 'Indonesian Rupiah', 'system', current]);
-      tx.executeSql(insertCurrencies, ['eba61b8f-2f9e-4520-9dc4-currency2', 'USD', 'US Dollar', 'system', current]);
-
+        let insertCurrencies: String = 'INSERT INTO mst_currency(id, name, description, created_by, created_date) VALUES (?, ?, ?, ?, ?)';
+        tx.executeSql(insertCurrencies, ['eba61b8f-2f9e-4520-9dc4-currency1', 'IDR', 'Indonesian Rupiah', 'system', current]);
+        tx.executeSql(insertCurrencies, ['eba61b8f-2f9e-4520-9dc4-currency2', 'USD', 'US Dollar', 'system', current]);
+        tx.executeSql(insertCurrencies, ['eba61b8f-2f9e-4520-9dc4-currency3', 'xxxx', 'system', current]);
+      }).then((result) => {
+        resolve('Insert sample data is success');
+      }).catch((error) => {
+        reject(error);
+      });
     });
   }
+
 }

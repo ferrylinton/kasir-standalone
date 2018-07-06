@@ -55,13 +55,13 @@ export class LoginPage {
   }
 
   private initDB(): void{
-    //let loading = this.loadingCtrl.create({ content: this.CHECKING_DB });
-    //loading.present();
+    let loading = this.loadingCtrl.create({ content: this.CHECKING_DB });
+    loading.present();
 
-    //this.tableProvider.createTables().subscribe(result => {
-    //  loading.dismiss();
-    //});
-    this.schemaProvider.createTables();
+    this.schemaProvider.initDB().subscribe(result => {
+      console.log('LoginPage -> initDB :: ' + JSON.stringify(result));
+      loading.dismiss();
+    });
   }
 
   private showMessage(txt: string): void {
