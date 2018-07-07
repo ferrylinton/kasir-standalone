@@ -1,6 +1,4 @@
 import { SQLite } from "@ionic-native/sqlite";
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
 
 export abstract class BaseDb {
 

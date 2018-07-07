@@ -52,7 +52,7 @@ export class SQLiteObject {
 export class SQLiteMock {
 
   public create(config: SQLiteDatabaseConfig): Promise<SQLiteObject> {
-    var db = (<any>window).openDatabase(config.name, '', 'mock SQLite with WebSql', 2 * 1024 * 1024);
+    var db = (<any>window).openDatabase(config.name, '', 'mock SQLite with WebSql', 50 * 1024 * 1024);
 
     return new Promise((resolve, reject) => {
       resolve(new SQLiteObject(db));
