@@ -25,9 +25,9 @@
       <span class="total">{{ 'TOTAL_LABEL' | translate:{length:page.data.length, total:page.totalData} }}</span>
     </ion-item>
     <ion-item ion-item *ngFor="let currency of page.data">
-      <h2>{{currency.name}}</h2>
-      <p>{{currency.description}}</p>
-      <p>{{currency.createdDate | date:'dd-MM-yyyy'}}</p>
+      <h2>{{ currency.name }}</h2>
+      <p>{{ currency.description }}</p>
+      <p>{{ currency.createdDate | datetime }}</p>
       <button ion-button outline item-end (click)="view(currency)">{{ 'VIEW' | translate}}</button>
     </ion-item>
   </ion-list>

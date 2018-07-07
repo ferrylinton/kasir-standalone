@@ -29,4 +29,13 @@ export abstract class BaseDb {
         });
     }
 
+    executeSql(db: any, query: string, params: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            db.executeSql(query, params).then((data) => {
+                resolve(data);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
 }

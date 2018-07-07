@@ -30,7 +30,7 @@ import { LoginProviderImpl } from '../providers/mock/login-impl';
 import { AuthorityProviderImpl } from '../providers/mock/authority-impl';
 import { RoleProviderImpl } from '../providers/mock/role-impl';
 import { UserProviderImpl } from '../providers/mock/user-impl';
-import { CategoryProviderImpl } from '../providers/mock/category-impl';
+import { CategoryProviderImpl } from '../providers/sqlite/category-impl';
 import { ProductProviderImpl } from '../providers/mock/product-impl';
 import { OrderProviderImpl } from '../providers/mock/order-impl';
 import { CurrencyProviderImpl } from '../providers/sqlite/currency-impl';
