@@ -56,9 +56,11 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
   }
 
   private executeSqlCountByCategory(db: any, category: string, pageable: Pageable): Promise<any> {
-    let query = 'SELECT count(1) as total FROM mst_product where category_name = ? ';
+    let query1 = 'SELECT count(1) as total FROM mst_product';
+    let query2 = 'SELECT count(1) as total FROM mst_product where category_name = ? ';
+
     return new Promise((resolve, reject) => {
-      db.executeSql(query, [category]).then((data) => {
+      db.executeSql(category == '' ?  query1 : query2, category == '' ? [] : [category]).then((data) => {
         pageable.totalData = data.rows.item(0)['total']
         resolve({ db: db, pageable: pageable });
       }).catch((error) => {
@@ -90,13 +92,18 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
   }
 
   private executeSqlFindByCategory(db: any, category: string, pageable: Pageable): Promise<Page<Product>> {
-    let query = 'SELECT * FROM mst_product where category_name LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
-    return new Promise((resolve, reject) => {
-      let limit: number = pageable.size;
-      let offset: number = (pageable.pageNumber - 1) * pageable.size;
-      let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
+    let limit: number = pageable.size;
+    let offset: number = (pageable.pageNumber - 1) * pageable.size;
+    let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
+    let query1 = 'SELECT * FROM mst_product ORDER BY ? LIMIT ? OFFSET ? ';
+    let query2 = 'SELECT * FROM mst_product where category_name = ? ORDER BY ? LIMIT ? OFFSET ? ';
+    let params1 = [orderBy, limit, offset];
+    let params2 = [category, orderBy, limit, offset];
 
-      db.executeSql(query, [name, orderBy, limit, offset]).then((data) => {
+    return new Promise((resolve, reject) => {
+      
+
+      db.executeSql(category == '' ?  query1 : query2, category == '' ?  params1 : params2).then((data) => {
         let products: Array<Product> = new Array();
 
         for (let i: number = 0; i < data.rows.length; i++) {
