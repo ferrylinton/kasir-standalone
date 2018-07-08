@@ -41,7 +41,7 @@
     <ion-row>
       <ion-col class="detail-label">{{ 'ROLE' | translate }}</ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="user.role; else empty">
         <ion-col class="detail-value">{{ user.role }}</ion-col>
       </ion-row>
     <ion-row>

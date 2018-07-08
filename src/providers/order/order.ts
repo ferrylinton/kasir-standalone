@@ -9,6 +9,4 @@ export abstract class OrderProvider extends CrudProvider<Order> {
 
   abstract findByDate(date: Date, pageable: Pageable): Observable<Page<Order>>;
 
-  abstract findBetweenDate(startDate: Date, endDate: Date, pageable: Pageable): Observable<Page<Order>>;
-
 }

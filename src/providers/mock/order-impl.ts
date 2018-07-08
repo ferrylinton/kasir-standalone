@@ -32,14 +32,4 @@ export class OrderProviderImpl extends BaseProvider<Order> implements OrderProvi
     return of(this.getPage(datas, pageable));
   }
 
-  findBetweenDate(startDate: Date, endDate: Date, pageable: Pageable): Observable<Page<Order>> {
-    let datas: Array<Order> = this.util.filterBetweenDate(this.datas, 'createdDate', startDate, endDate);
-
-    if (pageable.sort != null) {
-      datas = this.util.sortObject(datas, pageable.sort);
-    }
-
-    return of(this.getPage(datas, pageable));
-  }
-
 }

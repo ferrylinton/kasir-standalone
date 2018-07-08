@@ -48,7 +48,7 @@ export class RoleProviderImpl extends BaseDb implements RoleProvider {
             role.authorities.push(data.rows.item(i)['authority_name'])
             roles.push(role);
             role = this.convertToRole(data.rows.item(i));
-          }else if(role['name'] != data.rows.item(i)['name']){
+          }else if(role['name'] == data.rows.item(i)['name']){
             role.authorities.push(data.rows.item(i)['authority_name'])
           }
         }

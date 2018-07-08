@@ -24,7 +24,9 @@ export class UserProviderImpl extends BaseDb implements UserProvider {
   }
 
   findByFullname(fullname: string, pageable: Pageable): Observable<Page<User>> {
-    throw new Error("Method not implemented.");
+    return fromPromise(this.connect()
+      .then(db => this.executeSqlCountByFullname(db, fullname, pageable))
+      .then(result => this.executeSqlFindByFullname(result.db, fullname, result.pageable)));
   }
 
   save(data: User): Observable<User> {
@@ -59,6 +61,42 @@ export class UserProviderImpl extends BaseDb implements UserProvider {
         }
         resolve(user);
         
+      }).catch((error) => {
+        reject(error);
+      });
+    })
+  }
+
+  private executeSqlCountByFullname(db: any, fullname: string, pageable: Pageable): Promise<any> {
+    let query = 'SELECT count(1) as total FROM mst_user where lower(fullname) LIKE ? ';
+    return new Promise((resolve, reject) => {
+      fullname = '%' + fullname.toLowerCase() + '%';
+
+      db.executeSql(query, [fullname]).then((data) => {
+        pageable.totalData = data.rows.item(0)['total']
+        resolve({ db: db, pageable: pageable });
+      }).catch((error) => {
+        reject(error);
+      });
+    })
+  }
+
+  private executeSqlFindByFullname(db: any, fullname: string, pageable: Pageable): Promise<Page<User>> {
+    let query = 'SELECT * FROM mst_user where lower(fullname) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
+    return new Promise((resolve, reject) => {
+      fullname = '%' + fullname.toLowerCase() + '%';
+      let limit: number = pageable.size;
+      let offset: number = (pageable.pageNumber - 1) * pageable.size;
+      let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
+
+      db.executeSql(query, [fullname, orderBy, limit, offset]).then((data) => {
+        let products: Array<User> = new Array();
+
+        for (let i: number = 0; i < data.rows.length; i++) {
+          products.push(this.convertToUser(data.rows.item(i)));
+        }
+
+        resolve(new Page(products, pageable.pageNumber, pageable.totalData, pageable.sort));
       }).catch((error) => {
         reject(error);
       });

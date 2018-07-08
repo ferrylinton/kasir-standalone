@@ -36,8 +36,7 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   }
 
   delete(id: string): Observable<Currency> {
-    return fromPromise(
-      this.connect().then(db => this.executeSqlDelete(db, id)));
+    return fromPromise(this.connect().then(db => this.executeSqlDelete(db, id)));
   }
 
   private executeSqlFindAll(db: any): Promise<Array<Currency>> {
