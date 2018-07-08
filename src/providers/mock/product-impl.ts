@@ -49,27 +49,4 @@ export class ProductProviderImpl extends BaseProvider<Product> implements Produc
     return of(this.getPage(datas, pageable));
   }
 
-  countByCategory(category: string): Observable<number> {
-    let datas: Array<Product> = this.utilProvider.filterObject(this.datas, 'category', category);
-    return of(datas.length);
-  }
-
-  findByCategoryAndName(category: string, name: string, pageable: Pageable): Observable<Page<Product>> {
-    let datas: Array<Product> = this.datas;
-
-    if (category && category.trim() != '') {
-      datas = this.utilProvider.filterObject(datas, 'category', category);
-    }
-    
-    if (name && name.trim() != '') {
-      datas = this.utilProvider.filterObject(datas, 'name', name);
-    }
-
-    if (pageable.sort != null) {
-      datas = this.utilProvider.sortObject(datas, pageable.sort);
-    }
-
-    return of(this.getPage(datas, pageable));
-  }
-
 }

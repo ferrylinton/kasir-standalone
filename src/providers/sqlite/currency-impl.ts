@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import { BaseDb } from '../db/base-db';
+import { BaseSQlite } from './base';
 import { CurrencyProvider } from '../../providers/currency/currency';
 import { Currency } from '../../models/currency.model';
 import { Pageable } from '../../models/pageable.model';
@@ -11,7 +11,7 @@ import { Page } from '../../models/page.model';
 
 
 @Injectable()
-export class CurrencyProviderImpl extends BaseDb implements CurrencyProvider {
+export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider {
 
   constructor(public sqlite: SQLite) {
     super(sqlite);

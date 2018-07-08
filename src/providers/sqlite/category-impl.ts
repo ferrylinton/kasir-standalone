@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import { BaseDb } from '../db/base-db';
+import { BaseSQlite } from './base';
 import { CategoryProvider } from '../../providers/category/category';
 import { Category } from '../../models/category.model';
 import { Pageable } from '../../models/pageable.model';
@@ -11,7 +11,7 @@ import { Page } from '../../models/page.model';
 
 
 @Injectable()
-export class CategoryProviderImpl extends BaseDb implements CategoryProvider {
+export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider {
 
   constructor(public sqlite: SQLite) {
     super(sqlite);
@@ -36,8 +36,7 @@ export class CategoryProviderImpl extends BaseDb implements CategoryProvider {
   }
 
   delete(id: string): Observable<Category> {
-    return fromPromise(
-      this.connect().then(db => this.executeSqlDelete(db, id)));
+    return fromPromise(this.connect().then(db => this.executeSqlDelete(db, id)));
   }
 
   private executeSqlFindAll(db: any): Promise<Array<Category>> {
@@ -103,7 +102,7 @@ export class CategoryProviderImpl extends BaseDb implements CategoryProvider {
   }
 
   private executeSqlUpdate(db: any, category: Category): Promise<any> {
-    let params = [category.name, category.description, category.image, category.createdBy, category.id];
+    let params = [category.name, category.description, category.image, category.lastModifiedBy, category.id];
     let query = `UPDATE mst_category SET 
     name = ?, 
     description = ?, 

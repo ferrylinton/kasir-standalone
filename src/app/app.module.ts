@@ -26,12 +26,11 @@ import { OrderProvider } from '../providers/order/order';
 import { CurrencyProvider } from '../providers/currency/currency';
 
 // Provider's Implementation
-import { LoginProviderImpl } from '../providers/mock/login-impl';
-import { AuthorityProviderImpl } from '../providers/mock/authority-impl';
-import { RoleProviderImpl } from '../providers/mock/role-impl';
-import { UserProviderImpl } from '../providers/mock/user-impl';
+import { AuthorityProviderImpl } from '../providers/sqlite/authority-impl';
+import { RoleProviderImpl } from '../providers/sqlite/role-impl';
+import { UserProviderImpl } from '../providers/sqlite/user-impl';
 import { CategoryProviderImpl } from '../providers/sqlite/category-impl';
-import { ProductProviderImpl } from '../providers/mock/product-impl';
+import { ProductProviderImpl } from '../providers/sqlite/product-impl';
 import { OrderProviderImpl } from '../providers/mock/order-impl';
 import { CurrencyProviderImpl } from '../providers/sqlite/currency-impl';
 
@@ -88,11 +87,11 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: AuthorityProvider, useClass: AuthorityProviderImpl },
     { provide: RoleProvider, useClass: RoleProviderImpl },
     { provide: UserProvider, useClass: UserProviderImpl },
-    { provide: LoginProvider, useClass: LoginProviderImpl },
     { provide: CategoryProvider, useClass: CategoryProviderImpl },
     { provide: ProductProvider, useClass: ProductProviderImpl },
     { provide: OrderProvider, useClass: OrderProviderImpl },
     { provide: CurrencyProvider, useClass: CurrencyProviderImpl },
+    LoginProvider,
     DataProvider,
     UtilProvider,
     SettingProvider,

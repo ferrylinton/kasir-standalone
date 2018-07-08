@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BaseDb } from '../db/base-db';
 import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
+
+import { BaseSQlite } from './base';
 import { DEFAULT_IMAGE } from '../../constant/constant';
 
 
 @Injectable()
-export class SchemaProvider extends BaseDb {
+export class SchemaProvider extends BaseSQlite {
 
   private readonly DROP_AUTHORITY = 'DROP TABLE IF EXISTS mst_authority';
   private readonly CREATE_AUTHORITY = `CREATE TABLE IF NOT EXISTS mst_authority(
@@ -28,8 +29,8 @@ export class SchemaProvider extends BaseDb {
 
   private readonly DROP_ROLE_AUTHORITY = 'DROP TABLE IF EXISTS mst_role_authority';
   private readonly CREATE_ROLE_AUTHORITY = `CREATE TABLE IF NOT EXISTS mst_role_authority (
-                                        role_id VARCHAR(40) NOT NULL REFERENCES mst_role(id),
-                                        authority_id VARCHAR(40) NOT NULL REFERENCES mst_authority(id)
+                                        role_name VARCHAR(40) NOT NULL REFERENCES mst_role(name),
+                                        authority_name VARCHAR(40) NOT NULL REFERENCES mst_authority(name)
                                       )`;
 
   private readonly DROP_USER = 'DROP TABLE IF EXISTS mst_user';
@@ -38,7 +39,7 @@ export class SchemaProvider extends BaseDb {
                                       username VARCHAR(30) NOT NULL UNIQUE, 
                                       password VARCHAR(50) NOT NULL, 
                                       fullname VARCHAR(150) NOT NULL, 
-                                      role_id VARCHAR(40) REFERENCES mst_role(id),
+                                      role_name VARCHAR(40) REFERENCES mst_role(name),
                                       activated BOOLEAN NOT NULL DEFAULT true,
                                       image BLOB,
                                       created_by VARCHAR(30),
@@ -77,7 +78,7 @@ export class SchemaProvider extends BaseDb {
                                       description VARCHAR(250) NOT NULL, 
                                       price DECIMAL NOT NULL, 
                                       image BLOB, 
-                                      category_id VARCHAR(40) NOT NULL REFERENCES mst_category(id),
+                                      category_name VARCHAR(40) NOT NULL REFERENCES mst_category(name),
                                       created_by VARCHAR(30),
                                       created_date DATE,
                                       last_modified_by VARCHAR(30),
@@ -100,7 +101,7 @@ export class SchemaProvider extends BaseDb {
   private readonly CREATE_ITEM = `CREATE TABLE IF NOT EXISTS trx_item (
                                     id VARCHAR(40) PRIMARY KEY, 
                                     quantity INTEGER NOT NULL, 
-                                    product_id VARCHAR(40) NOT NULL REFERENCES mst_product(id),
+                                    product_name VARCHAR(40) NOT NULL REFERENCES mst_product(name),
                                     order_id VARCHAR(40) NOT NULL REFERENCES trx_order(id)
                                   )`;
 
@@ -162,7 +163,7 @@ export class SchemaProvider extends BaseDb {
       db.transaction((tx) => {
        
         let insertUser: string = `INSERT INTO  
-          mst_user(id, username, password, fullname, role_id, activated, image, created_by, created_date)
+          mst_user(id, username, password, fullname, role_name, activated, image, created_by, created_date)
           values(?, ?, ?, ?, ?, ?, ?, 'system', datetime('now','localtime'))`;
         tx.executeSql(insertUser, ['user-0000-0000-0000-000', 'system', 'password', 'system', null, true, DEFAULT_IMAGE]);
 
@@ -175,8 +176,8 @@ export class SchemaProvider extends BaseDb {
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-004', 'ROLE_CHANGE', 'Change Role Data']);
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-005', 'USER_VIEW', 'View User Data']);
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-006', 'USER_CHANGE', 'Change User Data']);
-        tx.executeSql(insertAuthority, ['authority-0000-0000-0000-007', 'MENU_VIEW', 'View Menu Data']);
-        tx.executeSql(insertAuthority, ['authority-0000-0000-0000-008', 'MENU_CHANGE', 'Change Menu Data']);
+        tx.executeSql(insertAuthority, ['authority-0000-0000-0000-007', 'CURRENCY_VIEW', 'View Currency Data']);
+        tx.executeSql(insertAuthority, ['authority-0000-0000-0000-008', 'CURRENCY_CHANGE', 'Change Currency Data']);
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-009', 'CATEGORY_VIEW', 'View Category Data']);
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-010', 'CATEGORY_CHANGE', 'Change Category Data']);
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-011', 'PRODUCT_VIEW', 'View Product Data']);
@@ -187,85 +188,67 @@ export class SchemaProvider extends BaseDb {
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-016', 'SETTING_CHANGE', 'Change Setting Data']);
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-017', 'DATABASE_VIEW', 'View DB Data']);
         tx.executeSql(insertAuthority, ['authority-0000-0000-0000-018', 'DATABASE_CHANGE', 'Change DB Data']);
-        tx.executeSql(insertAuthority, ['authority-0000-0000-0000-019', 'CURRENCY_VIEW', 'View Currency Data']);
-        tx.executeSql(insertAuthority, ['authority-0000-0000-0000-020', 'CURRENCY_CHANGE', 'Change Currency Data']);
+        
 
         let insertRole: string = `INSERT INTO 
           mst_role (id, name, description, created_by, created_date) 
           values(?, ?, ?, 'system', datetime('now','localtime'))`;
-        tx.executeSql(insertRole, ['role-0000-0000-0000-001', 'Admin', 'Role as Admin']);
-        tx.executeSql(insertRole, ['role-0000-0000-0000-002', 'Manager', 'Role as Manager']);
-        tx.executeSql(insertRole, ['role-0000-0000-0000-003', 'Employee', 'Role as Employee']);
+        tx.executeSql(insertRole, ['role-0000-0000-0000-001', 'ADMIN', 'Role as Admin']);
+        tx.executeSql(insertRole, ['role-0000-0000-0000-002', 'MANAGER', 'Role as Manager']);
+        tx.executeSql(insertRole, ['role-0000-0000-0000-003', 'EMPLOYEE', 'Role as Employee']);
 
         let insertRoleAuthority: string = `INSERT INTO 
-          mst_role_authority (role_id, authority_id) 
+          mst_role_authority (role_name, authority_name) 
           values(?, ?)`;
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-001']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-002']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-003']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-004']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-005']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-006']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-007']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-008']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-009']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-009']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-011']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-012']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-013']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-014']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-015']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-016']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-017']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-018']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-019']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-020']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'BASIC_AUTHORITY']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'AUTHORITY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'ROLE_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'ROLE_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'USER_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'USER_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'CATEGORY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'CATEGORY_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'PRODUCT_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'PRODUCT_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'SETTING_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'SETTING_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'DATABASE_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'DATABASE_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'CURRENCY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['ADMIN', 'CURRENCY_CHANGE']);
 
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-001']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-002']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-003']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-004']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-005']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-006']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-007']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-008']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-009']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-009']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-011']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-012']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-013']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-014']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-015']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-016']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-017']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-018']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-019']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-002', 'authority-0000-0000-0000-020']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'BASIC_AUTHORITY']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'AUTHORITY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'ROLE_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'ROLE_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'USER_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'USER_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'CATEGORY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'CATEGORY_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'PRODUCT_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'PRODUCT_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'ORDER_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'ORDER_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'SETTING_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'SETTING_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'CURRENCY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['MANAGER', 'CURRENCY_CHANGE']);
 
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-001']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-002']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-003']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-004']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-005']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-006']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-007']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-008']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-009']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-009']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-011']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-012']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-013']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-014']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-015']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-016']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-017']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-018']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-019']);
-        tx.executeSql(insertRoleAuthority, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-020']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'BASIC_AUTHORITY']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'AUTHORITY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'ROLE_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'USER_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'CATEGORY_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'PRODUCT_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'ORDER_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'ORDER_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'SETTING_VIEW']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'SETTING_CHANGE']);
+        tx.executeSql(insertRoleAuthority, ['EMPLOYEE', 'CURRENCY_VIEW']);
 
-        tx.executeSql(insertUser, ['user-0000-0000-0000-001', 'admin', 'password', 'Admin', 'role-0000-0000-0000-001', true, DEFAULT_IMAGE]);
-        tx.executeSql(insertUser, ['user-0000-0000-0000-002', 'manager', 'password', 'Manager', 'role-0000-0000-0000-001', true, DEFAULT_IMAGE]);
-        tx.executeSql(insertUser, ['user-0000-0000-0000-003', 'employee', 'password', 'Employee', 'role-0000-0000-0000-001', true, DEFAULT_IMAGE]);
+        tx.executeSql(insertUser, ['user-0000-0000-0000-001', 'admin', 'password', 'Admin', 'ADMIN', true, DEFAULT_IMAGE]);
+        tx.executeSql(insertUser, ['user-0000-0000-0000-002', 'manager', 'password', 'Manager', 'MANAGER', true, DEFAULT_IMAGE]);
+        tx.executeSql(insertUser, ['user-0000-0000-0000-003', 'employee', 'password', 'Employee', 'EMPLOYEE', true, DEFAULT_IMAGE]);
 
         let insertCurrency: String = `INSERT INTO 
         mst_currency(id, name, description, created_by, created_date) 
@@ -293,9 +276,9 @@ export class SchemaProvider extends BaseDb {
         // tx.executeSql(insertCategory, ['category-0000-0000-0000-015', 'Category 015', 'Category description 015', DEFAULT_IMAGE]);
         
         let insertProduct: String = `INSERT INTO 
-        mst_product(id, name, description, price, image, category_id, created_by, created_date) 
+        mst_product(id, name, description, price, image, category_name, created_by, created_date) 
         VALUES (?, ?, ?, ?, ?, ?, 'system', datetime('now','localtime'))`;
-        tx.executeSql(insertProduct, ['product-0000-0000-0000-001', 'Product 001', 'Product description 015', 150000, DEFAULT_IMAGE, 'category-0000-0000-0000-001']);
+        tx.executeSql(insertProduct, ['product-0000-0000-0000-001', 'Product 001', 'Product description 015', 150000, DEFAULT_IMAGE, 'Category 001']);
 
       }).then((result) => {
         resolve('Insert sample data is success');

@@ -38,16 +38,7 @@ export class CategoryProviderImpl extends BaseProvider<Category> implements Cate
   }
 
   findAll(): Observable<Array<Category>> {
-    for (let i = 0; i < this.datas.length; i++) {
-      this.productProvider.countByCategory(this.datas[i].name).subscribe(total => {
-        this.datas[i].products = total;
-      });
-    }
-
-    return of(this.datas.map(function (category, index, array) {
-      return category;
-
-    }));
+    return of(this.datas);
   }
 
 }

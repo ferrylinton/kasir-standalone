@@ -10,8 +10,4 @@ export abstract class ProductProvider extends CrudProvider<Product> {
 
   abstract findByCategory(category:string, pageable: Pageable): Observable<Page<Product>>;
 
-  abstract countByCategory(category:string): Observable<number>;
-
-  abstract findByCategoryAndName(category:string, name: string, pageable: Pageable): Observable<Page<Product>>;
-
 }
