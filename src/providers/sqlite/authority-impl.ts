@@ -17,41 +17,16 @@ export class AuthorityProviderImpl extends BaseSQlite implements AuthorityProvid
   }
   
   findAll(): Observable<Authority[]> {
-    return fromPromise(this.connect().then(db => this.executeSqlFindAll(db)));
+    return fromPromise(this.connect().then(() => this.executeSqlFindAll()));
   }
 
-  findByRole(role: string): Observable<string[]> {
-    return fromPromise(this.connect().then(db => this.executeSqlFindByRole(db, role)));
-  }
-
-  private executeSqlFindAll(db: any): Promise<Array<Authority>> {
+  private executeSqlFindAll(): Promise<Array<Authority>> {
     return new Promise((resolve, reject) => {
-      db.executeSql(AUTHORITY.FIND_ALL, []).then((data) => {
+      this.db.executeSql(AUTHORITY.FIND_ALL, []).then((data) => {
         let authorities: Array<Authority> = new Array();
 
         for (let i: number = 0; i < data.rows.length; i++) {
           authorities.push(this.convertToAuthority(data.rows.item(i)));
-        }
-
-        resolve(authorities);
-      }).catch((error) => {
-        reject(error);
-      })
-    });
-  }
-
-  private executeSqlFindByRole(db: any, role: string): Promise<Array<string>> {
-    let query = `SELECT aut.name 
-    FROM m_authority aut
-    LEFT JOIN m_role_authority rol ON aut.name = rol.authority_name 
-    WHERE rol.role_name = ? `;
-
-    return new Promise((resolve, reject) => {
-      db.executeSql(query, [role]).then((data) => {
-        let authorities: Array<string> = new Array();
-
-        for (let i: number = 0; i < data.rows.length; i++) {
-          authorities.push(data.rows.item(i)['name']);
         }
 
         resolve(authorities);

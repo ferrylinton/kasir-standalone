@@ -3,82 +3,59 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import { BaseDb } from '../db/base-db';
+import * as ORDER from '../../constant/query-order';
+import * as ORDER_ITEM from '../../constant/query-order-item';
+import { BaseSQlite } from './base';
 import { OrderProvider } from '../order/order';
 import { Order } from '../../models/order.model';
+import { OrderItem } from '../../models/order-item.model';
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
-import { Item } from '../../models/item.model';
+import { Product } from '../../models/product.model';
+import { Category } from '../../models/category.model';
 
 
 @Injectable()
-export class OrderProviderImpl extends BaseDb implements OrderProvider {
-
-  private FIND_BY_DATE: string = `SELECT ord.*, itm.quantity, itm.product_name 
-                                    FROM t_order ord
-                                    LEFT JOIN t_item itm ON ord.id = itm.order_id
-                                    WHERE date(ord.created_date) = date(?)`;
-
-  private COUNT_BY_DATE: string = `SELECT count(1) as total FROM t_order where date(created_date) = date(?)`;
-
-  private INSERT_ORDER: string = `INSERT INTO 
-                                    t_order (id, transaction_number, paid, canceled, created_by, created_date) 
-                                    VALUES (?, ?, ?, ?, ?, datetime('now','localtime'))`;
-
-  private UPDATE_ORDER: string = `UPDATE t_order SET
-                                    transaction_number = ?, 
-                                    paid = ?,
-                                    canceled = ?, 
-                                    last_modified_by = ?, 
-                                    last_modified_date = datetime('now','localtime') 
-                                    WHERE id = ?`;
-
-  private DELETE_ORDER: string = 'DELETE FROM t_order WHERE id=?';
-
-  private INSERT_ORDER_ITEM: string = `INSERT INTO 
-                                        t_item (id, quantity, product_id, order_id)
-                                        VALUES (?, ?, ?, ?)`;
-
-  private DELETE_ORDER_ITEM: string = 'DELETE FROM t_item WHERE order_id=?';
+export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
 
   constructor(public sqlite: SQLite) {
     super(sqlite);
   }
 
   findByDate(date: Date, pageable: Pageable): Observable<Page<Order>> {
-    throw new Error("Method not implemented.");
+    return fromPromise(this.connect()
+      .then(() => this.executeSqlCountByDate(name, pageable))
+      .then(pageable => this.executeSqlFindByDate(name, pageable)));
   }
 
-  save(data: Order): Observable<Order> {
-    return fromPromise(this.connect().then(db => this.executeSqlSave(db, data)));
+  save(order: Order): Observable<Order> {
+    return fromPromise(this.connect().then(db => this.executeSqlSave(order)));
   }
 
   update(data: Order): Observable<Order> {
-    return fromPromise(this.connect().then(db => this.executeSqlUpdate(db, data)));
+    return fromPromise(this.connect().then(() => this.executeSqlUpdate(data)));
   }
 
   delete(id: any): Observable<any> {
-    return fromPromise(this.connect().then(db => this.executeSqlDelete(db, id)));
+    return fromPromise(this.connect().then(() => this.executeSqlDelete(id)));
   }
 
-  private executeSqlCountByDate(db: any, date: Date, pageable: Pageable): Promise<any> {
+  private executeSqlCountByDate(date: Date, pageable: Pageable): Promise<any> {
     return new Promise((resolve, reject) => {
-      db.executeSql(this.COUNT_BY_DATE, [date]).then((data) => {
+      this.db.executeSql(ORDER.COUNT_BY_DATE, [date]).then((data) => {
         pageable.totalData = data.rows.item(0)['total']
-        resolve({ db: db, pageable: pageable });
+        resolve(pageable);
       }).catch((error) => {
         reject(error);
       });
     })
   }
 
-  private executeSqlFindByDate(db: any, date: Date, pageable: Pageable): Promise<Page<Order>> {
-    return new Promise((resolve, reject) => {
-      let limit: number = pageable.size;
-      let offset: number = (pageable.pageNumber - 1) * pageable.size;
-      let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
+  private executeSqlFindByDate(date: Date, pageable: Pageable): Promise<Page<Order>> {
+    let params = this.createParams([date], pageable);
 
-      db.executeSql(this.FIND_BY_DATE, [date, orderBy, limit, offset]).then((data) => {
+    return new Promise((resolve, reject) => {
+      this.db.executeSql(ORDER.FIND_BY_DATE, params).then((data) => {
         let orders: Array<Order> = new Array();
         let order: Order;
 
@@ -104,18 +81,20 @@ export class OrderProviderImpl extends BaseDb implements OrderProvider {
     })
   }
 
-  private executeSqlSave(db: any, order: Order): Promise<any> {
+  private executeSqlSave(order: Order): Promise<any> {
     let params = [order.id, order.transactionNumber, order.paid, order.canceled, order.createdBy];
+    
     return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
+      this.db.transaction((tx) => {
 
-        tx.executeSql(this.DELETE_ORDER_ITEM, [order.id]);
+        // insert new order item
         for(let i:number=0; i<order.items.length; i++){
-          let item: Item = order.items[i];
-          tx.executeSql(this.INSERT_ORDER_ITEM, [item.id, item.quantity, item.product, order.id]);
+          let item: OrderItem = order.items[i];
+          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.id]);
         }
 
-        tx.executeSql(this.INSERT_ORDER, [order.id, order.transactionNumber, order.paid, order.canceled, order.createdBy]);
+        // insert new order
+        tx.executeSql(ORDER.INSERT, [order.id, order.transactionNumber, order.paid, order.canceled, order.createdBy]);
 
       }).then((result) => {
         resolve('Order [' + order.id + '] is deleted successfully');
@@ -125,17 +104,21 @@ export class OrderProviderImpl extends BaseDb implements OrderProvider {
     });
   }
 
-  private executeSqlUpdate(db: any, order: Order): Promise<any> {
+  private executeSqlUpdate(order: Order): Promise<any> {
     return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
+      this.db.transaction((tx) => {
 
-        tx.executeSql(this.DELETE_ORDER_ITEM, [order.id]);
+        // delete current order item
+        tx.executeSql(ORDER_ITEM.DELETE, [order.id]);
+
+        // insert new order item
         for(let i:number=0; i<order.items.length; i++){
-          let item: Item = order.items[i];
-          tx.executeSql(this.INSERT_ORDER_ITEM, [item.id, item.quantity, item.product, order.id]);
+          let item: OrderItem = order.items[i];
+          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.id]);
         }
 
-        tx.executeSql(this.UPDATE_ORDER, [order.transactionNumber, order.paid, order.canceled, order.lastModifiedBy, order.id]);
+        // update order
+        tx.executeSql(ORDER.UPDATE, [order.transactionNumber, order.paid, order.canceled, order.lastModifiedBy, order.id]);
 
       }).then((result) => {
         resolve('Order [' + order.id + '] is deleted successfully');
@@ -145,12 +128,15 @@ export class OrderProviderImpl extends BaseDb implements OrderProvider {
     });
   }
 
-  private executeSqlDelete(db: any, id: String): Promise<any> {
+  private executeSqlDelete(id: String): Promise<any> {
     return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
+      this.db.transaction((tx) => {
 
-        tx.executeSql(this.DELETE_ORDER_ITEM, [id]);
-        tx.executeSql(this.DELETE_ORDER, [id]);
+        // delete current order item
+        tx.executeSql(ORDER_ITEM.DELETE, [id]);
+
+        // delete current order
+        tx.executeSql(ORDER.DELETE, [id]);
 
       }).then((result) => {
         resolve('Order [' + id + '] is deleted successfully');
@@ -174,12 +160,40 @@ export class OrderProviderImpl extends BaseDb implements OrderProvider {
     );
   }
 
-  private convertToItem(item: any): Item {
-    return new Item(
+  private convertToItem(item: any): OrderItem {
+    return new OrderItem(
       item['id'],
-      item['product_name'],
-      item['quantity']
+      item['quantity'],
+      item['price'],
+      this.convertToProduct(item)
     );
   }
 
+  private convertToProduct(item: any): Product {
+    return new Product(
+      item['id'],
+      item['name'],
+      item['description'],
+      item['price'],
+      item['image'],
+      this.convertToCategory(item),
+      item['created_by'],
+      item['created_date'],
+      item['last_modified_by'],
+      item['last_modified_date']
+    );
+  }
+
+  private convertToCategory(item: any): Category {
+    return new Category(
+      item['category_id'],
+      item['category_name'],
+      item['category_description'],
+      item['category_image'],
+      item['category_created_by'],
+      item['category_created_date'],
+      item['category_last_modified_by'],
+      item['category_last_modified_date']
+    );
+  }
 }

@@ -28,5 +28,30 @@ export const UPDATE =
     last_modified_date = datetime('now','localtime')
 WHERE id = ?`;
 
+export const FIND_ALL = 
+`SELECT 
+    cat.id as category_id,
+    cat.name as category_name,
+    cat.description as category_description,
+    cat.image as category_image,
+    cat.created_by as category_created_by,
+    cat.created_date as category_created_date,
+    cat.last_modified_by as category_last_modified_by,
+    cat.last_modified_date as category_last_modified_date
+FROM m_category cat `
+
 export const FIND_BY_NAME = 
-``
+`SELECT 
+    cat.id as category_id,
+    cat.name as category_name,
+    cat.description as category_description,
+    cat.image as category_image,
+    cat.created_by as category_created_by,
+    cat.created_date as category_created_date,
+    cat.last_modified_by as category_last_modified_by,
+    cat.last_modified_date as category_last_modified_date
+FROM m_category cat
+WHERE lower(name) LIKE ? 
+ORDER BY ? LIMIT ? OFFSET ? `
+
+export const COUNT_BY_NAME = `SELECT count(1) as total FROM m_category where lower(name) LIKE ?`;

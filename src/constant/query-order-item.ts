@@ -5,12 +5,13 @@ export const CREATE_TABLE =
     id VARCHAR(40) PRIMARY KEY, 
     order_id VARCHAR(40) NOT NULL REFERENCES t_order(id),
     product_id VARCHAR(40) NOT NULL REFERENCES m_product(id),
-    product_quantity INTEGER NOT NULL, 
-    product_name VARCHAR(40) NOT NULL,
-    product_price VARCHAR(40) NOT NULL
+    quantity INTEGER NOT NULL, 
+    price DECIMAL NOT NULL
 )`;
+
+export const DELETE = `DELETE FROM t_order_item WHERE order_id = ?`;
 
 export const INSERT = 
 `INSERT INTO 
-    t_order_item(id, order_id, product_id, product_quantity, product_name, product_price) 
-    VALUES (?, ?, ?, ?, ?, ?)`;
+    t_order_item(id, order_id, product_id, quantity, price) 
+    VALUES (?, ?, ?, ?, ?)`;

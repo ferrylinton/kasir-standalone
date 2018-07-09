@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
 import * as USER from '../../constant/query-user';
-import { BaseDb } from '../db/base-db';
+import { BaseSQlite } from './base';
 import { UserProvider } from '../user/user';
 import { User } from '../../models/user.model';
 import { Pageable } from '../../models/pageable.model';
@@ -13,9 +13,8 @@ import { Role } from '../../models/role.model';
 import { Authority } from '../../models/authority.model';
 
 
-
 @Injectable()
-export class UserProviderImpl extends BaseDb implements UserProvider {
+export class UserProviderImpl extends BaseSQlite implements UserProvider {
 
   constructor(public sqlite: SQLite) {
     super(sqlite);
@@ -23,33 +22,33 @@ export class UserProviderImpl extends BaseDb implements UserProvider {
   
   findByUsername(username: string): Observable<User> {
     return fromPromise(this.connect()
-    .then(db => this.executeSqlFindByUsername(db, username)));
+    .then(() => this.executeSqlFindByUsername(username)));
   }
 
   findByFullname(fullname: string, pageable: Pageable): Observable<Page<User>> {
     return fromPromise(this.connect()
-      .then(db => this.executeSqlCountByFullname(db, fullname, pageable))
-      .then(result => this.executeSqlFindByFullname(result.db, fullname, result.pageable)));
+      .then(() => this.executeSqlCountByFullname(fullname, pageable))
+      .then(pageable => this.executeSqlFindByFullname(fullname, pageable)));
   }
 
   save(user: User): Observable<User> {
     let params = [user.id, user.username, user.password, user.fullname, user.role, user.activated, user.image, user.createdBy];
-    return fromPromise(this.connect().then(db => this.executeSql(db, USER.INSERT, params)));
+    return fromPromise(this.connect().then(() => this.executeSql(USER.INSERT, params)));
   }
 
   update(user: User): Observable<User> {
     let params = [user.username, user.password, user.fullname, user.role, user.activated, user.image, user.lastModifiedBy, user.id];
-    return fromPromise(this.connect().then(db => this.executeSql(db, USER.UPDATE, params)));
+    return fromPromise(this.connect().then(() => this.executeSql(USER.UPDATE, params)));
   }
 
   delete(id: any): Observable<any> {
-    return fromPromise(this.connect().then(db => this.executeSql(db, USER.DELETE, [id])));
+    return fromPromise(this.connect().then(() => this.executeSql(USER.DELETE, [id])));
   }
  
-  private executeSqlFindByUsername(db: any, username: string): Promise<User> {
+  private executeSqlFindByUsername(username: string): Promise<User> {
     return new Promise((resolve, reject) => {
       
-      db.executeSql(USER.FIND_BY_USERNAME, [username]).then((data) => {
+      this.db.executeSql(USER.FIND_BY_USERNAME, [username]).then((data) => {
         let user: User;
 
         for (let i: number = 0; i < data.rows.length; i++) {
@@ -57,44 +56,36 @@ export class UserProviderImpl extends BaseDb implements UserProvider {
             user = this.convertToUser(data.rows.item(0));
             user.role = this.convertToRole(data.rows.item(0));
           }
-          
           user.role.authorities.push(this.convertToAuthority(data.rows.item(0)))
         }
+
         resolve(user);
-        
       }).catch((error) => {
         reject(error);
       });
     })
   }
 
-  private executeSqlCountByFullname(db: any, fullname: string, pageable: Pageable): Promise<any> {
+  private executeSqlCountByFullname(fullname: string, pageable: Pageable): Promise<any> {
     return new Promise((resolve, reject) => {
-      fullname = '%' + fullname.toLowerCase() + '%';
-
-      db.executeSql(USER.COUNT_BY_FULLNAME, [fullname]).then((data) => {
+      this.db.executeSql(USER.COUNT_BY_FULLNAME, ['%' + fullname.toLowerCase() + '%']).then((data) => {
         pageable.totalData = data.rows.item(0)['total']
-        resolve({ db: db, pageable: pageable });
+        resolve(pageable);
       }).catch((error) => {
         reject(error);
       });
     })
   }
 
-  private executeSqlFindByFullname(db: any, fullname: string, pageable: Pageable): Promise<Page<User>> {
+  private executeSqlFindByFullname(fullname: string, pageable: Pageable): Promise<Page<User>> {
     return new Promise((resolve, reject) => {
-      fullname = '%' + fullname.toLowerCase() + '%';
-      let limit: number = pageable.size;
-      let offset: number = (pageable.pageNumber - 1) * pageable.size;
-      let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
+      let params = this.createParams(['%' + fullname.toLowerCase() + '%'], pageable);
 
-      db.executeSql(USER.FIND_BY_FULLNAME, [fullname, orderBy, limit, offset]).then((data) => {
+      this.db.executeSql(USER.FIND_BY_FULLNAME, params).then((data) => {
         let users: Array<User> = new Array();
         let user: User;
 
         for (let i: number = 0; i < data.rows.length; i++) {
-          users.push(this.convertToUser(data.rows.item(i)));
-
           if(!user){
             user = this.convertToUser(data.rows.item(i));
           }else if(user['id'] != data.rows.item(i)['id']){

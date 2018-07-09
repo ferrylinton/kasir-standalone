@@ -1,4 +1,5 @@
 import { Audit } from './audit.model';
+import { Category } from './category.model';
 
 
 export class Product implements Audit{
@@ -15,7 +16,7 @@ export class Product implements Audit{
         
         public image?: string, 
         
-        public category?: string,
+        public category?: Category,
     
         public createdBy?: string,
 

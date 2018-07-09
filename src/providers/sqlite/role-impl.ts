@@ -4,26 +4,26 @@ import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
 import * as ROLE from '../../constant/query-role';
-import { BaseDb } from '../db/base-db';
+import { BaseSQlite } from './base';
 import { RoleProvider } from '../role/role';
 import { Role } from '../../models/role.model';
 import { Authority } from '../../models/authority.model';
 
 
 @Injectable()
-export class RoleProviderImpl extends BaseDb implements RoleProvider {
+export class RoleProviderImpl extends BaseSQlite implements RoleProvider {
 
   constructor(public sqlite: SQLite) {
     super(sqlite);
   }
   
   findAll(): Observable<Role[]> {
-    return fromPromise(this.connect().then(db => this.executeSqlFindAll(db)));
+    return fromPromise(this.connect().then(() => this.executeSqlFindAll()));
   }
 
-  private executeSqlFindAll(db: any): Promise<Array<Role>> {
+  private executeSqlFindAll(): Promise<Array<Role>> {
     return new Promise((resolve, reject) => {
-      db.executeSql(ROLE.FIND_ALL, []).then((data) => {
+      this.db.executeSql(ROLE.FIND_ALL, []).then((data) => {
         let roles: Array<Role> = new Array();
         let role: Role;
 
@@ -66,4 +66,5 @@ export class RoleProviderImpl extends BaseDb implements RoleProvider {
       item['authority_description']
     );
   }
+  
 }

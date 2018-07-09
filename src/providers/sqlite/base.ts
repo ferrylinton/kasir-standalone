@@ -1,4 +1,7 @@
 import { SQLite } from "@ionic-native/sqlite";
+import { Pageable } from "../../models/pageable.model";
+import { Base } from "../../models/base.model";
+import { Page } from "../../models/page.model";
 
 export abstract class BaseSQlite {
 
@@ -29,13 +32,22 @@ export abstract class BaseSQlite {
         });
     }
 
-    executeSql(db: any, query: string, params: any): Promise<any> {
+    executeSql(query: string, params: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            db.executeSql(query, params).then((data) => {
+            this.db.executeSql(query, params).then((data) => {
                 resolve(data);
             }).catch((error) => {
                 reject(error);
             });
         });
     }
+
+    createParams(params: Array<any>, pageable: Pageable) : Array<any>{
+        let limit: number = pageable.size;
+        let offset: number = (pageable.pageNumber - 1) * pageable.size;
+        let orderBy: string = pageable.sort.column + (pageable.sort.isAsc) ? ' ASC' : ' DESC';
+
+        return [...params, ...[orderBy, limit, offset]];
+    }
+
 }

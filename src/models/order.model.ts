@@ -1,5 +1,5 @@
 import { Audit } from './audit.model';
-import { Item } from './item.model';
+import { OrderItem } from './order-item.model';
 
 export class Order implements Audit {
 
@@ -9,7 +9,7 @@ export class Order implements Audit {
 
         public transactionNumber?: string,
 
-        public items?: Item[],
+        public items?: Array<OrderItem>,
 
         public paid?: boolean,
 

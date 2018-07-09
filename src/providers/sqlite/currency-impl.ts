@@ -3,6 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
+import * as CURRENCY from '../../constant/query-currency';
 import { BaseSQlite } from './base';
 import { CurrencyProvider } from '../../providers/currency/currency';
 import { Currency } from '../../models/currency.model';
@@ -18,108 +19,75 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   }
 
   findAll(): Observable<Array<Currency>> {
-    return fromPromise(this.connect().then(db => this.executeSqlFindAll(db)));
+    return fromPromise(this.connect().then(() => this.executeSqlFindAll()));
   }
 
   findByName(name: string, pageable: Pageable): Observable<Page<Currency>> {
     return fromPromise(this.connect()
-      .then(db => this.executeSqlCountByName(db, name, pageable))
-      .then(result => this.executeSqlFindByName(result.db, result.total, name, pageable)));
+      .then(() => this.executeSqlCountByName(name, pageable))
+      .then(pageable => this.executeSqlFindByName(name, pageable)));
   }
 
-  save(data: Currency): Observable<Currency> {
-    return fromPromise(this.connect().then(db => this.executeSqlSave(db, data)));
+  save(currency: Currency): Observable<Currency> {
+    let params = [currency.id, currency.name, currency.description, currency.createdBy];
+
+    return fromPromise(this.connect()
+      .then(() => this.executeSql(CURRENCY.INSERT, params)));
   }
 
-  update(data: Currency): Observable<Currency> {
-    return fromPromise(this.connect().then(db => this.executeSqlUpdate(db, data)));
+  update(currency: Currency): Observable<Currency> {
+    let params = [currency.name, currency.description, currency.lastModifiedBy, currency.id];
+    
+    return fromPromise(this.connect()
+      .then(() => this.executeSql(CURRENCY.UPDATE, params)));
   }
 
   delete(id: string): Observable<Currency> {
-    return fromPromise(this.connect().then(db => this.executeSqlDelete(db, id)));
+    return fromPromise(this.connect()
+      .then(() => this.executeSql(CURRENCY.DELETE, [id])));
   }
 
-  private executeSqlFindAll(db: any): Promise<Array<Currency>> {
-    let query = 'SELECT * FROM m_currency ORDER BY name';
-
+  private executeSqlFindAll(): Promise<Array<Currency>> {
     return new Promise((resolve, reject) => {
-      db.executeSql(query, []).then((data) => {
-        let currencies: Array<Currency> = new Array();
-
-        for (let i: number = 0; i < data.rows.length; i++) {
-          currencies.push(this.convertToCurrency(data.rows.item(i)));
-        }
-
-        resolve(currencies);
+      this.db.executeSql(CURRENCY.FIND_ALL, []).then((data) => {
+        resolve(this.convertToCurrencies(data));
       }).catch((error) => {
         reject(error);
-      })
+      });
     });
   }
 
-  private executeSqlCountByName(db: any, name: string, pageable: Pageable): Promise<any> {
-    let query = 'SELECT count(1) as total FROM m_currency where lower(name) LIKE ? ';
-
+  private executeSqlCountByName(name: string, pageable: Pageable): Promise<any> {
     return new Promise((resolve, reject) => {
-      name = '%' + name.toLowerCase() + '%';
-
-      db.executeSql(query, [name]).then((data) => {
-        resolve({ db: db, total: data.rows.item(0)['total'] });
+      this.db.executeSql(CURRENCY.COUNT_BY_NAME, ['%' + name.toLowerCase() + '%']).then((data) => {
+        pageable.totalData = data.rows.item(0)['total']
+        resolve(pageable);
       }).catch((error) => {
         reject(error);
       });
     })
   }
 
-  private executeSqlFindByName(db: any, total: number, name: string, pageable: Pageable): Promise<Page<Currency>> {
-    let query = 'SELECT * FROM m_currency where lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
-    
+  private executeSqlFindByName(name: string, pageable: Pageable): Promise<Page<Currency>> {
+    let params = this.createParams(['%' + name.toLowerCase() + '%'], pageable);
+
     return new Promise((resolve, reject) => {
-      name = '%' + name.toLowerCase() + '%';
-      let limit: number = pageable.size;
-      let offset: number = (pageable.pageNumber - 1) * pageable.size;
-      let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
-
-      db.executeSql(query, [name, orderBy, limit, offset]).then((data) => {
-        let currencies: Array<Currency> = new Array();
-
-        for (let i: number = 0; i < data.rows.length; i++) {
-          currencies.push(this.convertToCurrency(data.rows.item(i)));
-        }
-
-        resolve(new Page(currencies, pageable.pageNumber, total, pageable.sort));
+      this.db.executeSql(CURRENCY.FIND_BY_NAME, params).then((data) => {
+        resolve(new Page(this.convertToCurrencies(data), pageable.pageNumber, pageable.totalData, pageable.sort));
       }).catch((error) => {
         reject(error);
       });
     })
   }
 
-  private executeSqlSave(db: any, currency: Currency): Promise<any> {
-    let params = [currency.id, currency.name, currency.description, currency.createdBy];
-    let query = `INSERT INTO 
-    m_currency (id, name, description, created_by, created_date) 
-    VALUES (?, ?, ?, ?, datetime('now','localtime'))`;
-    
-    return this.executeSql(db, query, params);
-  }
+  private convertToCurrencies(data: any): Array<Currency> {
+    let currencies: Array<Currency> = new Array();
 
-  private executeSqlUpdate(db: any, currency: Currency): Promise<any> {
-    let params = [currency.name, currency.description, currency.lastModifiedBy, currency.id];
-    let query = `UPDATE m_currency SET
-    name = ?, 
-    description = ?, 
-    last_modified_by = ?, 
-    last_modified_date = datetime('now','localtime') 
-    WHERE id = ?`;
+    for (let i: number = 0; i < data.rows.length; i++) {
+      currencies.push(this.convertToCurrency(data.rows.item(i)));
+    }
 
-    return this.executeSql(db, query, params);
-  }
-
-  private executeSqlDelete(db: any, id: String): Promise<any> {
-    let params = [id];
-    let query = 'DELETE FROM  m_currency WHERE id=?';
-    
-    return this.executeSql(db, query, params);
+    return currencies;
   }
 
   private convertToCurrency(item: any): Currency {
@@ -133,4 +101,5 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
       item['last_modified_date']
     );
   }
+
 }
