@@ -3,8 +3,8 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import * as ORDER from '../../constant/query-order';
-import * as ORDER_ITEM from '../../constant/query-order-item';
+import * as ORDER from './order-query';
+import * as ORDER_ITEM from './order-item-query';
 import { BaseSQlite } from './base';
 import { OrderProvider } from '../order/order';
 import { Order } from '../../models/order.model';

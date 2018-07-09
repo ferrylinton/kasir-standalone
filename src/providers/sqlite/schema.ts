@@ -3,15 +3,15 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseSQlite } from './base';
-import * as AUTHORITY from '../../constant/query-authority';
-import * as ROLE from '../../constant/query-role';
-import * as ROLE_AUTHORITY from '../../constant/query-role-authority';
-import * as USER from '../../constant/query-user';
-import * as CURRENCY from '../../constant/query-currency';
-import * as CATEGORY from '../../constant/query-category';
-import * as PRODUCT from '../../constant/query-product';
-import * as ORDER from '../../constant/query-order';
-import * as ORDER_ITEM from '../../constant/query-order-item';
+import * as AUTHORITY from './authority-query';
+import * as ROLE from './role-query';
+import * as ROLE_AUTHORITY from './role-authority-query';
+import * as USER from './user-query';
+import * as CURRENCY from './currency-query';
+import * as CATEGORY from './category-query';
+import * as PRODUCT from './product-query';
+import * as ORDER from './order-query';
+import * as ORDER_ITEM from './order-item-query';
 import { DEFAULT_IMAGE } from '../../constant/constant';
 import { DEFAULT_USER } from '../../constant/user-image';
 

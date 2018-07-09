@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import * as CURRENCY from '../../constant/query-currency';
+import * as CURRENCY from './currency-query';
 import { BaseSQlite } from './base';
 import { CurrencyProvider } from '../../providers/currency/currency';
 import { Currency } from '../../models/currency.model';

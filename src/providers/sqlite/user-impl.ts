@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import * as USER from '../../constant/query-user';
+import * as USER from './user-query';
 import { BaseSQlite } from './base';
 import { UserProvider } from '../user/user';
 import { User } from '../../models/user.model';

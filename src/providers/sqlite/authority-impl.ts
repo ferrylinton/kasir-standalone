@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import * as AUTHORITY from '../../constant/query-authority';
+import * as AUTHORITY from './authority-query';
 import { BaseSQlite } from './base';
 import { AuthorityProvider } from '../authority/authority';
 import { Authority } from '../../models/authority.model';

@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import * as ROLE from '../../constant/query-role';
+import * as ROLE from './role-query';
 import { BaseSQlite } from './base';
 import { RoleProvider } from '../role/role';
 import { Role } from '../../models/role.model';

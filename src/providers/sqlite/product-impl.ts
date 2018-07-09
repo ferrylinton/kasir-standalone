@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import * as PRODUCT from '../../constant/query-product';
+import * as PRODUCT from './product-query';
 import { BaseSQlite } from './base';
 import { ProductProvider } from '../product/product';
 import { Product } from '../../models/product.model';

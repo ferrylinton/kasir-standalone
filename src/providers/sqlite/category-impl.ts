@@ -3,7 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
-import * as CATEGORY from '../../constant/query-category';
+import * as CATEGORY from './category-query';
 import { BaseSQlite } from './base';
 import { CategoryProvider } from '../../providers/category/category';
 import { Category } from '../../models/category.model';
