@@ -3,11 +3,14 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
+import * as USER from '../../constant/query-user';
 import { BaseDb } from '../db/base-db';
 import { UserProvider } from '../user/user';
 import { User } from '../../models/user.model';
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
+import { Role } from '../../models/role.model';
+import { Authority } from '../../models/authority.model';
 
 
 
@@ -29,35 +32,33 @@ export class UserProviderImpl extends BaseDb implements UserProvider {
       .then(result => this.executeSqlFindByFullname(result.db, fullname, result.pageable)));
   }
 
-  save(data: User): Observable<User> {
-    return fromPromise(this.connect().then(db => this.executeSqlSave(db, data)));
+  save(user: User): Observable<User> {
+    let params = [user.id, user.username, user.password, user.fullname, user.role, user.activated, user.image, user.createdBy];
+    return fromPromise(this.connect().then(db => this.executeSql(db, USER.INSERT, params)));
   }
 
-  update(data: User): Observable<User> {
-    return fromPromise(this.connect().then(db => this.executeSqlUpdate(db, data)));
+  update(user: User): Observable<User> {
+    let params = [user.username, user.password, user.fullname, user.role, user.activated, user.image, user.lastModifiedBy, user.id];
+    return fromPromise(this.connect().then(db => this.executeSql(db, USER.UPDATE, params)));
   }
 
   delete(id: any): Observable<any> {
-    return fromPromise(this.connect().then(db => this.executeSqlDelete(db, id)));
+    return fromPromise(this.connect().then(db => this.executeSql(db, USER.DELETE, [id])));
   }
  
   private executeSqlFindByUsername(db: any, username: string): Promise<User> {
-    let query = `SELECT usr.*, rla.authority_name 
-    FROM mst_user usr
-    LEFT JOIN mst_role_authority rla ON rla.role_name = usr.role_name
-    LEFT JOIN mst_authority aut ON aut.name = rla.authority_name 
-    WHERE usr.username = ? `;
     return new Promise((resolve, reject) => {
       
-      db.executeSql(query, [username]).then((data) => {
+      db.executeSql(USER.FIND_BY_USERNAME, [username]).then((data) => {
         let user: User;
 
         for (let i: number = 0; i < data.rows.length; i++) {
           if(!user){
             user = this.convertToUser(data.rows.item(0));
+            user.role = this.convertToRole(data.rows.item(0));
           }
           
-          user.authorities.push(data.rows.item(i)['authority_name'])
+          user.role.authorities.push(this.convertToAuthority(data.rows.item(0)))
         }
         resolve(user);
         
@@ -68,11 +69,10 @@ export class UserProviderImpl extends BaseDb implements UserProvider {
   }
 
   private executeSqlCountByFullname(db: any, fullname: string, pageable: Pageable): Promise<any> {
-    let query = 'SELECT count(1) as total FROM mst_user where lower(fullname) LIKE ? ';
     return new Promise((resolve, reject) => {
       fullname = '%' + fullname.toLowerCase() + '%';
 
-      db.executeSql(query, [fullname]).then((data) => {
+      db.executeSql(USER.COUNT_BY_FULLNAME, [fullname]).then((data) => {
         pageable.totalData = data.rows.item(0)['total']
         resolve({ db: db, pageable: pageable });
       }).catch((error) => {
@@ -82,74 +82,74 @@ export class UserProviderImpl extends BaseDb implements UserProvider {
   }
 
   private executeSqlFindByFullname(db: any, fullname: string, pageable: Pageable): Promise<Page<User>> {
-    let query = 'SELECT * FROM mst_user where lower(fullname) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
     return new Promise((resolve, reject) => {
       fullname = '%' + fullname.toLowerCase() + '%';
       let limit: number = pageable.size;
       let offset: number = (pageable.pageNumber - 1) * pageable.size;
       let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
 
-      db.executeSql(query, [fullname, orderBy, limit, offset]).then((data) => {
-        let products: Array<User> = new Array();
+      db.executeSql(USER.FIND_BY_FULLNAME, [fullname, orderBy, limit, offset]).then((data) => {
+        let users: Array<User> = new Array();
+        let user: User;
 
         for (let i: number = 0; i < data.rows.length; i++) {
-          products.push(this.convertToUser(data.rows.item(i)));
+          users.push(this.convertToUser(data.rows.item(i)));
+
+          if(!user){
+            user = this.convertToUser(data.rows.item(i));
+          }else if(user['id'] != data.rows.item(i)['id']){
+            user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+            users.push(user);
+            user = this.convertToUser(data.rows.item(i));
+          }else if(user['id'] == data.rows.item(i)['id']){
+            user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+          }
         }
 
-        resolve(new Page(products, pageable.pageNumber, pageable.totalData, pageable.sort));
+        resolve(new Page(users, pageable.pageNumber, pageable.totalData, pageable.sort));
       }).catch((error) => {
         reject(error);
       });
     })
   }
 
-  private executeSqlSave(db: any, user: User): Promise<any> {
-    let params = [user.id, user.username, user.password, user.fullname, user.role, user.activated, user.image, user.createdBy];
-    let query = `INSERT INTO 
-    mst_user(id, username, password, fullname, role_name, activated, image, created_by, created_date) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'))`;
-    
-    return this.executeSql(db, query, params);
-  }
-
-  private executeSqlUpdate(db: any, user: User): Promise<any> {
-    let params = [user.username, user.password, user.fullname, user.role, user.activated, user.image, user.lastModifiedBy, user.id];
-    let query = `UPDATE mst_user SET 
-    username = ?,
-    password = ?,
-    fullname = ?, 
-    role_name = ?, 
-    activated = ?,
-    image = ?,
-    last_modified_by = ?, 
-    last_modified_date = datetime('now','localtime')
-    WHERE id = ?`;
-    
-    return this.executeSql(db, query, params);
-  }
-
-  private executeSqlDelete(db: any, id: String): Promise<any> {
-    let params = [id];
-    let query = 'DELETE FROM mst_user WHERE id=?';
-    return this.executeSql(db, query, params);
-  }
-
   private convertToUser(item: any): User {
-    return new User(
-      item['id'],
-      item['username'],
-      item['password'],
-      item['fullname'],
+    let user: User = new User(
+      item['user_id'],
+      item['user_username'],
+      item['user_password'],
+      item['user_fullname'],
+      null,
+      item['user_activated'],
+      item['user_image'],
+      item['user_created_by'],
+      item['user_created_date'],
+      item['user_last_modified_by'],
+      item['user_last_modified_date']
+    );
+    user.role = this.convertToRole(item);
+    return user;
+  }
+
+  private convertToRole(item: any): Role {
+    return new Role(
+      item['role_id'],
       item['role_name'],
-      new Array(),
-      item['activated'],
-      item['image'],
-      item['created_by'],
-      item['created_date'],
-      item['last_modified_by'],
-      item['last_modified_date']
+      item['role_description'],
+      new Array<Authority>(),
+      item['role_created_by'],
+      item['role_created_date'],
+      item['role_last_modified_by'],
+      item['role_last_modified_date']
     );
   }
-
+  
+  private convertToAuthority(item: any): Authority {
+    return new Authority(
+      item['authority_id'],
+      item['authority_name'],
+      item['authority_description']
+    );
+  }
   
 }

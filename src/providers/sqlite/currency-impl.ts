@@ -40,7 +40,7 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   }
 
   private executeSqlFindAll(db: any): Promise<Array<Currency>> {
-    let query = 'SELECT * FROM mst_currency ORDER BY name';
+    let query = 'SELECT * FROM m_currency ORDER BY name';
 
     return new Promise((resolve, reject) => {
       db.executeSql(query, []).then((data) => {
@@ -58,7 +58,7 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   }
 
   private executeSqlCountByName(db: any, name: string, pageable: Pageable): Promise<any> {
-    let query = 'SELECT count(1) as total FROM mst_currency where lower(name) LIKE ? ';
+    let query = 'SELECT count(1) as total FROM m_currency where lower(name) LIKE ? ';
 
     return new Promise((resolve, reject) => {
       name = '%' + name.toLowerCase() + '%';
@@ -72,7 +72,7 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   }
 
   private executeSqlFindByName(db: any, total: number, name: string, pageable: Pageable): Promise<Page<Currency>> {
-    let query = 'SELECT * FROM mst_currency where lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
+    let query = 'SELECT * FROM m_currency where lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
     
     return new Promise((resolve, reject) => {
       name = '%' + name.toLowerCase() + '%';
@@ -97,7 +97,7 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   private executeSqlSave(db: any, currency: Currency): Promise<any> {
     let params = [currency.id, currency.name, currency.description, currency.createdBy];
     let query = `INSERT INTO 
-    mst_currency (id, name, description, created_by, created_date) 
+    m_currency (id, name, description, created_by, created_date) 
     VALUES (?, ?, ?, ?, datetime('now','localtime'))`;
     
     return this.executeSql(db, query, params);
@@ -105,7 +105,7 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
 
   private executeSqlUpdate(db: any, currency: Currency): Promise<any> {
     let params = [currency.name, currency.description, currency.lastModifiedBy, currency.id];
-    let query = `UPDATE mst_currency SET
+    let query = `UPDATE m_currency SET
     name = ?, 
     description = ?, 
     last_modified_by = ?, 
@@ -117,7 +117,7 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
 
   private executeSqlDelete(db: any, id: String): Promise<any> {
     let params = [id];
-    let query = 'DELETE FROM  mst_currency WHERE id=?';
+    let query = 'DELETE FROM  m_currency WHERE id=?';
     
     return this.executeSql(db, query, params);
   }

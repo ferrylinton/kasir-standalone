@@ -15,17 +15,17 @@ import { Item } from '../../models/item.model';
 export class OrderProviderImpl extends BaseDb implements OrderProvider {
 
   private FIND_BY_DATE: string = `SELECT ord.*, itm.quantity, itm.product_name 
-                                    FROM trx_order ord
-                                    LEFT JOIN trx_item itm ON ord.id = itm.order_id
+                                    FROM t_order ord
+                                    LEFT JOIN t_item itm ON ord.id = itm.order_id
                                     WHERE date(ord.created_date) = date(?)`;
 
-  private COUNT_BY_DATE: string = `SELECT count(1) as total FROM trx_order where date(created_date) = date(?)`;
+  private COUNT_BY_DATE: string = `SELECT count(1) as total FROM t_order where date(created_date) = date(?)`;
 
   private INSERT_ORDER: string = `INSERT INTO 
-                                    trx_order (id, transaction_number, paid, canceled, created_by, created_date) 
+                                    t_order (id, transaction_number, paid, canceled, created_by, created_date) 
                                     VALUES (?, ?, ?, ?, ?, datetime('now','localtime'))`;
 
-  private UPDATE_ORDER: string = `UPDATE trx_order SET
+  private UPDATE_ORDER: string = `UPDATE t_order SET
                                     transaction_number = ?, 
                                     paid = ?,
                                     canceled = ?, 
@@ -33,13 +33,13 @@ export class OrderProviderImpl extends BaseDb implements OrderProvider {
                                     last_modified_date = datetime('now','localtime') 
                                     WHERE id = ?`;
 
-  private DELETE_ORDER: string = 'DELETE FROM trx_order WHERE id=?';
+  private DELETE_ORDER: string = 'DELETE FROM t_order WHERE id=?';
 
   private INSERT_ORDER_ITEM: string = `INSERT INTO 
-                                        trx_item (id, quantity, product_id, order_id)
+                                        t_item (id, quantity, product_id, order_id)
                                         VALUES (?, ?, ?, ?)`;
 
-  private DELETE_ORDER_ITEM: string = 'DELETE FROM trx_item WHERE order_id=?';
+  private DELETE_ORDER_ITEM: string = 'DELETE FROM t_item WHERE order_id=?';
 
   constructor(public sqlite: SQLite) {
     super(sqlite);

@@ -1,8 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Authority } from '../../models/authority.model';
-import { CrudProvider } from '../crud/crud';
 
-export abstract class AuthorityProvider extends CrudProvider<Authority> {
+export abstract class AuthorityProvider{
 
   abstract findAll(): Observable<Array<Authority>>;
 

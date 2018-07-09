@@ -42,7 +42,7 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
   }
   
   private executeSqlCountByName(db: any, name: string, pageable: Pageable): Promise<any> {
-    let query = 'SELECT count(1) as total FROM mst_product where lower(name) LIKE ? ';
+    let query = 'SELECT count(1) as total FROM m_product where lower(name) LIKE ? ';
     return new Promise((resolve, reject) => {
       name = '%' + name.toLowerCase() + '%';
 
@@ -56,8 +56,8 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
   }
 
   private executeSqlCountByCategory(db: any, category: string, pageable: Pageable): Promise<any> {
-    let query1 = 'SELECT count(1) as total FROM mst_product';
-    let query2 = 'SELECT count(1) as total FROM mst_product where category_name = ? ';
+    let query1 = 'SELECT count(1) as total FROM m_product';
+    let query2 = 'SELECT count(1) as total FROM m_product where category_name = ? ';
 
     return new Promise((resolve, reject) => {
       db.executeSql(category == '' ?  query1 : query2, category == '' ? [] : [category]).then((data) => {
@@ -70,7 +70,7 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
   }
 
   private executeSqlFindByName(db: any, name: string, pageable: Pageable): Promise<Page<Product>> {
-    let query = 'SELECT * FROM mst_product where lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
+    let query = 'SELECT * FROM m_product where lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
     return new Promise((resolve, reject) => {
       name = '%' + name.toLowerCase() + '%';
       let limit: number = pageable.size;
@@ -95,8 +95,8 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
     let limit: number = pageable.size;
     let offset: number = (pageable.pageNumber - 1) * pageable.size;
     let orderBy: string = pageable.sort.column + pageable.sort.isAsc ? ' ASC' : ' DESC';
-    let query1 = 'SELECT * FROM mst_product ORDER BY ? LIMIT ? OFFSET ? ';
-    let query2 = 'SELECT * FROM mst_product where category_name = ? ORDER BY ? LIMIT ? OFFSET ? ';
+    let query1 = 'SELECT * FROM m_product ORDER BY ? LIMIT ? OFFSET ? ';
+    let query2 = 'SELECT * FROM m_product where category_name = ? ORDER BY ? LIMIT ? OFFSET ? ';
     let params1 = [orderBy, limit, offset];
     let params2 = [category, orderBy, limit, offset];
 
@@ -120,7 +120,7 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
   private executeSqlSave(db: any, product: Product): Promise<any> {
     let params = [product.id, product.name, product.description, product.price, product.image, product.category, product.createdBy];
     let query = `INSERT INTO 
-    mst_product(id, name, description, price, image, category_name, created_by, created_date) 
+    m_product(id, name, description, price, image, category_name, created_by, created_date) 
     VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'))`;
     
     return this.executeSql(db, query, params);
@@ -128,7 +128,7 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
 
   private executeSqlUpdate(db: any, product: Product): Promise<any> {
     let params = [product.name, product.description, product.price, product.image, product.category, product.lastModifiedBy, product.id];
-    let query = `UPDATE mst_product SET 
+    let query = `UPDATE m_product SET 
     name = ?, 
     description = ?, 
     price = ?,
@@ -143,7 +143,7 @@ export class ProductProviderImpl extends BaseDb implements ProductProvider {
 
   private executeSqlDelete(db: any, id: String): Promise<any> {
     let params = [id];
-    let query = 'DELETE FROM mst_product WHERE id=?';
+    let query = 'DELETE FROM m_product WHERE id=?';
     return this.executeSql(db, query, params);
   }
 

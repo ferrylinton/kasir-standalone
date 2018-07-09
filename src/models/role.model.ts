@@ -1,4 +1,5 @@
 import { Audit } from './audit.model';
+import { Authority } from './authority.model';
 
 
 export class Role implements Audit {
@@ -11,7 +12,7 @@ export class Role implements Audit {
 
         public description?: string,
 
-        public authorities?: string[],
+        public authorities?: Array<Authority>,
 
         public createdBy?: string,
 

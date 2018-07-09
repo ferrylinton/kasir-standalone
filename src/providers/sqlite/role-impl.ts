@@ -3,9 +3,11 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
+import * as ROLE from '../../constant/query-role';
 import { BaseDb } from '../db/base-db';
 import { RoleProvider } from '../role/role';
 import { Role } from '../../models/role.model';
+import { Authority } from '../../models/authority.model';
 
 
 @Injectable()
@@ -16,40 +18,24 @@ export class RoleProviderImpl extends BaseDb implements RoleProvider {
   }
   
   findAll(): Observable<Role[]> {
-    throw new Error("Method not implemented.");
-  }
-  save(data: Role): Observable<Role> {
-    throw new Error("Method not implemented.");
-  }
-  update(data: Role): Observable<Role> {
-    throw new Error("Method not implemented.");
-  }
-  delete(id: any): Observable<any> {
-    throw new Error("Method not implemented.");
+    return fromPromise(this.connect().then(db => this.executeSqlFindAll(db)));
   }
 
   private executeSqlFindAll(db: any): Promise<Array<Role>> {
-    let query = `SELECT rol.*, rla.authority_name
-    FROM mst_role rol 
-    LEFT JOIN mst_role_authority rla ON rla.role_name = rol.name
-    LEFT JOIN mst_authority aut ON aut.name = rla.authority_name 
-    ORDER BY rol.name`;
-
     return new Promise((resolve, reject) => {
-      db.executeSql(query, []).then((data) => {
+      db.executeSql(ROLE.FIND_ALL, []).then((data) => {
         let roles: Array<Role> = new Array();
         let role: Role;
-
 
         for (let i: number = 0; i < data.rows.length; i++) {
           if(!role){
             role = this.convertToRole(data.rows.item(i));
-          }else if(role['name'] != data.rows.item(i)['name']){
-            role.authorities.push(data.rows.item(i)['authority_name'])
+          }else if(role['id'] != data.rows.item(i)['id']){
+            role.authorities.push(this.convertToAuthority(data.rows.item(i)));
             roles.push(role);
             role = this.convertToRole(data.rows.item(i));
-          }else if(role['name'] == data.rows.item(i)['name']){
-            role.authorities.push(data.rows.item(i)['authority_name'])
+          }else if(role['id'] == data.rows.item(i)['id']){
+            role.authorities.push(this.convertToAuthority(data.rows.item(i)));
           }
         }
 
@@ -62,16 +48,22 @@ export class RoleProviderImpl extends BaseDb implements RoleProvider {
   
   private convertToRole(item: any): Role {
     return new Role(
-      item['id'],
-      item['name'],
-      item['description'],
-      new Array<string>(),
-      item['created_by'],
-      item['created_date'],
-      item['last_modified_by'],
-      item['last_modified_date']
+      item['role_id'],
+      item['role_name'],
+      item['role_description'],
+      new Array<Authority>(),
+      item['role_created_by'],
+      item['role_created_date'],
+      item['role_last_modified_by'],
+      item['role_last_modified_date']
     );
   }
-
   
+  private convertToAuthority(item: any): Authority {
+    return new Authority(
+      item['authority_id'],
+      item['authority_name'],
+      item['authority_description']
+    );
+  }
 }

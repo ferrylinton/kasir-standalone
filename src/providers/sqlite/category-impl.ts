@@ -3,6 +3,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
+import * as CATEGORY from '../../constant/query-category';
 import { BaseSQlite } from './base';
 import { CategoryProvider } from '../../providers/category/category';
 import { Category } from '../../models/category.model';
@@ -40,7 +41,7 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
   }
 
   private executeSqlFindAll(db: any): Promise<Array<Category>> {
-    let query = 'SELECT * FROM mst_category ORDER BY name';
+    let query = 'SELECT * FROM m_category ORDER BY name';
 
     return new Promise((resolve, reject) => {
       db.executeSql(query, []).then((data) => {
@@ -58,7 +59,7 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
   }
 
   private executeSqlCountByName(db: any, name: string, pageable: Pageable): Promise<any> {
-    let query = 'SELECT count(1) as total FROM mst_category where lower(name) LIKE ? ';
+    let query = 'SELECT count(1) as total FROM m_category where lower(name) LIKE ? ';
     return new Promise((resolve, reject) => {
       name = '%' + name.toLowerCase() + '%';
 
@@ -71,7 +72,7 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
   }
 
   private executeSqlFindByName(db: any, total: number, name: string, pageable: Pageable): Promise<Page<Category>> {
-    let query = 'SELECT * FROM mst_category where lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
+    let query = 'SELECT * FROM m_category where lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? ';;
     return new Promise((resolve, reject) => {
       name = '%' + name.toLowerCase() + '%';
       let limit: number = pageable.size;
@@ -95,7 +96,7 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
   private executeSqlSave(db: any, category: Category): Promise<any> {
     let params = [category.id, category.name, category.description, category.image, category.createdBy];
     let query = `INSERT INTO 
-    mst_category(id, name, description, image, created_by, created_date) 
+    m_category(id, name, description, image, created_by, created_date) 
     VALUES (?, ?, ?, ?, ?, datetime('now','localtime'))`;
     
     return this.executeSql(db, query, params);
@@ -103,7 +104,7 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
 
   private executeSqlUpdate(db: any, category: Category): Promise<any> {
     let params = [category.name, category.description, category.image, category.lastModifiedBy, category.id];
-    let query = `UPDATE mst_category SET 
+    let query = `UPDATE m_category SET 
     name = ?, 
     description = ?, 
     image = ?,
@@ -116,7 +117,7 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
 
   private executeSqlDelete(db: any, id: String): Promise<any> {
     let params = [id];
-    let query = 'DELETE FROM mst_category WHERE id=?';
+    let query = 'DELETE FROM m_category WHERE id=?';
     return this.executeSql(db, query, params);
   }
 

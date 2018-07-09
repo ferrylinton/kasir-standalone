@@ -1,4 +1,5 @@
 import { Audit } from './audit.model';
+import { Role } from './role.model';
 
 
 export class User implements Audit{
@@ -13,9 +14,7 @@ export class User implements Audit{
         
         public fullname?: string, 
         
-        public role?: string, 
-
-        public authorities?: string[],
+        public role?: Role, 
         
         public activated?: boolean,
 
