@@ -8,7 +8,7 @@ import { CART } from "../../constant/constant";
 import { UtilProvider } from '../../providers/util/util';
 import { OrderProvider } from '../order/order';
 import { Order } from "../../models/order.model";
-import { Item } from "../../models/item.model";
+import { OrderItem } from "../../models/order-item.model";
 import { Product } from "../../models/product.model";
 import { Cart } from '../../models/cart.model';
 
@@ -58,7 +58,7 @@ export class CartProvider {
   }
 
   createOrder(): Order {
-    return new Order(uuid(), this.utilProvider.transactionNumber(), new Array<Item>(), false);
+    return new Order(uuid(), this.utilProvider.transactionNumber(), new Array<OrderItem>(), false);
   }
 
   addItem(cart: Cart, product: Product): Observable<Cart> {
@@ -110,7 +110,7 @@ export class CartProvider {
     }
 
     if (!isProductExist) {
-      cart.order.items.push(new Item(uuid(), product, 1));
+      cart.order.items.push(new OrderItem(uuid(), 1, 0, null));
     }
 
     return cart;

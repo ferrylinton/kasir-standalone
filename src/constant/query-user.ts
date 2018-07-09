@@ -59,7 +59,7 @@ export const FIND_BY_USERNAME =
     aut.name as authority_name,
     aut.description as authority_description
 FROM m_user usr
-LEFT JOIN m_role rol ON rol.role_id = usr.role_id
+LEFT JOIN m_role rol ON rol.id = usr.role_id
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
 LEFT JOIN m_authority aut ON aut.id = rla.authority_id 
 WHERE usr.username = ? `

@@ -77,7 +77,7 @@ export class ProductFormPage extends BasePage {
       this.categories = categories;
 
       if(this.isCreate && categories.length > 0){
-        this.product.category = categories[0].name;
+        this.product.category = categories[0];
       }
     })
   }

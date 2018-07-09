@@ -90,7 +90,7 @@ export class UserFormPage extends BasePage {
       this.roles = roles;
 
       if (this.isCreate && roles.length > 0) {
-        this.user.role = this.roles[0].name;
+        this.user.role = this.roles[0];
       }
     })
   }

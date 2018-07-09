@@ -84,11 +84,15 @@ export class MyApp {
   }
 
   hasAuthority(authority: string): boolean {
-    if (this.user) {
-      return this.user.authorities.indexOf(authority) > -1;
-    }
+    // if (this.user && this.user.role ) {
+    //   for(let i:number = 0; i<this.user.role.authorities.length; i++){
+    //     if(authority == this.user.role.authorities[i].name){
+    //       return true;
+    //     }
+    //   }
+    // }
 
-    return false;
+    return true;
   }
 
 }

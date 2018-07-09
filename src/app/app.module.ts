@@ -31,11 +31,8 @@ import { RoleProviderImpl } from '../providers/sqlite/role-impl';
 import { UserProviderImpl } from '../providers/sqlite/user-impl';
 import { CategoryProviderImpl } from '../providers/sqlite/category-impl';
 import { ProductProviderImpl } from '../providers/sqlite/product-impl';
-import { OrderProviderImpl } from '../providers/mock/order-impl';
+import { OrderProviderImpl } from '../providers/sqlite/order-impl';
 import { CurrencyProviderImpl } from '../providers/sqlite/currency-impl';
-
-// Mock
-import { DataProvider } from '../providers/mock/data';
 
 // Sqlite
 import { SQLiteMock } from '../providers/sqlite/sqlite';
@@ -92,7 +89,6 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: OrderProvider, useClass: OrderProviderImpl },
     { provide: CurrencyProvider, useClass: CurrencyProviderImpl },
     LoginProvider,
-    DataProvider,
     UtilProvider,
     SettingProvider,
     MessageProvider,
