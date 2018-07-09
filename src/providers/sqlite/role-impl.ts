@@ -7,7 +7,6 @@ import * as ROLE from '../../constant/query-role';
 import { BaseSQlite } from './base';
 import { RoleProvider } from '../role/role';
 import { Role } from '../../models/role.model';
-import { Authority } from '../../models/authority.model';
 
 
 @Injectable()
@@ -44,27 +43,6 @@ export class RoleProviderImpl extends BaseSQlite implements RoleProvider {
         reject(error);
       })
     });
-  }
-  
-  private convertToRole(item: any): Role {
-    return new Role(
-      item['role_id'],
-      item['role_name'],
-      item['role_description'],
-      new Array<Authority>(),
-      item['role_created_by'],
-      item['role_created_date'],
-      item['role_last_modified_by'],
-      item['role_last_modified_date']
-    );
-  }
-  
-  private convertToAuthority(item: any): Authority {
-    return new Authority(
-      item['authority_id'],
-      item['authority_name'],
-      item['authority_description']
-    );
   }
   
 }

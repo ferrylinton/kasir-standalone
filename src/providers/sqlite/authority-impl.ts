@@ -36,12 +36,4 @@ export class AuthorityProviderImpl extends BaseSQlite implements AuthorityProvid
     });
   }
 
-  private convertToAuthority(item: any): Authority {
-    return new Authority(
-      item['authority_id'],
-      item['authority_name'],
-      item['authority_description']
-    );
-  }
-  
 }

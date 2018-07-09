@@ -5,7 +5,6 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import { v4 as uuid } from 'uuid';
 
 import { CART } from "../../constant/constant";
-import { UtilProvider } from '../../providers/util/util';
 import { OrderProvider } from '../order/order';
 import { Order } from "../../models/order.model";
 import { OrderItem } from "../../models/order-item.model";
@@ -18,7 +17,6 @@ export class CartProvider {
 
   constructor(
     public storage: Storage,
-    public utilProvider: UtilProvider,
     public orderProvider: OrderProvider
   ) {
   }
@@ -58,7 +56,7 @@ export class CartProvider {
   }
 
   createOrder(): Order {
-    return new Order(uuid(), this.utilProvider.transactionNumber(), new Array<OrderItem>(), false);
+    return new Order(uuid(), this.transactionNumber(), new Array<OrderItem>(), false);
   }
 
   addItem(cart: Cart, product: Product): Observable<Cart> {
@@ -139,4 +137,7 @@ export class CartProvider {
     return cart;
   }
 
+  transactionNumber(): string {
+    return new Date().valueOf() + '-' + Math.floor((Math.random() * 10000) + 10000);
+  }
 }

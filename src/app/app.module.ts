@@ -38,7 +38,6 @@ import { CurrencyProviderImpl } from '../providers/sqlite/currency-impl';
 import { SQLiteMock } from '../providers/sqlite/sqlite';
 import { SchemaProvider } from '../providers/sqlite/schema';
 
-import { UtilProvider } from '../providers/util/util';
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
@@ -89,7 +88,6 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: OrderProvider, useClass: OrderProviderImpl },
     { provide: CurrencyProvider, useClass: CurrencyProviderImpl },
     LoginProvider,
-    UtilProvider,
     SettingProvider,
     MessageProvider,
     CartProvider,

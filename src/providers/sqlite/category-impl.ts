@@ -90,17 +90,4 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
     return categories;
   }
 
-  private convertToCategory(item: any): Category {
-    return new Category(
-      item['category_id'],
-      item['category_name'],
-      item['category_description'],
-      item['category_image'],
-      item['category_created_by'],
-      item['category_created_date'],
-      item['category_last_modified_by'],
-      item['category_last_modified_date']
-    );
-  }
-
 }

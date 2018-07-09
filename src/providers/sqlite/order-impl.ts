@@ -11,8 +11,6 @@ import { Order } from '../../models/order.model';
 import { OrderItem } from '../../models/order-item.model';
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
-import { Product } from '../../models/product.model';
-import { Category } from '../../models/category.model';
 
 
 @Injectable()
@@ -82,8 +80,6 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
   }
 
   private executeSqlSave(order: Order): Promise<any> {
-    let params = [order.id, order.transactionNumber, order.paid, order.canceled, order.createdBy];
-    
     return new Promise((resolve, reject) => {
       this.db.transaction((tx) => {
 
@@ -146,54 +142,4 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
     });
   }
 
-  private convertToOrder(item: any): Order {
-    return new Order(
-      item['id'],
-      item['transaction_number'],
-      new Array(),
-      item['paid'],
-      item['canceled'],
-      item['created_by'],
-      item['created_date'],
-      item['last_modified_by'],
-      item['last_modified_date']
-    );
-  }
-
-  private convertToItem(item: any): OrderItem {
-    return new OrderItem(
-      item['id'],
-      item['quantity'],
-      item['price'],
-      this.convertToProduct(item)
-    );
-  }
-
-  private convertToProduct(item: any): Product {
-    return new Product(
-      item['id'],
-      item['name'],
-      item['description'],
-      item['price'],
-      item['image'],
-      this.convertToCategory(item),
-      item['created_by'],
-      item['created_date'],
-      item['last_modified_by'],
-      item['last_modified_date']
-    );
-  }
-
-  private convertToCategory(item: any): Category {
-    return new Category(
-      item['category_id'],
-      item['category_name'],
-      item['category_description'],
-      item['category_image'],
-      item['category_created_by'],
-      item['category_created_date'],
-      item['category_last_modified_by'],
-      item['category_last_modified_date']
-    );
-  }
 }

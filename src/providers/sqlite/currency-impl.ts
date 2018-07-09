@@ -90,16 +90,5 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
     return currencies;
   }
 
-  private convertToCurrency(item: any): Currency {
-    return new Currency(
-      item['id'],
-      item['name'],
-      item['description'],
-      item['created_by'],
-      item['created_date'],
-      item['last_modified_by'],
-      item['last_modified_date']
-    );
-  }
 
 }

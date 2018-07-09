@@ -9,8 +9,6 @@ import { UserProvider } from '../user/user';
 import { User } from '../../models/user.model';
 import { Pageable } from '../../models/pageable.model';
 import { Page } from '../../models/page.model';
-import { Role } from '../../models/role.model';
-import { Authority } from '../../models/authority.model';
 
 
 @Injectable()
@@ -102,45 +100,6 @@ export class UserProviderImpl extends BaseSQlite implements UserProvider {
         reject(error);
       });
     })
-  }
-
-  private convertToUser(item: any): User {
-    let user: User = new User(
-      item['user_id'],
-      item['user_username'],
-      item['user_password'],
-      item['user_fullname'],
-      null,
-      item['user_activated'],
-      item['user_image'],
-      item['user_created_by'],
-      item['user_created_date'],
-      item['user_last_modified_by'],
-      item['user_last_modified_date']
-    );
-    user.role = this.convertToRole(item);
-    return user;
-  }
-
-  private convertToRole(item: any): Role {
-    return new Role(
-      item['role_id'],
-      item['role_name'],
-      item['role_description'],
-      new Array<Authority>(),
-      item['role_created_by'],
-      item['role_created_date'],
-      item['role_last_modified_by'],
-      item['role_last_modified_date']
-    );
-  }
-  
-  private convertToAuthority(item: any): Authority {
-    return new Authority(
-      item['authority_id'],
-      item['authority_name'],
-      item['authority_description']
-    );
   }
   
 }
