@@ -3,11 +3,11 @@ import { User } from './user.model';
 
 export interface Audit extends Base {
 
-    createdBy?: User;
+    createdBy?: string | User;
 
     createdDate?: Date;
 
-    lastModifiedBy?: User;
+    lastModifiedBy?: string | User;
 
     lastModifiedDate?: Date;
 

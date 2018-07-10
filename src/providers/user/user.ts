@@ -7,6 +7,8 @@ import { User } from '../../models/user.model';
 
 export abstract class UserProvider extends CrudProvider<User> {
 
+  abstract findById(id: string | User): Observable<User>;
+
   abstract findByUsername(username: string): Observable<User>;
 
   abstract findByFullname(fullname: string, pageable: Pageable): Observable<Page<User>>

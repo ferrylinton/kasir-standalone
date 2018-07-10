@@ -17,7 +17,7 @@ export const DELETE = `DELETE FROM m_category WHERE id = ?`;
 export const INSERT = 
 `INSERT INTO 
     m_category(id, name, description, image, created_by, created_date) 
-    VALUES (?, ?, ?, ?, 'system', datetime('now','localtime'))`;
+    VALUES (?, ?, ?, ?, ?, datetime('now','localtime'))`;
 
 export const UPDATE = 
 `UPDATE m_category SET 

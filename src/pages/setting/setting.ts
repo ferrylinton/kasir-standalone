@@ -48,10 +48,7 @@ export class SettingPage{
   }
 
   save() {
-    this.translate.get('SAVE_MESSAGE').subscribe(value => {
-      this.messageProvider.confirm(value, (base) => this.saveCallback());
-    })
-    
+    this.messageProvider.confirmSave((base) => this.saveCallback());
   }
 
   saveCallback(): void {

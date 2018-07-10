@@ -11,11 +11,11 @@ export class Currency implements Audit{
 
         public description?: string, 
 
-        public createdBy?: User,
+        public createdBy?: string | User,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: User,
+        public lastModifiedBy?: string | User,
 
         public lastModifiedDate?: Date){
     }

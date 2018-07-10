@@ -17,7 +17,7 @@ export const CREATE_TABLE =
 export const INSERT = 
 `INSERT INTO 
     m_product(id, name, description, price, image, category_id, created_by, created_date) 
-    VALUES (?, ?, ?, ?, ?, ?, 'system', datetime('now','localtime'))`;
+    VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'))`;
 
 export const UPDATE = 
 `UPDATE m_product SET 

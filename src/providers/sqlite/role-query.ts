@@ -14,7 +14,7 @@ export const CREATE_TABLE =
 export const INSERT = 
 `INSERT INTO 
     m_role (id, name, description, created_by, created_date) 
-    values(?, ?, ?, 'system', datetime('now','localtime'))`;
+    values(?, ?, ?, ?, datetime('now','localtime'))`;
 
 export const FIND_ALL = 
 `SELECT 

@@ -13,8 +13,8 @@
 </ion-header>
 
 
-<ion-content padding *ngIf="currency; else nodata">
-  <ion-grid>
+<ion-content padding >
+  <ion-grid *ngIf="currency; else nodata">
     <ion-row>
       <ion-col class="detail-label">{{ 'ID' | translate }}</ion-col>
     </ion-row>
@@ -37,7 +37,7 @@
       <ion-col class="detail-label">{{ 'CREATED_BY' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="currency.createdBy; else empty">
-      <ion-col class="detail-value">{{ currency.createdBy }}</ion-col>
+      <ion-col class="detail-value">{{ currency.createdBy.fullname }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'CREATED_DATE' | translate }}</ion-col>
@@ -49,7 +49,7 @@
       <ion-col class="detail-label">{{ 'LAST_MODIFIED_BY' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="currency.lastModifiedBy; else empty">
-      <ion-col class="detail-value">{{ currency.lastModifiedBy }}</ion-col>
+      <ion-col class="detail-value">{{ currency.lastModifiedBy.fullname }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'LAST_MODIFIED_DATE' | translate }}</ion-col>
@@ -65,7 +65,7 @@
   </ion-row>
 </ng-template>
 <ng-template #nodata>
-  <ion-content padding>
+  <ion-row>
     {{ 'NO_DATA' | translate }}
-  </ion-content>
+  </ion-row>
 </ng-template>

@@ -78,7 +78,7 @@ export class SchemaProvider extends BaseSQlite {
       db.transaction((tx) => {
        
         // Insert User for system
-        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-000', 'system', 'password', 'system', null, true, DEFAULT_IMAGE]);
+        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-000', 'system', 'password', 'system', null, true, DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
 
         // Insert Authority
         tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-001', 'BASIC_AUTHORITY', 'Basic Authority']);
@@ -101,9 +101,9 @@ export class SchemaProvider extends BaseSQlite {
         tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-018', 'DATABASE_CHANGE', 'Change DB Data']);
         
         // Insert Role
-        tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-001', 'ADMIN', 'Role as Admin']);
-        tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-002', 'MANAGER', 'Role as Manager']);
-        tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-003', 'EMPLOYEE', 'Role as Employee']);
+        tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-001', 'ADMIN', 'Role as Admin', 'user-0000-0000-0000-000']);
+        tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-002', 'MANAGER', 'Role as Manager', 'user-0000-0000-0000-000']);
+        tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-003', 'EMPLOYEE', 'Role as Employee', 'user-0000-0000-0000-000']);
 
         // Insert Role - Authority
         tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-001']);
@@ -153,33 +153,33 @@ export class SchemaProvider extends BaseSQlite {
         tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-007']);
 
         // Insert User
-        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-001', 'admin', 'password', 'Admin', 'role-0000-0000-0000-001', true, DEFAULT_USER]);
-        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-002', 'manager', 'password', 'Manager', 'role-0000-0000-0000-002', true, DEFAULT_USER]);
-        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-003', 'employee', 'password', 'Employee', 'role-0000-0000-0000-003', true, DEFAULT_USER]);
+        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-001', 'admin', 'password', 'Admin', 'role-0000-0000-0000-001', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
+        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-002', 'manager', 'password', 'Manager', 'role-0000-0000-0000-002', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
+        tx.executeSql(USER.INSERT, ['user-0000-0000-0000-003', 'employee', 'password', 'Employee', 'role-0000-0000-0000-003', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
 
         
-        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-001', 'IDR', 'Indonesian Rupiah', 'system']);
-        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-002', 'USD', 'US Dollar', 'system']);
+        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-001', 'IDR', 'Indonesian Rupiah', 'user-0000-0000-0000-000']);
+        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-002', 'USD', 'US Dollar', 'user-0000-0000-0000-000']);
 
         
-        tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-001', 'Category 001', 'Category description 001', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-002', 'Category 002', 'Category description 002', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-003', 'Category 003', 'Category description 003', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-004', 'Category 004', 'Category description 004', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-005', 'Category 005', 'Category description 005', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-006', 'Category 006', 'Category description 006', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-007', 'Category 007', 'Category description 007', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-008', 'Category 008', 'Category description 008', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-009', 'Category 009', 'Category description 009', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-010', 'Category 010', 'Category description 010', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-011', 'Category 011', 'Category description 011', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-012', 'Category 012', 'Category description 012', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-013', 'Category 013', 'Category description 013', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-014', 'Category 014', 'Category description 014', DEFAULT_IMAGE]);
-        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-015', 'Category 015', 'Category description 015', DEFAULT_IMAGE]);
+        tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-001', 'Category 001', 'Category description 001', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-002', 'Category 002', 'Category description 002', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-003', 'Category 003', 'Category description 003', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-004', 'Category 004', 'Category description 004', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-005', 'Category 005', 'Category description 005', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-006', 'Category 006', 'Category description 006', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-007', 'Category 007', 'Category description 007', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-008', 'Category 008', 'Category description 008', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-009', 'Category 009', 'Category description 009', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-010', 'Category 010', 'Category description 010', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-011', 'Category 011', 'Category description 011', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-012', 'Category 012', 'Category description 012', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-013', 'Category 013', 'Category description 013', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-014', 'Category 014', 'Category description 014', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+        // tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-015', 'Category 015', 'Category description 015', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
         
         
-        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-001', 'Product 001', 'Product description 015', 150000, DEFAULT_IMAGE, 'category-0000-0000-0000-001']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-001', 'Product 001', 'Product description 015', 150000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
 
       }).then((result) => {
         resolve('Insert sample data is success');

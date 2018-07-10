@@ -162,4 +162,5 @@ export abstract class BaseSQlite {
             item['currency_last_modified_date']
         );
     }
+    
 }

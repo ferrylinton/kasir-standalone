@@ -7,6 +7,8 @@ import * as Constant from "../../constant/constant";
 import { MessageProvider } from '../../providers/message/message';
 import { CurrencyProvider } from '../../providers/currency/currency';
 import { Currency } from '../../models/currency.model';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { UserProvider } from '../../providers/user/user';
 
 
 @IonicPage()
@@ -25,7 +27,8 @@ export class CurrencyDetailPage {
     public events: Events,
     public translateService: TranslateService,
     public messageProvider: MessageProvider,
-    public currencyProvider: CurrencyProvider) {
+    public currencyProvider: CurrencyProvider,
+    public userProvider: UserProvider) {
   }
 
   ionViewWillEnter() {
@@ -37,6 +40,12 @@ export class CurrencyDetailPage {
 
     if (!this.currency) {
       this.events.publish(Constant.PAGE, { page: 'CurrencyPage', params: {} });
+    } else {
+      forkJoin([this.userProvider.findById(this.currency.createdBy),
+      this.userProvider.findById(this.currency.lastModifiedBy)]).subscribe(results => {
+        this.currency.createdBy = results[0];
+        this.currency.lastModifiedBy = results[1];
+      });
     }
   }
 

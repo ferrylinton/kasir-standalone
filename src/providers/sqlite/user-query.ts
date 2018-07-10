@@ -18,7 +18,7 @@ export const CREATE_TABLE =
 export const INSERT = 
 `INSERT INTO  
     m_user(id, username, password, fullname, role_id, activated, image, created_by, created_date)
-    values(?, ?, ?, ?, ?, ?, ?, 'system', datetime('now','localtime'))`;
+    values(?, ?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'))`;
 
 export const UPDATE =
 `UPDATE m_user SET 
@@ -94,3 +94,31 @@ LEFT JOIN m_role rol ON rol.id = usr.role_id
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
 LEFT JOIN m_authority aut ON aut.id = rla.authority_id`
 
+export const FIND_BY_ID = 
+`SELECT 
+    usr.id as user_id,
+    usr.username as user_username,
+    usr.password as user_password,
+    usr.fullname as user_fullname,
+    usr.activated as user_activated,
+    usr.image as user_image,
+    usr.created_by as user_created_by,
+    usr.created_date as user_created_date,
+    usr.last_modified_by as user_last_modified_by,
+    usr.last_modified_date as user_last_modified_date,
+
+    rol.id as role_id,
+    rol.name as role_name,
+    rol.description as role_description,
+    rol.created_by as role_created_by,
+    rol.created_date as role_created_date,
+    rol.last_modified_by as role_last_modified_by,
+    rol.last_modified_date as role_last_modified_date,
+
+    aut.id as authority_id,
+    aut.name as authority_name,
+    aut.description as authority_description
+FROM (SELECT * FROM m_user WHERE id = ?) usr
+LEFT JOIN m_role rol ON rol.id = usr.role_id
+LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
+LEFT JOIN m_authority aut ON aut.id = rla.authority_id`
