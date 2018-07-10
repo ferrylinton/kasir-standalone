@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
@@ -12,8 +13,8 @@ import { Role } from '../../models/role.model';
 @Injectable()
 export class RoleProviderImpl extends BaseSQlite implements RoleProvider {
 
-  constructor(public sqlite: SQLite) {
-    super(sqlite);
+  constructor(public sqlite: SQLite, public storage: Storage) {
+    super(sqlite, storage);
   }
   
   findAll(): Observable<Role[]> {
@@ -29,15 +30,19 @@ export class RoleProviderImpl extends BaseSQlite implements RoleProvider {
         for (let i: number = 0; i < data.rows.length; i++) {
           if(!role){
             role = this.convertToRole(data.rows.item(i));
-          }else if(role['id'] != data.rows.item(i)['id']){
-            role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+          }else if(role.id != data.rows.item(i)['role_id']){
+            // insert role to array
             roles.push(role);
+
+            // create new role
             role = this.convertToRole(data.rows.item(i));
-          }else if(role['id'] == data.rows.item(i)['id']){
+            role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+          }else if(role.id == data.rows.item(i)['role_id']){
             role.authorities.push(this.convertToAuthority(data.rows.item(i)));
           }
         }
-
+        // insert role to array
+        roles.push(role);
         resolve(roles);
       }).catch((error) => {
         reject(error);

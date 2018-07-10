@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
@@ -14,8 +15,8 @@ import { Page } from '../../models/page.model';
 @Injectable()
 export class ProductProviderImpl extends BaseSQlite implements ProductProvider {
 
-  constructor(public sqlite: SQLite) {
-    super(sqlite);
+  constructor(public sqlite: SQLite, public storage: Storage) {
+    super(sqlite, storage);
   }
 
   findByName(name: string, pageable: Pageable): Observable<Page<Product>> {
@@ -24,10 +25,10 @@ export class ProductProviderImpl extends BaseSQlite implements ProductProvider {
       .then(pageable => this.executeSqlFindByName(name, pageable)));
   }
 
-  findByCategory(category: string, pageable: Pageable): Observable<Page<Product>> {
+  findByCategory(categoryId: string, pageable: Pageable): Observable<Page<Product>> {
     return fromPromise(this.connect()
-      .then(() => this.executeSqlCountByCategory(category, pageable))
-      .then(pageable => this.executeSqlFindByCategory(category, pageable)));
+      .then(() => this.executeSqlCountByCategory(categoryId, pageable))
+      .then(pageable => this.executeSqlFindByCategory(categoryId, pageable)));
   }
 
   save(product: Product): Observable<Product> {
@@ -60,7 +61,7 @@ export class ProductProviderImpl extends BaseSQlite implements ProductProvider {
 
   private executeSqlCountByCategory(categoryId: string, pageable: Pageable): Promise<any> {
     let params = (categoryId == '') ? [] : [categoryId];
-    let query = (categoryId == '') ? PRODUCT.COUNT : PRODUCT.COUNT_BY_NAME;
+    let query = (categoryId == '') ? PRODUCT.COUNT : PRODUCT.COUNT_BY_CATEGORY;
 
     return new Promise((resolve, reject) => {
       this.db.executeSql(query, params).then((data) => {
@@ -86,7 +87,7 @@ export class ProductProviderImpl extends BaseSQlite implements ProductProvider {
 
   private executeSqlFindByCategory(categoryId: string, pageable: Pageable): Promise<Page<Product>> {
     let params = (categoryId == '') ? this.createParams([], pageable) : this.createParams([categoryId], pageable);
-    let query = (categoryId == '') ? PRODUCT.FIND : PRODUCT.FIND_BY_NAME;
+    let query = (categoryId == '') ? PRODUCT.FIND : PRODUCT.FIND_BY_CATEGORY;
     
     return new Promise((resolve, reject) => {
       this.db.executeSql(query, params).then((data) => {

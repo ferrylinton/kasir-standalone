@@ -58,11 +58,10 @@ export const FIND_BY_USERNAME =
     aut.id as authority_id,
     aut.name as authority_name,
     aut.description as authority_description
-FROM m_user usr
+FROM (SELECT * FROM m_user WHERE username = ?) usr
 LEFT JOIN m_role rol ON rol.id = usr.role_id
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
-LEFT JOIN m_authority aut ON aut.id = rla.authority_id 
-WHERE usr.username = ? `
+LEFT JOIN m_authority aut ON aut.id = rla.authority_id`
 
 export const COUNT_BY_FULLNAME = `SELECT count(1) as total FROM m_user where lower(fullname) LIKE ?`;
 
@@ -90,9 +89,8 @@ export const FIND_BY_FULLNAME =
     aut.id as authority_id,
     aut.name as authority_name,
     aut.description as authority_description
-FROM m_user usr
-LEFT JOIN m_role rol ON rol.role_id = usr.role_id
+FROM (SELECT * FROM m_user WHERE lower(fullname) LIKE ? ORDER BY ? LIMIT ? OFFSET ?) usr
+LEFT JOIN m_role rol ON rol.id = usr.role_id
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
-LEFT JOIN m_authority aut ON aut.id = rla.authority_id 
-WHERE lower(usr.fullname) LIKE ? ORDER BY ? LIMIT ? OFFSET ? `
+LEFT JOIN m_authority aut ON aut.id = rla.authority_id`
 

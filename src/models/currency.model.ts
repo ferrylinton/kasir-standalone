@@ -1,4 +1,5 @@
 import { Audit } from './audit.model';
+import { User } from './user.model';
 
 export class Currency implements Audit{
     
@@ -10,11 +11,11 @@ export class Currency implements Audit{
 
         public description?: string, 
 
-        public createdBy?: string,
+        public createdBy?: User,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: string,
+        public lastModifiedBy?: User,
 
         public lastModifiedDate?: Date){
     }

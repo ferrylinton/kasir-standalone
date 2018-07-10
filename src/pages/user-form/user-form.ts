@@ -69,7 +69,6 @@ export class UserFormPage extends BasePage {
       this.initVariable();
       this.initRoles();
       this.initStatus();
-      this.initForm();
     }
   }
 
@@ -90,8 +89,16 @@ export class UserFormPage extends BasePage {
       this.roles = roles;
 
       if (this.isCreate && roles.length > 0) {
-        this.user.role = this.roles[0];
+        this.user.role = roles[0];
+      }else if(!this.isCreate && roles.length > 0){
+        for(let i: number = 0; i<roles.length; i++){
+          if(this.user.role && roles[i].id == this.user.role.id){
+            this.user.role = roles[i];
+          }
+        }
       }
+
+      this.initForm();
     })
   }
 

@@ -8,6 +8,6 @@ export abstract class ProductProvider extends CrudProvider<Product> {
 
   abstract findByName(name: string, pageable: Pageable): Observable<Page<Product>>;
 
-  abstract findByCategory(category:string, pageable: Pageable): Observable<Page<Product>>;
+  abstract findByCategory(categoryId:string, pageable: Pageable): Observable<Page<Product>>;
 
 }

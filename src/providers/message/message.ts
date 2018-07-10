@@ -30,30 +30,75 @@ export class MessageProvider {
     toast.present();
   }
 
-  confirm(message: string, callback: (dt: Base) => void): void {
-    let keys: string[] = ['CONFIRM', 'CANCEL', 'OK'];
+  confirmSave(callback: (dt: Base) => void): void {
+    let keys: string[] = ['CONFIRM', 'SAVE_MESSAGE', 'CANCEL', 'OK'];
 
     this.translate.get(keys).subscribe(values => {
       const alert = this.alertCtrl.create({
         title: values[keys[0]],
-        message: message,
+        message: values[keys[1]],
         buttons: [
           {
-            text: values[keys[1]],
+            text: values[keys[2]],
             role: 'cancel'
           },
           {
-            text: values[keys[2]],
+            text: values[keys[3]],
             handler: callback
           }
         ]
       });
 
       alert.present();
-
     });
   }
 
+  confirmDelete(callback: (dt: Base) => void): void {
+    let keys: string[] = ['CONFIRM', 'DELETE_MESSAGE', 'CANCEL', 'OK'];
+
+    this.translate.get(keys).subscribe(values => {
+      const alert = this.alertCtrl.create({
+        title: values[keys[0]],
+        message: values[keys[1]],
+        buttons: [
+          {
+            text: values[keys[2]],
+            role: 'cancel'
+          },
+          {
+            text: values[keys[3]],
+            handler: callback
+          }
+        ]
+      });
+
+      alert.present();
+    });
+  }
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  showToast(message: string): void {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.present();
+  }
 
 
 
@@ -72,16 +117,6 @@ export class MessageProvider {
       this.cancelTxt = values[keys[1]];
       this.confirmTxt = values[keys[2]];
     });
-  }
-
-  showToast(message: string): void {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 3000,
-      position: 'top'
-    });
-
-    toast.present();
   }
 
   showSaveToast(isCreate: boolean, data: string): void {

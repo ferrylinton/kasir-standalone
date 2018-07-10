@@ -3,12 +3,10 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
-import { SettingProvider } from '../../providers/setting/setting';
+import * as Constant from "../../constant/constant";
 import { MessageProvider } from '../../providers/message/message';
 import { CurrencyProvider } from '../../providers/currency/currency';
-import { BasePage } from '../base/base';
 import { Currency } from '../../models/currency.model';
-
 
 
 @IonicPage()
@@ -16,14 +14,8 @@ import { Currency } from '../../models/currency.model';
   selector: 'page-currency-detail',
   templateUrl: 'currency-detail.html',
 })
-export class CurrencyDetailPage extends BasePage {
+export class CurrencyDetailPage {
 
-  private RELOAD_PAGE: string = 'CurrencyPage';
-
-  private FORM_PAGE: string = 'CurrencyFormPage';
-
-  private DATA: string = 'currency';
-  
   currency: Currency;
 
   constructor(
@@ -32,37 +24,39 @@ export class CurrencyDetailPage extends BasePage {
     public storage: Storage,
     public events: Events,
     public translateService: TranslateService,
-    public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
     public currencyProvider: CurrencyProvider) {
+  }
 
-    super(storage, events, translateService, settingProvider, messageProvider);
+  ionViewWillEnter() {
     this.init();
   }
 
   private init(): void {
-    this.currency = this.navParams.get(this.DATA);
+    this.currency = this.navParams.get('currency');
 
-    if (this.currency === undefined) {
-      this.reloadPage(this.RELOAD_PAGE);
+    if (!this.currency) {
+      this.events.publish(Constant.PAGE, { page: 'CurrencyPage', params: {} });
     }
   }
 
   modify() {
-    this.navCtrl.push(this.FORM_PAGE, { currency: this.currency });
+    this.navCtrl.push('CurrencyFormPage', { currency: this.currency });
   }
 
   deleteCallback(): void {
     this.currencyProvider.delete(this.currency.id).subscribe(data => {
       this.navCtrl.popToRoot();
-      this.messageProvider.showDeleteToast(this.currency.name);
+      this.translateService.get('DELETE_SUCCESS').subscribe(value => {
+        this.messageProvider.toast(value);
+      });
     }, error => {
-      this.messageProvider.showDeleteToast(error);
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
   delete() {
-    this.messageProvider.showDeleteConfirm(this.currency.name, (currency) => this.deleteCallback());
+    this.messageProvider.confirmDelete((currency) => this.deleteCallback());
   }
 
 }

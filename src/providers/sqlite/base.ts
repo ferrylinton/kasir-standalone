@@ -1,4 +1,6 @@
 import { SQLite } from "@ionic-native/sqlite";
+import { Storage } from '@ionic/storage';
+import * as Constant from "../../constant/constant";
 import { Pageable } from "../../models/pageable.model";
 import { Order } from "../../models/order.model";
 import { OrderItem } from "../../models/order-item.model";
@@ -18,8 +20,12 @@ export abstract class BaseSQlite {
 
     db: any;
 
-    constructor(
-        public sqlite: SQLite) {
+    LOGGED_USER: User;
+
+    constructor(public sqlite: SQLite, public storage: Storage) {
+        this.storage.get(Constant.LOGGED_USER).then((value) => {
+            this.LOGGED_USER = JSON.parse(value);
+        });
     }
 
     connect(): Promise<any> {
@@ -62,7 +68,7 @@ export abstract class BaseSQlite {
             item['user_username'],
             item['user_password'],
             item['user_fullname'],
-            null,
+            this.convertToRole(item),
             item['user_activated'],
             item['user_image'],
             item['user_created_by'],
@@ -70,7 +76,6 @@ export abstract class BaseSQlite {
             item['user_last_modified_by'],
             item['user_last_modified_date']
         );
-        user.role = this.convertToRole(item);
         return user;
     }
 
@@ -148,13 +153,13 @@ export abstract class BaseSQlite {
 
     convertToCurrency(item: any): Currency {
         return new Currency(
-          item['currency_id'],
-          item['currency_name'],
-          item['currency_description'],
-          item['currency_created_by'],
-          item['currency_created_date'],
-          item['currency_last_modified_by'],
-          item['currency_last_modified_date']
+            item['currency_id'],
+            item['currency_name'],
+            item['currency_description'],
+            item['currency_created_by'],
+            item['currency_created_date'],
+            item['currency_last_modified_by'],
+            item['currency_last_modified_date']
         );
-      }
+    }
 }

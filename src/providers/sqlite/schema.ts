@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 
 import { BaseSQlite } from './base';
@@ -41,8 +42,8 @@ export class SchemaProvider extends BaseSQlite {
     ORDER_ITEM.CREATE_TABLE,
   ];
 
-  constructor(public sqlite: SQLite) {
-    super(sqlite);
+  constructor(public sqlite: SQLite, public storage: Storage) {
+    super(sqlite, storage);
   }
 
   initDB(): Observable<any> {
@@ -157,8 +158,8 @@ export class SchemaProvider extends BaseSQlite {
         tx.executeSql(USER.INSERT, ['user-0000-0000-0000-003', 'employee', 'password', 'Employee', 'role-0000-0000-0000-003', true, DEFAULT_USER]);
 
         
-        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-001', 'IDR', 'Indonesian Rupiah']);
-        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-002', 'USD', 'US Dollar']);
+        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-001', 'IDR', 'Indonesian Rupiah', 'system']);
+        tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-002', 'USD', 'US Dollar', 'system']);
 
         
         tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-001', 'Category 001', 'Category description 001', DEFAULT_IMAGE]);

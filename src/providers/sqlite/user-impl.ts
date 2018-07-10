@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
@@ -14,8 +15,8 @@ import { Page } from '../../models/page.model';
 @Injectable()
 export class UserProviderImpl extends BaseSQlite implements UserProvider {
 
-  constructor(public sqlite: SQLite) {
-    super(sqlite);
+  constructor(public sqlite: SQLite, public storage: Storage) {
+    super(sqlite, storage);
   }
   
   findByUsername(username: string): Observable<User> {
@@ -86,15 +87,20 @@ export class UserProviderImpl extends BaseSQlite implements UserProvider {
         for (let i: number = 0; i < data.rows.length; i++) {
           if(!user){
             user = this.convertToUser(data.rows.item(i));
-          }else if(user['id'] != data.rows.item(i)['id']){
-            user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+          }else if(user.id != data.rows.item(i)['user_id']){
+            // insert user to array
             users.push(user);
+
+            // create new user
             user = this.convertToUser(data.rows.item(i));
-          }else if(user['id'] == data.rows.item(i)['id']){
+            user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+          }else if(user.id == data.rows.item(i)['user_id']){
             user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
           }
         }
-
+        // insert user to array
+        users.push(user);
+        
         resolve(new Page(users, pageable.pageNumber, pageable.totalData, pageable.sort));
       }).catch((error) => {
         reject(error);

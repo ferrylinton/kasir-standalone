@@ -25,7 +25,7 @@ export class HomePage extends BaseCartPage {
 
   segment = 'HomePage';
 
-  category: string = '';
+  category: Category = new Category('', this.allCategoriesTxt);
 
   categories: Array<Category>;
 
@@ -58,7 +58,7 @@ export class HomePage extends BaseCartPage {
   ionViewWillEnter() {
     forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
       this.categories = results[0];
-      this.categories.unshift(new Category(this.category, this.allCategoriesTxt));
+      this.categories.unshift(new Category('', this.allCategoriesTxt));
       this.cart = results[1];
       this.loadProducts();
       this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
@@ -85,7 +85,7 @@ export class HomePage extends BaseCartPage {
   private setSlideProperties() {
     this.showLeftButton = this.slides.getActiveIndex() !== 0;
     this.showRightButton = this.slides.getActiveIndex() !== this.categories.length - 1;
-    this.category = this.slides.getActiveIndex() === 0 ? '' : this.categories[this.slides.getActiveIndex()].name;
+    this.category = this.categories[this.slides.getActiveIndex()];
   }
 
   // Infinite Scroll
@@ -104,7 +104,7 @@ export class HomePage extends BaseCartPage {
   }
 
   private loadProducts() {
-    this.productProvider.findByCategory(this.category, this.page).subscribe(page => {
+    this.productProvider.findByCategory(this.category.id, this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];

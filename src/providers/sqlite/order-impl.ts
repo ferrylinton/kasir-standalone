@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
@@ -16,8 +17,8 @@ import { Page } from '../../models/page.model';
 @Injectable()
 export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
 
-  constructor(public sqlite: SQLite) {
-    super(sqlite);
+  constructor(public sqlite: SQLite, public storage: Storage) {
+    super(sqlite, storage);
   }
 
   findByDate(date: Date, pageable: Pageable): Observable<Page<Order>> {

@@ -1,12 +1,13 @@
 import { Base } from './base.model';
+import { User } from './user.model';
 
 export interface Audit extends Base {
 
-    createdBy?: string;
+    createdBy?: User;
 
     createdDate?: Date;
 
-    lastModifiedBy?: string;
+    lastModifiedBy?: User;
 
     lastModifiedDate?: Date;
 

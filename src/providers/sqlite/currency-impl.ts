@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite } from '@ionic-native/sqlite';
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 
@@ -14,8 +15,8 @@ import { Page } from '../../models/page.model';
 @Injectable()
 export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider {
 
-  constructor(public sqlite: SQLite) {
-    super(sqlite);
+  constructor(public sqlite: SQLite, public storage: Storage) {
+    super(sqlite, storage);
   }
 
   findAll(): Observable<Array<Currency>> {
@@ -29,14 +30,14 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   }
 
   save(currency: Currency): Observable<Currency> {
-    let params = [currency.id, currency.name, currency.description, currency.createdBy];
+    let params = [currency.id, currency.name, currency.description, this.LOGGED_USER.id];
 
     return fromPromise(this.connect()
       .then(() => this.executeSql(CURRENCY.INSERT, params)));
   }
 
   update(currency: Currency): Observable<Currency> {
-    let params = [currency.name, currency.description, currency.lastModifiedBy, currency.id];
+    let params = [currency.name, currency.description, this.LOGGED_USER.id, currency.id];
     
     return fromPromise(this.connect()
       .then(() => this.executeSql(CURRENCY.UPDATE, params)));

@@ -14,7 +14,7 @@ export const CREATE_TABLE =
 export const INSERT =
   `INSERT INTO 
   m_currency(id, name, description, created_by, created_date) 
-  VALUES (?, ?, ?, 'system', datetime('now','localtime'))`;
+  VALUES (?, ?, ?, ?, datetime('now','localtime'))`;
 
 export const DELETE = `DELETE FROM m_currency WHERE id = ?`;
 
