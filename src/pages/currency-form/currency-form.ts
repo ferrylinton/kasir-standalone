@@ -9,7 +9,6 @@ import * as Constant from "../../constant/constant";
 import { MessageProvider } from '../../providers/message/message';
 import { CurrencyProvider } from '../../providers/currency/currency'
 import { Currency } from '../../models/currency.model';
-import { User } from '../../models/user.model';
 
 
 @IonicPage()
@@ -72,7 +71,7 @@ export class CurrencyFormPage {
     if (!this.form.valid) {
       return;
     } else {
-      this.messageProvider.confirmSave((currency) => this.saveCallback(this.form.value));
+      this.messageProvider.confirmSave(() => this.saveCallback(this.form.value));
     }
   }
 
@@ -104,9 +103,7 @@ export class CurrencyFormPage {
 
   private showMessage(): void {
     this.navCtrl.popToRoot();
-    this.translateService.get('SAVE_SUCCESS').subscribe(value => {
-      this.messageProvider.toast(value);
-    });
+    this.messageProvider.toastSave();
   }
 
 }

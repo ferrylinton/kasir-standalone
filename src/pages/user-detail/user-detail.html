@@ -30,26 +30,26 @@
       <ion-col class="detail-label">{{ 'USERNAME' | translate }}</ion-col>
     </ion-row>
     <ion-row>
-        <ion-col class="detail-value">{{ user.username }}</ion-col>
-      </ion-row>
+      <ion-col class="detail-value">{{ user.username }}</ion-col>
+    </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'FULLNAME' | translate }}</ion-col>
     </ion-row>
     <ion-row>
-        <ion-col class="detail-value">{{ user.fullname }}</ion-col>
-      </ion-row>
+      <ion-col class="detail-value">{{ user.fullname }}</ion-col>
+    </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'ROLE' | translate }}</ion-col>
     </ion-row>
-    <ion-row *ngIf="user.role; else empty">
-        <ion-col class="detail-value">{{ user.role.name }}</ion-col>
-      </ion-row>
+    <ion-row *ngIf="user.role && user.role.name; else empty">
+      <ion-col class="detail-value">{{ user.role.name }}</ion-col>
+    </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'STATUS' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="user.activated; else deactivated">
-        <ion-col class="detail-value">{{ 'ACTIVATED' | translate }}</ion-col>
-      </ion-row>
+      <ion-col class="detail-value">{{ 'ACTIVATED' | translate }}</ion-col>
+    </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'CREATED_BY' | translate }}</ion-col>
     </ion-row>

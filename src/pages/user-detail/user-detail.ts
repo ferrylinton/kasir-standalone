@@ -14,12 +14,6 @@ import { User } from '../../models/user.model';
 })
 export class UserDetailPage{
 
-  private RELOAD_PAGE: string = 'UserPage';
-
-  private FORM_PAGE: string = 'UserFormPage';
-
-  private DATA: string = 'user';
-
   private user: User;
 
   constructor(
@@ -35,7 +29,7 @@ export class UserDetailPage{
   }
 
   private init(): void {
-    this.user = this.navParams.get(this.DATA);
+    this.user = this.navParams.get('user');
 
     if (!this.user) {
       this.events.publish(PAGE, { page: 'UserPage', params: {} });

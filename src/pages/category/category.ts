@@ -25,9 +25,10 @@ export class CategoryPage extends BaseListPage<Category>{
 
   constructor(
     public navCtrl: NavController,
+    public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider
   ) {
-    super('name');
+    super('cat.name');
   }
 
   ionViewWillEnter() {
@@ -40,6 +41,8 @@ export class CategoryPage extends BaseListPage<Category>{
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
     })
   }
 

@@ -6,11 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
-import { BasePage } from '../base/base';
-import { SettingProvider } from '../../providers/setting/setting';
+import * as Constant from "../../constant/constant";
 import { MessageProvider } from '../../providers/message/message';
 import { CategoryProvider } from '../../providers/category/category'
-
 import { Category } from '../../models/category.model';
 
 
@@ -19,11 +17,7 @@ import { Category } from '../../models/category.model';
   selector: 'page-category-form',
   templateUrl: 'category-form.html',
 })
-export class CategoryFormPage extends BasePage {
-
-  private RELOAD_PAGE: string = 'CategoryPage';
-
-  private DATA: string = 'category';
+export class CategoryFormPage{
 
   @ViewChild('fileInput') fileInput;
 
@@ -41,21 +35,21 @@ export class CategoryFormPage extends BasePage {
     public storage: Storage,
     public events: Events,
     public translateService: TranslateService,
-    public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider,
     public camera: Camera,
     public formBuilder: FormBuilder) {
+  }
 
-    super(storage, events, translateService, settingProvider, messageProvider);
+  ionViewWillEnter() {
     this.init();
   }
 
   private init(): void {
-    this.category = this.navParams.get(this.DATA);
+    this.category = this.navParams.get('category');
 
-    if (this.category === undefined) {
-      this.reloadPage(this.RELOAD_PAGE);
+    if (!this.category) {
+      this.events.publish(Constant.PAGE, { page: 'CategoryPage', params: {} });
     } else {
       this.initVariable();
       this.initForm();
@@ -82,7 +76,7 @@ export class CategoryFormPage extends BasePage {
     if (!this.form.valid) {
       return;
     } else {
-      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.name, (category) => this.saveCallback(this.form.value));
+      this.messageProvider.confirmSave(() => this.saveCallback(this.form.value));
     }
   }
 
@@ -96,27 +90,25 @@ export class CategoryFormPage extends BasePage {
 
   private create(category: Category): void {
     category.id = uuid();
-    category.createdBy = this.loggedUser.username;
-    category.createdDate = new Date();
     this.categoryProvider.save(category).subscribe(result => {
-      this.showSaveResult(result);
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
   private modify(category: Category): void {
     category.id = this.category.id;
-    category.createdBy = this.category.createdBy;
-    category.createdDate = this.category.createdDate;
-    category.lastModifiedBy = this.loggedUser.username;
-    category.lastModifiedDate = new Date();
     this.categoryProvider.update(category).subscribe(result => {
-      this.showSaveResult(result);
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
-  private showSaveResult(category: Category): void{
+  private showMessage(): void {
     this.navCtrl.popToRoot();
-    this.messageProvider.showSaveToast(this.isCreate, category.name);
+    this.messageProvider.toastSave();
   }
 
   getPicture() {

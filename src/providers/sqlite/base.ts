@@ -62,6 +62,14 @@ export abstract class BaseSQlite {
         return [...params, ...[orderBy, limit, offset]];
     }
 
+    createOrder(pageable: Pageable): string {
+        let limit: number = pageable.size;
+        let offset: number = (pageable.pageNumber - 1) * pageable.size;
+        let orderBy: string = (pageable.sort.isAsc) ? ' ASC' : ' DESC';
+
+        return ' ORDER BY LOWER(' + pageable.sort.column + ')' + orderBy + ' LIMIT ' + limit + ' OFFSET ' + offset;
+    }
+
     convertToUser(item: any): User {
         let user: User = new User(
             item['user_id'],
@@ -162,5 +170,28 @@ export abstract class BaseSQlite {
             item['currency_last_modified_date']
         );
     }
-    
+
+    escapeSql(str: string) : string {
+        return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+            switch (char) {
+                case "\0":
+                    return "\\0";
+                case "\x08":
+                    return "\\b";
+                case "\x09":
+                    return "\\t";
+                case "\x1a":
+                    return "\\z";
+                case "\n":
+                    return "\\n";
+                case "\r":
+                    return "\\r";
+                case "\"":
+                case "'":
+                case "\\":
+                case "%":
+                    return "\\" + char;
+            }
+        });
+    }
 }

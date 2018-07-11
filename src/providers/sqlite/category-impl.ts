@@ -30,14 +30,14 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
   }
 
   save(category: Category): Observable<Category> {
-    let params = [category.id, category.name, category.description, category.image, category.createdBy];
+    let params = [category.id, category.name, category.description, category.image, this.LOGGED_USER.id];
     
     return fromPromise(this.connect()
       .then(() => this.executeSql(CATEGORY.INSERT, params)));
   }
 
   update(category: Category): Observable<Category> {
-    let params = [category.name, category.description, category.image, category.lastModifiedBy, category.id];
+    let params = [category.name, category.description, category.image, this.LOGGED_USER.id, category.id];
     
     return fromPromise(this.connect()
       .then(() => this.executeSql(CATEGORY.UPDATE, params)));
@@ -70,10 +70,10 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
   }
 
   private executeSqlFindByName(name: string, pageable: Pageable): Promise<Page<Category>> {
-    let params = this.createParams(['%' + name.toLowerCase() + '%'], pageable);
+    let params = ['%' + name.toLowerCase() + '%'];
 
     return new Promise((resolve, reject) => {
-      this.db.executeSql(CATEGORY.FIND_BY_NAME, params).then((data) => {
+      this.db.executeSql(CATEGORY.FIND_BY_NAME + this.createOrder(pageable), params).then((data) => {
         resolve(new Page(this.convertToCategories(data), pageable.pageNumber, pageable.totalData, pageable.sort));
       }).catch((error) => {
         reject(error);
