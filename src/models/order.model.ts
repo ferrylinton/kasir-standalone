@@ -1,5 +1,6 @@
 import { Audit } from './audit.model';
 import { OrderItem } from './order-item.model';
+import { User } from './user.model';
 
 export class Order implements Audit {
 
@@ -15,11 +16,11 @@ export class Order implements Audit {
 
         public canceled?: boolean,
 
-        public createdBy?: string,
+        public createdBy?: string | User,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: string,
+        public lastModifiedBy?: string | User,
 
         public lastModifiedDate?: Date) {
     }

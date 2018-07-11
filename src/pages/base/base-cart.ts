@@ -26,7 +26,7 @@ export abstract class BaseCartPage {
         });
     }
 
-    getProductFromOrder(order: Order): string {
+    getProducts(order: Order): string {
         let result = '';
 
         if (order) {

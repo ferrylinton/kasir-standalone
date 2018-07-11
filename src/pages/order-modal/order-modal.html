@@ -27,7 +27,7 @@
   <ion-list *ngIf="order; else nodata">
     <ion-item>
       {{ 'CREATED_BY' | translate }}
-      <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy }}</span>
+      <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy.username }}</span>
     </ion-item>
     <ion-item>
       {{ 'CREATED_DATE' | translate }}
@@ -35,7 +35,7 @@
     </ion-item>
     <ion-item>
       {{ 'LAST_MODIFIED_BY' | translate }}
-      <span item-end *ngIf="order.lastModifiedBy; else empty">{{ order.lastModifiedBy }}</span>
+      <span item-end *ngIf="order.lastModifiedBy; else empty">{{ order.lastModifiedBy.username }}</span>
     </ion-item>
     <ion-item>
       {{ 'LAST_MODIFIED_DATE' | translate }}

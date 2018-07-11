@@ -21,10 +21,11 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
     super(sqlite, storage);
   }
 
-  findByDate(date: Date, pageable: Pageable): Observable<Page<Order>> {
+  findByDate(dt: Date, pageable: Pageable): Observable<Page<Order>> {
+    console.log('------------ is date  : ' + (typeof dt));
     return fromPromise(this.connect()
-      .then(() => this.executeSqlCountByDate(name, pageable))
-      .then(pageable => this.executeSqlFindByDate(name, pageable)));
+      .then(() => this.executeSqlCountByDate(dt, pageable))
+      .then(pageable => this.executeSqlFindByDate(dt, pageable)));
   }
 
   save(order: Order): Observable<Order> {
@@ -39,9 +40,9 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
     return fromPromise(this.connect().then(() => this.executeSqlDelete(id)));
   }
 
-  private executeSqlCountByDate(date: Date, pageable: Pageable): Promise<any> {
+  private executeSqlCountByDate(dt: Date, pageable: Pageable): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.db.executeSql(ORDER.COUNT_BY_DATE, [date]).then((data) => {
+      this.db.executeSql(ORDER.COUNT_BY_DATE, [dt]).then((data) => {
         pageable.totalData = data.rows.item(0)['total']
         resolve(pageable);
       }).catch((error) => {
@@ -50,17 +51,15 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
     })
   }
 
-  private executeSqlFindByDate(date: Date, pageable: Pageable): Promise<Page<Order>> {
+  private executeSqlFindByDate(dt: Date, pageable: Pageable): Promise<Page<Order>> {
     let offset = (pageable.pageNumber - 1) * pageable.size;
 
     return new Promise((resolve, reject) => {
-      this.db.executeSql(ORDER.FIND_BY_DATE, [date, offset]).then((data) => {
+      this.db.executeSql(ORDER.FIND_BY_DATE, [dt, offset]).then((data) => {
         let orders: Array<Order> = new Array();
         let order: Order;
 
         for (let i: number = 0; i < data.rows.length; i++) {
-          orders.push(this.convertToOrder(data.rows.item(i)));
-
           if(!order){
             order = this.convertToOrder(data.rows.item(i));
             order.items.push(this.convertToItem(data.rows.item(i)))

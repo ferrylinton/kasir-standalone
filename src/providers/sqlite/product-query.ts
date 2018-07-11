@@ -98,7 +98,7 @@ export const FIND_BY_NAME =
     cat.created_date as category_created_date,
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
-FROM m_product pro
+FROM m_product prd
 LEFT JOIN m_category cat ON prd.category_id = cat.id
 WHERE lower(prd.name) LIKE ?
 ORDER BY LOWER(prd.name) ASC LIMIT 10 OFFSET ?`;

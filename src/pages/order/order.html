@@ -43,8 +43,6 @@
     <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
       <ion-icon [name]="getIcon(order)" [color]="getIconColor(order)" item-start></ion-icon>
       <p>
-        <span class="bold primary">{{ order.createdBy }}</span>
-        -
         <span class="bold dark">{{ order.transactionNumber }}</span>
       </p>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>

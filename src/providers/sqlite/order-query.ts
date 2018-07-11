@@ -15,7 +15,7 @@ export const CREATE_TABLE =
 export const INSERT = 
 `INSERT INTO 
     t_order(id, transaction_number, paid, canceled, created_by, created_date) 
-    VALUES (?, ?, ?, ?, 'system', datetime('now','localtime'))`;
+    VALUES (?, ?, ?, ?, ?, datetime('now','localtime'))`;
 
 export const UPDATE = 
 `UPDATE t_order SET
@@ -66,7 +66,7 @@ FROM t_order ord
 LEFT JOIN t_order_item itm ON ord.id = itm.order_id
 LEFT JOIN m_product pro ON itm.product_id = pro.id
 LEFT JOIN m_category cat ON pro.category_id = cat.id
-WHERE date(ord.created_date) = date(?) 
+WHERE 1=1 or strftime('%Y-%m-%d', ord.created_date) = strftime('%Y-%m-%d', ?) 
 ORDER BY ord.created_date DESC LIMIT 10 OFFSET ?`;
 
-export const COUNT_BY_DATE = `SELECT count(1) as total FROM t_order where date(created_date) = date(?)`;
+export const COUNT_BY_DATE = `SELECT count(1) as total FROM t_order where 1=1 or date(created_date) = date(?)`;
