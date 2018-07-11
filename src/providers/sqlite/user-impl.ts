@@ -36,12 +36,14 @@ export class UserProviderImpl extends BaseSQlite implements UserProvider {
   }
 
   save(user: User): Observable<User> {
-    let params = [user.id, user.username, user.password, user.fullname, user.role, user.activated, user.image, user.createdBy];
+    let roleId = (typeof user.role === 'string') ? user.role : user.role.id;
+    let params = [user.id, user.username, user.password, user.fullname, roleId, user.activated, user.image, this.LOGGED_USER.id];
     return fromPromise(this.connect().then(() => this.executeSql(USER.INSERT, params)));
   }
 
   update(user: User): Observable<User> {
-    let params = [user.username, user.password, user.fullname, user.role, user.activated, user.image, user.lastModifiedBy, user.id];
+    let roleId = (typeof user.role === 'string') ? user.role : user.role.id;
+    let params = [user.username, user.password, user.fullname, roleId, user.activated, user.image, this.LOGGED_USER.id, user.id];
     return fromPromise(this.connect().then(() => this.executeSql(USER.UPDATE, params)));
   }
 

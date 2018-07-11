@@ -6,14 +6,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
-import { BasePage } from '../base/base';
-import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { UserProvider } from '../../providers/user/user';
 import { RoleProvider } from '../../providers/role/role';
 
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.model';
+import { PAGE } from '../../constant/constant';
 
 
 @IonicPage()
@@ -21,11 +20,8 @@ import { Role } from '../../models/role.model';
   selector: 'page-user-form',
   templateUrl: 'user-form.html',
 })
-export class UserFormPage extends BasePage {
+export class UserFormPage{
 
-  private RELOAD_PAGE: string = 'UserPage';
-
-  private DATA: string = 'user';
 
   @ViewChild('fileInput') fileInput;
 
@@ -37,34 +33,33 @@ export class UserFormPage extends BasePage {
 
   user: User;
 
-  roles: Role[];
+  roleId: string;
+
+  roles: Array<Role>;
 
   status: Array<{ label: string, value: boolean }>;
-
-  passwordNotMatch: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
+    public camera: Camera,
     public messageProvider: MessageProvider,
     public roleProvider: RoleProvider,
     public userProvider: UserProvider,
-    public camera: Camera,
     public formBuilder: FormBuilder) {
-
-    super(storage, events, translateService, settingProvider, messageProvider);
-    this.init();
   }
 
+  ionViewWillEnter() {
+    this.init();
+  }
+  
   private init(): void {
-    this.user = this.navParams.get(this.DATA);
+    this.user = this.navParams.get('user');
 
     if (this.user === undefined) {
-      this.reloadPage(this.RELOAD_PAGE);
+      this.events.publish(PAGE, { page: 'UserPage', params: {} });
     } else {
       this.initVariable();
       this.initRoles();
@@ -78,24 +73,16 @@ export class UserFormPage extends BasePage {
     if (this.isCreate) {
       this.user.activated = true;
     }
-
-    this.translateService.get('PASSWORD_NOT_MATCH').subscribe(value => {
-      this.passwordNotMatch = value;
-    });
   }
 
   private initRoles(): void {
     this.roleProvider.findAll().subscribe(roles => {
       this.roles = roles;
 
-      if (this.isCreate && roles.length > 0) {
-        this.user.role = roles[0];
-      }else if(!this.isCreate && roles.length > 0){
-        for(let i: number = 0; i<roles.length; i++){
-          if(this.user.role && roles[i].id == this.user.role.id){
-            this.user.role = roles[i];
-          }
-        }
+      if(this.isCreate && roles.length > 0){
+        this.roleId = roles[0].id;
+      }else{
+        this.roleId = (typeof this.user.role === 'string') ? this.user.role : this.user.role.id;
       }
 
       this.initForm();
@@ -115,7 +102,7 @@ export class UserFormPage extends BasePage {
       fullname: [this.user.fullname, Validators.required],
       password: [this.user.password, Validators.required],
       passwordConfirm: [this.user.password, Validators.required],
-      role: [this.user.role, Validators.required],
+      role: [this.roleId, Validators.required],
       activated: [this.user.activated],
       image: [this.user.image, Validators.required]
     });
@@ -129,9 +116,9 @@ export class UserFormPage extends BasePage {
     if (!this.form.valid) {
       return;
     } else if (this.form.value.password !== this.form.value.passwordConfirm) {
-      this.messageProvider.showToast(this.passwordNotMatch);
+      this.messageProvider.toastPasswordNotConfirmed();
     } else {
-      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.fullname, (user) => this.saveCallback(this.form.value));
+      this.messageProvider.confirmSave(() => this.saveCallback(this.form.value));
     }
   }
 
@@ -145,28 +132,25 @@ export class UserFormPage extends BasePage {
 
   create(user: User): void {
     user.id = uuid();
-    user.activated = true;
-    user.createdBy = this.loggedUser.username;
-    user.createdDate = new Date();
     this.userProvider.save(user).subscribe(result => {
-      this.showSaveResult(result);
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
   modify(user: User): void {
     user.id = this.user.id;
-    user.createdBy = this.user.username;
-    user.createdDate = this.user.createdDate;
-    user.lastModifiedBy = this.loggedUser.username;
-    user.lastModifiedDate = new Date();
     this.userProvider.update(user).subscribe(result => {
-      this.showSaveResult(result);
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
-  private showSaveResult(user: User): void {
+  private showMessage(): void {
     this.navCtrl.popToRoot();
-    this.messageProvider.showSaveToast(this.isCreate, user.fullname);
+    this.messageProvider.toastSave();
   }
 
   getPicture() {

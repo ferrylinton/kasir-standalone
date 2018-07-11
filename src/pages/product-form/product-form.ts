@@ -2,16 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
-import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
-import { BasePage } from '../base/base';
-import { SettingProvider } from '../../providers/setting/setting';
+import { PAGE } from '../../constant/constant';
 import { MessageProvider } from '../../providers/message/message';
 import { ProductProvider } from '../../providers/product/product';
 import { CategoryProvider } from '../../providers/category/category';
-
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
 
@@ -21,11 +18,7 @@ import { Category } from '../../models/category.model';
   selector: 'page-product-form',
   templateUrl: 'product-form.html',
 })
-export class ProductFormPage extends BasePage {
-
-  private RELOAD_PAGE: string = 'ProductPage';
-
-  private DATA: string = 'product';
+export class ProductFormPage {
 
   @ViewChild('fileInput') fileInput;
 
@@ -37,6 +30,8 @@ export class ProductFormPage extends BasePage {
 
   product: Product;
 
+  categoryId: string;
+
   categories: Array<Category>;
 
   constructor(
@@ -44,27 +39,25 @@ export class ProductFormPage extends BasePage {
     public navParams: NavParams,
     public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
+    public camera: Camera,
     public messageProvider: MessageProvider,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider,
-    public camera: Camera,
     public formBuilder: FormBuilder) {
+  }
 
-    super(storage, events, translateService, settingProvider, messageProvider);
+  ionViewWillEnter() {
     this.init();
   }
 
   private init(): void {
-    this.product = this.navParams.get(this.DATA);
+    this.product = this.navParams.get('product');
 
-    if (this.product === undefined) {
-      this.reloadPage(this.RELOAD_PAGE);
+    if (!this.product) {
+      this.events.publish(PAGE, { page: 'ProductPage', params: {} });
     } else {
       this.initVariable()
       this.initCategories();
-      this.initForm();
     }
   }
 
@@ -77,8 +70,12 @@ export class ProductFormPage extends BasePage {
       this.categories = categories;
 
       if(this.isCreate && categories.length > 0){
-        this.product.category = categories[0];
+        this.categoryId = categories[0].id;
+      }else{
+        this.categoryId = (typeof this.product.category === 'string') ? this.product.category : this.product.category.id;
       }
+
+      this.initForm();
     })
   }
 
@@ -88,7 +85,7 @@ export class ProductFormPage extends BasePage {
       description: [this.product.description, Validators.required],
       image: [this.product.image, Validators.required],
       price: [this.product.price, Validators.required],
-      category: [this.product.category, Validators.required]
+      category: [this.categoryId, Validators.required]
     });
 
     this.form.valueChanges.subscribe((v) => {
@@ -100,7 +97,7 @@ export class ProductFormPage extends BasePage {
     if (!this.form.valid) {
       return;
     } else {
-      this.messageProvider.showSaveConfirm(this.isCreate, this.form.value.name, (category) => this.saveCallback(this.form.value));
+      this.messageProvider.confirmSave(() => this.saveCallback(this.form.value));
     }
   }
 
@@ -114,27 +111,25 @@ export class ProductFormPage extends BasePage {
 
   private create(product: Product): void {
     product.id = uuid();
-    product.createdBy = this.loggedUser.username;
-    product.createdDate = new Date();
     this.productProvider.save(product).subscribe(result => {
-      this.showSaveResult(result);
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
   private modify(product: Product): void {
     product.id = this.product.id;
-    product.createdBy = this.product.createdBy;
-    product.createdDate = this.product.createdDate;
-    product.lastModifiedBy = this.loggedUser.username;
-    product.lastModifiedDate = new Date();
     this.productProvider.update(product).subscribe(result => {
-      this.showSaveResult(result);
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
-  private showSaveResult(product: Product): void{
+  private showMessage(): void {
     this.navCtrl.popToRoot();
-    this.messageProvider.showSaveToast(this.isCreate, product.name);
+    this.messageProvider.toastSave();
   }
 
   getPicture() {

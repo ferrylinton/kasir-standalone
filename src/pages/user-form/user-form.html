@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="product && product.id === ''">{{ 'PRODUCT' | translate }} - {{ 'CREATE' | translate }}</ion-title>
-    <ion-title *ngIf="product && product.id !== ''">{{ 'PRODUCT' | translate }} - {{ 'MODIFY' | translate }}</ion-title>
+    <ion-title *ngIf="user && user.id === ''">{{ 'USER' | translate }} - {{ 'CREATE' | translate }}</ion-title>
+    <ion-title *ngIf="user && user.id !== ''">{{ 'USER' | translate }} - {{ 'MODIFY' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="save()" [disabled]="!isReadyToSave" strong>
         <ion-icon name="checkmark"></ion-icon>
@@ -9,7 +9,6 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-
 
 <ion-content padding>
   <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
@@ -40,7 +39,7 @@
     <ion-item>
       <ion-label color="primary" stacked>{{ 'ROLE' | translate }}</ion-label>
       <ion-select formControlName="role" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-        <ion-option *ngFor="let role of roles">{{ role.name }}</ion-option>
+        <ion-option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>

@@ -34,6 +34,7 @@ export class UserDetailPage{
     if (!this.user) {
       this.events.publish(PAGE, { page: 'UserPage', params: {} });
     } else {
+      console.log('----------- this.user.activated : ' + this.user.activated);
       forkJoin([this.userProvider.findById(this.user.createdBy),
       this.userProvider.findById(this.user.lastModifiedBy)]).subscribe(results => {
         this.user.createdBy = results[0];

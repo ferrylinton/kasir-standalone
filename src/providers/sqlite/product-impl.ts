@@ -32,13 +32,15 @@ export class ProductProviderImpl extends BaseSQlite implements ProductProvider {
   }
 
   save(product: Product): Observable<Product> {
-    let params = [product.id, product.name, product.description, product.price, product.image, product.category, product.createdBy];
+    let categoryId = (typeof product.category === 'string') ? product.category : product.category.id;
+    let params = [product.id, product.name, product.description, product.price, product.image, categoryId, this.LOGGED_USER.id];
     return fromPromise(this.connect()
       .then(() => this.executeSql(PRODUCT.INSERT, params)));
   }
 
   update(product: Product): Observable<Product> {
-    let params = [product.name, product.description, product.price, product.image, product.category.id, product.lastModifiedBy, product.id];
+    let categoryId = (typeof product.category === 'string') ? product.category : product.category.id;
+    let params = [product.name, product.description, product.price, product.image, categoryId, this.LOGGED_USER.id, product.id];
     return fromPromise(this.connect()
       .then(() => this.executeSql(PRODUCT.UPDATE, params)));
   }

@@ -1,11 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
-import * as Constant from "../../constant/constant";
+import { PAGE } from '../../constant/constant';
 import { MessageProvider } from '../../providers/message/message';
 import { CurrencyProvider } from '../../providers/currency/currency'
 import { Currency } from '../../models/currency.model';
@@ -31,7 +30,6 @@ export class CurrencyFormPage {
     public navParams: NavParams,
     public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
     public currencyProvider: CurrencyProvider,
     public messageProvider: MessageProvider,
     public formBuilder: FormBuilder) {
@@ -45,7 +43,7 @@ export class CurrencyFormPage {
     this.currency = this.navParams.get('currency');
 
     if (!this.currency) {
-      this.events.publish(Constant.PAGE, { page: 'CurrencyPage', params: {} });
+      this.events.publish(PAGE, { page: 'CurrencyPage', params: {} });
     } else {
       this.initVariable();
       this.initForm();

@@ -35,6 +35,12 @@ export class MessageProvider {
     });
   }
 
+  toastPasswordNotConfirmed(): void {
+    this.translate.get('PASSWORD_NOT_MATCH').subscribe(value => {
+      this.toast(value);
+    });
+  }
+
   confirmSave(callback: (dt: Base) => void): void {
     let keys: string[] = ['CONFIRM', 'SAVE_MESSAGE', 'CANCEL', 'OK'];
 

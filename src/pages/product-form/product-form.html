@@ -35,7 +35,7 @@
     <ion-item>
       <ion-label color="primary" stacked>{{ 'CATEGORY' | translate }}</ion-label>
       <ion-select formControlName="category" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
-        <ion-option *ngFor="let category of categories">{{ category.name }}</ion-option>
+        <ion-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-option>
       </ion-select>
     </ion-item>
   </form>

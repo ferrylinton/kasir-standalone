@@ -2,11 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
-import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 import { v4 as uuid } from 'uuid';
 
-import * as Constant from "../../constant/constant";
+import { PAGE } from '../../constant/constant';
 import { MessageProvider } from '../../providers/message/message';
 import { CategoryProvider } from '../../providers/category/category'
 import { Category } from '../../models/category.model';
@@ -34,10 +33,9 @@ export class CategoryFormPage{
     public navParams: NavParams,
     public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
+    public camera: Camera,
     public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider,
-    public camera: Camera,
     public formBuilder: FormBuilder) {
   }
 
@@ -49,7 +47,7 @@ export class CategoryFormPage{
     this.category = this.navParams.get('category');
 
     if (!this.category) {
-      this.events.publish(Constant.PAGE, { page: 'CategoryPage', params: {} });
+      this.events.publish(PAGE, { page: 'CategoryPage', params: {} });
     } else {
       this.initVariable();
       this.initForm();

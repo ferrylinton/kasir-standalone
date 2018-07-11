@@ -17,7 +17,7 @@ export class Product implements Audit{
         
         public image?: string, 
         
-        public category?: Category,
+        public category?: string | Category,
     
         public createdBy?: string | User,
 

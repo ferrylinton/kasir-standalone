@@ -47,8 +47,9 @@
     <ion-row>
       <ion-col class="detail-label">{{ 'STATUS' | translate }}</ion-col>
     </ion-row>
-    <ion-row *ngIf="user.activated; else deactivated">
-      <ion-col class="detail-value">{{ 'ACTIVATED' | translate }}</ion-col>
+    <ion-row>
+      <ion-col class="detail-value" *ngIf="user.activated == 'true'">{{ 'ACTIVATED' | translate }}</ion-col>
+      <ion-col class="detail-value" *ngIf="user.activated == 'false'">{{ 'DEACTIVATED' | translate }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'CREATED_BY' | translate }}</ion-col>
@@ -79,10 +80,5 @@
 <ng-template #empty>
   <ion-row>
     <ion-col class="detail-value">-</ion-col>
-  </ion-row>
-</ng-template>
-<ng-template #deactivated>
-  <ion-row>
-    <ion-col class="detail-value">{{ 'DEACTIVATED' | translate }}</ion-col>
   </ion-row>
 </ng-template>

@@ -14,7 +14,7 @@ export class User implements Audit{
         
         public fullname?: string, 
         
-        public role?: Role, 
+        public role?: string | Role, 
         
         public activated?: boolean,
 
