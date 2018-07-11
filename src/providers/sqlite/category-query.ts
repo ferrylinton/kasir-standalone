@@ -38,7 +38,8 @@ export const FIND_ALL =
     cat.created_date as category_created_date,
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
-FROM m_category cat `
+FROM m_category cat 
+ORDER BY LOWER(cat.name)`;
 
 export const FIND_BY_NAME = 
 `SELECT 
@@ -51,6 +52,7 @@ export const FIND_BY_NAME =
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
 FROM m_category cat
-WHERE lower(name) LIKE ? `
+WHERE lower(cat.name) LIKE ? 
+ORDER BY LOWER(cat.name) ASC LIMIT 10 OFFSET ?`;
 
 export const COUNT_BY_NAME = `SELECT count(1) as total FROM m_category where lower(name) LIKE ?`;

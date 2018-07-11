@@ -31,4 +31,4 @@ export const FIND_ALL =
 FROM m_role rol 
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
 LEFT JOIN m_authority aut ON aut.id = rla.authority_id 
-ORDER BY rol.name`
+ORDER BY LOWER(rol.name)`;

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Events } from 'ionic-angular';
 
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
@@ -10,6 +11,7 @@ import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
 import { BaseCartPage } from '../base/base-cart';
+import { PAGE } from '../../constant/constant';
 
 
 @IonicPage()
@@ -39,11 +41,11 @@ export class OrderPage extends BaseCartPage {
     public translateService: TranslateService,
     public messageProvider: MessageProvider,
     public settingProvider: SettingProvider,
-    public commonProvider: CommonProvider,
+    public events: Events,
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translateService, events, settingProvider, cartProvider);
     this.initDatePicker();
   }
 
@@ -66,8 +68,6 @@ export class OrderPage extends BaseCartPage {
 
   private initPage(): void {
     this.page = new Page();
-    this.page.sort.column = 'createdDate';
-    this.page.sort.isAsc = false;
   }
 
   private loadData() {
@@ -82,14 +82,10 @@ export class OrderPage extends BaseCartPage {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        this.commonProvider.goToPage('OrderPage', { order: order });
+        this.events.publish(PAGE, { page: 'OrderPage', params: { order: order } });
       }
     })
     orderModal.present();
-  }
-
-  getProducts(order: Order): string {
-    return this.commonProvider.getProductFromOrder(order);
   }
 
   getIcon(order: Order): string{
@@ -129,7 +125,7 @@ export class OrderPage extends BaseCartPage {
   // Segment
   
   updateContent(): void {
-    this.commonProvider.goToPage(this.segment, {});
+    this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
 }

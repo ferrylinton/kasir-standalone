@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Events } from 'ionic-angular';
 
 import { BaseCartPage } from '../base/base-cart';
 import { CommonProvider } from '../../providers/common/common';
@@ -10,6 +11,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
+import { PAGE } from '../../constant/constant';
 
 
 @IonicPage()
@@ -26,22 +28,19 @@ export class CartPage extends BaseCartPage {
   constructor(
     public modalCtrl: ModalController,
     public navParams: NavParams,
-    public translateService: TranslateService,
+    public translate: TranslateService,
+    public events: Events,
     public messageProvider: MessageProvider,
     public settingProvider: SettingProvider,
-    public commonProvider: CommonProvider,
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translate, events, settingProvider, cartProvider);
     this.initPage();
   }
 
   private initPage(): void {
     this.page = new Page();
-    this.page.size = 5;
-    this.page.sort.column = 'createdDate';
-    this.page.sort.isAsc = false;
   }
 
   ionViewWillEnter() {
@@ -72,7 +71,9 @@ export class CartPage extends BaseCartPage {
     orderModal.onDidDismiss(order => {
       if (order) {
         if (this.cartProvider.countItem(this.cart.order) > 0) {
-          this.messageProvider.showToast(this.unsaveOrderTxt);
+          this.translate.get('UNSAVE_ORDER').subscribe(value => {
+            this.messageProvider.toast(value);
+          });
         } else {
           this.cartProvider.setCartFromOrder(order).subscribe(cart => {
             this.cart = cart;
@@ -83,55 +84,40 @@ export class CartPage extends BaseCartPage {
     orderModal.present();
   }
 
-  getProducts(order: Order): string {
-    return this.commonProvider.getProductFromOrder(order);
-  }
 
   pay() {
     const orderModal = this.modalCtrl.create('PaymentPage', { order: this.cart.order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        this.commonProvider.getLoggedUser().subscribe(user => {
-          this.saveOrPay(true);
-        });
+        this.saveOrPay(true);
       }
     });
     orderModal.present();
   }
 
   save(): void{
-    this.messageProvider.showAddConfirm(this.orderTxt, () => this.saveCallback());
+    this.messageProvider.confirmSave(() => this.saveCallback());
   }
 
   delete(): void{
-    this.messageProvider.showDeleteConfirm(this.orderTxt, () => this.deleteOrderFromStorage());
+    this.messageProvider.confirmDelete(() => this.deleteOrderFromStorage());
   }
 
   private saveCallback() {
-    this.commonProvider.getLoggedUser().subscribe(user => {
-      this.saveOrPay(false);
-    });
+    this.saveOrPay(false);
   }
 
   private saveOrPay(paid: boolean): void {
-    this.commonProvider.getLoggedUser().subscribe(user => {
-      if (this.cart.isModified) {
-        this.cart.order.paid = this.cart.order.paid || paid;
-        this.cart.order.lastModifiedBy = user.username;
-        this.cart.order.lastModifiedDate = new Date();
-        this.cart.order.createdDate = new Date(this.cart.order.createdDate);
-        this.orderProvider.update(this.cart.order).subscribe(() => {
-          this.deleteOrderFromStorage();
-        });
-      } else {
-        this.cart.order.paid = paid;
-        this.cart.order.createdBy = user.username;
-        this.cart.order.createdDate = new Date();
-        this.orderProvider.save(this.cart.order).subscribe(() => {
-          this.deleteOrderFromStorage();
-        });
-      }
-    });
+    if (this.cart.isModified) {
+      this.cart.order.paid = this.cart.order.paid || paid;
+      this.orderProvider.update(this.cart.order).subscribe(() => {
+        this.deleteOrderFromStorage();
+      });
+    } else {
+      this.orderProvider.save(this.cart.order).subscribe(() => {
+        this.deleteOrderFromStorage();
+      });
+    }
   }
 
   private deleteOrderFromStorage(): void {
@@ -143,7 +129,7 @@ export class CartPage extends BaseCartPage {
   // Segment
   
   updateContent(): void {
-    this.commonProvider.goToPage(this.segment, {});
+    this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
 }

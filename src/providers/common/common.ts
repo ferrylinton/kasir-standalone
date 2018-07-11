@@ -31,6 +31,7 @@ export class CommonProvider {
     });
   }
 
+  /*
   getLoggedUser(): Observable<User> {
     return fromPromise(this.storage.get(LOGGED_USER).then((val) => {
       return JSON.parse(val);
@@ -58,4 +59,5 @@ export class CommonProvider {
     
     return result;
   }
+*/
 }

@@ -70,11 +70,12 @@ export class CategoryProviderImpl extends BaseSQlite implements CategoryProvider
   }
 
   private executeSqlFindByName(name: string, pageable: Pageable): Promise<Page<Category>> {
-    let params = ['%' + name.toLowerCase() + '%'];
+    let offset = (pageable.pageNumber - 1) * pageable.size;
+    let params = ['%' + name.toLowerCase() + '%', offset];
 
     return new Promise((resolve, reject) => {
-      this.db.executeSql(CATEGORY.FIND_BY_NAME + this.createOrder(pageable), params).then((data) => {
-        resolve(new Page(this.convertToCategories(data), pageable.pageNumber, pageable.totalData, pageable.sort));
+      this.db.executeSql(CATEGORY.FIND_BY_NAME, params).then((data) => {
+        resolve(new Page(this.convertToCategories(data), pageable.pageNumber, pageable.totalData));
       }).catch((error) => {
         reject(error);
       });

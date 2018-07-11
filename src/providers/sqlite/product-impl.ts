@@ -76,11 +76,12 @@ export class ProductProviderImpl extends BaseSQlite implements ProductProvider {
   }
 
   private executeSqlFindByName(name: string, pageable: Pageable): Promise<Page<Product>> {
-    let params = this.createParams(['%' + name.toLowerCase() + '%'], pageable);
+    let offset = (pageable.pageNumber - 1) * pageable.size;
+    let params = ['%' + name.toLowerCase() + '%', offset];
 
     return new Promise((resolve, reject) => {
       this.db.executeSql(PRODUCT.FIND_BY_NAME, params).then((data) => {
-        resolve(new Page(this.convertToProducts(data), pageable.pageNumber, pageable.totalData, pageable.sort));
+        resolve(new Page(this.convertToProducts(data), pageable.pageNumber, pageable.totalData));
       }).catch((error) => {
         reject(error);
       });
@@ -88,12 +89,13 @@ export class ProductProviderImpl extends BaseSQlite implements ProductProvider {
   }
 
   private executeSqlFindByCategory(categoryId: string, pageable: Pageable): Promise<Page<Product>> {
-    let params = (categoryId == '') ? this.createParams([], pageable) : this.createParams([categoryId], pageable);
+    let offset = (pageable.pageNumber - 1) * pageable.size;
+    let params = (categoryId == '') ? [offset] : [categoryId, offset];
     let query = (categoryId == '') ? PRODUCT.FIND : PRODUCT.FIND_BY_CATEGORY;
     
     return new Promise((resolve, reject) => {
       this.db.executeSql(query, params).then((data) => {
-        resolve(new Page(this.convertToProducts(data), pageable.pageNumber, pageable.totalData, pageable.sort));
+        resolve(new Page(this.convertToProducts(data), pageable.pageNumber, pageable.totalData));
       }).catch((error) => {
         reject(error);
       });

@@ -51,10 +51,10 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
   }
 
   private executeSqlFindByDate(date: Date, pageable: Pageable): Promise<Page<Order>> {
-    let params = this.createParams([date], pageable);
+    let offset = (pageable.pageNumber - 1) * pageable.size;
 
     return new Promise((resolve, reject) => {
-      this.db.executeSql(ORDER.FIND_BY_DATE, params).then((data) => {
+      this.db.executeSql(ORDER.FIND_BY_DATE, [date, offset]).then((data) => {
         let orders: Array<Order> = new Array();
         let order: Order;
 
@@ -64,16 +64,20 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
           if(!order){
             order = this.convertToOrder(data.rows.item(i));
             order.items.push(this.convertToItem(data.rows.item(i)))
-          }else if(order['id'] != data.rows.item(i)['id']){
-            order.items.push(this.convertToItem(data.rows.item(i)))
+          }else if(order.id != data.rows.item(i)['order_id']){
+            // add order to list
             orders.push(order);
+
+            // create new order
+            order = this.convertToOrder(data.rows.item(i));
             order.items.push(this.convertToItem(data.rows.item(i)))
-          }else if(order['id'] != data.rows.item(i)['id']){
+          }else if(order.id != data.rows.item(i)['order_id']){
             order.items.push(this.convertToItem(data.rows.item(i)))
           }
         }
+        orders.push(order);
 
-        resolve(new Page(orders, pageable.pageNumber, pageable.totalData, pageable.sort));
+        resolve(new Page(orders, pageable.pageNumber, pageable.totalData));
       }).catch((error) => {
         reject(error);
       });
@@ -91,7 +95,7 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
         }
 
         // insert new order
-        tx.executeSql(ORDER.INSERT, [order.id, order.transactionNumber, order.paid, order.canceled, order.createdBy]);
+        tx.executeSql(ORDER.INSERT, [order.id, order.transactionNumber, order.paid, order.canceled, this.LOGGED_USER.id]);
 
       }).then((result) => {
         resolve('Order [' + order.id + '] is deleted successfully');
@@ -115,7 +119,7 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
         }
 
         // update order
-        tx.executeSql(ORDER.UPDATE, [order.transactionNumber, order.paid, order.canceled, order.lastModifiedBy, order.id]);
+        tx.executeSql(ORDER.UPDATE, [order.transactionNumber, order.paid, order.canceled, this.LOGGED_USER.id, order.id]);
 
       }).then((result) => {
         resolve('Order [' + order.id + '] is deleted successfully');

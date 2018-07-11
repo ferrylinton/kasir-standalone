@@ -34,15 +34,15 @@ export const DELETE = `DELETE FROM m_product WHERE id=?`;
 
 export const FIND = 
 `SELECT 
-    pro.id as product_id,
-    pro.name as product_name,
-    pro.description as product_description,
-    pro.price as product_price,
-    pro.image as product_image,
-    pro.created_by as product_created_by,
-    pro.created_date as product_created_date,
-    pro.last_modified_by as product_last_modified_by,
-    pro.last_modified_date as product_last_modified_date,
+    prd.id as product_id,
+    prd.name as product_name,
+    prd.description as product_description,
+    prd.price as product_price,
+    prd.image as product_image,
+    prd.created_by as product_created_by,
+    prd.created_date as product_created_date,
+    prd.last_modified_by as product_last_modified_by,
+    prd.last_modified_date as product_last_modified_date,
     cat.id as category_id,
     cat.name as category_name,
     cat.description as category_description,
@@ -51,21 +51,21 @@ export const FIND =
     cat.created_date as category_created_date,
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
-FROM m_product pro
-LEFT JOIN m_category cat ON pro.category_id = cat.id
-ORDER BY ? LIMIT ? OFFSET ?`;
+FROM m_product prd
+LEFT JOIN m_category cat ON prd.category_id = cat.id
+ORDER BY LOWER(prd.name) ASC LIMIT 10 OFFSET ?`;
 
 export const FIND_BY_CATEGORY = 
 `SELECT 
-    pro.id as product_id,
-    pro.name as product_name,
-    pro.description as product_description,
-    pro.price as product_price,
-    pro.image as product_image,
-    pro.created_by as product_created_by,
-    pro.created_date as product_created_date,
-    pro.last_modified_by as product_last_modified_by,
-    pro.last_modified_date as product_last_modified_date,
+    prd.id as product_id,
+    prd.name as product_name,
+    prd.description as product_description,
+    prd.price as product_price,
+    prd.image as product_image,
+    prd.created_by as product_created_by,
+    prd.created_date as product_created_date,
+    prd.last_modified_by as product_last_modified_by,
+    prd.last_modified_date as product_last_modified_date,
     cat.id as category_id,
     cat.name as category_name,
     cat.description as category_description,
@@ -74,22 +74,22 @@ export const FIND_BY_CATEGORY =
     cat.created_date as category_created_date,
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
-FROM m_product pro
-LEFT JOIN m_category cat ON pro.category_id = cat.id
-WHERE pro.category_id = ?
-ORDER BY ? LIMIT ? OFFSET ?`;
+FROM m_product prd
+LEFT JOIN m_category cat ON prd.category_id = cat.id
+WHERE prd.category_id = ?
+ORDER BY LOWER(prd.name) ASC LIMIT 10 OFFSET ?`;
 
 export const FIND_BY_NAME = 
 `SELECT 
-    pro.id as product_id,
-    pro.name as product_name,
-    pro.description as product_description,
-    pro.price as product_price,
-    pro.image as product_image,
-    pro.created_by as product_created_by,
-    pro.created_date as product_created_date,
-    pro.last_modified_by as product_last_modified_by,
-    pro.last_modified_date as product_last_modified_date,
+    prd.id as product_id,
+    prd.name as product_name,
+    prd.description as product_description,
+    prd.price as product_price,
+    prd.image as product_image,
+    prd.created_by as product_created_by,
+    prd.created_date as product_created_date,
+    prd.last_modified_by as product_last_modified_by,
+    prd.last_modified_date as product_last_modified_date,
     cat.id as category_id,
     cat.name as category_name,
     cat.description as category_description,
@@ -99,9 +99,9 @@ export const FIND_BY_NAME =
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
 FROM m_product pro
-LEFT JOIN m_category cat ON pro.category_id = cat.id
-WHERE lower(pro.name) LIKE ?
-ORDER BY ? LIMIT ? OFFSET ?`;
+LEFT JOIN m_category cat ON prd.category_id = cat.id
+WHERE lower(prd.name) LIKE ?
+ORDER BY LOWER(prd.name) ASC LIMIT 10 OFFSET ?`;
 
 export const COUNT = `SELECT count(1) as total FROM m_product`;
 

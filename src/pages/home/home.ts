@@ -2,16 +2,18 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Slides, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
+import { Events } from 'ionic-angular';
 
 import { BaseCartPage } from '../base/base-cart';
 import { CategoryProvider } from '../../providers/category/category';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
-import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
+import { PAGE } from '../../constant/constant';
+import { MessageProvider } from '../../providers/message/message';
 
 
 @IonicPage()
@@ -39,20 +41,19 @@ export class HomePage extends BaseCartPage {
     public modalCtrl: ModalController,
     public navParams: NavParams,
     public cartProvider: CartProvider,
-    public commonProvider: CommonProvider,
+    public events: Events,
     public settingProvider: SettingProvider,
     public translateService: TranslateService,
+    public messageProvider: MessageProvider,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translateService, events, settingProvider, cartProvider);
     this.initPage();
   }
 
   private initPage(): void {
     this.page = new Page();
-    this.page.sort.column = 'name';
-    this.page.sort.isAsc = true;
   }
 
   ionViewWillEnter() {
@@ -63,6 +64,8 @@ export class HomePage extends BaseCartPage {
       this.loadProducts();
       this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
       this.setSlideProperties();
+    }, error => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
@@ -108,6 +111,8 @@ export class HomePage extends BaseCartPage {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
+    }, error => {
+      this.messageProvider.toast('Error : ' + error);
     })
   }
 
@@ -132,7 +137,7 @@ export class HomePage extends BaseCartPage {
   }
 
   updateContent(): void {
-    this.commonProvider.goToPage(this.segment, {});
+    this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
 }

@@ -85,9 +85,11 @@ export class MyApp {
 
   hasAuthority(authority: string): boolean {
     if (this.user && this.user.role ) {
-      for(let i:number = 0; i<this.user.role.authorities.length; i++){
-        if(authority == this.user.role.authorities[i].name){
-          return true;
+      if(typeof this.user.role !== 'string'){
+        for(let i:number = 0; i<this.user.role.authorities.length; i++){
+          if(authority == this.user.role.authorities[i].name){
+            return true;
+          }
         }
       }
     }

@@ -14,7 +14,7 @@ import { Currency } from '../../models/currency.model';
 export class CurrencyPage extends BaseListPage<Currency>{
 
   constructor(public navCtrl: NavController, public currencyProvider: CurrencyProvider){
-    super('name');
+    super();
   }
 
   ionViewWillEnter() {

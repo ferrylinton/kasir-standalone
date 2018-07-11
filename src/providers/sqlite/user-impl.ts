@@ -84,7 +84,10 @@ export class UserProviderImpl extends BaseSQlite implements UserProvider {
         user = this.convertToUser(data.rows.item(0));
         user.role = this.convertToRole(data.rows.item(0));
       }
-      user.role.authorities.push(this.convertToAuthority(data.rows.item(0)))
+      
+      if(typeof user.role !== 'string'){
+        user.role.authorities.push(this.convertToAuthority(data.rows.item(0)));
+      }
     }
 
     return user;
@@ -102,9 +105,10 @@ export class UserProviderImpl extends BaseSQlite implements UserProvider {
   }
 
   private executeSqlFindByFullname(fullname: string, pageable: Pageable): Promise<Page<User>> {
-    return new Promise((resolve, reject) => {
-      let params = this.createParams(['%' + fullname.toLowerCase() + '%'], pageable);
+    let offset = (pageable.pageNumber - 1) * pageable.size;
+    let params = ['%' + fullname.toLowerCase() + '%', offset];
 
+    return new Promise((resolve, reject) => {
       this.db.executeSql(USER.FIND_BY_FULLNAME, params).then((data) => {
         let users: Array<User> = new Array();
         let user: User;
@@ -118,15 +122,19 @@ export class UserProviderImpl extends BaseSQlite implements UserProvider {
 
             // create new user
             user = this.convertToUser(data.rows.item(i));
-            user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+            if(typeof user.role !== 'string'){
+              user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+            }
           } else if (user.id == data.rows.item(i)['user_id']) {
-            user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+            if(typeof user.role !== 'string'){
+              user.role.authorities.push(this.convertToAuthority(data.rows.item(i)));
+            }
           }
         }
         // insert user to array
         users.push(user);
 
-        resolve(new Page(users, pageable.pageNumber, pageable.totalData, pageable.sort));
+        resolve(new Page(users, pageable.pageNumber, pageable.totalData));
       }).catch((error) => {
         reject(error);
       });

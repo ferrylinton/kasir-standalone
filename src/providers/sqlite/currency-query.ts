@@ -35,7 +35,8 @@ export const FIND_ALL =
   cur.created_date as currency_created_date,
   cur.last_modified_by as currency_last_modified_by,
   cur.last_modified_date as currency_last_modified_date
-FROM m_currency cur `;
+FROM m_currency cur 
+ORDER BY LOWER(cur.name) LIMIT 10 OFFSET ?`;
 
 export const FIND_BY_NAME =
   `SELECT 
@@ -47,6 +48,7 @@ export const FIND_BY_NAME =
     cur.last_modified_by as currency_last_modified_by,
     cur.last_modified_date as currency_last_modified_date
 FROM m_currency cur
-WHERE lower(name) LIKE ? ORDER BY ? LIMIT ? OFFSET ? `
+WHERE lower(name) LIKE ? 
+ORDER BY LOWER(cur.name) ASC LIMIT 10 OFFSET ?`;
 
 export const COUNT_BY_NAME = `SELECT count(1) as total FROM m_currency where lower(name) LIKE ?`;

@@ -13,7 +13,7 @@ import { Product } from '../../models/product.model';
 export class ProductPage extends BaseListPage<Product>{
 
   constructor(public navCtrl: NavController, public productProvider: ProductProvider) {
-    super('name');
+    super();
   }
 
   ionViewWillEnter() {

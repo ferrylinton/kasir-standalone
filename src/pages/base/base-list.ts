@@ -14,7 +14,7 @@ export abstract class BaseListPage<T extends Base>{
 
     page: Page<T>;
 
-    constructor(public sortBy: string) {
+    constructor() {
         this.initPage();
     }
 
@@ -22,8 +22,6 @@ export abstract class BaseListPage<T extends Base>{
 
     initPage(): void {
         this.page = new Page();
-        this.page.sort.column = this.sortBy;
-        this.page.sort.isAsc = true;
     }
 
     doInfinite(infiniteScroll) {

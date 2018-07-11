@@ -28,7 +28,7 @@ export class CategoryPage extends BaseListPage<Category>{
     public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider
   ) {
-    super('cat.name');
+    super();
   }
 
   ionViewWillEnter() {

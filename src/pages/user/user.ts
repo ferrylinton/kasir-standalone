@@ -14,7 +14,7 @@ import { User } from '../../models/user.model';
 export class UserPage extends BaseListPage<User>{
 
   constructor(public navCtrl: NavController, public userProvider: UserProvider) {
-    super('fullname');
+    super();
   }
 
   ionViewWillEnter() {

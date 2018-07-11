@@ -1,5 +1,6 @@
 import { ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Events } from 'ionic-angular';
 
 import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
@@ -8,6 +9,7 @@ import { Order } from "../../models/order.model";
 import { Cart } from '../../models/cart.model';
 import { Product } from '../../models/product.model';
 import { Setting } from '../../models/setting.model';
+import { PAGE } from '../../constant/constant';
 
 
 export abstract class BaseCartPage {
@@ -35,7 +37,7 @@ export abstract class BaseCartPage {
     constructor(
         public modalCtrl: ModalController,
         public translateService: TranslateService,
-        public commonProvider: CommonProvider,
+        public events: Events,
         public settingProvider: SettingProvider,
         public cartProvider: CartProvider,
     ) {
@@ -77,15 +79,24 @@ export abstract class BaseCartPage {
         const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
         orderModal.onDidDismiss(order => {
             if (order) {
-                this.commonProvider.goToPage('OrderPage', { order: order });
+                this.events.publish(PAGE, { page: 'OrderPage', params: { order: order } });
             }
         })
         orderModal.present();
     }
 
-    getProducts(order: Order): string {
-        return this.commonProvider.getProductFromOrder(order);
-    }
+    getProductFromOrder(order: Order): string{
+        let result = '';
+    
+        if(order){
+          for(let i=0; i<order.items.length; i++){
+            let product: Product = order.items[i].product;
+            result += i==0 ? product.name: ', ' + product.name;
+          }
+        }
+        
+        return result;
+      }
 
     addItem(product: Product): void {
         this.cartProvider.addItem(this.cart, product).subscribe(cart => {

@@ -30,7 +30,7 @@ export const UPDATE =
     image = ?,
     last_modified_by = ?, 
     last_modified_date = datetime('now','localtime')
-WHERE id = ?`
+WHERE id = ?`;
 
 export const DELETE = `DELETE FROM m_user WHERE id = ?`;
 
@@ -61,7 +61,7 @@ export const FIND_BY_USERNAME =
 FROM (SELECT * FROM m_user WHERE username = ?) usr
 LEFT JOIN m_role rol ON rol.id = usr.role_id
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
-LEFT JOIN m_authority aut ON aut.id = rla.authority_id`
+LEFT JOIN m_authority aut ON aut.id = rla.authority_id`;
 
 export const COUNT_BY_FULLNAME = `SELECT count(1) as total FROM m_user where lower(fullname) LIKE ?`;
 
@@ -89,10 +89,10 @@ export const FIND_BY_FULLNAME =
     aut.id as authority_id,
     aut.name as authority_name,
     aut.description as authority_description
-FROM (SELECT * FROM m_user WHERE lower(fullname) LIKE ? ORDER BY ? LIMIT ? OFFSET ?) usr
+FROM (SELECT * FROM m_user WHERE lower(fullname) LIKE ? ORDER BY LOWER(fullname) ASC LIMIT 10 OFFSET ?) usr
 LEFT JOIN m_role rol ON rol.id = usr.role_id
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
-LEFT JOIN m_authority aut ON aut.id = rla.authority_id`
+LEFT JOIN m_authority aut ON aut.id = rla.authority_id`;
 
 export const FIND_BY_ID = 
 `SELECT 
@@ -121,4 +121,4 @@ export const FIND_BY_ID =
 FROM (SELECT * FROM m_user WHERE id = ?) usr
 LEFT JOIN m_role rol ON rol.id = usr.role_id
 LEFT JOIN m_role_authority rla ON rla.role_id = rol.id
-LEFT JOIN m_authority aut ON aut.id = rla.authority_id`
+LEFT JOIN m_authority aut ON aut.id = rla.authority_id`;

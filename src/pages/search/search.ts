@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { Events } from 'ionic-angular';
 
 import { BaseCartPage } from '../base/base-cart';
 import { ProductProvider } from '../../providers/product/product';
@@ -9,6 +10,7 @@ import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
+import { PAGE } from '../../constant/constant';
 
 
 @IonicPage()
@@ -27,12 +29,12 @@ export class SearchPage extends BaseCartPage {
   constructor(
     public modalCtrl: ModalController,
     public cartProvider: CartProvider,
-    public commonProvider: CommonProvider,
+    public events: Events,
     public settingProvider: SettingProvider,
     public translateService: TranslateService,
     public productProvider: ProductProvider) {
 
-    super(modalCtrl, translateService, commonProvider, settingProvider, cartProvider);
+    super(modalCtrl, translateService, events, settingProvider, cartProvider);
   }
 
   ionViewWillEnter() {
@@ -43,8 +45,6 @@ export class SearchPage extends BaseCartPage {
 
   private initPage(): void {
     this.page = new Page();
-    this.page.sort.column = 'name';
-    this.page.sort.isAsc = true;
   }
 
   search() {
@@ -104,7 +104,7 @@ export class SearchPage extends BaseCartPage {
   // Segment
   
   updateContent(): void {
-    this.commonProvider.goToPage(this.segment, {});
+    this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
 }

@@ -40,7 +40,7 @@ SELECT
     ord.last_modified_by as order_last_modified_by,
     ord.last_modified_date as order_last_modified_date,
 
-    itm.id as item_id
+    itm.id as item_id,
     itm.quantity as item_quantity, 
     itm.price as item_price,
 
@@ -63,9 +63,10 @@ SELECT
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
 FROM t_order ord
-LEFT JOIN t_item itm ON ord.id = itm.order_id
+LEFT JOIN t_order_item itm ON ord.id = itm.order_id
 LEFT JOIN m_product pro ON itm.product_id = pro.id
 LEFT JOIN m_category cat ON pro.category_id = cat.id
-WHERE date(ord.created_date) = date(?)`;
+WHERE date(ord.created_date) = date(?) 
+ORDER BY ord.created_date DESC LIMIT 10 OFFSET ?`;
 
 export const COUNT_BY_DATE = `SELECT count(1) as total FROM t_order where date(created_date) = date(?)`;

@@ -70,11 +70,12 @@ export class CurrencyProviderImpl extends BaseSQlite implements CurrencyProvider
   }
 
   private executeSqlFindByName(name: string, pageable: Pageable): Promise<Page<Currency>> {
-    let params = this.createParams(['%' + name.toLowerCase() + '%'], pageable);
+    let offset = (pageable.pageNumber - 1) * pageable.size;
+    let params = ['%' + name.toLowerCase() + '%', offset];
 
     return new Promise((resolve, reject) => {
       this.db.executeSql(CURRENCY.FIND_BY_NAME, params).then((data) => {
-        resolve(new Page(this.convertToCurrencies(data), pageable.pageNumber, pageable.totalData, pageable.sort));
+        resolve(new Page(this.convertToCurrencies(data), pageable.pageNumber, pageable.totalData));
       }).catch((error) => {
         reject(error);
       });

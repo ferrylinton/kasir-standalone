@@ -1,4 +1,3 @@
-import { Sort } from "./sort.model";
 import { PAGE_SIZE } from "../constant/constant";
 
 export class Pageable {
@@ -8,8 +7,6 @@ export class Pageable {
         public pageNumber: number,
 
         public totalData: number = 0,
-
-        public sort: Sort = new Sort(),
 
         public size: number = PAGE_SIZE
 
