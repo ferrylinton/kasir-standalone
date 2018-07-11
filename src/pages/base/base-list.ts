@@ -1,17 +1,10 @@
 import { ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Events } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 
-import { SettingProvider } from '../../providers/setting/setting';
-import { MessageProvider } from '../../providers/message/message';
-import { CrudProvider } from '../../providers/crud/crud';
-import { BasePage } from './base';
 import { Base } from '../../models/base.model';
 import { Page } from '../../models/page.model';
 
 
-export abstract class BaseListPage<T extends Base> extends BasePage {
+export abstract class BaseListPage<T extends Base>{
 
     @ViewChild('searchbar') searchbar: any;
 
@@ -21,16 +14,7 @@ export abstract class BaseListPage<T extends Base> extends BasePage {
 
     page: Page<T>;
 
-    constructor(
-        public storage: Storage,
-        public events: Events,
-        public translateService: TranslateService,
-        public settingProvider: SettingProvider,
-        public messageProvider: MessageProvider,
-        public crudProvider: CrudProvider<T>,
-        public sortBy: string
-    ) {
-        super(storage, events, translateService, settingProvider, messageProvider);
+    constructor(public sortBy: string) {
         this.initPage();
     }
 

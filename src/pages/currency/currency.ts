@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { Events } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-
-import { TranslateService } from '@ngx-translate/core';
-import { SettingProvider } from '../../providers/setting/setting';
-import { MessageProvider } from '../../providers/message/message';
-import { CurrencyProvider } from '../../providers/currency/currency';
 
 import { BaseListPage } from '../base/base-list';
+import { CurrencyProvider } from '../../providers/currency/currency';
 import { Currency } from '../../models/currency.model';
 
 
@@ -19,20 +13,8 @@ import { Currency } from '../../models/currency.model';
 })
 export class CurrencyPage extends BaseListPage<Currency>{
 
-  private DETAIL_PAGE: string = 'CurrencyDetailPage';
-
-  private FORM_PAGE: string = 'CurrencyFormPage';
-
-  constructor(
-    public navCtrl: NavController,
-    public storage: Storage,
-    public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
-    public messageProvider: MessageProvider,
-    public currencyProvider: CurrencyProvider
-  ) {
-    super(storage, events, translateService, settingProvider, messageProvider, currencyProvider, 'name');
+  constructor(public navCtrl: NavController, public currencyProvider: CurrencyProvider){
+    super('name');
   }
 
   ionViewWillEnter() {
@@ -49,11 +31,11 @@ export class CurrencyPage extends BaseListPage<Currency>{
   }
 
   view(currency: Currency) {
-    this.navCtrl.push(this.DETAIL_PAGE, { currency: currency });
+    this.navCtrl.push('CurrencyDetailPage', { currency: currency });
   }
 
   create() {
-    this.navCtrl.push(this.FORM_PAGE, { currency: new Currency('') });
+    this.navCtrl.push('CurrencyFormPage', { currency: new Currency('') });
   }
 
 }

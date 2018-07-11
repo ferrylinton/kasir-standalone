@@ -25,23 +25,14 @@ export class CategoryPage extends BaseListPage<Category>{
 
   constructor(
     public navCtrl: NavController,
-    public storage: Storage,
-    public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
-    public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider
   ) {
-    super(storage, events, translateService, settingProvider, messageProvider, categoryProvider, 'name');
+    super('name');
   }
 
   ionViewWillEnter() {
-    this.settingProvider.getSetting().subscribe(setting => {
-      this.setting = setting;
-      this.initPage();
-      this.loadData();
-    });
-    this.initLanguage();
+    this.initPage();
+    this.loadData();
   }
 
   loadData() {

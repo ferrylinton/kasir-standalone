@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="currency">{{ currency.name }}</ion-title>
+    <ion-title *ngIf="currency">{{ 'CURRENCY' | translate }} [ {{ currency.name }} ]</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="delete()">
         <ion-icon name="trash"></ion-icon>
@@ -14,7 +14,7 @@
 
 
 <ion-content padding >
-  <ion-grid *ngIf="currency; else nodata">
+  <ion-grid *ngIf="currency">
     <ion-row>
       <ion-col class="detail-label">{{ 'ID' | translate }}</ion-col>
     </ion-row>
@@ -62,10 +62,5 @@
 <ng-template #empty>
   <ion-row>
     <ion-col class="detail-value">-</ion-col>
-  </ion-row>
-</ng-template>
-<ng-template #nodata>
-  <ion-row>
-    {{ 'NO_DATA' | translate }}
   </ion-row>
 </ng-template>

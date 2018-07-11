@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
-import * as Constant from "../../constant/constant";
+import { PAGE } from '../../constant/constant';
 import { MessageProvider } from '../../providers/message/message';
+import { UserProvider } from '../../providers/user/user';
 import { CurrencyProvider } from '../../providers/currency/currency';
 import { Currency } from '../../models/currency.model';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { UserProvider } from '../../providers/user/user';
 
 
 @IonicPage()
@@ -23,12 +21,10 @@ export class CurrencyDetailPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
     public messageProvider: MessageProvider,
-    public currencyProvider: CurrencyProvider,
-    public userProvider: UserProvider) {
+    public userProvider: UserProvider,
+    public currencyProvider: CurrencyProvider) {
   }
 
   ionViewWillEnter() {
@@ -39,7 +35,7 @@ export class CurrencyDetailPage {
     this.currency = this.navParams.get('currency');
 
     if (!this.currency) {
-      this.events.publish(Constant.PAGE, { page: 'CurrencyPage', params: {} });
+      this.events.publish(PAGE, { page: 'CurrencyPage', params: {} });
     } else {
       forkJoin([this.userProvider.findById(this.currency.createdBy),
       this.userProvider.findById(this.currency.lastModifiedBy)]).subscribe(results => {
@@ -56,16 +52,14 @@ export class CurrencyDetailPage {
   deleteCallback(): void {
     this.currencyProvider.delete(this.currency.id).subscribe(data => {
       this.navCtrl.popToRoot();
-      this.translateService.get('DELETE_SUCCESS').subscribe(value => {
-        this.messageProvider.toast(value);
-      });
+      this.messageProvider.toastDelete();
     }, error => {
       this.messageProvider.toast('Error : ' + error);
     });
   }
 
   delete() {
-    this.messageProvider.confirmDelete((currency) => this.deleteCallback());
+    this.messageProvider.confirmDelete(() => this.deleteCallback());
   }
 
 }

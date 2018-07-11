@@ -1,5 +1,6 @@
 import { Audit } from './audit.model';
 import { Category } from './category.model';
+import { User } from './user.model';
 
 
 export class Product implements Audit{
@@ -18,11 +19,11 @@ export class Product implements Audit{
         
         public category?: Category,
     
-        public createdBy?: string,
+        public createdBy?: string | User,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: string,
+        public lastModifiedBy?: string | User,
 
         public lastModifiedDate?: Date){
     }

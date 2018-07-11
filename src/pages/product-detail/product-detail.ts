@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
-import { SettingProvider } from '../../providers/setting/setting';
+import { PAGE } from '../../constant/constant';
 import { MessageProvider } from '../../providers/message/message';
+import { UserProvider } from '../../providers/user/user';
 import { ProductProvider } from '../../providers/product/product';
-import { BasePage } from '../base/base';
 import { Product } from '../../models/product.model';
 
 
@@ -15,51 +14,52 @@ import { Product } from '../../models/product.model';
   selector: 'page-product-detail',
   templateUrl: 'product-detail.html',
 })
-export class ProductDetailPage extends BasePage {
-
-  private RELOAD_PAGE: string = 'ProductPage';
-
-  private FORM_PAGE: string = 'ProductFormPage';
-
-  private DATA: string = 'product';
+export class ProductDetailPage{
 
   private product: Product;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
+    public userProvider: UserProvider,
     public productProvider: ProductProvider) {
+  }
 
-    super(storage, events, translateService, settingProvider, messageProvider);
+  ionViewWillEnter() {
     this.init();
   }
 
   private init(): void {
-    this.product = this.navParams.get(this.DATA);
+    this.product = this.navParams.get('product');
 
-    if (this.product === undefined) {
-      this.reloadPage(this.RELOAD_PAGE);
+    if (!this.product) {
+      this.events.publish(PAGE, { page: 'ProductPage', params: {} });
+    } else {
+      forkJoin([this.userProvider.findById(this.product.createdBy),
+      this.userProvider.findById(this.product.lastModifiedBy)]).subscribe(results => {
+        this.product.createdBy = results[0];
+        this.product.lastModifiedBy = results[1];
+      });
     }
   }
 
   modify() {
-    this.navCtrl.push(this.FORM_PAGE, { product: this.product });
+    this.navCtrl.push('ProductFormPage', { product: this.product });
   }
 
-  deleteCallback(product: Product): void {
-    this.productProvider.delete(product.id).subscribe(result => {
+  deleteCallback(): void {
+    this.productProvider.delete(this.product.id).subscribe(result => {
       this.navCtrl.popToRoot();
-      this.messageProvider.showDeleteToast(result.name);
+      this.messageProvider.toastDelete();
+    }, error => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
   delete() {
-    this.messageProvider.showDeleteConfirm(this.product.name, (product) => this.deleteCallback(this.product));
+    this.messageProvider.confirmDelete(() => this.deleteCallback());
   }
 
 }

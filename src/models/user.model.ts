@@ -20,11 +20,11 @@ export class User implements Audit{
 
         public image?: string,
 
-        public createdBy?: string,
+        public createdBy?: string | User,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: string,
+        public lastModifiedBy?: string | User,
 
         public lastModifiedDate?: Date) {
     }

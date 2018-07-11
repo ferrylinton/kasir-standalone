@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { Events } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-
-import { TranslateService } from '@ngx-translate/core';
-import { SettingProvider } from '../../providers/setting/setting';
-import { MessageProvider } from '../../providers/message/message';
-import { UserProvider } from '../../providers/user/user';
 
 import { BaseListPage } from '../base/base-list';
+import { UserProvider } from '../../providers/user/user';
 import { User } from '../../models/user.model';
 
 
@@ -19,20 +13,8 @@ import { User } from '../../models/user.model';
 })
 export class UserPage extends BaseListPage<User>{
 
-  private DETAIL_PAGE: string = 'UserDetailPage';
-
-  private FORM_PAGE: string = 'UserFormPage';
-
-  constructor(
-    public navCtrl: NavController,
-    public storage: Storage,
-    public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
-    public messageProvider: MessageProvider,
-    public userProvider: UserProvider
-  ) {
-    super(storage, events, translateService, settingProvider, messageProvider, userProvider, 'fullname');
+  constructor(public navCtrl: NavController, public userProvider: UserProvider) {
+    super('fullname');
   }
 
   ionViewWillEnter() {
@@ -49,11 +31,11 @@ export class UserPage extends BaseListPage<User>{
   }
   
   view(user: User) {
-    this.navCtrl.push(this.DETAIL_PAGE, { user: user });
+    this.navCtrl.push('UserDetailPage', { user: user });
   }
 
   create() {
-    this.navCtrl.push(this.FORM_PAGE, { user: new User('') });
+    this.navCtrl.push('UserFormPage', { user: new User('') });
   }
 
 }

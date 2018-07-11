@@ -1,4 +1,5 @@
 import { Audit } from './audit.model';
+import { User } from './user.model';
 
 export class Category implements Audit{
     
@@ -12,11 +13,11 @@ export class Category implements Audit{
         
         public image?: string,
 
-        public createdBy?: string,
+        public createdBy?: string | User,
 
         public createdDate?: Date,
 
-        public lastModifiedBy?: string,
+        public lastModifiedBy?: string | User,
 
         public lastModifiedDate?: Date){
     }

@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
-import { SettingProvider } from '../../providers/setting/setting';
+import { PAGE } from '../../constant/constant';
 import { MessageProvider } from '../../providers/message/message';
 import { UserProvider } from '../../providers/user/user';
-import { BasePage } from '../base/base';
 import { User } from '../../models/user.model';
 
 @IonicPage()
@@ -14,7 +12,7 @@ import { User } from '../../models/user.model';
   selector: 'page-user-detail',
   templateUrl: 'user-detail.html',
 })
-export class UserDetailPage extends BasePage {
+export class UserDetailPage{
 
   private RELOAD_PAGE: string = 'UserPage';
 
@@ -27,38 +25,44 @@ export class UserDetailPage extends BasePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
     public userProvider: UserProvider) {
+  }
 
-    super(storage, events, translateService, settingProvider, messageProvider);
+  ionViewWillEnter() {
     this.init();
   }
 
   private init(): void {
     this.user = this.navParams.get(this.DATA);
 
-    if (this.user === undefined) {
-      this.reloadPage(this.RELOAD_PAGE);
+    if (!this.user) {
+      this.events.publish(PAGE, { page: 'UserPage', params: {} });
+    } else {
+      forkJoin([this.userProvider.findById(this.user.createdBy),
+      this.userProvider.findById(this.user.lastModifiedBy)]).subscribe(results => {
+        this.user.createdBy = results[0];
+        this.user.lastModifiedBy = results[1];
+      });
     }
   }
 
   modify() {
-    this.navCtrl.push(this.FORM_PAGE, { user: this.user });
+    this.navCtrl.push('UserFormPage', { user: this.user });
   }
 
-  deleteCallback(user: User): void {
-    this.userProvider.delete(user.id).subscribe(result => {
+  deleteCallback(): void {
+    this.userProvider.delete(this.user.id).subscribe(result => {
       this.navCtrl.popToRoot();
-      this.messageProvider.showDeleteToast(result.fullname);
+      this.messageProvider.toastDelete();
+    }, error => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
   delete() {
-    this.messageProvider.showDeleteConfirm(this.user.fullname, (user) => this.deleteCallback(this.user));
+    this.messageProvider.confirmDelete(() => this.deleteCallback());
   }
 
 }

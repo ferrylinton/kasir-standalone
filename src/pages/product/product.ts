@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { Events } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-
-import { TranslateService } from '@ngx-translate/core';
-import { SettingProvider } from '../../providers/setting/setting';
-import { MessageProvider } from '../../providers/message/message';
-import { ProductProvider } from '../../providers/product/product';
 
 import { BaseListPage } from '../base/base-list';
+import { ProductProvider } from '../../providers/product/product';
 import { Product } from '../../models/product.model';
 
 @IonicPage()
@@ -18,20 +12,8 @@ import { Product } from '../../models/product.model';
 })
 export class ProductPage extends BaseListPage<Product>{
 
-  private DETAIL_PAGE: string = 'ProductDetailPage';
-
-  private FORM_PAGE: string = 'ProductFormPage';
-
-  constructor(
-    public navCtrl: NavController,
-    public storage: Storage,
-    public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
-    public messageProvider: MessageProvider,
-    public productProvider: ProductProvider
-  ) {
-    super(storage, events, translateService, settingProvider, messageProvider, productProvider, 'name');
+  constructor(public navCtrl: NavController, public productProvider: ProductProvider) {
+    super('name');
   }
 
   ionViewWillEnter() {
@@ -48,11 +30,11 @@ export class ProductPage extends BaseListPage<Product>{
   }
 
   view(product: Product) {
-    this.navCtrl.push(this.DETAIL_PAGE, { product: product });
+    this.navCtrl.push('ProductDetailPage', { product: product });
   }
 
   create() {
-    this.navCtrl.push(this.FORM_PAGE, { product: new Product('') });
+    this.navCtrl.push('ProductFormPage', { product: new Product('') });
   }
 
 }

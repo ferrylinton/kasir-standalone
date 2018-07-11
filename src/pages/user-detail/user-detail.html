@@ -13,13 +13,13 @@
 </ion-header>
 
 
-<ion-content padding *ngIf="user; else nodata">
-  <div class="image-wrapper">
+<ion-content padding>
+  <div class="image-wrapper" *ngIf="user">
     <div class="image">
       <div class="background" [style.background-image]="'url(' + user.image + ')'"> </div>
     </div>
   </div>
-  <ion-grid>
+  <ion-grid *ngIf="user">
     <ion-row>
       <ion-col class="detail-label">{{ 'ID' | translate }}</ion-col>
     </ion-row>
@@ -54,7 +54,7 @@
       <ion-col class="detail-label">{{ 'CREATED_BY' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="user.createdBy; else empty">
-      <ion-col class="detail-value">{{ user.createdBy }}</ion-col>
+      <ion-col class="detail-value">{{ user.createdBy.username }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'CREATED_DATE' | translate }}</ion-col>
@@ -66,7 +66,7 @@
       <ion-col class="detail-label">{{ 'LAST_MODIFIED_BY' | translate }}</ion-col>
     </ion-row>
     <ion-row *ngIf="user.lastModifiedBy; else empty">
-      <ion-col class="detail-value">{{ user.lastModifiedBy }}</ion-col>
+      <ion-col class="detail-value">{{ user.lastModifiedBy.username }}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="detail-label">{{ 'LAST_MODIFIED_DATE' | translate }}</ion-col>
@@ -85,9 +85,4 @@
   <ion-row>
     <ion-col class="detail-value">{{ 'DEACTIVATED' | translate }}</ion-col>
   </ion-row>
-</ng-template>
-<ng-template #nodata>
-  <ion-content padding>
-    {{ 'MESSAGE.NO_DATA' | translate }}
-  </ion-content>
 </ng-template>

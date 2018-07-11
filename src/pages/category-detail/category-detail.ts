@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
-import { Storage } from '@ionic/storage';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
-import { SettingProvider } from '../../providers/setting/setting';
+import { PAGE } from '../../constant/constant';
 import { MessageProvider } from '../../providers/message/message';
+import { UserProvider } from '../../providers/user/user';
 import { CategoryProvider } from '../../providers/category/category';
-import { BasePage } from '../base/base';
 import { Category } from '../../models/category.model';
-
 
 
 @IonicPage()
@@ -16,51 +14,52 @@ import { Category } from '../../models/category.model';
   selector: 'page-category-detail',
   templateUrl: 'category-detail.html',
 })
-export class CategoryDetailPage extends BasePage {
+export class CategoryDetailPage {
 
-  private RELOAD_PAGE: string = 'CategoryPage';
-
-  private FORM_PAGE: string = 'CategoryFormPage';
-
-  private DATA: string = 'category';
-  
   category: Category;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage,
     public events: Events,
-    public translateService: TranslateService,
-    public settingProvider: SettingProvider,
     public messageProvider: MessageProvider,
+    public userProvider: UserProvider,
     public categoryProvider: CategoryProvider) {
+  }
 
-    super(storage, events, translateService, settingProvider, messageProvider);
+  ionViewWillEnter() {
     this.init();
   }
 
   private init(): void {
-    this.category = this.navParams.get(this.DATA);
+    this.category = this.navParams.get('category');
 
-    if (this.category === undefined) {
-      this.reloadPage(this.RELOAD_PAGE);
+    if (!this.category) {
+      this.events.publish(PAGE, { page: 'CategoryPage', params: {} });
+    } else {
+      forkJoin([this.userProvider.findById(this.category.createdBy), this.userProvider.findById(this.category.lastModifiedBy)])
+      .subscribe(results => {
+        this.category.createdBy = results[0];
+        this.category.lastModifiedBy = results[1];
+      });
     }
   }
 
   modify() {
-    this.navCtrl.push(this.FORM_PAGE, { category: this.category });
+    this.navCtrl.push('CategoryFormPage', { category: this.category });
   }
 
   deleteCallback(): void {
     this.categoryProvider.delete(this.category.id).subscribe(data => {
       this.navCtrl.popToRoot();
-      this.messageProvider.showDeleteToast(this.category.name);
+      this.messageProvider.toastDelete();
+    }, error => {
+      this.messageProvider.toast('Error : ' + error);
     });
   }
 
   delete() {
-    this.messageProvider.showDeleteConfirm(this.category.name, (category) => this.deleteCallback());
+    this.messageProvider.confirmDelete(() => this.deleteCallback());
   }
 
 }
