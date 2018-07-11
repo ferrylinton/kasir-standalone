@@ -1,7 +1,6 @@
 import { SQLite } from "@ionic-native/sqlite";
 import { Storage } from '@ionic/storage';
 import * as Constant from "../../constant/constant";
-import { Pageable } from "../../models/pageable.model";
 import { Order } from "../../models/order.model";
 import { OrderItem } from "../../models/order-item.model";
 import { Product } from "../../models/product.model";

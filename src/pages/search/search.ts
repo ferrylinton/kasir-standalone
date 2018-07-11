@@ -6,7 +6,6 @@ import { Events } from 'ionic-angular';
 import { BaseCartPage } from '../base/base-cart';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
-import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
@@ -34,7 +33,7 @@ export class SearchPage extends BaseCartPage {
     public translateService: TranslateService,
     public productProvider: ProductProvider) {
 
-    super(modalCtrl, translateService, events, settingProvider, cartProvider);
+    super(settingProvider, cartProvider);
   }
 
   ionViewWillEnter() {
@@ -65,8 +64,6 @@ export class SearchPage extends BaseCartPage {
     this.loadProducts();
     infiniteScroll.complete();
   }
-
-  // Product
 
   view(product: Product) {
     const productModal = this.modalCtrl.create('ProductModalPage', { product: product });
@@ -101,8 +98,6 @@ export class SearchPage extends BaseCartPage {
     return 0;
   }
 
-  // Segment
-  
   updateContent(): void {
     this.events.publish(PAGE, { page: this.segment, params: {} });
   }

@@ -27,7 +27,7 @@ export class HomePage extends BaseCartPage {
 
   segment = 'HomePage';
 
-  category: Category = new Category('', this.allCategoriesTxt);
+  category: Category = new Category('');
 
   categories: Array<Category>;
 
@@ -48,7 +48,7 @@ export class HomePage extends BaseCartPage {
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, translateService, events, settingProvider, cartProvider);
+    super(settingProvider, cartProvider);
     this.initPage();
   }
 
@@ -58,8 +58,7 @@ export class HomePage extends BaseCartPage {
 
   ionViewWillEnter() {
     forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
-      this.categories = results[0];
-      this.categories.unshift(new Category('', this.allCategoriesTxt));
+      this.initCategories(results[0]);
       this.cart = results[1];
       this.loadProducts();
       this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
@@ -67,6 +66,13 @@ export class HomePage extends BaseCartPage {
     }, error => {
       this.messageProvider.toast('Error : ' + error);
     });
+  }
+
+  private initCategories(categories: Array<Category>): void{
+    this.translateService.get('ALL_CATEGORIES').subscribe(value => {
+      this.categories = categories;
+      this.categories.unshift(new Category('', value));
+    })
   }
 
   // Slides

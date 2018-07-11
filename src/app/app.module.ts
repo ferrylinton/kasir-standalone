@@ -41,7 +41,7 @@ import { SchemaProvider } from '../providers/sqlite/schema';
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
-import { CommonProvider } from '../providers/common/common';
+
 
 registerLocaleData(localeId, 'id');
 
@@ -91,7 +91,6 @@ export function createTranslateLoader(http: HttpClient) {
     SettingProvider,
     MessageProvider,
     CartProvider,
-    CommonProvider,
     SchemaProvider
   ]
 

@@ -3,7 +3,6 @@ import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 
-import { CommonProvider } from '../../providers/common/common';
 import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { CartProvider } from '../../providers/cart/cart';
@@ -45,7 +44,7 @@ export class OrderPage extends BaseCartPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, translateService, events, settingProvider, cartProvider);
+    super(settingProvider, cartProvider);
     this.initDatePicker();
   }
 

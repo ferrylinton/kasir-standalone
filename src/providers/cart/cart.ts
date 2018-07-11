@@ -108,7 +108,7 @@ export class CartProvider {
     }
 
     if (!isProductExist) {
-      cart.order.items.push(new OrderItem(uuid(), 1, 0, null));
+      cart.order.items.push(new OrderItem(uuid(), 1, 0, product));
     }
 
     return cart;

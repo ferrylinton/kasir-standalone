@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { Events } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 
-import { TranslateService } from '@ngx-translate/core';
-import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { CategoryProvider } from '../../providers/category/category';
-
 import { BaseListPage } from '../base/base-list';
 import { Category } from '../../models/category.model';
 
