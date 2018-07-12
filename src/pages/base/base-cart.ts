@@ -51,4 +51,24 @@ export abstract class BaseCartPage {
         });
     }
 
+    isSelected(product: Product): boolean {
+        for (let i = 0; i < this.cart.order.items.length; i++) {
+            if (this.cart.order.items[i].product.id === product.id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    getQuantity(product: Product): number {
+        for (let i = 0; i < this.cart.order.items.length; i++) {
+            if (this.cart.order.items[i].product.id === product.id) {
+                return this.cart.order.items[i].quantity;
+            }
+        }
+
+        return 0;
+    }
+
 }

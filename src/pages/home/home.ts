@@ -13,7 +13,6 @@ import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
 import { PAGE } from '../../constant/constant';
-import { MessageProvider } from '../../providers/message/message';
 
 
 @IonicPage()
@@ -37,14 +36,15 @@ export class HomePage extends BaseCartPage {
 
   page: Page<Product>;
 
+  error: string;
+
   constructor(
     public modalCtrl: ModalController,
     public navParams: NavParams,
     public cartProvider: CartProvider,
     public events: Events,
     public settingProvider: SettingProvider,
-    public translateService: TranslateService,
-    public messageProvider: MessageProvider,
+    public translate: TranslateService,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
@@ -64,18 +64,16 @@ export class HomePage extends BaseCartPage {
       this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
       this.setSlideProperties();
     }, error => {
-      this.messageProvider.toast('Error : ' + error);
+      this.error = 'Error : ' + error;
     });
   }
 
   private initCategories(categories: Array<Category>): void{
-    this.translateService.get('ALL_CATEGORIES').subscribe(value => {
+    this.translate.get('ALL_CATEGORIES').subscribe(value => {
       this.categories = categories;
       this.categories.unshift(new Category('', value));
     })
   }
-
-  // Slides
 
   slideChanged(): void {
     this.setSlideProperties();
@@ -97,15 +95,11 @@ export class HomePage extends BaseCartPage {
     this.category = this.categories[this.slides.getActiveIndex()];
   }
 
-  // Infinite Scroll
-
   doInfinite(infiniteScroll) {
     this.page.pageNumber = this.page.pageNumber + 1;
     this.loadProducts();
     infiniteScroll.complete();
   }
-
-  // Product
 
   view(product: Product) {
     const productModal = this.modalCtrl.create('ProductModalPage', { product: product });
@@ -118,28 +112,8 @@ export class HomePage extends BaseCartPage {
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
     }, error => {
-      this.messageProvider.toast('Error : ' + error);
+      this.error = 'Error : ' + error;
     })
-  }
-
-  isSelected(product: Product): boolean {
-    for (let i = 0; i < this.cart.order.items.length; i++) {
-      if (this.cart.order.items[i].product.id === product.id) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  getQuantity(product: Product): number {
-    for (let i = 0; i < this.cart.order.items.length; i++) {
-      if (this.cart.order.items[i].product.id === product.id) {
-        return this.cart.order.items[i].quantity;
-      }
-    }
-
-    return 0;
   }
 
   updateContent(): void {

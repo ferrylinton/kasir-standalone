@@ -159,11 +159,12 @@
 
 /* =================== NO DATA =================== */
 
-.no-data {
+.no-data, .error {
     margin: 10px;
-    padding: 20px;
-    border: solid 1px color($colors, border);
-    background-color: color($colors, light);
+    padding: 10px 20px;
+    border: solid 1px color($colors, light);
+    background-color: #fff;
+    color: color($colors, darkgray);
 }
 
 .total{

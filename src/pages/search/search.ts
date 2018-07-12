@@ -25,6 +25,8 @@ export class SearchPage extends BaseCartPage {
 
   page: Page<Product>;
 
+  error: string;
+
   constructor(
     public modalCtrl: ModalController,
     public cartProvider: CartProvider,
@@ -39,7 +41,9 @@ export class SearchPage extends BaseCartPage {
   ionViewWillEnter() {
     this.cartProvider.getCart().subscribe(cart => {
       this.cart = cart;
-    })
+    }, error => {
+      this.error = 'Error : ' + error;
+    });
   }
 
   private initPage(): void {
@@ -57,8 +61,6 @@ export class SearchPage extends BaseCartPage {
     this.page = null;
   }
 
-  // Infinite Scroll
-
   doInfinite(infiniteScroll) {
     this.page.pageNumber = this.page.pageNumber + 1;
     this.loadProducts();
@@ -75,27 +77,9 @@ export class SearchPage extends BaseCartPage {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
+    }, error => {
+      this.error = 'Error : ' + error;
     })
-  }
-
-  isSelected(product: Product): boolean {
-    for (let i = 0; i < this.cart.order.items.length; i++) {
-      if (this.cart.order.items[i].product.id === product.id) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  getQuantity(product: Product): number {
-    for (let i = 0; i < this.cart.order.items.length; i++) {
-      if (this.cart.order.items[i].product.id === product.id) {
-        return this.cart.order.items[i].quantity;
-      }
-    }
-
-    return 0;
   }
 
   updateContent(): void {
