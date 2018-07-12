@@ -181,6 +181,15 @@ export class SchemaProvider extends BaseSQlite {
         
         tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-001', 'Product 001', 'Product description 015', 150000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
 
+        tx.executeSql(ORDER.INSERT, ['order-0000-0000-0000-100', '0000-0000-100', true, false, 'user-0000-0000-0000-000']);
+        tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-101', 'order-0000-0000-0000-100', 'product-0000-0000-0000-001', 2, 1000.55]);
+
+        tx.executeSql(ORDER.INSERT_1, ['order-0000-0000-0000-200', '0000-0000-200', true, false, 'user-0000-0000-0000-000']);
+        tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-201', 'order-0000-0000-0000-200', 'product-0000-0000-0000-001', 3, 1000.55]);
+
+        tx.executeSql(ORDER.INSERT_2, ['order-0000-0000-0000-300', '0000-0000-300', true, false, 'user-0000-0000-0000-000']);
+        tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-301', 'order-0000-0000-0000-300', 'product-0000-0000-0000-001', 4, 1000.55]);
+
       }).then((result) => {
         resolve('Insert sample data is success');
       }).catch((error) => {

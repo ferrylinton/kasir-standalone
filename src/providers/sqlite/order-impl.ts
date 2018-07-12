@@ -22,10 +22,12 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
   }
 
   findByDate(dt: Date, pageable: Pageable): Observable<Page<Order>> {
-    console.log('------------ is date  : ' + (typeof dt));
+    console.log('------------ is date  : ' + dt.toDateString());
+    console.log('------------ is date  : ' + dt.toISOString().split('T')[0]);
+    let strDate = dt.toISOString().split('T')[0];
     return fromPromise(this.connect()
-      .then(() => this.executeSqlCountByDate(dt, pageable))
-      .then(pageable => this.executeSqlFindByDate(dt, pageable)));
+      .then(() => this.executeSqlCountByDate(strDate, pageable))
+      .then(pageable => this.executeSqlFindByDate(strDate, pageable)));
   }
 
   save(order: Order): Observable<Order> {
@@ -40,9 +42,9 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
     return fromPromise(this.connect().then(() => this.executeSqlDelete(id)));
   }
 
-  private executeSqlCountByDate(dt: Date, pageable: Pageable): Promise<any> {
+  private executeSqlCountByDate(strDate: string, pageable: Pageable): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.db.executeSql(ORDER.COUNT_BY_DATE, [dt]).then((data) => {
+      this.db.executeSql(ORDER.COUNT_BY_DATE, [strDate]).then((data) => {
         pageable.totalData = data.rows.item(0)['total']
         resolve(pageable);
       }).catch((error) => {
@@ -51,11 +53,11 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
     })
   }
 
-  private executeSqlFindByDate(dt: Date, pageable: Pageable): Promise<Page<Order>> {
+  private executeSqlFindByDate(strDate: string, pageable: Pageable): Promise<Page<Order>> {
     let offset = (pageable.pageNumber - 1) * pageable.size;
 
     return new Promise((resolve, reject) => {
-      this.db.executeSql(ORDER.FIND_BY_DATE, [dt, offset]).then((data) => {
+      this.db.executeSql(ORDER.FIND_BY_DATE, [strDate, offset]).then((data) => {
         let orders: Array<Order> = new Array();
         let order: Order;
 
