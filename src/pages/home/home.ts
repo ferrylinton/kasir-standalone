@@ -8,7 +8,6 @@ import { BaseCartPage } from '../base/base-cart';
 import { CategoryProvider } from '../../providers/category/category';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
-import { SettingProvider } from '../../providers/setting/setting';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
@@ -41,12 +40,11 @@ export class HomePage extends BaseCartPage {
     public navParams: NavParams,
     public cartProvider: CartProvider,
     public events: Events,
-    public settingProvider: SettingProvider,
     public translate: TranslateService,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(settingProvider, cartProvider);
+    super(cartProvider);
     this.initPage();
   }
 
@@ -55,6 +53,7 @@ export class HomePage extends BaseCartPage {
   }
 
   ionViewWillEnter() {
+    this.error = null;
     forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
       this.initCategories(results[0]);
       this.cart = results[1];
@@ -105,6 +104,7 @@ export class HomePage extends BaseCartPage {
   }
 
   private loadProducts() {
+    this.error = null;
     this.productProvider.findByCategory(this.category.id, this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;

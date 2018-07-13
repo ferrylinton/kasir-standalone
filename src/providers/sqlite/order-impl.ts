@@ -70,7 +70,7 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
             // create new order
             order = this.convertToOrder(data.rows.item(i));
             order.items.push(this.convertToItem(data.rows.item(i)))
-          }else if(order.id != data.rows.item(i)['order_id']){
+          }else if(order.id == data.rows.item(i)['order_id']){
             order.items.push(this.convertToItem(data.rows.item(i)))
           }
         }

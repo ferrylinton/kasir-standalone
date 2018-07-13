@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 
 import { BaseCartPage } from '../base/base-cart';
-import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
@@ -30,11 +29,10 @@ export class CartPage extends BaseCartPage {
     public translate: TranslateService,
     public events: Events,
     public messageProvider: MessageProvider,
-    public settingProvider: SettingProvider,
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(settingProvider, cartProvider);
+    super(cartProvider);
     this.initPage();
   }
 
@@ -48,7 +46,7 @@ export class CartPage extends BaseCartPage {
 
   private loadOrder() {
     if (this.navParams.get('order')) {
-      this.cartProvider.setCart(JSON.parse(this.navParams.get('order'))).subscribe(cart => {
+      this.cartProvider.setCartFromOrder(this.navParams.get('order')).subscribe(cart => {
         this.cart = cart;
       });
     } else {

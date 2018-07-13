@@ -6,7 +6,6 @@ import { Events } from 'ionic-angular';
 import { BaseCartPage } from '../base/base-cart';
 import { ProductProvider } from '../../providers/product/product';
 import { CartProvider } from '../../providers/cart/cart';
-import { SettingProvider } from '../../providers/setting/setting';
 import { Page } from '../../models/page.model';
 import { Product } from '../../models/product.model';
 import { PAGE } from '../../constant/constant';
@@ -25,20 +24,18 @@ export class SearchPage extends BaseCartPage {
 
   page: Page<Product>;
 
-  error: string;
-
   constructor(
     public modalCtrl: ModalController,
     public cartProvider: CartProvider,
     public events: Events,
-    public settingProvider: SettingProvider,
     public translateService: TranslateService,
     public productProvider: ProductProvider) {
 
-    super(settingProvider, cartProvider);
+    super(cartProvider);
   }
 
   ionViewWillEnter() {
+    this.error = null;
     this.cartProvider.getCart().subscribe(cart => {
       this.cart = cart;
     }, error => {
@@ -73,6 +70,7 @@ export class SearchPage extends BaseCartPage {
   }
 
   private loadProducts() {
+    this.error = null;
     this.productProvider.findByName(this.keyword, this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;

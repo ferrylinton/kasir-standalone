@@ -3,7 +3,6 @@ import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 
-import { SettingProvider } from '../../providers/setting/setting';
 import { MessageProvider } from '../../providers/message/message';
 import { CartProvider } from '../../providers/cart/cart';
 import { OrderProvider } from '../../providers/order/order';
@@ -39,12 +38,11 @@ export class OrderPage extends BaseCartPage {
     public modalCtrl: ModalController,
     public translateService: TranslateService,
     public messageProvider: MessageProvider,
-    public settingProvider: SettingProvider,
     public events: Events,
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(settingProvider, cartProvider);
+    super(cartProvider);
     this.initDatePicker();
   }
 
@@ -70,6 +68,7 @@ export class OrderPage extends BaseCartPage {
   }
 
   private loadData() {
+    this.error = null;
     this.orderProvider.findByDate(new Date(this.orderDate), this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
@@ -83,7 +82,7 @@ export class OrderPage extends BaseCartPage {
     const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
     orderModal.onDidDismiss(order => {
       if (order) {
-        this.events.publish(PAGE, { page: 'OrderPage', params: { order: order } });
+        this.events.publish(PAGE, { page: 'CartPage', params: { order: order } });
       }
     })
     orderModal.present();
@@ -109,8 +108,6 @@ export class OrderPage extends BaseCartPage {
     return 'primary';
   }
 
-  // Infinite Scroll
-
   doInfinite(infiniteScroll) {
     this.page.pageNumber = this.page.pageNumber + 1;
     this.loadData();
@@ -122,8 +119,6 @@ export class OrderPage extends BaseCartPage {
     this.loadData();
   }
 
-  // Segment
-  
   updateContent(): void {
     this.events.publish(PAGE, { page: this.segment, params: {} });
   }

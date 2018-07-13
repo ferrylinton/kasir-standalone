@@ -1,4 +1,3 @@
-import { SettingProvider } from '../../providers/setting/setting';
 import { CartProvider } from '../../providers/cart/cart';
 import { Order } from "../../models/order.model";
 import { Cart } from '../../models/cart.model';
@@ -8,24 +7,11 @@ import { Setting } from '../../models/setting.model';
 
 export abstract class BaseCartPage {
 
-    setting: Setting;
-
     cart: Cart;
 
     error: string;
 
-    constructor(
-        public settingProvider: SettingProvider,
-        public cartProvider: CartProvider,
-    ) {
-        this.initSetting();
-    }
-
-
-    initSetting() {
-        this.settingProvider.getSetting().subscribe(setting => {
-            this.setting = setting;
-        });
+    constructor(public cartProvider: CartProvider) {
     }
 
     getProducts(order: Order): string {

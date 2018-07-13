@@ -8,11 +8,13 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content padding *ngIf="product; else nodata">
-  <div class="detail-image">
-    <img src="{{product.image}}" />
+<ion-content padding>
+  <div class="image-wrapper" *ngIf="product">
+    <div class="image">
+      <div class="background" [style.background-image]="'url(' + product.image + ')'"> </div>
+    </div>
   </div>
-  <ion-grid>
+  <ion-grid *ngIf="product">
     <ion-row>
       <ion-col class="detail-label">{{ 'ID' | translate }}</ion-col>
     </ion-row>
@@ -35,12 +37,7 @@
       <ion-col class="detail-label">{{ 'PRICE' | translate }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detail-value">{{product.price | currency}}</ion-col>
+      <ion-col class="detail-value">{{ product.price | currency }}</ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-<ng-template #nodata>
-  <ion-content padding>
-    {{ 'NO_DATA' | translate }}
-  </ion-content>
-</ng-template>
