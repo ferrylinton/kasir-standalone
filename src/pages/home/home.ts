@@ -36,8 +36,6 @@ export class HomePage extends BaseCartPage {
 
   page: Page<Product>;
 
-  error: string;
-
   constructor(
     public modalCtrl: ModalController,
     public navParams: NavParams,

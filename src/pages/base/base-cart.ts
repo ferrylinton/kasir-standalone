@@ -12,6 +12,8 @@ export abstract class BaseCartPage {
 
     cart: Cart;
 
+    error: string;
+
     constructor(
         public settingProvider: SettingProvider,
         public cartProvider: CartProvider,

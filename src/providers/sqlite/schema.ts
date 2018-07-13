@@ -179,7 +179,32 @@ export class SchemaProvider extends BaseSQlite {
         tx.executeSql(CATEGORY.INSERT, ['category-0000-0000-0000-015', 'Category 015', 'Category description 015', DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
         
         
-        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-001', 'Product 001', 'Product description 015', 150000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-101', 'Product 101', 'Product description 101', 110000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-102', 'Product 102', 'Product description 102', 120000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-103', 'Product 103', 'Product description 103', 130000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-104', 'Product 104', 'Product description 104', 140000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-105', 'Product 105', 'Product description 105', 150000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-106', 'Product 106', 'Product description 106', 160000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-107', 'Product 107', 'Product description 107', 170000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-108', 'Product 108', 'Product description 108', 180000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-109', 'Product 109', 'Product description 109', 190000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-110', 'Product 110', 'Product description 110', 200000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-111', 'Product 111', 'Product description 111', 210000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-112', 'Product 112', 'Product description 112', 220000, DEFAULT_IMAGE, 'category-0000-0000-0000-001', 'user-0000-0000-0000-000']);
+        
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-201', 'Product 201', 'Product description 201', 110000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-202', 'Product 202', 'Product description 202', 120000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-203', 'Product 203', 'Product description 203', 130000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-204', 'Product 204', 'Product description 204', 140000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-205', 'Product 205', 'Product description 205', 150000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-206', 'Product 206', 'Product description 206', 160000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-207', 'Product 207', 'Product description 207', 170000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-208', 'Product 208', 'Product description 208', 180000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-209', 'Product 209', 'Product description 209', 190000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-210', 'Product 210', 'Product description 210', 200000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-211', 'Product 211', 'Product description 211', 210000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+        tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-212', 'Product 212', 'Product description 212', 220000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
+
 
         tx.executeSql(ORDER.INSERT, ['order-0000-0000-0000-100', '0000-0000-100', true, false, 'user-0000-0000-0000-000']);
         tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-101', 'order-0000-0000-0000-100', 'product-0000-0000-0000-001', 2, 1000.55]);

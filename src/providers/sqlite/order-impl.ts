@@ -22,8 +22,6 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
   }
 
   findByDate(dt: Date, pageable: Pageable): Observable<Page<Order>> {
-    console.log('------------ is date  : ' + dt.toDateString());
-    console.log('------------ is date  : ' + dt.toISOString().split('T')[0]);
     let strDate = dt.toISOString().split('T')[0];
     return fromPromise(this.connect()
       .then(() => this.executeSqlCountByDate(strDate, pageable))
@@ -92,7 +90,7 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
         // insert new order item
         for(let i:number=0; i<order.items.length; i++){
           let item: OrderItem = order.items[i];
-          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.id]);
+          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.price]);
         }
 
         // insert new order

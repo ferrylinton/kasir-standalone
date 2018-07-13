@@ -109,10 +109,13 @@ export class CartPage extends BaseCartPage {
   private saveOrPay(paid: boolean): void {
     if (this.cart.isModified) {
       this.cart.order.paid = this.cart.order.paid || paid;
+      this.cart.order.canceled = false;
       this.orderProvider.update(this.cart.order).subscribe(() => {
         this.deleteOrderFromStorage();
       });
     } else {
+      this.cart.order.paid = paid;
+      this.cart.order.canceled = false;
       this.orderProvider.save(this.cart.order).subscribe(() => {
         this.deleteOrderFromStorage();
       });

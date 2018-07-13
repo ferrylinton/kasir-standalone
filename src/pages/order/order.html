@@ -36,9 +36,14 @@
       </ion-item>
     </ion-list>
   </div>
+  <div class="no-data" *ngIf="!error && page && page.totalData == 0">
+    <ion-icon name="warning"></ion-icon> {{ 'NO_DATA' | translate }}
+  </div>
+  <div class="error" *ngIf="error">
+    <ion-icon name="warning"></ion-icon> {{ error }}
+  </div>
 
-
-  <ion-list *ngIf="page && page.totalData > 0; else nodata">
+  <ion-list *ngIf="page && page.totalData > 0">
     <ion-item>{{ orderDate | moment:'cal':lang | uppercase}}</ion-item>
     <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
       <ion-icon [name]="getIcon(order)" [color]="getIconColor(order)" item-start></ion-icon>
@@ -54,9 +59,3 @@
   </ion-infinite-scroll>
 
 </ion-content>
-<ng-template #nodata>
-  <ion-item>
-    <ion-icon name="warning" item-start></ion-icon>
-    <ion-label>{{ 'NO_DATA' | translate }}</ion-label>
-  </ion-item>
-</ng-template>

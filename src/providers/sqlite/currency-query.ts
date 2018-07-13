@@ -36,7 +36,7 @@ export const FIND_ALL =
   cur.last_modified_by as currency_last_modified_by,
   cur.last_modified_date as currency_last_modified_date
 FROM m_currency cur 
-ORDER BY LOWER(cur.name) LIMIT 10 OFFSET ?`;
+ORDER BY LOWER(cur.name)`;
 
 export const FIND_BY_NAME =
   `SELECT 

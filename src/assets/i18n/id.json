@@ -1,177 +1,71 @@
 {
-    "APPLICATION_NAME" : "kasir",
-    "APPLICATION_TYPE" : "standalone",
-    "USERNAME": "Nama Pengguna",
-    "PASSWORD": "Kata Sandi",
-    "LOGIN": "Masuk",
-    "INVALID_USERNAME_PASSWORD": "Nama pengguna atau kata sandi salah",
-    "EMPTY_USERNAME_PASSWORD": "Nama pengguna atau kata sandi belum diisi",
-    "SEARCH": "Pencarian",
-    "ORDER": "Pesanan",
-    "CART": "Keranjang",
-    "ALL_CATEGORIES": "Semua Kategori",
-    "LOGOUT": "Keluar",
-    "MAIN": "Utama",
-    "HOME": "Beranda",
     "ABOUT": "Tentang Aplikasi",
-    "DATA": "Data",
-    "USER": "Pengguna",
-    "CATEGORY": "Kategori",
-    "PRODUCT": "Produk",
-    "DATABASE": "Basis Data",
-    "SETTING": "Pengaturan",
-    "NO_DATA": "Data tidak ditemukan",
-    "ORDER_DATE": "Tanggal Pesanan",
-    "ORDER_DETAIL": "Detil Pesanan",
+    "ACTIVATED": "Aktif",
+    "ALL_CATEGORIES": "Semua Kategori",
+    "APPLICATION_NAME": "kasir",
+    "APPLICATION_TYPE": "standalone",
     "CANCEL": "Batal",
-    "DONE": "Selesai",
-    "LOADING": "Memuat data",
-    "PAID": "Dibayar",
-    "SAVED": "Disimpan",
+    "CART": "Keranjang",
+    "CATEGORY": "Kategori",
+    "CHECKING_DB": "Mengecek DB",
+    "CONFIRM": "Konfirmasi",
+    "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
+    "ADD": "Tambah",
+    "ADD_IMAGE": "Tambah Gambar",
     "CREATED_BY": "Dibuat Oleh",
     "CREATED_DATE": "Tanggal Dibuat",
-    "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
-    "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
-    "PRODUCT_LIST": "Daftar Produk",
-    "TOTAL_ITEM": "Jumlah Item",
-    "TOTAL_PRICE": "Total Harga",
-    "PAYMENT": "Pembayaran",
-    "NO_ORDER": "Pesanan tidak ada",
-    "DELETE": "Hapus",
-    "DELETE_SUCCESS": "Data berhasil dihapus",
-    "DELETE_MESSAGE": "Apakah Anda ingin menghapus data ?",
-    "MODIFY": "Ubah",
-    "CREATE": "Tambah",
-    "CREATE_IMAGE": "Tambah Gambar",
-    "CONFIRM": "Konfirmasi",
-    "SAVE_MESSAGE": "Apakah Anda ingin menyimpan data ?",
-    "SAVE_SUCCESS": "Data berhasil disimpan",
-    "VIEW": "Lihat",
-    "ID": "Id",
-    "NAME": "Nama",
-    "DESCRIPTION": "Deskripsi",
-    "RELOAD_PAGE": "Memuat ulang halaman",
-    "TOTAL_LABEL" : "Menampilkan {{ length }} dari {{ total }}",
-    "PRICE": "Harga",
-    "FULLNAME": "Nama Lengkap",
-    "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
-    "ROLE": "Peranan",
-    "ACTIVATED": "Aktif",
-    "DEACTIVATED": "Tidak Aktif",
-    "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
-    "STATUS": "Status",
     "CURRENCY": "Mata Uang",
-    "LANGUAGE": "Bahasa",
-    "INDONESIA": "Indonesia",
-    "ENGLISH" : "English",
+    "CURRENCY_FORMAT": "Format Mata Uang",
+    "DATA": "Data",
+    "DATABASE": "Basis Data",
     "DATE_FORMAT": "Format tanggal",
     "DATETIME_FORMAT": "Format tanggal dan waktu",
-    "CURRENCY_FORMAT": "Format Mata Uang",
-    "CHECKING_DB" : "Mengecek DB",
-
-    "temp": {
-        "$": "US Dollar",
-        
-        "Account": "Akun",
-        "ACCOUNT": "Akun",
-        
-        
-        
-        "AUTHORITIES": "Wewenang",
-        "Authority": "Wewenang",
-        "AUTHORITY": "Wewenang",
-        
-        "Category": "Kategori",
-        
-        
-        "CATEGORY_DATA": "Data Kategori",
-        "CategoryList": "Daftar Kategori",
-        "CHANGE_CURRENCY": "Ubah Mata Uang",
-        "CHANGE_DATE_FORMAT": "Ubah Format Tanggal",
-        "CHANGE_DATETIME_FORMAT": "Ubah Format Tangal dan Waktu",
-        "CHANGE_LANGUAGE": "Ubah Bahasa",
-        
-        
-        
-        
-        
-        
-        
-        
-        "DB": "DB",
-        "DB_IS_ALREADY_DELETED": "DB sudah dihapus",
-        "DB_SUCCESSFULLY_DELETED": "DB berhasil dihapus",
-        "DEACTIVATED": "Tidak Aktif",
-        
-        
-        "DETAIL": "Detil",
-        
-        
-        
-        "en": "English",
-        
-        "GRID": "Tampilan Ubin",
-        "Home": "Beranda",
-        
-        
-        "id": "Indonesia",
-        "IMAGE": "Gambar",
-        
-        "ITEM": "item",
-        "KEYWORD": "kata kunci",
-        
-        
-        "LASTEST_ORDER": "Pesanan Terbaru",
-        "LIST": "Tampilan Daftar",
-        
-        
-        "Logout": "Keluar",
-        
-        
-        "Menu": "Menu",
-        "MENU": "Menu",
-        
-        "NEXT": "Berikut",
-        
-        
-        "OK": "OK",
-        "Order": "Pesanan",
-        
-        
-        
-        "ORDER_LIST": "Daftar Pesanan",
-        "OrderHistory": "Daftar Pesanan",
-        
-        
-        
-        
-        "PREVIOUS": "Sebelum",
-        
-        "Product": "Produk",
-        
-        "PRODUCT_DATA": "Data Produk",
-        "PRODUCT_DETAIL": "Detil Produk",
-        
-        "ProductList": "Daftar Produk",
-        "Profile": "Profil",
-        "RELOAD": "Muat Ulang",
-        "RELOAD_PAGE": "Memuat ulang halaman",
-        "REMOVE": "Kurang",
-        
-        
-        "Rp": "Rupiah",
-        "SAVE": "Simpan",
-        
-        "Setting": "Pengaturan",
-        
-        "SIGNIN": "Masuk",
-        
-        
-        "UNSAVE_ORDER": "Pesanan belum disimpan",
-        "User": "Pengguna",
-        
-        "USER_DATA": "Data Pengguna",
-        
-        "VIEW_TYPE": "Tipe Tampilan"
-    }
+    "DEACTIVATED": "Tidak Aktif",
+    "DELETE": "Hapus",
+    "DELETE_MESSAGE": "Apakah Anda ingin menghapus data ?",
+    "DELETE_SUCCESS": "Data berhasil dihapus",
+    "DESCRIPTION": "Deskripsi",
+    "DONE": "Selesai",
+    "EMPTY_USERNAME_PASSWORD": "Nama pengguna atau kata sandi belum diisi",
+    "ENGLISH": "English",
+    "FULLNAME": "Nama Lengkap",
+    "HOME": "Beranda",
+    "ID": "Id",
+    "INDONESIA": "Indonesia",
+    "INVALID_USERNAME_PASSWORD": "Nama pengguna atau kata sandi salah",
+    "LANGUAGE": "Bahasa",
+    "LAST_MODIFIED_BY": "Terakhir Diubah Oleh",
+    "LAST_MODIFIED_DATE": "Tanggal Modifikasi Terakhir",
+    "LOADING": "Memuat data",
+    "LOGIN": "Masuk",
+    "LOGOUT": "Keluar",
+    "MAIN": "Utama",
+    "UPDATE": "Ubah",
+    "NAME": "Nama",
+    "NO_DATA": "Data tidak ditemukan",
+    "NO_ORDER": "Pesanan tidak ada",
+    "ORDER": "Pesanan",
+    "ORDER_DATE": "Tanggal Pesanan",
+    "ORDER_DETAIL": "Detil Pesanan",
+    "PAID": "Dibayar",
+    "PASSWORD": "Kata Sandi",
+    "PASSWORD_NOT_MATCH": "Kata sandi tidak cocok",
+    "PAYMENT": "Pembayaran",
+    "PRICE": "Harga",
+    "PRODUCT": "Produk",
+    "PRODUCT_LIST": "Daftar Produk",
+    "RELOAD_PAGE": "Memuat ulang halaman",
+    "ROLE": "Peranan",
+    "SAVE_MESSAGE": "Apakah Anda ingin menyimpan data ?",
+    "SAVE_SUCCESS": "Data berhasil disimpan",
+    "SAVED": "Disimpan",
+    "SEARCH": "Pencarian",
+    "SETTING": "Pengaturan",
+    "STATUS": "Status",
+    "TOTAL_ITEM": "Jumlah Item",
+    "TOTAL_LABEL": "Menampilkan {{ length }} dari {{ total }}",
+    "TOTAL_PRICE": "Total Harga",
+    "USER": "Pengguna",
+    "USERNAME": "Nama Pengguna",
+    "VIEW": "Lihat"
 }

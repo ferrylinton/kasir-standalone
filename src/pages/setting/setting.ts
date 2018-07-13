@@ -57,6 +57,7 @@ export class SettingPage{
       this.setting = JSON.parse(JSON.stringify(setting));
     });
 
+    this.translate.use(this.setting.language);
     this.translate.get('SAVE_SUCCESS').subscribe(value => {
       this.messageProvider.toast(value);
     })

@@ -74,7 +74,9 @@ export class OrderPage extends BaseCartPage {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
-    })
+    }, error => {
+      this.error = 'Error : ' + error;
+    });
   }
 
   showOrder(order: Order) {
@@ -116,7 +118,6 @@ export class OrderPage extends BaseCartPage {
   }
 
   search(){
-    console.log('orderDate : ' + this.orderDate);
     this.initPage();
     this.loadData();
   }
