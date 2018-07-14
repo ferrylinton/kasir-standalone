@@ -97,9 +97,7 @@ export class SchemaProvider extends BaseSQlite {
         tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-014', 'ORDER_CHANGE', 'Change Order Data']);
         tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-015', 'SETTING_VIEW', 'View Setting Data']);
         tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-016', 'SETTING_CHANGE', 'Change Setting Data']);
-        tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-017', 'DATABASE_VIEW', 'View DB Data']);
-        tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-018', 'DATABASE_CHANGE', 'Change DB Data']);
-        
+
         // Insert Role
         tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-001', 'ADMIN', 'Role as Admin', 'user-0000-0000-0000-000']);
         tx.executeSql(ROLE.INSERT, ['role-0000-0000-0000-002', 'MANAGER', 'Role as Manager', 'user-0000-0000-0000-000']);
@@ -118,8 +116,6 @@ export class SchemaProvider extends BaseSQlite {
         tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-012']);
         tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-015']);
         tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-016']);
-        tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-017']);
-        tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-018']);
         tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-007']);
         tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-001', 'authority-0000-0000-0000-008']);
 

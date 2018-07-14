@@ -44,9 +44,6 @@
           <button menuClose ion-item (click)="openPage('CurrencyPage')" *ngIf="hasAuthority('CURRENCY_VIEW')">
             <ion-icon name="cash"></ion-icon> {{ 'CURRENCY' | translate }}
           </button>
-          <button menuClose ion-item (click)="openPage('DatabasePage')" *ngIf="hasAuthority('DATABASE_VIEW')">
-            <ion-icon name="archive"></ion-icon> {{ 'DATABASE' | translate }}
-          </button>
           <button menuClose ion-item (click)="openPage('SettingPage')" *ngIf="hasAuthority('SETTING_VIEW')">
             <ion-icon name="settings"></ion-icon> {{ 'SETTING' | translate }}
           </button>
