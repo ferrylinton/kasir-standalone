@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController, Events, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { HOME_PAGE, LOGGED_USER } from '../../constant/constant';
+import { LOGGED_USER } from '../../constant/constant';
 import { LoginProvider } from '../../providers/login/login';
 import { SchemaProvider } from '../../providers/sqlite/schema';
 
@@ -88,7 +88,7 @@ export class LoginPage {
     if (user != null && user.password === this.data.password) {
       this.events.publish(LOGGED_USER, user);
       this.storage.set(LOGGED_USER, JSON.stringify(user));
-      this.navCtrl.setRoot(HOME_PAGE);
+      this.navCtrl.setRoot('HomePage');
     } else {
       this.showMessage(this.INVALID_USERNAME_PASSWORD);
     }

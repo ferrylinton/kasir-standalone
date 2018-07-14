@@ -13,7 +13,7 @@ import * as CATEGORY from './category-query';
 import * as PRODUCT from './product-query';
 import * as ORDER from './order-query';
 import * as ORDER_ITEM from './order-item-query';
-import { DEFAULT_IMAGE } from '../../constant/constant';
+import { DEFAULT_IMAGE } from '../../constant/default-image';
 import { DEFAULT_USER } from '../../constant/user-image';
 
 

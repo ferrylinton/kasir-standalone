@@ -1,6 +1,5 @@
-import { Base } from './base.model';
 
-export class Version implements Base{
+export class Version{
 
     constructor(
         

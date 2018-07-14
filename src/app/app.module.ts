@@ -16,6 +16,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { MyApp } from './app.component';
 
 // Provider's Interface
+import { VersionProvider } from '../providers/version/version';
 import { LoginProvider } from '../providers/login/login';
 import { AuthorityProvider } from '../providers/authority/authority';
 import { RoleProvider } from '../providers/role/role';
@@ -26,6 +27,7 @@ import { OrderProvider } from '../providers/order/order';
 import { CurrencyProvider } from '../providers/currency/currency';
 
 // Provider's Implementation
+import { VersionProviderImpl } from '../providers/sqlite/version-impl';
 import { AuthorityProviderImpl } from '../providers/sqlite/authority-impl';
 import { RoleProviderImpl } from '../providers/sqlite/role-impl';
 import { UserProviderImpl } from '../providers/sqlite/user-impl';
@@ -37,10 +39,10 @@ import { CurrencyProviderImpl } from '../providers/sqlite/currency-impl';
 // Sqlite
 import { SQLiteMock } from '../providers/sqlite/sqlite';
 import { SchemaProvider } from '../providers/sqlite/schema';
-
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
+
 
 
 registerLocaleData(localeId, 'id');
@@ -80,6 +82,7 @@ export function createTranslateLoader(http: HttpClient) {
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     { provide: SQLite, useClass: SQLiteMock},
+    { provide: VersionProvider, useClass: VersionProviderImpl },
     { provide: AuthorityProvider, useClass: AuthorityProviderImpl },
     { provide: RoleProvider, useClass: RoleProviderImpl },
     { provide: UserProvider, useClass: UserProviderImpl },
@@ -91,7 +94,7 @@ export function createTranslateLoader(http: HttpClient) {
     SettingProvider,
     MessageProvider,
     CartProvider,
-    SchemaProvider
+    SchemaProvider,
   ]
 
 })
