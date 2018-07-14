@@ -67,5 +67,14 @@
     "TOTAL_PRICE": "Total Harga",
     "USER": "Pengguna",
     "USERNAME": "Nama Pengguna",
-    "VIEW": "Lihat"
+    "VIEW": "Lihat",
+    "CALENDAR": {
+        "sameDay": "[Hari ini] (DD-MM-YYYY)",
+        "nextDay": "[Besok] (DD-MM-YYYY)",
+        "nextWeek": "dddd [depan] (DD-MM-YYYY)",
+        "lastDay": "[Kemarin] (DD-MM-YYYY)",
+        "lastWeek": "dddd [kemarin] (DD-MM-YYYY)",
+        "sameElse": "DD-MM-YYYY"
+    },
+    "MONTH_NAMES" : ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
 }

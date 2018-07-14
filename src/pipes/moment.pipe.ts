@@ -1,42 +1,32 @@
 import { Pipe } from '@angular/core';
 import moment from 'moment';
 import { LANGUAGE } from '../constant/setting';
+import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
   name: 'moment'
 })
 export class MomentPipe {
 
-  private CalendarSpec : any = {
-    "en": {
-      sameDay: '[Today] ( DD-MM-YYYY )',
-      nextDay: '[Tomorrow] ( DD-MM-YYYY )',
-      nextWeek: 'dddd',
-      lastDay: '[Yesterday] ( DD-MM-YYYY )',
-      lastWeek: '[Last] dddd ( DD-MM-YYYY )',
-      sameElse: 'DD-MM-YYYY'
-    },
-    "id":{
-      sameDay: '[Hari ini] ( DD-MM-YYYY )',
-      nextDay: '[Besok] ( DD-MM-YYYY )',
-      nextWeek: 'dddd [depan] ( DD-MM-YYYY )',
-      lastDay: '[Kemarin] ( DD-MM-YYYY )',
-      lastWeek: 'dddd [kemarin] ( DD-MM-YYYY )',
-      sameElse: 'DD-MM-YYYY'
-    }
+  formated: string = '';
+
+  constructor(public translate: TranslateService) {
   }
 
-  transform(value, type, language) {
-    type = type || '';
-    language = language || LANGUAGE;
-    moment.locale(language);
+  transform(value, type) {
+    this.translate.get('CALENDAR').subscribe(CalendarSpec => {
+      type = type || '';
+      moment.locale(this.translate.currentLang);
 
-    if(type === 'ago'){
-      return moment(value).fromNow();
-    }else if(type === 'cal'){
-      return moment(value).calendar(null, this.CalendarSpec[language]);
-    }else{
-      return moment(value).format(type);
-    }
+      if (type === 'ago') {
+        this.formated = moment(value).fromNow();
+      } else if (type === 'cal') {
+        this.formated = moment(value).calendar(null, CalendarSpec);
+      } else {
+        this.formated = moment(value).format(type);
+      }
+    });
+
+    return this.formated;
   }
 }

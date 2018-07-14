@@ -67,5 +67,14 @@
     "TOTAL_PRICE": "Total Price",
     "USER": "User",
     "USERNAME": "Username",
-    "VIEW": "View"
+    "VIEW": "View",
+    "CALENDAR": {
+        "sameDay": "[Today] (DD-MM-YYYY)",
+        "nextDay": "[Tomorrow] (DD-MM-YYYY)",
+        "nextWeek": "dddd",
+        "lastDay": "[Yesterday] (DD-MM-YYYY)",
+        "lastWeek": "[Last] dddd (DD-MM-YYYY)",
+        "sameElse": "DD-MM-YYYY"
+    },
+    "MONTH_NAMES" : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 }

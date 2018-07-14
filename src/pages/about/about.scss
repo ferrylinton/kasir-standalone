@@ -1,3 +1,53 @@
 page-about {
-
+    .logo-wrapper {
+        margin: 0 auto;
+        width: 250px;
+    }
+    .logo {
+        text-align: center;
+        padding: 0;
+        margin: 0 0 20px 0;
+    }
+    .logo span {
+        display: inline-block;
+        font-size: 4.8rem;
+        font-weight: 500;
+        text-transform: lowercase;
+        font-family: 'Paytone One', sans-serif;
+        color: color($colors, dark);
+        line-height: 1;
+    }
+    .logo span ion-icon{
+        font-size: 4.4rem;
+        margin-right: 2px;
+        text-shadow: none;
+    }
+    .logo span em{
+        margin-top: -8px;
+        position: absolute;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        color: color($colors, secondary);
+    }
+    .content{
+        text-align: center;
+        padding-top: 30px;
+    }
+    .txt{
+        padding: 5px 0;
+    }
+    .version{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .author{
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .email{
+        color: color($colors, primary);
+        font-size: 16px;
+        font-weight: bold;
+    }
 }

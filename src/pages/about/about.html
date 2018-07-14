@@ -3,10 +3,23 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>About</ion-title>
+    <ion-title>{{ 'ABOUT' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
+  <div class="logo-wrapper">
+    <div class="logo">
+      <span>
+        <ion-icon name="no-smoking"></ion-icon>{{ 'APPLICATION_NAME' | translate }}
+        <em>{{ 'APPLICATION_TYPE' | translate }}</em>
+      </span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="txt version">v 0.0.1</div>
+    <div class="txt">by</div>
+    <div class="txt author">FERRY L. H.</div>
+    <div class="txt email">ferrylinton@gmail.com</div>
+  </div>
 </ion-content>

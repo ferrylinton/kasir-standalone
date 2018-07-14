@@ -25,7 +25,7 @@ export class OrderPage extends BaseCartPage {
 
   page: Page<Order>;
 
-  monthNames: any = {};
+  monthShortNames: Array<string> = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   orderDate: string = new Date().toISOString();
 
@@ -36,7 +36,7 @@ export class OrderPage extends BaseCartPage {
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
-    public translateService: TranslateService,
+    public translate: TranslateService,
     public messageProvider: MessageProvider,
     public events: Events,
     public orderProvider: OrderProvider,
@@ -55,12 +55,17 @@ export class OrderPage extends BaseCartPage {
   }
 
   private initDatePicker(): void{
-    let today : Date = new Date();
-    today.setMonth(today.getMonth() - 12);
-    this.min = today.toJSON().split('T')[0];
-    this.max = new Date().toJSON().split('T')[0];
-    this.monthNames['id'] = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-    this.monthNames['en'] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let minDate : Date = new Date();
+    let maxDate : Date = new Date();
+
+    minDate.setMonth(minDate.getMonth() - 12);
+
+    this.min = minDate.toJSON().split('T')[0];
+    this.max = maxDate.toJSON().split('T')[0];
+
+    this.translate.get('MONTH_NAMES').subscribe(value => {
+      this.monthShortNames = value;
+    });
   }
 
   private initPage(): void {

@@ -32,7 +32,7 @@
         <ion-icon name="calendar" item-start></ion-icon>
         <ion-label>{{ 'ORDER_DATE' | translate }}</ion-label>
         <ion-datetime (ionChange)="search()" cancelText="{{ 'CANCEL' | translate }}" doneText="{{ 'DONE' | translate }}" [min]="min"
-          [max]="max" displayFormat="DD-MM-YYYY" pickerFormat="DD-MM-YYYY" [monthShortNames]="monthNames[lang]" [(ngModel)]="orderDate"></ion-datetime>
+          [max]="max" displayFormat="DD-MM-YYYY" pickerFormat="DD-MMM-YYYY" [monthShortNames]="monthShortNames" [(ngModel)]="orderDate"></ion-datetime>
       </ion-item>
     </ion-list>
   </div>
@@ -44,7 +44,7 @@
   </div>
 
   <ion-list *ngIf="page && page.totalData > 0">
-    <ion-item>{{ orderDate | moment:'cal':lang | uppercase}}</ion-item>
+    <ion-item>{{ orderDate | moment:'cal' }}</ion-item>
     <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
       <ion-icon [name]="getIcon(order)" [color]="getIconColor(order)" item-start></ion-icon>
       <p>
