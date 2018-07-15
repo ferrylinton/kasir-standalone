@@ -3,7 +3,7 @@ export const DROP_TABLE =
 
 export const CREATE_TABLE =
     `CREATE TABLE IF NOT EXISTS app_version (
-        id INTEGER PRIMARY KEY, 
+        id VARCHAR(10) PRIMARY KEY, 
         created_date DATE NOT NULL
     )`;
 
