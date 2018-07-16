@@ -50,6 +50,8 @@ export class SchemaProvider extends BaseSQlite {
 
   private upToDate: boolean;
 
+  private previousVersion: string;
+
   constructor(public sqlite: SQLite, public storage: Storage) {
     super(sqlite, storage);
   }
@@ -104,16 +106,14 @@ export class SchemaProvider extends BaseSQlite {
     return new Promise((resolve, reject) => {
       if (!this.upToDate) {
         this.db.executeSql(VERSION.FIND_LATEST, []).then((data) => {
-          let currentVersion: string = '0.0.0';
-          if (data.rows.length > 0) {
-            currentVersion = data.rows.item(0)['version'];
-          }
+          this.previousVersion = data.rows.item(0)['version'];
 
-          if(currentVersion == null){
+          if (this.previousVersion == null) {
+            this.previousVersion = '0.0.0';
             resolve();
-          }else if (currentVersion == '0.0.0' && DB_VERSION == '0.0.1') {
+          } else if (this.previousVersion == '0.0.0' && DB_VERSION == '0.0.1') {
             resolve();
-          }else if (currentVersion == '0.0.1' && DB_VERSION == '0.0.1') {
+          } else if (this.previousVersion == '0.0.1' && DB_VERSION == '0.0.1') {
             this.upToDate = true;
             resolve();
           }
@@ -121,7 +121,7 @@ export class SchemaProvider extends BaseSQlite {
         }).catch((error) => {
           reject(error);
         });
-      }else{
+      } else {
         resolve();
       }
     })
@@ -135,7 +135,7 @@ export class SchemaProvider extends BaseSQlite {
         }).catch((error) => {
           reject(error);
         });
-      }else{
+      } else {
         resolve();
       }
     })
@@ -285,7 +285,7 @@ export class SchemaProvider extends BaseSQlite {
           tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-302', 'order-0000-0000-0000-300', 'product-0000-0000-0000-202', 2, 1000.55]);
           tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-303', 'order-0000-0000-0000-300', 'product-0000-0000-0000-203', 3, 1000.55]);
 
-          this.storage.set(DB_STATUS, true);
+          this.storage.set(DB_STATUS, JSON.stringify({version : DB_VERSION, updatedDate: new Date(), previousVersion: this.previousVersion}));
         }).then((result) => {
           resolve('Insert sample data is success');
         }).catch((error) => {

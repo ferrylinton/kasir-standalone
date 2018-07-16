@@ -1,6 +1,5 @@
 import { Pipe } from '@angular/core';
 import moment from 'moment';
-import { LANGUAGE } from '../constant/setting';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({

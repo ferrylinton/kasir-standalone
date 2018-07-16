@@ -2,7 +2,6 @@ import { CartProvider } from '../../providers/cart/cart';
 import { Order } from "../../models/order.model";
 import { Cart } from '../../models/cart.model';
 import { Product } from '../../models/product.model';
-import { Setting } from '../../models/setting.model';
 
 
 export abstract class BaseCartPage {
