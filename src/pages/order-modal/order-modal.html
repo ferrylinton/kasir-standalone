@@ -44,7 +44,7 @@
     <ion-item>
       <h2 class="bold">{{ 'PRODUCT_LIST' | translate }}</h2>
     </ion-item>
-    <ion-item *ngFor="let item of order.items">
+    <ion-item *ngFor="let item of order.orderItems">
       <ion-avatar item-start>
         <img src="{{item.product.image}}">
       </ion-avatar>

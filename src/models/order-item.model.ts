@@ -11,7 +11,9 @@ export class OrderItem implements Base{
 
         public price: number, 
 
-        public product: Product
+        public product: Product,
+
+        public note: string
 
         ){
     }

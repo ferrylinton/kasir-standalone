@@ -62,7 +62,7 @@
               <button item-start color="secondary" small ion-button icon-only (click)="addItem(product)">
                 <ion-icon name="add"></ion-icon>
               </button>
-              <button item-end color="light" small ion-button icon-start>
+              <button item-end color="light" small ion-button icon-start (click)="addNote()">
                 <ion-icon name="cart"></ion-icon> {{ getQuantity(product) }}
               </button>
             </ion-item>

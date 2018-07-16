@@ -31,7 +31,7 @@ export class SearchPage extends BaseCartPage {
     public translateService: TranslateService,
     public productProvider: ProductProvider) {
 
-    super(cartProvider);
+    super(modalCtrl, cartProvider);
   }
 
   ionViewWillEnter() {

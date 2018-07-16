@@ -80,8 +80,8 @@ export class CartProvider {
   countItem(order: Order): number {
     let total: number = 0;
 
-    for (let i = 0; i < order.items.length; i++) {
-      total += order.items[i].quantity;
+    for (let i = 0; i < order.orderItems.length; i++) {
+      total += order.orderItems[i].quantity;
     }
 
     return total;
@@ -90,8 +90,8 @@ export class CartProvider {
   countPrice(order: Order): number {
     let total: number = 0;
 
-    for (let i = 0; i < order.items.length; i++) {
-      total += order.items[i].quantity * order.items[i].product.price;
+    for (let i = 0; i < order.orderItems.length; i++) {
+      total += order.orderItems[i].quantity * order.orderItems[i].product.price;
     }
 
     return total;
@@ -100,15 +100,15 @@ export class CartProvider {
   private addProduct(cart: Cart, product: Product): Cart {
     let isProductExist: boolean = false;
 
-    for (let i = 0; i < cart.order.items.length; i++) {
-      if (product.id === cart.order.items[i].product.id) {
-        cart.order.items[i].quantity++;
+    for (let i = 0; i < cart.order.orderItems.length; i++) {
+      if (product.id === cart.order.orderItems[i].product.id) {
+        cart.order.orderItems[i].quantity++;
         isProductExist = true;
       }
     }
 
     if (!isProductExist) {
-      cart.order.items.push(new OrderItem(uuid(), 1, 0, product));
+      cart.order.orderItems.push(new OrderItem(uuid(), 1, 0, product, ''));
     }
 
     return cart;
@@ -118,11 +118,11 @@ export class CartProvider {
     let isQuantityZero: boolean = false;
     let index: number = 0;
 
-    for (let i = 0; i < cart.order.items.length; i++) {
-      if (product.id === cart.order.items[i].product.id) {
-        cart.order.items[i].quantity--;
+    for (let i = 0; i < cart.order.orderItems.length; i++) {
+      if (product.id === cart.order.orderItems[i].product.id) {
+        cart.order.orderItems[i].quantity--;
 
-        if (cart.order.items[i].quantity === 0) {
+        if (cart.order.orderItems[i].quantity === 0) {
           index = i;
           isQuantityZero = true;
         }
@@ -131,7 +131,7 @@ export class CartProvider {
     }
 
     if (isQuantityZero) {
-      cart.order.items.splice(index, 1);
+      cart.order.orderItems.splice(index, 1);
     }
 
     return cart;

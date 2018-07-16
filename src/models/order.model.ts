@@ -10,11 +10,13 @@ export class Order implements Audit {
 
         public transactionNumber?: string,
 
-        public items?: Array<OrderItem>,
+        public orderItems?: Array<OrderItem>,
 
         public paid?: boolean,
 
         public canceled?: boolean,
+
+        public note?: string,
 
         public createdBy?: string | User,
 

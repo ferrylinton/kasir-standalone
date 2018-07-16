@@ -271,19 +271,19 @@ export class SchemaProvider extends BaseSQlite {
           tx.executeSql(PRODUCT.INSERT, ['product-0000-0000-0000-212', 'Product 212', 'Product description 212', 220000, DEFAULT_IMAGE, 'category-0000-0000-0000-002', 'user-0000-0000-0000-000']);
 
 
-          tx.executeSql(ORDER.INSERT, ['order-0000-0000-0000-100', '0000-0000-100', true, false, 'user-0000-0000-0000-000']);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-101', 'order-0000-0000-0000-100', 'product-0000-0000-0000-101', 2, 1000.55]);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-102', 'order-0000-0000-0000-100', 'product-0000-0000-0000-102', 3, 1000.55]);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-103', 'order-0000-0000-0000-100', 'product-0000-0000-0000-103', 4, 1000.55]);
+          tx.executeSql(ORDER.INSERT, ['order-0000-0000-0000-100', '0000-0000-100', true, false, 'note test 1', 'user-0000-0000-0000-000']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-101', 'order-0000-0000-0000-100', 'product-0000-0000-0000-101', 2, 1000.55, 'note test aa']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-102', 'order-0000-0000-0000-100', 'product-0000-0000-0000-102', 3, 1000.55, 'note test bb']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-103', 'order-0000-0000-0000-100', 'product-0000-0000-0000-103', 4, 1000.55, 'note test cc']);
 
-          tx.executeSql(ORDER.INSERT_1, ['order-0000-0000-0000-200', '0000-0000-200', true, true, 'user-0000-0000-0000-000']);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-201', 'order-0000-0000-0000-200', 'product-0000-0000-0000-104', 3, 1000.55]);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-202', 'order-0000-0000-0000-200', 'product-0000-0000-0000-105', 2, 1000.55]);
+          tx.executeSql(ORDER.INSERT_1, ['order-0000-0000-0000-200', '0000-0000-200', true, true, 'note test 1', 'user-0000-0000-0000-000']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-201', 'order-0000-0000-0000-200', 'product-0000-0000-0000-104', 3, 1000.55, 'note test dd']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-202', 'order-0000-0000-0000-200', 'product-0000-0000-0000-105', 2, 1000.55, 'note test ee']);
 
-          tx.executeSql(ORDER.INSERT_2, ['order-0000-0000-0000-300', '0000-0000-300', false, false, 'user-0000-0000-0000-000']);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-301', 'order-0000-0000-0000-300', 'product-0000-0000-0000-201', 4, 1000.55]);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-302', 'order-0000-0000-0000-300', 'product-0000-0000-0000-202', 2, 1000.55]);
-          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-303', 'order-0000-0000-0000-300', 'product-0000-0000-0000-203', 3, 1000.55]);
+          tx.executeSql(ORDER.INSERT_2, ['order-0000-0000-0000-300', '0000-0000-300', false, false, 'note test 1', 'user-0000-0000-0000-000']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-301', 'order-0000-0000-0000-300', 'product-0000-0000-0000-201', 4, 1000.55, 'note test ff']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-302', 'order-0000-0000-0000-300', 'product-0000-0000-0000-202', 2, 1000.55, 'note test gg']);
+          tx.executeSql(ORDER_ITEM.INSERT, ['item-0000-0000-0000-303', 'order-0000-0000-0000-300', 'product-0000-0000-0000-203', 3, 1000.55, 'note test hh']);
 
           this.storage.set(DB_STATUS, JSON.stringify({version : DB_VERSION, updatedDate: new Date(), previousVersion: this.previousVersion}));
         }).then((result) => {

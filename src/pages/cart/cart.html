@@ -31,7 +31,7 @@
     <ion-item *ngIf="cart.totalItem == 0">
       {{ 'NO_ORDER' | translate }}
     </ion-item>
-    <ion-item *ngFor="let item of cart.order.items">
+    <ion-item *ngFor="let item of cart.order.orderItems">
       <ion-thumbnail item-start>
         <img src="{{item.product.image}}">
       </ion-thumbnail>

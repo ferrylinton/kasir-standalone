@@ -32,7 +32,7 @@ export class CartPage extends BaseCartPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(cartProvider);
+    super(modalCtrl, cartProvider);
     this.initPage();
   }
 

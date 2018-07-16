@@ -6,6 +6,7 @@ export const CREATE_TABLE =
     transaction_number VARCHAR(40) NOT NULL UNIQUE, 
     paid BOOLEAN NOT NULL DEFAULT false,
     canceled BOOLEAN NOT NULL DEFAULT false,
+    note varchar(250),
     created_by VARCHAR(30),
     created_date DATE,
     last_modified_by VARCHAR(30),
@@ -14,24 +15,25 @@ export const CREATE_TABLE =
 
 export const INSERT =
     `INSERT INTO 
-    t_order(id, transaction_number, paid, canceled, created_by, created_date) 
-    VALUES (?, ?, ?, ?, ?, datetime('now','localtime'))`;
+    t_order(id, transaction_number, paid, canceled, note, created_by, created_date) 
+    VALUES (?, ?, ?, ?, ?, ?, datetime('now','localtime'))`;
 
 export const INSERT_1 =
     `INSERT INTO 
-        t_order(id, transaction_number, paid, canceled, created_by, created_date) 
-        VALUES (?, ?, ?, ?, ?, datetime('now', '-1 days','localtime'))`;
+        t_order(id, transaction_number, paid, canceled, note, created_by, created_date) 
+        VALUES (?, ?, ?, ?, ?, ?, datetime('now', '-1 days','localtime'))`;
 
 export const INSERT_2 =
     `INSERT INTO 
-    t_order(id, transaction_number, paid, canceled, created_by, created_date) 
-    VALUES (?, ?, ?, ?, ?, datetime('now', '-2 days' ,'localtime'))`;
+    t_order(id, transaction_number, paid, canceled, note, created_by, created_date) 
+    VALUES (?, ?, ?, ?, ?, ?, datetime('now', '-2 days' ,'localtime'))`;
 
 export const UPDATE =
     `UPDATE t_order SET
     transaction_number = ?, 
     paid = ?,
     canceled = ?, 
+    note = ?,
     last_modified_by = ?, 
     last_modified_date = datetime('now','localtime') 
     WHERE id = ?`;
@@ -45,6 +47,7 @@ SELECT
     ord.transaction_number as order_transaction_number,
     ord.paid as order_paid,
     ord.canceled as order_canceled,
+    ord.note as order_note,
     ord.created_by as order_created_by,
     ord.created_date as order_created_date,
     ord.last_modified_by as order_last_modified_by,
@@ -53,6 +56,7 @@ SELECT
     itm.id as item_id,
     itm.quantity as item_quantity, 
     itm.price as item_price,
+    itm.note as item_note,
 
     prd.id as product_id,
     prd.name as product_name,

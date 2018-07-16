@@ -98,6 +98,7 @@ export abstract class BaseSQlite {
             new Array(),
             JSON.parse(item['order_paid']),
             JSON.parse(item['order_canceled']),
+            item['order_note'],
             item['order_created_by'],
             item['order_created_date'],
             item['order_last_modified_by'],
@@ -105,12 +106,13 @@ export abstract class BaseSQlite {
         );
     }
 
-    convertToItem(item: any): OrderItem {
+    convertToOrderItem(item: any): OrderItem {
         return new OrderItem(
             item['item_id'],
             item['item_quantity'],
             item['item_price'],
-            this.convertToProduct(item)
+            this.convertToProduct(item),
+            item['item_note']
         );
     }
 

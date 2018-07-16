@@ -62,16 +62,16 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
         for (let i: number = 0; i < data.rows.length; i++) {
           if(!order){
             order = this.convertToOrder(data.rows.item(i));
-            order.items.push(this.convertToItem(data.rows.item(i)))
+            order.orderItems.push(this.convertToOrderItem(data.rows.item(i)))
           }else if(order.id != data.rows.item(i)['order_id']){
             // add order to list
             orders.push(order);
 
             // create new order
             order = this.convertToOrder(data.rows.item(i));
-            order.items.push(this.convertToItem(data.rows.item(i)))
+            order.orderItems.push(this.convertToOrderItem(data.rows.item(i)))
           }else if(order.id == data.rows.item(i)['order_id']){
-            order.items.push(this.convertToItem(data.rows.item(i)))
+            order.orderItems.push(this.convertToOrderItem(data.rows.item(i)))
           }
         }
         orders.push(order);
@@ -88,13 +88,13 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
       this.db.transaction((tx) => {
 
         // insert new order item
-        for(let i:number=0; i<order.items.length; i++){
-          let item: OrderItem = order.items[i];
-          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.price]);
+        for(let i:number=0; i<order.orderItems.length; i++){
+          let item: OrderItem = order.orderItems[i];
+          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.price, item.note]);
         }
 
         // insert new order
-        tx.executeSql(ORDER.INSERT, [order.id, order.transactionNumber, order.paid, order.canceled, this.LOGGED_USER.id]);
+        tx.executeSql(ORDER.INSERT, [order.id, order.transactionNumber, order.paid, order.canceled, order.note, this.LOGGED_USER.id]);
 
       }).then((result) => {
         resolve('Order [' + order.id + '] is deleted successfully');
@@ -112,13 +112,13 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
         tx.executeSql(ORDER_ITEM.DELETE, [order.id]);
 
         // insert new order item
-        for(let i:number=0; i<order.items.length; i++){
-          let item: OrderItem = order.items[i];
-          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.id]);
+        for(let i:number=0; i<order.orderItems.length; i++){
+          let item: OrderItem = order.orderItems[i];
+          tx.executeSql(ORDER_ITEM.INSERT, [item.id, order.id, item.product.id, item.quantity, item.price, item.note]);
         }
 
         // update order
-        tx.executeSql(ORDER.UPDATE, [order.transactionNumber, order.paid, order.canceled, this.LOGGED_USER.id, order.id]);
+        tx.executeSql(ORDER.UPDATE, [order.transactionNumber, order.paid, order.canceled, order.note, this.LOGGED_USER.id, order.id]);
 
       }).then((result) => {
         resolve('Order [' + order.id + '] is deleted successfully');

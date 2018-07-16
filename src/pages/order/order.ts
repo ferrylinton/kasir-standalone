@@ -42,7 +42,7 @@ export class OrderPage extends BaseCartPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(cartProvider);
+    super(modalCtrl, cartProvider);
     this.initDatePicker();
   }
 

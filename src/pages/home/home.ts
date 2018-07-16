@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, Slides, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 import { Events } from 'ionic-angular';
@@ -37,6 +37,7 @@ export class HomePage extends BaseCartPage {
 
   constructor(
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public navParams: NavParams,
     public cartProvider: CartProvider,
     public events: Events,
@@ -44,7 +45,7 @@ export class HomePage extends BaseCartPage {
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(cartProvider);
+    super(modalCtrl, cartProvider);
     this.initPage();
   }
 
@@ -118,5 +119,32 @@ export class HomePage extends BaseCartPage {
     this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
+  showNotePrompt() {
+    const alert = this.alertCtrl.create({
+      title: 'Login',
+      inputs: [
+        {
+          name: 'title',
+          placeholder: 'Title'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: (data: any) => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: (data: any) => {
+            console.log('Saved clicked', data);
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
 }
 

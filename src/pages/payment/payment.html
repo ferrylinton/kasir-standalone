@@ -18,7 +18,7 @@
 
 <ion-content padding>
   <ion-list *ngIf="order; else nodata">
-    <ion-item *ngFor="let item of order.items">
+    <ion-item *ngFor="let item of order.orderItems">
       <h2>{{item.product.name}}</h2>
       <span item-end>{{item.quantity}} x {{item.product.price | currency:currency:symbol:symbol:lang}}</span>
     </ion-item>

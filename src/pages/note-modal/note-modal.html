@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button>
+        <ion-icon name="paper"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button (click)="viewCtrl.dismiss(note)">
+        <span ion-text showWhen="ios">{{ 'BUTTON.SAVE' | translate }}</span>
+        <ion-icon name="checkmark" showWhen="core,android,windows"></ion-icon>
+      </button>
+      <button ion-button (click)="viewCtrl.dismiss()">
+        <span ion-text showWhen="ios">{{ 'BUTTON.CANCEL' | translate }}</span>
+        <ion-icon name="close" showWhen="core,android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-item>
+    <ion-textarea style="overflow:auto;resize:none" name="note" rows="5" [(ngModel)]="note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+  </ion-item>
+</ion-content>
