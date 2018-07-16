@@ -119,32 +119,5 @@ export class HomePage extends BaseCartPage {
     this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
-  showNotePrompt() {
-    const alert = this.alertCtrl.create({
-      title: 'Login',
-      inputs: [
-        {
-          name: 'title',
-          placeholder: 'Title'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: (data: any) => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: (data: any) => {
-            console.log('Saved clicked', data);
-          }
-        }
-      ]
-    });
-
-    alert.present();
-  }
 }
 

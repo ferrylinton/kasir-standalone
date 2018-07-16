@@ -97,6 +97,30 @@ export class CartProvider {
     return total;
   }
 
+  getOrderItem(cart: Cart, product: Product): OrderItem {
+    for (let i = 0; i < cart.order.orderItems.length; i++) {
+      if (product.id === cart.order.orderItems[i].product.id) {
+        return cart.order.orderItems[i];
+      }
+    }
+
+    return null;
+  }
+
+  addNote(cart: Cart, orderItem: OrderItem): Observable<Cart> {
+    let isProductExist: boolean = false;
+
+    for (let i = 0; i < cart.order.orderItems.length; i++) {
+      if (orderItem.product.id === cart.order.orderItems[i].product.id) {
+        cart.order.orderItems[i] = orderItem;
+      }
+    }
+
+    return fromPromise(this.storage.set(CART, JSON.stringify(cart)).then(() => {
+      return cart;
+    }));
+  }
+
   private addProduct(cart: Cart, product: Product): Cart {
     let isProductExist: boolean = false;
 

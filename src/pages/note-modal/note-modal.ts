@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, ViewController } from 'ionic-angular';
+import { IonicPage, ViewController, NavParams } from 'ionic-angular';
+import { OrderItem } from '../../models/order-item.model';
 
 
 @IonicPage()
@@ -9,9 +10,10 @@ import { IonicPage, ViewController } from 'ionic-angular';
 })
 export class NoteModalPage {
 
-  note: string;
+  orderItem: OrderItem;
 
-  constructor(public viewCtrl: ViewController) {
+  constructor(public viewCtrl: ViewController, public navParams: NavParams) {
+    this.orderItem = navParams.get('orderItem');
   }
 
 }

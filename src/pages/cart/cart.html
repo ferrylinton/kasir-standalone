@@ -37,6 +37,7 @@
       </ion-thumbnail>
       <h2>{{ item.product.name }}</h2>
       <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
+      <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
       <ion-buttons item-end>
         <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
           <ion-icon name="remove"></ion-icon>

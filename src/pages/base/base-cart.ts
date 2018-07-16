@@ -3,6 +3,7 @@ import { CartProvider } from '../../providers/cart/cart';
 import { Order } from "../../models/order.model";
 import { Cart } from '../../models/cart.model';
 import { Product } from '../../models/product.model';
+import { OrderItem } from '../../models/order-item.model';
 
 
 export abstract class BaseCartPage {
@@ -59,13 +60,17 @@ export abstract class BaseCartPage {
         return 0;
     }
 
-    addNote() {
-        const noteModal = this.modalCtrl.create('NoteModalPage', {}, {cssClass: 'note-modal' });
-        noteModal.onDidDismiss(note => {
-          if (note) {
-            console.log('note : ' + note);
-          }
-        })
-        noteModal.present();
-      }
+    addNote(product: Product) {
+        if(this.isSelected(product)){
+            const noteModal = this.modalCtrl.create('NoteModalPage', { orderItem: this.cartProvider.getOrderItem(this.cart, product) }, { cssClass: 'note-modal' });
+            noteModal.onDidDismiss(orderItem => {
+                if (orderItem) {
+                    this.cartProvider.addNote(this.cart, orderItem).subscribe(cart => {
+                        this.cart = cart;
+                    });
+                }
+            })
+            noteModal.present();
+        }
+    }
 }
