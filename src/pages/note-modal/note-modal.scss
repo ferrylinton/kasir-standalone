@@ -1,3 +1,18 @@
 page-note-modal {
-
+    .content-md{
+        background-color: color($colors, lighter);
+    }
+    .item-md {
+        padding: 0;
+        background-color: color($colors, lighter);
+    }
+    .item-md.item-block .item-inner{
+        margin: 5px;
+        border: solid 1px color($colors, light);
+        background-color: #fff;
+    }
+    .no-resize textarea {
+        overflow: auto;
+        resize: none;
+    }
 }

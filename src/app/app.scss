@@ -89,7 +89,7 @@
     .selected img {
         border: solid 2px #b0fca3;
     }
-    .buttons{
+    .buttons {
         text-align: center;
     }
 }
@@ -153,17 +153,20 @@
     opacity: 1 !important;
     padding-left: 10px !important;
 }
+
 .searchbar-md .searchbar-md-cancel {
     display: inline-flex !important;
     background-color: white !important;
 }
+
 .searchbar-search-icon {
     display: none;
 }
 
 /* =================== NO DATA =================== */
 
-.no-data, .error {
+.no-data,
+.error {
     margin: 10px;
     padding: 10px 20px;
     border: solid 1px color($colors, light);
@@ -171,7 +174,7 @@
     color: color($colors, darkgray);
 }
 
-.total{
+.total {
     font-size: 13px;
     font-weight: bold;
     color: color($colors, darkgray);
@@ -223,28 +226,34 @@
     }
 }
 
-.fileinput{
-    visibility: hidden; 
+.fileinput {
+    visibility: hidden;
     height: 0px;
 }
 
-.note-modal{
+ion-modal.note-modal {
+    @media (min-width: 300px) and (min-height: 500px) {
+        ion-backdrop {
+            visibility: visible;
+        }
+    }
     .modal-wrapper {
-        height: 200px;
+        position: absolute;
+        overflow: hidden;
+        max-width: 400px;
+        border-radius: 2px;
+        width: 80vw;
+        height: 38vh;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border: 0;
+        box-shadow: 0 16px 20px rgba(0, 0, 0, .4);
+        background-color: #fafafa;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .big-label {
     font-size: 1.8rem;
@@ -311,6 +320,7 @@
 .dark {
     color: color($colors, dark);
 }
+
 .gray {
     color: color($colors, gray);
 }
@@ -319,7 +329,26 @@
     font-weight: bold;
 }
 
-.more-menu {
+.card-item {
+    .list-md{
+        margin: 0;
+
+        .item-block:first-child{
+            border-top: solid 1px color($colors, light);
+        }
+        .item-block{
+            border-bottom: solid 1px color($colors, light);
+        }
+    }
+    
+    .card-item-header.item-block, .card-item-footer.item-block{
+        border: solid 2px #fff;
+        background-color: color($colors, light);
+    }
+}
+
+.cart-more-menu {
+    left: -60px;
     .list-md,
     .list-ios,
     .list-wp {
@@ -343,8 +372,6 @@
 .checkboxes-label {
     margin-left: 18px;
 }
-
-
 
 .list-price {
     display: inline-block;
@@ -374,4 +401,3 @@
         background-color: color($colors, light);
     }
 }
-

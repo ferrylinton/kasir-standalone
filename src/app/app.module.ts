@@ -14,6 +14,8 @@ import { PipesModule } from '../pipes/pipes.module';
 import { SQLite } from '@ionic-native/sqlite';
 
 import { MyApp } from './app.component';
+import { CartPopoverPage } from '../pages/cart-popover/cart-popover';
+
 
 // Provider's Interface
 import { VersionProvider } from '../providers/version/version';
@@ -43,8 +45,6 @@ import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
 
-
-
 registerLocaleData(localeId, 'id');
 
 export function createTranslateLoader(http: HttpClient) {
@@ -53,7 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
+    CartPopoverPage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +75,8 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
+    CartPopoverPage
   ],
   providers: [
     StatusBar,

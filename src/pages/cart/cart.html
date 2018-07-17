@@ -27,47 +27,48 @@
 
 
 <ion-content padding>
-  <ion-list *ngIf="cart && cart.order; else nodata">
-    <ion-item *ngIf="cart.totalItem == 0">
-      {{ 'NO_ORDER' | translate }}
-    </ion-item>
-    <ion-item *ngFor="let item of cart.order.orderItems">
-      <ion-thumbnail item-start>
-        <img src="{{item.product.image}}">
-      </ion-thumbnail>
-      <h2>{{ item.product.name }}</h2>
-      <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
-      <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+  <ion-card class="card-item" *ngIf="cart && cart.order; else nodata">
+    <ion-item class="card-item-header" *ngIf="cart.totalItem > 0">
+      <span item-start>{{ 'TOTAL_ITEM' | translate }} : {{ cart.totalItem }}</span>
       <ion-buttons item-end>
-        <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
-          <ion-icon name="remove"></ion-icon>
+        <button ion-button color="light" small (click)="delete()" [disabled]="cart.totalItem == 0">
+            {{ 'DELETE' | translate }}
         </button>
-        <button color="light" small ion-button icon-only (click)="addItem(item.product)">
-          <ion-icon name="add"></ion-icon>
+        <button ion-button color="light" small (click)="save()" [disabled]="cart.totalItem == 0">
+            {{ 'SAVE' | translate }}
         </button>
       </ion-buttons>
     </ion-item>
-    <ion-item no-lines *ngIf="cart.totalItem > 0">
-      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{ cart.totalItem }}</span>
-    </ion-item>
-    <ion-item no-lines class="bold" *ngIf="cart.totalItem > 0">
-      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{ cart.totalPrice | currency }}</span>
-    </ion-item>
-    <ion-item>
-      <ion-buttons item-end>
-        <button ion-button color="danger" icon-only (click)="delete()" [disabled]="cart.totalItem == 0">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-        <button ion-button color="secondary" icon-only (click)="save()" [disabled]="cart.totalItem == 0">
-          <ion-icon name="checkmark-circle"></ion-icon>
-        </button>
-        <button ion-button color="secondary" icon-start (click)="pay()" [disabled]="cart.totalItem == 0">
-          <ion-icon name="card"></ion-icon> {{ 'PAYMENT' | translate }}
-        </button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
-
+    <ion-list>
+      <ion-item *ngIf="cart.totalItem == 0">
+        {{ 'NO_ORDER' | translate }}
+      </ion-item>
+      <ion-item *ngFor="let item of cart.order.orderItems">
+        <ion-thumbnail item-start>
+          <img src="{{item.product.image}}">
+        </ion-thumbnail>
+        <h2>{{ item.product.name }}</h2>
+        <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
+        <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+        <ion-buttons item-end>
+          <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
+            <ion-icon name="remove"></ion-icon>
+          </button>
+          <button color="light" small ion-button icon-only (click)="addItem(item.product)">
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+    <ion-item class="card-item-footer" *ngIf="cart.totalItem > 0">
+        <span item-start>{{ 'TOTAL_PRICE' | translate }} : {{ cart.totalPrice | currency }}</span>
+        <ion-buttons item-end>
+          <button ion-button color="secondary" small (click)="pay()" [disabled]="cart.totalItem == 0">
+            {{ 'PAYMENT' | translate }}
+          </button>
+        </ion-buttons>
+      </ion-item>
+  </ion-card>
 </ion-content>
 <ng-template #nodata>
   <ion-item>

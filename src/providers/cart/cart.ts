@@ -108,8 +108,6 @@ export class CartProvider {
   }
 
   addNote(cart: Cart, orderItem: OrderItem): Observable<Cart> {
-    let isProductExist: boolean = false;
-
     for (let i = 0; i < cart.order.orderItems.length; i++) {
       if (orderItem.product.id === cart.order.orderItems[i].product.id) {
         cart.order.orderItems[i] = orderItem;

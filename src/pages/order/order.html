@@ -45,14 +45,21 @@
 
   <ion-list *ngIf="page && page.totalData > 0">
     <ion-item>{{ orderDate | moment:'cal' }}</ion-item>
-    <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
-      <ion-icon [name]="getIcon(order)" [color]="getIconColor(order)" item-start></ion-icon>
+    <ion-item *ngFor="let order of page.data">
+      <ion-badge [color]="getIconColor(order)" item-start>{{ order.createdDate | date:'hh:mm' }}</ion-badge>
       <p>
         <span class="bold dark">{{ order.transactionNumber }}</span>
       </p>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
-      <ion-badge color="gray" item-end>{{ order.createdDate | date:'hh:mm' }}</ion-badge>
-    </button>
+      <ion-buttons item-end>
+        <button ion-button icon-only clear color="dark" (click)="showOrder(order)">
+            <ion-icon name="eye"></ion-icon>
+        </button>
+        <button ion-button icon-only clear color="dark"(click)="cancel(order)">
+            <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>

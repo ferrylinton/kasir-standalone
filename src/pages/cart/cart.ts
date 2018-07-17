@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController, PopoverController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 
@@ -10,6 +10,7 @@ import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
 import { PAGE } from '../../constant/constant';
+import { CartPopoverPage } from '../cart-popover/cart-popover';
 
 
 @IonicPage()
@@ -25,6 +26,7 @@ export class CartPage extends BaseCartPage {
 
   constructor(
     public modalCtrl: ModalController,
+    public popoverCtrl: PopoverController,
     public navParams: NavParams,
     public translate: TranslateService,
     public events: Events,
@@ -92,11 +94,11 @@ export class CartPage extends BaseCartPage {
     orderModal.present();
   }
 
-  save(): void{
+  save(): void {
     this.messageProvider.confirmSave(() => this.saveCallback());
   }
 
-  delete(): void{
+  delete(): void {
     this.messageProvider.confirmDelete(() => this.deleteOrderFromStorage());
   }
 
@@ -127,9 +129,18 @@ export class CartPage extends BaseCartPage {
   }
 
   // Segment
-  
+
   updateContent(): void {
     this.events.publish(PAGE, { page: this.segment, params: {} });
+  }
+
+  presentPopover(event: Event) {
+    let popover = this.popoverCtrl.create(CartPopoverPage, {}, {cssClass: 'cart-more-menu'});
+    popover.onDidDismiss(action => {
+      console.log('action : ' + action);
+    });
+    
+    popover.present({ ev: event });
   }
 
 }
