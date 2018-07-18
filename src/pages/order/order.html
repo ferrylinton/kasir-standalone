@@ -61,11 +61,11 @@
       <span class="bold dark">{{ order.transactionNumber }}</span>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
       <ion-buttons item-end>
-        <button ion-button icon-only small icon-only color="secondary" (click)="showOrder(order)">
-          <ion-icon name="eye"></ion-icon>
-        </button>
         <button ion-button icon-only small icon-only color="danger" (click)="cancelOrder(order)" *ngIf="!order.canceled">
           <ion-icon name="trash"></ion-icon>
+        </button>
+        <button ion-button icon-only small icon-only color="secondary" (click)="showOrder(order)">
+          <ion-icon name="eye"></ion-icon>
         </button>
       </ion-buttons>
     </ion-item>
