@@ -5,34 +5,33 @@
     </ion-title>
     <ion-buttons end>
       <button ion-button (click)="viewCtrl.dismiss(order)">
-        <span ion-text showWhen="ios">{{ 'DONE' | translate }}</span>
-        <ion-icon name="checkmark" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button (click)="viewCtrl.dismiss()">
-        <span ion-text showWhen="ios">{{ 'CANCEL' | translate }}</span>
-        <ion-icon name="close" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="order; else nodata">
+  <ion-list *ngIf="order">
     <ion-item *ngFor="let item of order.orderItems">
-      <h2>{{item.product.name}}</h2>
-      <span item-end>{{item.quantity}} x {{item.product.price | currency:currency:symbol:symbol:lang}}</span>
+      <h2>{{ item.product.name }}</h2>
+      <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
+      <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+    </ion-item>
+    <ion-item no-lines *ngIf="order.note">
+      {{ 'NOTE' | translate }} :
+    </ion-item>
+    <ion-item text-wrap *ngIf="order.note">
+      <span *ngIf="order.note">{{ order.note }}</span>
     </ion-item>
     <ion-item no-lines>
-      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{totalItem}}</span>
+      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{ totalItem }}</span>
     </ion-item>
     <ion-item no-lines class="bold">
-      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:symbol:lang}}</span>
+      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{ totalPrice | currency }}</span>
     </ion-item>
   </ion-list>
 </ion-content>
-<ng-template #nodata>
-  <ion-item>{{ 'NO_DATA' | translate }}</ion-item>
-</ng-template>
-<ng-template #empty>
-  <span item-end>-</span>
-</ng-template>

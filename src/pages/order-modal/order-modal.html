@@ -30,7 +30,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="order; else nodata">
+  <ion-list *ngIf="order">
     <ion-item>
       {{ 'CREATED_BY' | translate }}
       <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy.username }}</span>
@@ -47,27 +47,37 @@
       {{ 'LAST_MODIFIED_DATE' | translate }}
       <span item-end *ngIf="order.modifiedDate; else empty">{{ order.modifiedDate | date: datetimeFormat }}</span>
     </ion-item>
-    <ion-item>
-      <h2 class="bold">{{ 'PRODUCT_LIST' | translate }}</h2>
+    <ion-item no-lines>
+      {{ 'NOTE' | translate }} :
+    </ion-item>
+    <ion-item text-wrap>
+      <span *ngIf="order.note; else empty">{{ order.note }}</span>
+    </ion-item>
+    <ion-item no-lines>
+      <h2 class="bold">{{ 'PRODUCT_LIST' | translate }} :</h2>
     </ion-item>
     <ion-item *ngFor="let item of order.orderItems">
       <ion-avatar item-start>
         <img src="{{item.product.image}}">
       </ion-avatar>
-      <h2>{{item.product.name}}</h2>
-      <p>{{item.quantity}} x {{item.product.price | currency:currency:symbol:symbol:lang}}</p>
+      <h2>{{ item.product.name }}</h2>
+      <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
+      <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+    </ion-item>
+    <ion-item no-lines *ngIf="order.note">
+      {{ 'NOTE' | translate }} :
+    </ion-item>
+    <ion-item text-wrap *ngIf="order.note">
+      <span *ngIf="order.note; else empty">{{ order.note }}</span>
     </ion-item>
     <ion-item no-lines>
       <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{totalItem}}</span>
     </ion-item>
     <ion-item no-lines class="bold">
-      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{totalPrice | currency:currency:symbol:symbol:lang}}</span>
+      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{ totalPrice | currency }}</span>
     </ion-item>
   </ion-list>
 </ion-content>
-<ng-template #nodata>
-  <ion-item>{{ 'MESSAGE.NO_DATA' | translate }}</ion-item>
-</ng-template>
 <ng-template #empty>
   <span item-end>-</span>
 </ng-template>

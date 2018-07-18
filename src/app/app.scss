@@ -231,7 +231,7 @@
     height: 0px;
 }
 
-ion-modal.note-modal {
+ion-modal.note-modal, ion-modal.cancel-order-modal {
     @media (min-width: 300px) and (min-height: 500px) {
         ion-backdrop {
             visibility: visible;
@@ -338,6 +338,9 @@ ion-modal.note-modal {
         }
         .item-block{
             border-bottom: solid 1px color($colors, light);
+        }
+        .no-lines{
+            border: none;
         }
     }
     

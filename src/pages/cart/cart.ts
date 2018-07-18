@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 
@@ -26,7 +26,6 @@ export class CartPage extends BaseCartPage {
 
   constructor(
     public modalCtrl: ModalController,
-    public popoverCtrl: PopoverController,
     public navParams: NavParams,
     public translate: TranslateService,
     public events: Events,
@@ -35,11 +34,6 @@ export class CartPage extends BaseCartPage {
     public cartProvider: CartProvider) {
 
     super(modalCtrl, cartProvider);
-    this.initPage();
-  }
-
-  private initPage(): void {
-    this.page = new Page();
   }
 
   ionViewWillEnter() {
@@ -57,32 +51,6 @@ export class CartPage extends BaseCartPage {
       });
     }
   }
-
-
-  /**
-   * Get Order from Order history and
-   * set order to current cart if there is no item
-   * 
-   * @param order 
-   */
-  showOrder(order: Order) {
-    const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
-    orderModal.onDidDismiss(order => {
-      if (order) {
-        if (this.cartProvider.countItem(this.cart.order) > 0) {
-          this.translate.get('UNSAVE_ORDER').subscribe(value => {
-            this.messageProvider.toast(value);
-          });
-        } else {
-          this.cartProvider.setCartFromOrder(order).subscribe(cart => {
-            this.cart = cart;
-          });
-        }
-      }
-    })
-    orderModal.present();
-  }
-
 
   pay() {
     const orderModal = this.modalCtrl.create('PaymentPage', { order: this.cart.order });
@@ -123,7 +91,6 @@ export class CartPage extends BaseCartPage {
   }
 
   private deleteOrderFromStorage(): void {
-    this.initPage();
     this.cart = this.cartProvider.createNewCart();
     this.cartProvider.setCart(this.cart);
   }
@@ -134,13 +101,18 @@ export class CartPage extends BaseCartPage {
     this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
-  presentPopover(event: Event) {
-    let popover = this.popoverCtrl.create(CartPopoverPage, {}, {cssClass: 'cart-more-menu'});
-    popover.onDidDismiss(action => {
-      console.log('action : ' + action);
+  addOrderNote() {
+    let cartClone = JSON.parse(JSON.stringify(this.cart));
+    const noteModal = this.modalCtrl.create('NoteModalPage', { cart: cartClone }, { cssClass: 'note-modal' });
+    noteModal.onDidDismiss(cart => {
+      if (cart) {
+        this.cartProvider.setCart(cart).subscribe(cart => {
+          this.cart = cart;
+        });
+      }
     });
-    
-    popover.present({ ev: event });
+
+    noteModal.present();
   }
 
 }

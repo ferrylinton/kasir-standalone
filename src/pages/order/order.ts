@@ -43,20 +43,20 @@ export class OrderPage extends BaseCartPage {
     public cartProvider: CartProvider) {
 
     super(modalCtrl, cartProvider);
-    this.initDatePicker();
   }
 
   ionViewWillEnter() {
+    this.initDatePicker();
     this.cartProvider.getCart().subscribe(cart => {
       this.cart = cart;
     })
     this.initPage();
-    this.loadData();
+    this.loadData(this.orderDate);
   }
 
-  private initDatePicker(): void{
-    let minDate : Date = new Date();
-    let maxDate : Date = new Date();
+  private initDatePicker(): void {
+    let minDate: Date = new Date();
+    let maxDate: Date = new Date();
 
     minDate.setMonth(minDate.getMonth() - 12);
 
@@ -72,9 +72,9 @@ export class OrderPage extends BaseCartPage {
     this.page = new Page();
   }
 
-  private loadData() {
+  private loadData(orderDate: string) {
     this.error = null;
-    this.orderProvider.findByDate(new Date(this.orderDate), this.page).subscribe(page => {
+    this.orderProvider.findByDate(new Date(orderDate), this.page).subscribe(page => {
       this.page.pageNumber = page.pageNumber;
       this.page.totalData = page.totalData;
       this.page.data = [...this.page.data, ...page.data];
@@ -84,7 +84,8 @@ export class OrderPage extends BaseCartPage {
   }
 
   showOrder(order: Order) {
-    const orderModal = this.modalCtrl.create('OrderModalPage', { order: order });
+    let clone: Order = JSON.parse(JSON.stringify(order)) ;
+    let orderModal = this.modalCtrl.create('OrderModalPage', { order: clone });
     orderModal.onDidDismiss(order => {
       if (order) {
         this.events.publish(PAGE, { page: 'CartPage', params: { order: order } });
@@ -93,35 +94,29 @@ export class OrderPage extends BaseCartPage {
     orderModal.present();
   }
 
-  getIcon(order: Order): string{
-    if(order.canceled){
-      return 'remove-circle';
-    }else if(order.paid){
-      return 'cash';
-    }
-
-    return 'checkmark-circle';
-  }
-
-  getIconColor(order: Order): string{
-    if(order.canceled){
-      return 'danger';
-    }else if(order.paid){
-      return 'secondary';
-    }
-
-    return 'primary';
-  }
-
   doInfinite(infiniteScroll) {
     this.page.pageNumber = this.page.pageNumber + 1;
-    this.loadData();
+    this.loadData(this.orderDate);
     infiniteScroll.complete();
   }
 
-  search(){
+  search() {
     this.initPage();
-    this.loadData();
+    this.loadData(this.orderDate);
+  }
+
+  cancelOrder(order: Order) {
+    order.note = order.note ? order.note : '';
+    const cancelOrderModal = this.modalCtrl.create('CancelOrderModalPage', { order: order }, { cssClass: 'cancel-order-modal' });
+    cancelOrderModal.onDidDismiss(order => {
+      if (order) {
+        order.canceled = true;
+        this.orderProvider.update(order).subscribe(order => {
+          this.search();
+        });
+      }
+    });
+    cancelOrderModal.present();
   }
 
   updateContent(): void {

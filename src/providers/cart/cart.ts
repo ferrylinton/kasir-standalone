@@ -56,7 +56,7 @@ export class CartProvider {
   }
 
   createOrder(): Order {
-    return new Order(uuid(), this.transactionNumber(), new Array<OrderItem>(), false, false);
+    return new Order(uuid(), this.transactionNumber(), new Array<OrderItem>(), false, false, null);
   }
 
   addItem(cart: Cart, product: Product): Observable<Cart> {

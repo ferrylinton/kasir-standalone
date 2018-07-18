@@ -6,7 +6,11 @@
       </button>
     </ion-buttons>
     <ion-buttons end>
-      <button ion-button (click)="viewCtrl.dismiss(orderItem)">
+      <button ion-button (click)="viewCtrl.dismiss(orderItem)" *ngIf="orderItem">
+        <span ion-text showWhen="ios">{{ 'BUTTON.SAVE' | translate }}</span>
+        <ion-icon name="checkmark" showWhen="core,android,windows"></ion-icon>
+      </button>
+      <button ion-button (click)="viewCtrl.dismiss(cart)" *ngIf="cart">
         <span ion-text showWhen="ios">{{ 'BUTTON.SAVE' | translate }}</span>
         <ion-icon name="checkmark" showWhen="core,android,windows"></ion-icon>
       </button>
@@ -20,7 +24,10 @@
 
 
 <ion-content>
-  <ion-item>
+  <ion-item *ngIf="orderItem">
     <ion-textarea class="no-resize" name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+  </ion-item>
+  <ion-item *ngIf="cart">
+    <ion-textarea class="no-resize" name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
   </ion-item>
 </ion-content>

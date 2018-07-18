@@ -97,7 +97,7 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
         tx.executeSql(ORDER.INSERT, [order.id, order.transactionNumber, order.paid, order.canceled, order.note, this.LOGGED_USER.id]);
 
       }).then((result) => {
-        resolve('Order [' + order.id + '] is deleted successfully');
+        resolve('Order [' + order.id + '] is insert successfully');
       }).catch((error) => {
         reject(error);
       });
@@ -121,7 +121,7 @@ export class OrderProviderImpl extends BaseSQlite implements OrderProvider {
         tx.executeSql(ORDER.UPDATE, [order.transactionNumber, order.paid, order.canceled, order.note, this.LOGGED_USER.id, order.id]);
 
       }).then((result) => {
-        resolve('Order [' + order.id + '] is deleted successfully');
+        resolve('Order [' + order.id + '] is update successfully');
       }).catch((error) => {
         reject(error);
       });
