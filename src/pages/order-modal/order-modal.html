@@ -45,7 +45,7 @@
     </ion-item>
     <ion-item>
       {{ 'LAST_MODIFIED_DATE' | translate }}
-      <span item-end *ngIf="order.modifiedDate; else empty">{{ order.modifiedDate | date: datetimeFormat }}</span>
+      <span item-end *ngIf="order.lastModifiedDate; else empty">{{ order.lastModifiedDate | date: datetimeFormat }}</span>
     </ion-item>
     <ion-item no-lines>
       {{ 'NOTE' | translate }} :
