@@ -14,8 +14,6 @@ import { PipesModule } from '../pipes/pipes.module';
 import { SQLite } from '@ionic-native/sqlite';
 
 import { MyApp } from './app.component';
-import { CartPopoverPage } from '../pages/cart-popover/cart-popover';
-
 
 // Provider's Interface
 import { VersionProvider } from '../providers/version/version';
@@ -53,8 +51,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp,
-    CartPopoverPage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -75,8 +72,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    CartPopoverPage
+    MyApp
   ],
   providers: [
     StatusBar,

@@ -10,7 +10,6 @@ import { OrderProvider } from '../../providers/order/order';
 import { Order } from "../../models/order.model";
 import { Page } from '../../models/page.model';
 import { PAGE } from '../../constant/constant';
-import { CartPopoverPage } from '../cart-popover/cart-popover';
 
 
 @IonicPage()
