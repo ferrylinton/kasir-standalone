@@ -46,17 +46,26 @@
   <ion-list *ngIf="page && page.totalData > 0">
     <ion-item>{{ orderDate | moment:'cal' }}</ion-item>
     <ion-item *ngFor="let order of page.data">
-      <ion-badge [color]="getIconColor(order)" item-start>{{ order.createdDate | date:'hh:mm' }}</ion-badge>
-      <p>
-        <span class="bold dark">{{ order.transactionNumber }}</span>
-      </p>
+      <div class="hour danger" item-start *ngIf="order.canceled">
+        <span>{{ order.createdDate | date:'hh:mm' }}</span>
+        <ion-icon name="trash"></ion-icon>
+      </div>
+      <div class="hour secondary" item-start *ngIf="order.paid && !order.canceled">
+        <span>{{ order.createdDate | date:'hh:mm' }}</span>
+        <ion-icon name="checkmark"></ion-icon>
+      </div>
+      <div class="hour primary" item-start *ngIf="!order.paid && !order.canceled">
+        <span>{{ order.createdDate | date:'hh:mm' }}</span>
+        <ion-icon name="cart"></ion-icon>
+      </div>
+      <span class="bold dark">{{ order.transactionNumber }}</span>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
       <ion-buttons item-end>
-        <button ion-button icon-only clear color="dark" (click)="showOrder(order)">
-            <ion-icon name="eye"></ion-icon>
+        <button ion-button icon-only small icon-only color="secondary" (click)="showOrder(order)">
+          <ion-icon name="eye"></ion-icon>
         </button>
-        <button ion-button icon-only clear color="dark"(click)="cancel(order)">
-            <ion-icon name="trash"></ion-icon>
+        <button ion-button icon-only small icon-only color="danger" (click)="cancel(order)" *ngIf="!order.canceled">
+          <ion-icon name="trash"></ion-icon>
         </button>
       </ion-buttons>
     </ion-item>

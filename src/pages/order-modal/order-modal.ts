@@ -37,15 +37,7 @@ export class OrderModalPage {
     public cartProvider: CartProvider) {
 
     this.initSystem();
-    this.order = navParams.get('order');
-    forkJoin([this.userProvider.findById(this.order.createdBy),
-      this.userProvider.findById(this.order.lastModifiedBy)]).subscribe(results => {
-        this.order.createdBy = results[0];
-        this.order.lastModifiedBy = results[1];
-      });
-
-    this.totalItem = (this.order == null) ? 0 : this.cartProvider.countItem(this.order);
-    this.totalPrice = (this.order == null) ? 0 : this.cartProvider.countPrice(this.order);
+    this.loadData();
   }
 
   private initSystem(): void {
@@ -54,4 +46,25 @@ export class OrderModalPage {
     });
   }
 
+  private loadData(): void {
+    this.order = this.navParams.get('order');
+    forkJoin([this.userProvider.findById(this.order.createdBy), this.userProvider.findById(this.order.lastModifiedBy)])
+      .subscribe(results => {
+        this.order.createdBy = results[0];
+        this.order.lastModifiedBy = results[1];
+      });
+
+    this.totalItem = (this.order == null) ? 0 : this.cartProvider.countItem(this.order);
+    this.totalPrice = (this.order == null) ? 0 : this.cartProvider.countPrice(this.order);
+  }
+
+  getColor(): string{
+    if(this.order.canceled){
+      return 'danger';
+    }else if(this.order.paid && !this.order.canceled){
+      return 'secondary';
+    }else{
+      return 'primary';
+    }
+  }
 }

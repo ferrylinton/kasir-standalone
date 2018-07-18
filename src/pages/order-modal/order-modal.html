@@ -1,17 +1,23 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar [color]="getColor()">
     <ion-buttons left>
-      <button ion-button icon-only>
-        <ion-icon *ngIf="!canceled && order.paid" name="cash"></ion-icon>
-        <ion-icon *ngIf="!canceled && !order.paid" name="checkmark-circle"></ion-icon>
-        <ion-icon *ngIf="canceled" name="remove-circle"></ion-icon>
+      <button ion-button icon-only *ngIf="order.canceled">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only *ngIf="order.paid && !order.canceled">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+      <button ion-button icon-only *ngIf="!order.paid && !order.canceled">
+        <ion-icon name="cart"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>
-      {{ order.transactionNumber }}
+      <span *ngIf="order.canceled">{{ 'CANCELED' | translate }}</span>
+      <span *ngIf="order.paid && !order.canceled">{{ 'PAID' | translate }}</span>
+      <span *ngIf="!order.paid && !order.canceled">{{ 'NOT_PAID' | translate }}</span>
     </ion-title>
     <ion-buttons end>
-      <button ion-button (click)="viewCtrl.dismiss(order)">
+      <button ion-button (click)="viewCtrl.dismiss(order)" *ngIf="!order.paid && !order.canceled">
         <span ion-text showWhen="ios">{{ 'BUTTON.EDIT' | translate }}</span>
         <ion-icon name="create" showWhen="core,android,windows"></ion-icon>
       </button>
