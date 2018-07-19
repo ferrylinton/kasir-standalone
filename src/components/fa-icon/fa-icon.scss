@@ -45,3 +45,12 @@
   
     pointer-events: none;
   }
+
+  [small] fa-icon {
+    @include padding(0, .4em);
+  
+    font-size: 1.4em;
+    line-height: .67;
+  
+    pointer-events: none;
+  }

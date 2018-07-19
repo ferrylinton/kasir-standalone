@@ -6,19 +6,19 @@
     <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
       <ion-segment-button value="HomePage">
         <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
-        <fa-icon name="gift" size="2x"></fa-icon>
+        <fa-icon name="gift"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="SearchPage">
         <span class="label-segment">{{ 'SEARCH' | translate }}</span>
-        <fa-icon name="search" size="2x"></fa-icon>
+        <fa-icon name="search"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="OrderPage">
         <span class="label-segment">{{ 'ORDER' | translate }}</span>
-        <fa-icon name="archive" size="2x"></fa-icon>
+        <fa-icon name="archive"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="CartPage">
         <span class="label-segment">{{ 'CART' | translate }}</span>
-        <fa-icon name="shopping-cart" size="2x"></fa-icon>
+        <fa-icon name="shopping-cart"></fa-icon>
         <span *ngIf="cart">{{ cart.totalItem }}</span>
       </ion-segment-button>
     </ion-segment>
@@ -54,13 +54,14 @@
           <ion-card>
             <img src="{{ product.image }}" (click)="view(product)" />
             <p>{{ product.name }}</p>
-            <p>{{ product.price | currency }}</p>
+            <p *ngIf="getQuantity(product) > 0">{{ getQuantity(product) }} x {{ product.price | currency }}</p>
+            <p *ngIf="getQuantity(product) == 0">{{ product.price | currency }}</p>
             <div class="buttons">
               <button color="danger" small ion-button icon-only (click)="removeItem(product)">
                 <ion-icon name="remove"></ion-icon>
               </button>
-              <button color="light" small ion-button icon-left (click)="addNote(product)" [disabled]="getQuantity(product) == 0">
-                <ion-icon name="paper"></ion-icon> <span *ngIf="getQuantity(product) > 0">{{ getQuantity(product) }}</span>
+              <button color="light" small ion-button icon-only (click)="addNote(product)" [disabled]="getQuantity(product) == 0">
+                <fa-icon name="commenting"></fa-icon>
               </button>
               <button color="secondary" small ion-button icon-only (click)="addItem(product)">
                 <ion-icon name="add"></ion-icon>
