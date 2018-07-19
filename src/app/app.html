@@ -24,7 +24,7 @@
         <ion-item-group *ngIf="hasAuthority('BASIC_AUTHORITY')">
           <ion-list-header>{{ 'MAIN' | translate }}</ion-list-header>
           <button menuClose ion-item (click)="openPage('HomePage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
-            <ion-icon name="home"></ion-icon> {{ 'HOME' | translate }}
+            <fa-icon name="home"></fa-icon> {{ 'HOME' | translate }}
           </button>
           <button menuClose ion-item (click)="openPage('AboutPage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
             <ion-icon name="information-circle"></ion-icon> {{ 'ABOUT' | translate }}

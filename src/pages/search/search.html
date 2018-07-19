@@ -6,19 +6,19 @@
     <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
       <ion-segment-button value="HomePage">
         <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
-        <ion-icon name="clipboard"></ion-icon>
+        <fa-icon name="gift" size="2x"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="SearchPage">
         <span class="label-segment">{{ 'SEARCH' | translate }}</span>
-        <ion-icon name="search"></ion-icon>
+        <fa-icon name="search" size="2x"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="OrderPage">
         <span class="label-segment">{{ 'ORDER' | translate }}</span>
-        <ion-icon name="clock"></ion-icon>
+        <fa-icon name="archive" size="2x"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="CartPage">
         <span class="label-segment">{{ 'CART' | translate }}</span>
-        <ion-icon name="cart"></ion-icon>
+        <fa-icon name="shopping-cart" size="2x"></fa-icon>
         <span *ngIf="cart">{{ cart.totalItem }}</span>
       </ion-segment-button>
     </ion-segment>

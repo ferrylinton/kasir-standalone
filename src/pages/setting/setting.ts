@@ -38,6 +38,7 @@ export class SettingPage{
   private initSetting(){
     this.settingProvider.getSetting().subscribe(setting => {
       this.setting = JSON.parse(JSON.stringify(setting));
+      this.translate.use(this.setting.language);
     });
   }
 

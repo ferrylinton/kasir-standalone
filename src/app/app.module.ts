@@ -10,10 +10,11 @@ import localeId from '@angular/common/locales/id';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
-import { PipesModule } from '../pipes/pipes.module';
 import { SQLite } from '@ionic-native/sqlite';
 
 import { MyApp } from './app.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { ComponentsModule } from '../components/components.module';
 
 // Provider's Interface
 import { VersionProvider } from '../providers/version/version';
@@ -68,7 +69,8 @@ export function createTranslateLoader(http: HttpClient) {
       name: 'minishopdb',
          driverOrder: ['indexeddb', 'websql', 'sqlite']
     }),
-    PipesModule
+    PipesModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

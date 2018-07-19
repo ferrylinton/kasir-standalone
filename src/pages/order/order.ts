@@ -25,7 +25,7 @@ export class OrderPage extends BaseCartPage {
 
   page: Page<Order>;
 
-  monthShortNames: Array<string> = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  monthShortNames: string;
 
   orderDate: string = new Date().toISOString();
 
@@ -43,6 +43,9 @@ export class OrderPage extends BaseCartPage {
     public cartProvider: CartProvider) {
 
     super(modalCtrl, cartProvider);
+    this.translate.get('MONTH_NAMES').subscribe(value => {
+      this.monthShortNames = value;
+    });
   }
 
   ionViewWillEnter() {
@@ -62,10 +65,6 @@ export class OrderPage extends BaseCartPage {
 
     this.min = minDate.toJSON().split('T')[0];
     this.max = maxDate.toJSON().split('T')[0];
-
-    this.translate.get('MONTH_NAMES').subscribe(value => {
-      this.monthShortNames = value;
-    });
   }
 
   private initPage(): void {

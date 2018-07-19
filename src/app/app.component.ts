@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
 
 import { SettingProvider } from '../providers/setting/setting';
@@ -50,10 +50,18 @@ export class MyApp {
   }
 
   initLang() {
+    this.translate.addLangs(['id', 'en']);
     this.translate.setDefaultLang(LANGUAGE);
+    
     this.settingProvider.getSetting().subscribe(setting => {
       this.translate.use(setting.language);
-    })
+    });
+
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.settingProvider.getSetting().subscribe(setting => {
+        this.translate.use(setting.language);
+      });
+    });
   }
 
   initUser(): void {
@@ -84,10 +92,10 @@ export class MyApp {
   }
 
   hasAuthority(authority: string): boolean {
-    if (this.user && this.user.role ) {
-      if(typeof this.user.role !== 'string'){
-        for(let i:number = 0; i<this.user.role.authorities.length; i++){
-          if(authority == this.user.role.authorities[i].name){
+    if (this.user && this.user.role) {
+      if (typeof this.user.role !== 'string') {
+        for (let i: number = 0; i < this.user.role.authorities.length; i++) {
+          if (authority == this.user.role.authorities[i].name) {
             return true;
           }
         }

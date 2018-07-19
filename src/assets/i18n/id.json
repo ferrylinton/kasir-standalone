@@ -79,5 +79,5 @@
         "lastWeek": "dddd [kemarin]",
         "sameElse": "DD-MM-YYYY"
     },
-    "MONTH_NAMES" : ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
+    "MONTH_NAMES" : "Jan, Feb, Mar, Apr, Mei, Jun, Jul, Agu, Sep, Okt, Nov, Des"
 }

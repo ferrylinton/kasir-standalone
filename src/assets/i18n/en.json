@@ -76,5 +76,5 @@
         "lastWeek": "[Last] dddd (DD-MM-YYYY)",
         "sameElse": "DD-MM-YYYY"
     },
-    "MONTH_NAMES" : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    "MONTH_NAMES" : "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
 }
