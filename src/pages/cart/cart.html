@@ -6,19 +6,19 @@
     <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
       <ion-segment-button value="HomePage">
         <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
-        <fa-icon name="gift" size="2x"></fa-icon>
+        <fa-icon name="gift"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="SearchPage">
         <span class="label-segment">{{ 'SEARCH' | translate }}</span>
-        <fa-icon name="search" size="2x"></fa-icon>
+        <fa-icon name="search"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="OrderPage">
         <span class="label-segment">{{ 'ORDER' | translate }}</span>
-        <fa-icon name="archive" size="2x"></fa-icon>
+        <fa-icon name="archive"></fa-icon>
       </ion-segment-button>
       <ion-segment-button value="CartPage">
         <span class="label-segment">{{ 'CART' | translate }}</span>
-        <fa-icon name="shopping-cart" size="2x"></fa-icon>
+        <fa-icon name="shopping-cart"></fa-icon>
         <span *ngIf="cart">{{ cart.totalItem }}</span>
       </ion-segment-button>
     </ion-segment>
@@ -30,11 +30,11 @@
     <ion-item class="card-item-header" *ngIf="cart.totalItem > 0">
       <span item-start>{{ 'TOTAL_ITEM' | translate }} : {{ cart.totalItem }}</span>
       <ion-buttons item-end>
-        <button ion-button color="light" small (click)="delete()" [disabled]="cart.totalItem == 0">
-          {{ 'DELETE' | translate }}
+        <button ion-button color="danger" icon-only small (click)="delete()" [disabled]="cart.totalItem == 0">
+          <fa-icon name="eraser"></fa-icon>
         </button>
-        <button ion-button color="light" small (click)="save()" [disabled]="cart.totalItem == 0">
-          {{ 'SAVE' | translate }}
+        <button ion-button color="secondary" icon-only small (click)="save()" [disabled]="cart.totalItem == 0">
+          <fa-icon name="floppy-o"></fa-icon>
         </button>
       </ion-buttons>
     </ion-item>
@@ -47,16 +47,21 @@
           <img src="{{item.product.image}}">
         </ion-thumbnail>
         <h2>{{ item.product.name }}</h2>
-        <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
+        <p>
+          <span>{{ item.product.price | currency }}</span>
+          <strong *ngIf="getQuantity(item.product) > 0"> x
+            <u>{{ getQuantity(item.product) }}</u>
+          </strong>
+        </p>
         <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
         <ion-buttons item-end>
-          <button color="light" small ion-button icon-only (click)="removeItem(item.product)">
+          <button color="danger" small ion-button icon-only (click)="removeItem(item.product)">
             <ion-icon name="remove"></ion-icon>
           </button>
-          <button color="light" small ion-button icon-only (click)="addNote(item.product)">
-            <ion-icon name="paper"></ion-icon>
+          <button color="light" small ion-button icon-only (click)="addNote(item.product)" [disabled]="getQuantity(item.product) == 0">
+            <fa-icon name="commenting"></fa-icon>
           </button>
-          <button color="light" small ion-button icon-only (click)="addItem(item.product)">
+          <button color="secondary" small ion-button icon-only (click)="addItem(item.product)">
             <ion-icon name="add"></ion-icon>
           </button>
         </ion-buttons>
@@ -72,10 +77,10 @@
       <span item-start>{{ 'TOTAL_PRICE' | translate }} : {{ cart.totalPrice | currency }}</span>
       <ion-buttons item-end>
         <button color="light" small ion-button icon-only (click)="addOrderNote()">
-          <ion-icon name="paper"></ion-icon>
+          <fa-icon name="commenting"></fa-icon>
         </button>
-        <button ion-button color="secondary" small (click)="pay()" [disabled]="cart.totalItem == 0">
-          {{ 'PAYMENT' | translate }}
+        <button ion-button color="secondary" small ion-button icon-only (click)="pay()" [disabled]="cart.totalItem == 0">
+          <fa-icon name="money"></fa-icon>
         </button>
       </ion-buttons>
     </ion-item>

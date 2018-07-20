@@ -18,7 +18,12 @@
   <ion-list *ngIf="order">
     <ion-item *ngFor="let item of order.orderItems">
       <h2>{{ item.product.name }}</h2>
-      <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
+      <p>
+        <span>{{ item.product.price | currency }}</span>
+        <strong> x
+          <u>{{ item.quantity }}</u>
+        </strong>
+      </p>
       <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
     </ion-item>
     <ion-item no-lines *ngIf="order.note">

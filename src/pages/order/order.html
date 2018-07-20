@@ -1,48 +1,44 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
-      <ion-segment-button value="HomePage">
-        <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
-        <fa-icon name="gift" size="2x"></fa-icon>
-      </ion-segment-button>
-      <ion-segment-button value="SearchPage">
-        <span class="label-segment">{{ 'SEARCH' | translate }}</span>
-        <fa-icon name="search" size="2x"></fa-icon>
-      </ion-segment-button>
-      <ion-segment-button value="OrderPage">
-        <span class="label-segment">{{ 'ORDER' | translate }}</span>
-        <fa-icon name="archive" size="2x"></fa-icon>
-      </ion-segment-button>
-      <ion-segment-button value="CartPage">
-        <span class="label-segment">{{ 'CART' | translate }}</span>
-        <fa-icon name="shopping-cart" size="2x"></fa-icon>
-        <span *ngIf="cart">{{ cart.totalItem }}</span>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-navbar>
-</ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
+        <ion-segment-button value="HomePage">
+          <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
+          <fa-icon name="gift"></fa-icon>
+        </ion-segment-button>
+        <ion-segment-button value="SearchPage">
+          <span class="label-segment">{{ 'SEARCH' | translate }}</span>
+          <fa-icon name="search"></fa-icon>
+        </ion-segment-button>
+        <ion-segment-button value="OrderPage">
+          <span class="label-segment">{{ 'ORDER' | translate }}</span>
+          <fa-icon name="archive"></fa-icon>
+        </ion-segment-button>
+        <ion-segment-button value="CartPage">
+          <span class="label-segment">{{ 'CART' | translate }}</span>
+          <fa-icon name="shopping-cart"></fa-icon>
+          <span *ngIf="cart">{{ cart.totalItem }}</span>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-navbar>
+  </ion-header>
 
 <ion-content padding>
   <div class="box">
     <ion-list no-lines>
       <ion-item>
-        <ion-icon name="calendar" item-start></ion-icon>
+        <fa-icon name="calendar" item-start></fa-icon>
         <ion-label>{{ 'ORDER_DATE' | translate }}</ion-label>
         <ion-datetime (ionChange)="search()" cancelText="{{ 'CANCEL' | translate }}" doneText="{{ 'DONE' | translate }}" [min]="min"
           [max]="max" displayFormat="DD-MM-YYYY" pickerFormat="DD-MMM-YYYY" [monthShortNames]="monthShortNames" [(ngModel)]="orderDate"></ion-datetime>
       </ion-item>
     </ion-list>
   </div>
-  <div class="no-data" *ngIf="!error && page && page.totalData == 0">
-    <ion-icon name="warning"></ion-icon> {{ 'NO_DATA' | translate }}
+  <div class="message" *ngIf="message">
+    {{ message }}
   </div>
-  <div class="error" *ngIf="error">
-    <ion-icon name="warning"></ion-icon> {{ error }}
-  </div>
-
   <ion-list *ngIf="page && page.totalData > 0">
     <ion-item>{{ orderDate | moment:'cal' }}</ion-item>
     <ion-item *ngFor="let order of page.data">

@@ -32,7 +32,7 @@ export class CartPage extends BaseCartPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, cartProvider);
+    super(modalCtrl, translate, cartProvider);
   }
 
   ionViewWillEnter() {

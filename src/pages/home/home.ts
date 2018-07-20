@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, Slides, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 import { Events } from 'ionic-angular';
@@ -37,36 +37,30 @@ export class HomePage extends BaseCartPage {
 
   constructor(
     public modalCtrl: ModalController,
-    public alertCtrl: AlertController,
-    public navParams: NavParams,
     public cartProvider: CartProvider,
     public events: Events,
     public translate: TranslateService,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, cartProvider);
-    this.initPage();
-  }
-
-  private initPage(): void {
-    this.page = new Page();
+    super(modalCtrl, translate, cartProvider);
   }
 
   ionViewWillEnter() {
-    this.error = null;
+    this.message = null;
     forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
+      this.page = new Page();
       this.initCategories(results[0]);
       this.cart = results[1];
       this.loadProducts();
       this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
       this.setSlideProperties();
     }, error => {
-      this.error = 'Error : ' + error;
+      this.message = 'Error : ' + error;
     });
   }
 
-  private initCategories(categories: Array<Category>): void{
+  private initCategories(categories: Array<Category>): void {
     this.translate.get('ALL_CATEGORIES').subscribe(value => {
       this.categories = categories;
       this.categories.unshift(new Category('', value));
@@ -74,8 +68,8 @@ export class HomePage extends BaseCartPage {
   }
 
   slideChanged(): void {
+    this.page = new Page();
     this.setSlideProperties();
-    this.initPage();
     this.loadProducts();
   }
 
@@ -105,14 +99,12 @@ export class HomePage extends BaseCartPage {
   }
 
   private loadProducts() {
-    this.error = null;
+    this.message = null;
     this.productProvider.findByCategory(this.category.id, this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = [...this.page.data, ...page.data];
+      this.setPage(page);
     }, error => {
-      this.error = 'Error : ' + error;
-    })
+      this.message = 'Error : ' + error;
+    });
   }
 
   updateContent(): void {

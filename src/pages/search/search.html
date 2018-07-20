@@ -27,11 +27,8 @@
 
 <ion-content>
   <ion-searchbar [(ngModel)]="keyword" (ionInput)="search()" (ionClear)="clear()" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
-  <div class="no-data" *ngIf="!error && page && page.totalData == 0">
-    <ion-icon name="warning"></ion-icon> {{ 'NO_DATA' | translate }}
-  </div>
-  <div class="error" *ngIf="error">
-    <ion-icon name="warning"></ion-icon> {{ error }}
+  <div class="message" *ngIf="message">
+    {{ message }}
   </div>
   <div *ngIf="page">
     <ion-grid class="data-grid">
@@ -40,13 +37,18 @@
           <ion-card>
             <img src="{{ product.image }}" (click)="view(product)" />
             <p>{{ product.name }}</p>
-            <p>{{ product.price | currency }}</p>
+            <p>
+              <span>{{ product.price | currency }}</span>
+              <strong *ngIf="getQuantity(product) > 0"> x
+                <u>{{ getQuantity(product) }}</u>
+              </strong>
+            </p>
             <div class="buttons">
               <button color="danger" small ion-button icon-only (click)="removeItem(product)">
                 <ion-icon name="remove"></ion-icon>
               </button>
-              <button color="light" small ion-button icon-left (click)="addNote(product)">
-                <ion-icon name="paper"></ion-icon> <span *ngIf="getQuantity(product) > 0">{{ getQuantity(product) }}</span>
+              <button color="light" small ion-button icon-only (click)="addNote(product)" [disabled]="getQuantity(product) == 0">
+                <fa-icon name="commenting"></fa-icon>
               </button>
               <button color="secondary" small ion-button icon-only (click)="addItem(product)">
                 <ion-icon name="add"></ion-icon>

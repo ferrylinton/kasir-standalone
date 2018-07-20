@@ -28,28 +28,24 @@ export class SearchPage extends BaseCartPage {
     public modalCtrl: ModalController,
     public cartProvider: CartProvider,
     public events: Events,
-    public translateService: TranslateService,
+    public translate: TranslateService,
     public productProvider: ProductProvider) {
 
-    super(modalCtrl, cartProvider);
+    super(modalCtrl, translate, cartProvider);
   }
 
   ionViewWillEnter() {
-    this.error = null;
+    this.message = null;
     this.cartProvider.getCart().subscribe(cart => {
       this.cart = cart;
     }, error => {
-      this.error = 'Error : ' + error;
+      this.message = 'Error : ' + error;
     });
-  }
-
-  private initPage(): void {
-    this.page = new Page();
   }
 
   search() {
     if (this.keyword && this.keyword.trim() != '') {
-      this.initPage();
+      this.page = new Page();
       this.loadProducts()
     }
   }
@@ -70,14 +66,12 @@ export class SearchPage extends BaseCartPage {
   }
 
   private loadProducts() {
-    this.error = null;
+    this.message = null;
     this.productProvider.findByName(this.keyword, this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = [...this.page.data, ...page.data];
+      this.setPage(page);
     }, error => {
-      this.error = 'Error : ' + error;
-    })
+      this.message = 'Error : ' + error;
+    });
   }
 
   updateContent(): void {

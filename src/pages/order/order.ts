@@ -42,10 +42,8 @@ export class OrderPage extends BaseCartPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, cartProvider);
-    this.translate.get('MONTH_NAMES').subscribe(value => {
-      this.monthShortNames = value;
-    });
+    super(modalCtrl, translate, cartProvider);
+    this.initTranslate();
   }
 
   ionViewWillEnter() {
@@ -54,7 +52,13 @@ export class OrderPage extends BaseCartPage {
       this.cart = cart;
     })
     this.initPage();
-    this.loadData(this.orderDate);
+    this.loadOrders(this.orderDate);
+  }
+
+  private initTranslate(): void {
+    this.translate.get('MONTH_NAMES').subscribe(value => {
+      this.monthShortNames = value;
+    });
   }
 
   private initDatePicker(): void {
@@ -71,19 +75,17 @@ export class OrderPage extends BaseCartPage {
     this.page = new Page();
   }
 
-  private loadData(orderDate: string) {
-    this.error = null;
+  private loadOrders(orderDate: string) {
+    this.message = null;
     this.orderProvider.findByDate(new Date(orderDate), this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = [...this.page.data, ...page.data];
+      this.setPage(page);
     }, error => {
-      this.error = 'Error : ' + error;
+      this.message = 'Error : ' + error;
     });
   }
 
   showOrder(order: Order) {
-    let clone: Order = JSON.parse(JSON.stringify(order)) ;
+    let clone: Order = JSON.parse(JSON.stringify(order));
     let orderModal = this.modalCtrl.create('OrderModalPage', { order: clone });
     orderModal.onDidDismiss(order => {
       if (order) {
@@ -95,13 +97,13 @@ export class OrderPage extends BaseCartPage {
 
   doInfinite(infiniteScroll) {
     this.page.pageNumber = this.page.pageNumber + 1;
-    this.loadData(this.orderDate);
+    this.loadOrders(this.orderDate);
     infiniteScroll.complete();
   }
 
   search() {
     this.initPage();
-    this.loadData(this.orderDate);
+    this.loadOrders(this.orderDate);
   }
 
   cancelOrder(order: Order) {
