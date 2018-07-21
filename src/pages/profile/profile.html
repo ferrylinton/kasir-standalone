@@ -3,10 +3,47 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Profile</ion-title>
+    <ion-title>{{ 'PROFILE' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="changePassword()">
+        <ion-icon name="lock"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="modify()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
+  <div class="image-wrapper" *ngIf="user">
+    <div class="image">
+      <div class="background" [style.background-image]="'url(' + user.image + ')'"> </div>
+    </div>
+  </div>
+  <ion-grid *ngIf="user">
+    <ion-row>
+      <ion-col class="detail-label">{{ 'USERNAME' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ user.username }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'FULLNAME' | translate }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-value">{{ user.fullname }}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detail-label">{{ 'ROLE' | translate }}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="user.role && user.role.name; else empty">
+      <ion-col class="detail-value">{{ user.role.name }}</ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<ng-template #empty>
+  <ion-row>
+    <ion-col class="detail-value">-</ion-col>
+  </ion-row>
+</ng-template>

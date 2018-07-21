@@ -73,7 +73,10 @@
     "CANCELED" : "Dibatalkan",
     "CLEAR_CART" : "Hapus Item",
     "OK": "Ok",
+    "PROFILE": "Profil",
     "TOTAL_OF": "Menampilkan {{ number }} dari {{ total }}",
+    "CHANGE_PASSWORD" : "Ubah Kata Sandi",
+    "OLD_PASSWORD" : "Kata Sandi Lama",
     "CALENDAR": {
         "sameDay": "[Hari ini]",
         "nextDay": "[Besok]",

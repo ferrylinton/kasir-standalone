@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ 'PROFILE' | translate }} - {{ 'UPDATE' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="save()" [disabled]="!isReadyToSave" strong>
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="saveConfirm()">
+    <input type="file" #fileInput class="fileinput" name="files[]" (change)="processWebImage($event)" />
+    <div class="image-wrapper">
+      <div class="image" (click)="getPicture()">
+        <div class="background" [style.backgroundImage]="getImageStyle()">
+          <ion-icon name="add-circle"></ion-icon>
+        </div>
+      </div>
+    </div>
+    <ion-item>
+      <ion-label color="primary" stacked>{{ 'FULLNAME' | translate }}</ion-label>
+      <ion-input type="text" placeholder="{{ 'FULLNAME' | translate }}" formControlName="fullname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>{{ 'USERNAME' | translate }}</ion-label>
+      <ion-input type="text" placeholder="{{ 'USERNAME' | translate }}" formControlName="username"></ion-input>
+    </ion-item>
+  </form>
+</ion-content>

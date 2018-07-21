@@ -67,7 +67,7 @@ export function createTranslateLoader(http: HttpClient) {
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot({
       name: 'minishopdb',
-         driverOrder: ['indexeddb', 'websql', 'sqlite']
+         driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
     PipesModule,
     ComponentsModule
@@ -81,7 +81,7 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    //{ provide: SQLite, useClass: SQLiteMock},
+    { provide: SQLite, useClass: SQLiteMock},
     { provide: VersionProvider, useClass: VersionProviderImpl },
     { provide: AuthorityProvider, useClass: AuthorityProviderImpl },
     { provide: RoleProvider, useClass: RoleProviderImpl },
