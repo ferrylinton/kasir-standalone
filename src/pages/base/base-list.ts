@@ -1,10 +1,12 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ViewChild } from '@angular/core';
 
+import { BasePage } from './base-page';
 import { Base } from '../../models/base.model';
 import { Page } from '../../models/page.model';
 
 
-export abstract class BaseListPage<T extends Base>{
+export abstract class BaseListPage<T extends Base> extends BasePage{
 
     @ViewChild('searchbar') searchbar: any;
 
@@ -14,8 +16,8 @@ export abstract class BaseListPage<T extends Base>{
 
     page: Page<T>;
 
-    constructor() {
-        this.initPage();
+    constructor(public translate: TranslateService) {
+        super(translate);
     }
 
     abstract loadData(): void;

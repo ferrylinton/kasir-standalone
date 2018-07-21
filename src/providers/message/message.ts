@@ -42,19 +42,18 @@ export class MessageProvider {
   }
 
   confirmSave(callback: (dt: Base) => void): void {
-    let keys: string[] = ['CONFIRM', 'SAVE_MESSAGE', 'CANCEL', 'OK'];
+    let keys: string[] = ['SAVE_MESSAGE', 'CANCEL', 'OK'];
 
     this.translate.get(keys).subscribe(values => {
       const alert = this.alertCtrl.create({
-        title: values[keys[0]],
-        message: values[keys[1]],
+        message: values[keys[0]],
         buttons: [
           {
-            text: values[keys[2]],
+            text: values[keys[1]],
             role: 'cancel'
           },
           {
-            text: values[keys[3]],
+            text: values[keys[2]],
             handler: callback
           }
         ]
@@ -65,19 +64,18 @@ export class MessageProvider {
   }
 
   confirmDelete(callback: (dt: Base) => void): void {
-    let keys: string[] = ['CONFIRM', 'DELETE_MESSAGE', 'CANCEL', 'OK'];
+    let keys: string[] = ['DELETE_MESSAGE', 'CANCEL', 'OK'];
 
     this.translate.get(keys).subscribe(values => {
       const alert = this.alertCtrl.create({
-        title: values[keys[0]],
-        message: values[keys[1]],
+        message: values[keys[0]],
         buttons: [
           {
-            text: values[keys[2]],
+            text: values[keys[1]],
             role: 'cancel'
           },
           {
-            text: values[keys[3]],
+            text: values[keys[2]],
             handler: callback
           }
         ]

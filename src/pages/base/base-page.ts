@@ -8,26 +8,32 @@ export abstract class BasePage {
 
     message: string;
 
-    constructor(public translate: TranslateService) {
+    total: string;
+
+    constructor(
+        public translate: TranslateService
+    ) {
     }
 
     setPage(page: Page<Base>): void {
         this.page.pageNumber = page.pageNumber;
         this.page.totalData = page.totalData;
         this.page.data = [...this.page.data, ...page.data];
-        this.setMessage(page);
+        this.setMessage(this.page);
     }
 
     setMessage(page: Page<Base>): void {
         if (page.totalData == 0) {
+            this.total = null;
             this.translate.get('NO_DATA').subscribe(value => {
                 this.message = value;
+            });
+        } else {
+            this.message = null;
+            this.translate.get('TOTAL_OF', { number: page.data.length, total: page.totalData }).subscribe(value => {
+                this.total = value;
             });
         }
     }
 
-    handleError(error: any) : void{
-        this.message = 'Error : ' + error;
-    }
-    
 }

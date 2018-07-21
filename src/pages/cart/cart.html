@@ -79,8 +79,8 @@
         <button color="light" small ion-button icon-only (click)="addOrderNote()">
           <fa-icon name="commenting"></fa-icon>
         </button>
-        <button ion-button color="secondary" small ion-button icon-only (click)="pay()" [disabled]="cart.totalItem == 0">
-          <fa-icon name="money"></fa-icon>
+        <button ion-button color="secondary" small ion-button (click)="pay()" [disabled]="cart.totalItem == 0">
+          {{ 'PAYMENT' | translate }}
         </button>
       </ion-buttons>
     </ion-item>

@@ -33,7 +33,10 @@
     <ion-col no-padding col-10>
       <ion-slides (ionSlideDidChange)="slideChanged()">
         <ion-slide *ngFor="let category of categories">
-          <p>{{ category.name }}</p>
+          <p>
+            <span *ngIf="page">({{ page.totalData }})</span>
+            <span>{{ category.name }}</span>
+          </p>
         </ion-slide>
       </ion-slides>
     </ion-col>

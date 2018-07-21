@@ -5,7 +5,7 @@ export class Category implements Audit{
     
     constructor(
         
-        public id?: string,
+        public id: string = '',
 
         public name?: string, 
         

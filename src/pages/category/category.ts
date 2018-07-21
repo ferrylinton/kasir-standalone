@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { MessageProvider } from '../../providers/message/message';
 import { CategoryProvider } from '../../providers/category/category';
@@ -14,16 +15,13 @@ import { Category } from '../../models/category.model';
 })
 export class CategoryPage extends BaseListPage<Category>{
 
-  private DETAIL_PAGE: string = 'CategoryDetailPage';
-
-  private FORM_PAGE: string = 'CategoryFormPage';
-
   constructor(
     public navCtrl: NavController,
+    public translate: TranslateService,
     public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider
   ) {
-    super();
+    super(translate);
   }
 
   ionViewWillEnter() {
@@ -33,20 +31,18 @@ export class CategoryPage extends BaseListPage<Category>{
 
   loadData() {
     this.categoryProvider.findByName(this.keyword, this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = [...this.page.data, ...page.data];
+      this.setPage(page);
     }, (error) => {
-      this.messageProvider.toast('Error : ' + error);
-    })
+      this.message = 'Error : ' + error;
+    });
   }
 
   view(category: Category) {
-    this.navCtrl.push(this.DETAIL_PAGE, { category: category });
+    this.navCtrl.push('CategoryDetailPage', { category: category });
   }
 
   create() {
-    this.navCtrl.push(this.FORM_PAGE, { category: new Category('') });
+    this.navCtrl.push('CategoryFormPage', { category: new Category() });
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { BaseListPage } from '../base/base-list';
 import { ProductProvider } from '../../providers/product/product';
@@ -12,8 +13,12 @@ import { Product } from '../../models/product.model';
 })
 export class ProductPage extends BaseListPage<Product>{
 
-  constructor(public navCtrl: NavController, public productProvider: ProductProvider) {
-    super();
+  constructor(
+    public navCtrl: NavController,
+    public translate: TranslateService,
+    public productProvider: ProductProvider
+  ) {
+    super(translate);
   }
 
   ionViewWillEnter() {
@@ -23,10 +28,10 @@ export class ProductPage extends BaseListPage<Product>{
 
   loadData() {
     this.productProvider.findByName(this.keyword, this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = [...this.page.data, ...page.data];
-    })
+      this.setPage(page);
+    }, (error) => {
+      this.message = 'Error : ' + error;
+    });
   }
 
   view(product: Product) {
@@ -34,7 +39,7 @@ export class ProductPage extends BaseListPage<Product>{
   }
 
   create() {
-    this.navCtrl.push('ProductFormPage', { product: new Product('') });
+    this.navCtrl.push('ProductFormPage', { product: new Product() });
   }
 
 }

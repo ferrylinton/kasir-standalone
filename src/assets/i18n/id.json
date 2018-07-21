@@ -71,6 +71,9 @@
     "NOTE": "Catatan",
     "NOT_PAID" : "Belum Dibayar",
     "CANCELED" : "Dibatalkan",
+    "CLEAR_CART" : "Hapus Item",
+    "OK": "Ok",
+    "TOTAL_OF": "Menampilkan {{ number }} dari {{ total }}",
     "CALENDAR": {
         "sameDay": "[Hari ini]",
         "nextDay": "[Besok]",

@@ -20,21 +20,27 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <span class="total">{{ 'TOTAL_LABEL' | translate:{length:page.data.length, total:page.totalData} }}</span>
-    </ion-item>
+  <div class="message" *ngIf="message">{{ message }}</div>
+  <div class="total" *ngIf="total">
+    <fa-icon name="gift"></fa-icon>
+    <span>{{ total }}</span>
+  </div>
+  <ion-list *ngIf="page">
     <ion-item ion-item *ngFor="let product of page.data">
       <ion-thumbnail item-start>
-        <img src="{{product.image}}">
+        <img src="{{ product.image }}">
       </ion-thumbnail>
-      <h2>{{product.name}}</h2>
-      <p>{{product.description}}</p>
-      <p>{{product.createdDate | date:'dd-MM-yyyy'}}</p>
-      <button ion-button outline item-end (click)="view(product)">{{ 'VIEW' | translate}}</button>
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+      <p>{{ product.createdDate | datetime }}</p>
+      <ion-buttons item-end>
+        <button ion-button icon-only small icon-only color="secondary" (click)="view(product)">
+          <ion-icon name="eye"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

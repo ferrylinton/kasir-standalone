@@ -169,15 +169,21 @@
 .message {
     margin: 10px;
     padding: 10px 20px;
-    border: solid 1px color($colors, light);
+    border: solid 1px #d3d2d2;
     background-color: #fff;
     color: color($colors, darkgray);
 }
 
 .total {
-    font-size: 13px;
+    padding: 5px 0;
+    margin-left: 15px;
+    font-size: 14px;
     font-weight: bold;
-    color: color($colors, darkgray);
+    color: color($colors, dark);
+    border-bottom: 3px solid #d3d2d2;
+}
+.total span{
+    margin-left: 10px;
 }
 
 .detail-label {
@@ -231,7 +237,8 @@
     height: 0px;
 }
 
-ion-modal.note-modal, ion-modal.cancel-order-modal {
+ion-modal.note-modal,
+ion-modal.cancel-order-modal {
     @media (min-width: 300px) and (min-height: 500px) {
         ion-backdrop {
             visibility: visible;
@@ -253,22 +260,6 @@ ion-modal.note-modal, ion-modal.cancel-order-modal {
         box-shadow: 0 16px 20px rgba(0, 0, 0, .4);
         background-color: #fafafa;
     }
-}
-
-.big-label {
-    font-size: 1.8rem;
-    font-weight: normal;
-}
-
-.round-number {
-    color: white;
-    font-weight: 700;
-    border-radius: 50%;
-    background-color: color($colors, primary);
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
 }
 
 .box {
@@ -330,21 +321,20 @@ ion-modal.note-modal, ion-modal.cancel-order-modal {
 }
 
 .card-item {
-    .list-md{
+    .list-md {
         margin: 0;
-
-        .item-block:first-child{
+        .item-block:first-child {
             border-top: solid 1px color($colors, light);
         }
-        .item-block{
+        .item-block {
             border-bottom: solid 1px color($colors, light);
         }
-        .no-lines{
+        .no-lines {
             border: none;
         }
     }
-    
-    .card-item-header.item-block, .card-item-footer.item-block{
+    .card-item-header.item-block,
+    .card-item-footer.item-block {
         border: solid 2px #fff;
         background-color: color($colors, light);
     }
@@ -403,4 +393,21 @@ ion-modal.note-modal, ion-modal.cancel-order-modal {
         padding: 10px;
         background-color: color($colors, light);
     }
+}
+
+.alert-md .alert-head {
+    height: 0;
+    display: none;
+}
+
+.alert-md .alert-button-group {
+    padding: 8px;
+}
+
+.alert-md .alert-message {
+    padding: 25px 22px 10px 22px;
+}
+
+.alert-md .alert-button {
+    text-transform: capitalize;
 }

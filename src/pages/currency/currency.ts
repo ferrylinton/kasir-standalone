@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import { BaseListPage } from '../base/base-list';
 import { CurrencyProvider } from '../../providers/currency/currency';
@@ -13,8 +14,12 @@ import { Currency } from '../../models/currency.model';
 })
 export class CurrencyPage extends BaseListPage<Currency>{
 
-  constructor(public navCtrl: NavController, public currencyProvider: CurrencyProvider){
-    super();
+  constructor(
+    public navCtrl: NavController,
+    public translate: TranslateService,
+    public currencyProvider: CurrencyProvider
+  ) {
+    super(translate);
   }
 
   ionViewWillEnter() {
@@ -24,10 +29,10 @@ export class CurrencyPage extends BaseListPage<Currency>{
 
   loadData() {
     this.currencyProvider.findByName(this.keyword, this.page).subscribe(page => {
-      this.page.pageNumber = page.pageNumber;
-      this.page.totalData = page.totalData;
-      this.page.data = [...this.page.data, ...page.data];
-    })
+      this.setPage(page);
+    }, (error) => {
+      this.message = 'Error : ' + error;
+    });
   }
 
   view(currency: Currency) {
@@ -35,7 +40,7 @@ export class CurrencyPage extends BaseListPage<Currency>{
   }
 
   create() {
-    this.navCtrl.push('CurrencyFormPage', { currency: new Currency('') });
+    this.navCtrl.push('CurrencyFormPage', { currency: new Currency() });
   }
 
 }

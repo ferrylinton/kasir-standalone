@@ -27,25 +27,25 @@
             <fa-icon name="home"></fa-icon> {{ 'HOME' | translate }}
           </button>
           <button menuClose ion-item (click)="openPage('AboutPage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
-            <ion-icon name="information-circle"></ion-icon> {{ 'ABOUT' | translate }}
+            <fa-icon name="info-circle"></fa-icon> {{ 'ABOUT' | translate }}
           </button>
         </ion-item-group>
         <ion-item-group>
           <ion-list-header>{{ 'DATA' | translate }}</ion-list-header>
           <button menuClose ion-item (click)="openPage('UserPage')" *ngIf="hasAuthority('USER_VIEW')">
-            <ion-icon name="people"></ion-icon> {{ 'USER' | translate }}
+            <fa-icon name="users"></fa-icon> {{ 'USER' | translate }}
           </button>
           <button menuClose ion-item (click)="openPage('ProductPage')" *ngIf="hasAuthority('PRODUCT_VIEW')">
-            <ion-icon name="medal"></ion-icon> {{ 'PRODUCT' | translate }}
+            <fa-icon name="gift"></fa-icon> {{ 'PRODUCT' | translate }}
           </button>
           <button menuClose ion-item (click)="openPage('CategoryPage')" *ngIf="hasAuthority('CATEGORY_VIEW')">
-            <ion-icon name="albums"></ion-icon> {{ 'CATEGORY' | translate }}
+            <fa-icon name="tags"></fa-icon> {{ 'CATEGORY' | translate }}
           </button>
           <button menuClose ion-item (click)="openPage('CurrencyPage')" *ngIf="hasAuthority('CURRENCY_VIEW')">
-            <ion-icon name="cash"></ion-icon> {{ 'CURRENCY' | translate }}
+            <fa-icon name="money"></fa-icon> {{ 'CURRENCY' | translate }}
           </button>
           <button menuClose ion-item (click)="openPage('SettingPage')" *ngIf="hasAuthority('SETTING_VIEW')">
-            <ion-icon name="settings"></ion-icon> {{ 'SETTING' | translate }}
+            <fa-icon name="cogs"></fa-icon> {{ 'SETTING' | translate }}
           </button>
         </ion-item-group>
       </ion-list>

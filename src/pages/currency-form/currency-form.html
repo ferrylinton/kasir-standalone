@@ -1,10 +1,10 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="currency && currency.id === ''">{{ 'CURRENCY' | translate }} - {{ 'CREATE' | translate }}</ion-title>
-    <ion-title *ngIf="currency && currency.id !== ''">{{ 'CURRENCY' | translate }} - {{ 'MODIFY' | translate }}</ion-title>
+    <ion-title *ngIf="currency && currency.id === ''">{{ 'CURRENCY' | translate }} - {{ 'ADD' | translate }}</ion-title>
+    <ion-title *ngIf="currency && currency.id !== ''">{{ 'CURRENCY' | translate }} - {{ 'UPDATE' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="save()" [disabled]="!isReadyToSave" strong>
-        <ion-icon name="checkmark"></ion-icon>
+        <fa-icon name="check"></fa-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

@@ -1,12 +1,12 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="currency">{{ 'CURRENCY' | translate }} [ {{ currency.name }} ]</ion-title>
+    <ion-title *ngIf="currency">{{ 'CURRENCY' | translate }} - {{ currency.name }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="delete()">
-        <ion-icon name="trash"></ion-icon>
+        <fa-icon name="trash"></fa-icon>
       </button>
       <button ion-button icon-only (click)="modify()">
-        <ion-icon name="create"></ion-icon>
+        <fa-icon name="pencil"></fa-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

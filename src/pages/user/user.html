@@ -1,39 +1,45 @@
 <ion-header>
-    <ion-navbar *ngIf="!showSearch">
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+  <ion-navbar *ngIf="!showSearch">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'USER' | translate }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="toggleSearch()">
+        <ion-icon name="search"></ion-icon>
       </button>
-      <ion-title>{{ 'USER' | translate }}</ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only (click)="toggleSearch()">
-          <ion-icon name="search"></ion-icon>
-        </button>
-        <button ion-button icon-only (click)="create()">
-          <ion-icon name="add"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-navbar>
-    <ion-navbar *ngIf="showSearch">
-      <ion-searchbar #searchbar [(ngModel)]="keyword" [showCancelButton]="true" (ionCancel)="toggleSearch()" (ionClear)="clearSearch()"
-        (ionInput)="triggerSearch($event)" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
-    </ion-navbar>
-  </ion-header>
+      <button ion-button icon-only (click)="create()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-navbar *ngIf="showSearch">
+    <ion-searchbar #searchbar [(ngModel)]="keyword" [showCancelButton]="true" (ionCancel)="toggleSearch()" (ionClear)="clearSearch()"
+      (ionInput)="triggerSearch($event)" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <span class="total">{{ 'TOTAL_LABEL' | translate:{length:page.data.length, total:page.totalData} }}</span>
-    </ion-item>
+  <div class="message" *ngIf="message">{{ message }}</div>
+  <div class="total" *ngIf="total">
+    <fa-icon name="users"></fa-icon>
+    <span>{{ total }}</span>
+  </div>
+  <ion-list *ngIf="page">
     <ion-item ion-item *ngFor="let user of page.data">
-        <ion-avatar item-start>
-          <img src="{{user.image}}">
-        </ion-avatar>
-        <h2>{{user.fullname}}</h2>
-        <p>{{user.createdDate | date:'dd-MM-yyyy'}}</p>
-        <button ion-button outline item-end (click)="view(user)">{{ 'VIEW' | translate}}</button>
-      </ion-item>
+      <ion-avatar item-start>
+        <img src="{{ user.image }}">
+      </ion-avatar>
+      <h2>{{ user.fullname }}</h2>
+      <p>{{ user.createdDate | datetime }}</p>
+      <ion-buttons item-end>
+        <button ion-button icon-only small icon-only color="secondary" (click)="view(user)">
+          <ion-icon name="eye"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-item>
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page.pageNumber < page.getTotalPage()">
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

@@ -51,7 +51,7 @@ export class OrderPage extends BaseCartPage {
     this.cartProvider.getCart().subscribe(cart => {
       this.cart = cart;
     })
-    this.initPage();
+    this.page = new Page();
     this.loadOrders(this.orderDate);
   }
 
@@ -69,10 +69,6 @@ export class OrderPage extends BaseCartPage {
 
     this.min = minDate.toJSON().split('T')[0];
     this.max = maxDate.toJSON().split('T')[0];
-  }
-
-  private initPage(): void {
-    this.page = new Page();
   }
 
   private loadOrders(orderDate: string) {
@@ -102,7 +98,7 @@ export class OrderPage extends BaseCartPage {
   }
 
   search() {
-    this.initPage();
+    this.page = new Page();
     this.loadOrders(this.orderDate);
   }
 
