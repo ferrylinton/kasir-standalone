@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="product">{{ 'PRODUCT' | translate }} [ {{ product.name }} ]</ion-title>
+    <ion-title *ngIf="product">{{ 'PRODUCT' | translate }} - {{ product.name }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="delete()">
         <ion-icon name="trash"></ion-icon>

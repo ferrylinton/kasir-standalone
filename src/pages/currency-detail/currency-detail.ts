@@ -41,6 +41,8 @@ export class CurrencyDetailPage {
       this.userProvider.findById(this.currency.lastModifiedBy)]).subscribe(results => {
         this.currency.createdBy = results[0];
         this.currency.lastModifiedBy = results[1];
+      }, error => {
+        this.messageProvider.toast('Error : ' + error);
       });
     }
   }

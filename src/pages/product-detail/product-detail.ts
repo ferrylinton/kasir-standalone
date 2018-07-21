@@ -41,6 +41,8 @@ export class ProductDetailPage{
       this.userProvider.findById(this.product.lastModifiedBy)]).subscribe(results => {
         this.product.createdBy = results[0];
         this.product.lastModifiedBy = results[1];
+      }, error => {
+        this.messageProvider.toast('Error : ' + error);
       });
     }
   }

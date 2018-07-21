@@ -81,7 +81,7 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: SQLite, useClass: SQLiteMock},
+    //{ provide: SQLite, useClass: SQLiteMock},
     { provide: VersionProvider, useClass: VersionProviderImpl },
     { provide: AuthorityProvider, useClass: AuthorityProviderImpl },
     { provide: RoleProvider, useClass: RoleProviderImpl },

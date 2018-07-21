@@ -41,6 +41,8 @@ export class CategoryDetailPage {
       .subscribe(results => {
         this.category.createdBy = results[0];
         this.category.lastModifiedBy = results[1];
+      }, error => {
+        this.messageProvider.toast('Error : ' + error);
       });
     }
   }

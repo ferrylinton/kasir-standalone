@@ -157,10 +157,7 @@ export class ProductFormPage {
       };
 
       reader.readAsDataURL(event.target.files[0]);
-    } else {
-      console.log('cancel...................');
     }
-
   }
 
   getImageStyle() {
