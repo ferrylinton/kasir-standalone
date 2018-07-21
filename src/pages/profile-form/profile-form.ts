@@ -8,7 +8,7 @@ import { MessageProvider } from '../../providers/message/message';
 import { UserProvider } from '../../providers/user/user';
 
 import { User } from '../../models/user.model';
-import { PAGE } from '../../constant/constant';
+import { PAGE, LOGGED_USER } from '../../constant/constant';
 
 
 @IonicPage()
@@ -72,14 +72,18 @@ export class ProfileFormPage {
   }
 
   private saveCallback(user: User): void {
-    console.log(user.fullname);
-    console.log(user.username);
-    // user.id = this.user.id;
-    // this.userProvider.update(user).subscribe(result => {
-    //   this.showMessage();
-    // }, (error) => {
-    //   this.messageProvider.toast('Error : ' + error);
-    // });
+    let userClone = JSON.parse(JSON.stringify(this.user));
+    userClone.username = user.username;
+    userClone.fullname = user.fullname;
+    userClone.image = user.image;
+
+    this.userProvider.update(userClone).subscribe(result => {
+      this.events.publish(LOGGED_USER, userClone);
+      this.storage.set(LOGGED_USER, JSON.stringify(userClone));
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
+    });
   }
 
   private showMessage(): void {
