@@ -147,7 +147,7 @@ export class SchemaProvider extends BaseSQlite {
         this.db.transaction((tx) => {
 
           // Insert User for system
-          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-000', 'system', 'password', 'system', null, true, DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
+          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-000', 'system', 'wy4ECQMIT73Eh8PVsKxgk4QZwit83hv9gGbZBz3L9Y2SJQV9BfZ50xJX5S5Afab60kAB62DRnCRz4zTb0v9Rst4oeHim3gU4fqF+PCWuEsFmIh6irV2LIXPgqjNyvoFD0/mCXGx4KEMlCewXi+pZRmn4', 'system', null, true, DEFAULT_IMAGE, 'user-0000-0000-0000-000']);
 
           // Insert Authority
           tx.executeSql(AUTHORITY.INSERT, ['authority-0000-0000-0000-001', 'BASIC_AUTHORITY', 'Basic Authority']);
@@ -218,9 +218,9 @@ export class SchemaProvider extends BaseSQlite {
           tx.executeSql(ROLE_AUTHORITY.INSERT, ['role-0000-0000-0000-003', 'authority-0000-0000-0000-007']);
 
           // Insert User
-          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-001', 'admin', 'password', 'Admin', 'role-0000-0000-0000-001', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
-          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-002', 'manager', 'password', 'Manager', 'role-0000-0000-0000-002', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
-          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-003', 'employee', 'password', 'Employee', 'role-0000-0000-0000-003', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
+          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-001', 'admin', 'wy4ECQMIT73Eh8PVsKxgk4QZwit83hv9gGbZBz3L9Y2SJQV9BfZ50xJX5S5Afab60kAB62DRnCRz4zTb0v9Rst4oeHim3gU4fqF+PCWuEsFmIh6irV2LIXPgqjNyvoFD0/mCXGx4KEMlCewXi+pZRmn4', 'Admin', 'role-0000-0000-0000-001', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
+          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-002', 'manager', 'wy4ECQMIT73Eh8PVsKxgk4QZwit83hv9gGbZBz3L9Y2SJQV9BfZ50xJX5S5Afab60kAB62DRnCRz4zTb0v9Rst4oeHim3gU4fqF+PCWuEsFmIh6irV2LIXPgqjNyvoFD0/mCXGx4KEMlCewXi+pZRmn4', 'Manager', 'role-0000-0000-0000-002', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
+          tx.executeSql(USER.INSERT, ['user-0000-0000-0000-003', 'employee', 'wy4ECQMIT73Eh8PVsKxgk4QZwit83hv9gGbZBz3L9Y2SJQV9BfZ50xJX5S5Afab60kAB62DRnCRz4zTb0v9Rst4oeHim3gU4fqF+PCWuEsFmIh6irV2LIXPgqjNyvoFD0/mCXGx4KEMlCewXi+pZRmn4', 'Employee', 'role-0000-0000-0000-003', true, DEFAULT_USER, 'user-0000-0000-0000-000']);
 
 
           tx.executeSql(CURRENCY.INSERT, ['currency-0000-0000-0000-001', 'IDR', 'Indonesian Rupiah', 'user-0000-0000-0000-000']);

@@ -43,6 +43,7 @@ import { SchemaProvider } from '../providers/sqlite/schema';
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
+import { PgpProvider } from '../providers/pgp/pgp';
 
 registerLocaleData(localeId, 'id');
 
@@ -95,6 +96,7 @@ export function createTranslateLoader(http: HttpClient) {
     MessageProvider,
     CartProvider,
     SchemaProvider,
+    PgpProvider,
   ]
 
 })
