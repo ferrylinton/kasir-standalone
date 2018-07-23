@@ -8,7 +8,13 @@ import { UserProvider } from '../../providers/user/user';
 
 import * as Constant from "../../constant/constant";
 import { User } from '../../models/user.model';
+import { OpenPGPProvider } from '../../providers/openpgp/openpgp';
 
+export interface ChangePassword {
+  passwordOld: string;
+  password: string;
+  passwordConfirm: string;
+}
 
 @IonicPage()
 @Component({
@@ -23,11 +29,7 @@ export class ChangePasswordPage {
 
   user: User;
 
-  passwordOld: string;
-
-  password: string;
-
-  passwordConfirm: string;
+  changePassword: ChangePassword = { passwordOld : '', password : '', passwordConfirm : ''};
 
   constructor(
     public navCtrl: NavController,
@@ -36,7 +38,8 @@ export class ChangePasswordPage {
     public events: Events,
     public messageProvider: MessageProvider,
     public userProvider: UserProvider,
-    public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder,
+    public openPGPProvider: OpenPGPProvider) {
   }
 
   ionViewWillEnter() {
@@ -55,9 +58,9 @@ export class ChangePasswordPage {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      oldPassword: [this.passwordOld, Validators.required],
-      password: [this.password, Validators.required],
-      passwordConfirm: [this.passwordConfirm, Validators.required]
+      oldPassword: [this.changePassword.passwordOld, Validators.required],
+      password: [this.changePassword.password, Validators.required],
+      passwordConfirm: [this.changePassword.passwordConfirm, Validators.required]
     });
 
     this.form.valueChanges.subscribe((v) => {
@@ -68,6 +71,8 @@ export class ChangePasswordPage {
   save() {
     if (!this.form.valid) {
       return;
+    } else if (this.form.value.oldPassword !== this.user.password) {
+      this.messageProvider.toastPasswordInvalid();
     } else if (this.form.value.password !== this.form.value.passwordConfirm) {
       this.messageProvider.toastPasswordNotConfirmed();
     } else {
@@ -75,8 +80,22 @@ export class ChangePasswordPage {
     }
   }
 
-  private saveCallback(values: any): void {
-    console.log(JSON.stringify(values));
+  private saveCallback(changePassword: ChangePassword): void {
+    this.openPGPProvider.encryptWithPassword(changePassword.password).then(encryptedPassword => {
+      this.user.password = encryptedPassword;
+      this.modify(this.user);
+    }).catch(error => {
+      this.messageProvider.toast('Error : ' + error);
+    });
+  }
+
+  modify(user: User): void {
+    user.id = this.user.id;
+    this.userProvider.update(user).subscribe(result => {
+      this.showMessage();
+    }, (error) => {
+      this.messageProvider.toast('Error : ' + error);
+    });
   }
 
   private showMessage(): void {

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BaseListPage } from '../base/base-list';
 import { UserProvider } from '../../providers/user/user';
 import { User } from '../../models/user.model';
+import { OpenPGPProvider } from '../../providers/openpgp/openpgp';
 
 
 @IonicPage()
@@ -17,7 +18,8 @@ export class UserPage extends BaseListPage<User>{
   constructor(
     public navCtrl: NavController,
     public translate: TranslateService,
-    public userProvider: UserProvider
+    public userProvider: UserProvider,
+    public openPGPProvider: OpenPGPProvider
   ) {
     super(translate);
   }
@@ -36,7 +38,14 @@ export class UserPage extends BaseListPage<User>{
   }
 
   view(user: User) {
-    this.navCtrl.push('UserDetailPage', { user: user });
+    let userClone:User = JSON.parse(JSON.stringify(user));
+
+    this.openPGPProvider.decryptWithPassword(userClone.password).then(plainPassword => {
+      userClone.password = plainPassword;
+      this.navCtrl.push('UserDetailPage', { user: userClone });
+    }).catch(error => {
+      this.message = 'Error : ' + error;
+    });
   }
 
   create() {

@@ -7,6 +7,7 @@ import { UserProvider } from '../../providers/user/user';
 import { MessageProvider } from '../../providers/message/message';
 import * as Constant from "../../constant/constant";
 import { User } from '../../models/user.model';
+import { OpenPGPProvider } from '../../providers/openpgp/openpgp';
 
 
 @IonicPage()
@@ -16,6 +17,8 @@ import { User } from '../../models/user.model';
 })
 export class ProfilePage {
 
+  message: string;
+
   user: User;
 
   constructor(
@@ -24,7 +27,8 @@ export class ProfilePage {
     public events: Events,
     public storage: Storage,
     public userProvider: UserProvider,
-    public messageProvider: MessageProvider
+    public messageProvider: MessageProvider,
+    public openPGPProvider: OpenPGPProvider
   ) {
   }
 
@@ -51,10 +55,24 @@ export class ProfilePage {
   }
 
   modify() {
-    this.navCtrl.push('ProfileFormPage', {user: this.user});
+    let userClone:User = JSON.parse(JSON.stringify(this.user));
+
+    this.openPGPProvider.decryptWithPassword(userClone.password).then(plainPassword => {
+      userClone.password = plainPassword;
+      this.navCtrl.push('ProfileFormPage', {user: this.user});
+    }).catch(error => {
+      this.message = 'Error : ' + error;
+    });
   }
 
   changePassword() {
-    this.navCtrl.push('ChangePasswordPage', {user: this.user});
+    let userClone:User = JSON.parse(JSON.stringify(this.user));
+
+    this.openPGPProvider.decryptWithPassword(userClone.password).then(plainPassword => {
+      userClone.password = plainPassword;
+      this.navCtrl.push('ChangePasswordPage', {user: this.user});
+    }).catch(error => {
+      this.message = 'Error : ' + error;
+    });
   }
 }

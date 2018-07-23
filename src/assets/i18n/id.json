@@ -77,6 +77,7 @@
     "TOTAL_OF": "Menampilkan {{ number }} dari {{ total }}",
     "CHANGE_PASSWORD" : "Ubah Kata Sandi",
     "OLD_PASSWORD" : "Kata Sandi Lama",
+    "PASSWORD_INVALID": "Kata sandi salah",
     "CALENDAR": {
         "sameDay": "[Hari ini]",
         "nextDay": "[Besok]",

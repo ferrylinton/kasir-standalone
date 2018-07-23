@@ -16,6 +16,7 @@
 </ion-header>
 
 <ion-content padding>
+  <div class="message" *ngIf="message">{{ message }}</div>
   <div class="image-wrapper" *ngIf="user">
     <div class="image">
       <div class="background" [style.background-image]="'url(' + user.image + ')'"> </div>

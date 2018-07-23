@@ -12,6 +12,7 @@ import { RoleProvider } from '../../providers/role/role';
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.model';
 import { PAGE } from '../../constant/constant';
+import { OpenPGPProvider } from '../../providers/openpgp/openpgp';
 
 
 @IonicPage()
@@ -47,6 +48,7 @@ export class UserFormPage{
     public messageProvider: MessageProvider,
     public roleProvider: RoleProvider,
     public userProvider: UserProvider,
+    public openPGPProvider: OpenPGPProvider,
     public formBuilder: FormBuilder) {
   }
 
@@ -122,11 +124,17 @@ export class UserFormPage{
   }
 
   private saveCallback(user: User): void {
-    if (this.isCreate) {
-      this.create(user);
-    } else {
-      this.modify(user);
-    }
+    this.openPGPProvider.encryptWithPassword(user.password).then(encryptedPassword => {
+      user.password = encryptedPassword;
+
+      if (this.isCreate) {
+        this.create(user);
+      } else {
+        this.modify(user);
+      }
+    }).catch(error => {
+      this.messageProvider.toast('Error : ' + error);
+    });
   }
 
   create(user: User): void {

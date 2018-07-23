@@ -49,7 +49,7 @@ export class OpenPGPProvider {
     });
   }
 
-  encrypt(data: string): Observable<string> {
+  encrypt(data: string): Promise<string> {
     let publicKey = openpgp.key.readArmored(PUBLIC_KEY);
     var options = {
       data: data,
@@ -57,15 +57,16 @@ export class OpenPGPProvider {
       armor: true
     };
 
-    return new Observable(observer => {
+    return new Promise((resolve, reject) => {
       openpgp.encrypt(options).then(function (encryptedData) {
-        observer.next(encryptedData.data);
-        observer.complete();
+        resolve(encryptedData.data);
+      }).catch(error => {
+        reject(error);
       });
     });
   }
 
-  decrypt(message: string): Observable<any> {
+  decrypt(message: string): Promise<any> {
     var key = openpgp.key.readArmored(PRIVATE_KEY).keys[0];
     key.decrypt(PASSPHRASE);
     var options = {
@@ -73,10 +74,11 @@ export class OpenPGPProvider {
       privateKey: key
     };
 
-    return new Observable(observer => {
+    return new Promise((resolve, reject) => {
       openpgp.decrypt(options).then(function (decryptedMessage) {
-        observer.next(decryptedMessage.data);
-        observer.complete();
+        resolve(decryptedMessage.data);
+      }).catch(error => {
+        reject(error);
       });
     });
   }

@@ -35,6 +35,12 @@ export class MessageProvider {
     });
   }
 
+  toastPasswordInvalid(): void {
+    this.translate.get('PASSWORD_INVALID').subscribe(value => {
+      this.toast(value);
+    });
+  }
+
   toastPasswordNotConfirmed(): void {
     this.translate.get('PASSWORD_NOT_MATCH').subscribe(value => {
       this.toast(value);
