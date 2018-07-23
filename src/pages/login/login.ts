@@ -4,10 +4,12 @@ import { IonicPage, NavController, ToastController, Events, LoadingController } 
 import { Storage } from '@ionic/storage';
 
 import { LOGGED_USER } from '../../constant/constant';
-import { LoginProvider } from '../../providers/login/login';
+import { UserProvider } from '../../providers/user/user';
+import { OpenPGPProvider } from '../../providers/openpgp/openpgp';
 import { SchemaProvider } from '../../providers/sqlite/schema';
 
 import { User } from '../../models/user.model';
+
 
 
 
@@ -35,7 +37,8 @@ export class LoginPage {
     public translateService: TranslateService,
     public events: Events,
     public storage: Storage,
-    public loginProvider: LoginProvider,
+    public userProvider: UserProvider,
+    public openPGPProvider: OpenPGPProvider,
     public schemaProvider: SchemaProvider) {
   }
 
@@ -54,7 +57,7 @@ export class LoginPage {
     });
   }
 
-  private initDB(): void{
+  private initDB(): void {
     let loading = this.loadingCtrl.create({ content: this.CHECKING_DB });
     loading.present();
 
@@ -77,21 +80,25 @@ export class LoginPage {
     if (this.data.username === '' || this.data.password === '') {
       this.showMessage(this.EMPTY_USERNAME_PASSWORD);
     } else {
-      this.loginProvider.login(this.data.username, this.data.password)
-        .subscribe(user => {
-          this.authenticate(user);
-        });
+      this.userProvider.findByUsername(this.data.username).subscribe(user => {
+        if (user != null) {
+          this.openPGPProvider.decryptWithPassword(user.password).then(result => {
+            if (this.data.password == result) {
+              this.events.publish(LOGGED_USER, user);
+              this.storage.set(LOGGED_USER, JSON.stringify(user));
+              this.navCtrl.setRoot('HomePage');
+            } else {
+              this.showMessage(this.INVALID_USERNAME_PASSWORD);
+            }
+          }).catch(error => {
+            this.showMessage(this.INVALID_USERNAME_PASSWORD);
+          })
+        } else {
+          this.showMessage(this.INVALID_USERNAME_PASSWORD);
+        }
+      }, error => {
+        this.showMessage(this.INVALID_USERNAME_PASSWORD);
+      });
     }
   }
-
-  private authenticate(user: User): void {
-    if (user != null && user.password === this.data.password) {
-      this.events.publish(LOGGED_USER, user);
-      this.storage.set(LOGGED_USER, JSON.stringify(user));
-      this.navCtrl.setRoot('HomePage');
-    } else {
-      this.showMessage(this.INVALID_USERNAME_PASSWORD);
-    }
-  }
-
 }

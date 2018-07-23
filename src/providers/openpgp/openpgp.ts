@@ -6,47 +6,45 @@ import { decode, encode } from 'typescript-base64-arraybuffer';
 import { PUBLIC_KEY, PRIVATE_KEY, PASSPHRASE } from '../../constant/openpgp';
 
 @Injectable()
-export class PgpProvider {
+export class OpenPGPProvider {
 
   constructor() {
     openpgp.config.show_version = false;
     openpgp.config.show_comment = false;
   }
 
-  encryptWithPassword(data: any): Observable<any> {
+  encryptWithPassword(data: any): Promise<any> {
     let options = {
       data: data,
       passwords: [PASSPHRASE],
       armor: false
     };
 
-    return new Observable(observer => {
+    return new Promise((resolve, reject) => {
       openpgp.encrypt(options).then(ciphertext => {
         if (typeof ciphertext.message != 'string') {
-          observer.next(encode(ciphertext.message.packets.write()));
+          resolve(encode(ciphertext.message.packets.write()));
         }
 
-        observer.complete();
+      }).catch(error => {
+        console.log(error);
+        reject(error);
       });
     });
   }
 
-  decryptWithPassword(message: any): Observable<any> {
+  decryptWithPassword(message: any): Promise<any> {
     let options = {
       message: openpgp.message.read(decode(message)),
       format: 'utf8',
       password: PASSPHRASE
     };
 
-    return new Observable(observer => {
+    return new Promise((resolve, reject) => {
       openpgp.decrypt(options).then(plaintext => {
-        if (typeof plaintext.data !== 'string') {
-          observer.next(new TextDecoder("utf-8").decode(plaintext.data));
-        } else {
-          observer.next(plaintext.data);
-        }
-
-        observer.complete();
+        resolve(plaintext.data);
+      }).catch(error => {
+        reject(error);
       });
     });
   }

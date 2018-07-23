@@ -18,7 +18,6 @@ import { ComponentsModule } from '../components/components.module';
 
 // Provider's Interface
 import { VersionProvider } from '../providers/version/version';
-import { LoginProvider } from '../providers/login/login';
 import { AuthorityProvider } from '../providers/authority/authority';
 import { RoleProvider } from '../providers/role/role';
 import { UserProvider } from '../providers/user/user';
@@ -43,7 +42,7 @@ import { SchemaProvider } from '../providers/sqlite/schema';
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';
 import { CartProvider } from '../providers/cart/cart';
-import { PgpProvider } from '../providers/pgp/pgp';
+import { OpenPGPProvider } from '../providers/openpgp/openpgp';
 
 registerLocaleData(localeId, 'id');
 
@@ -82,7 +81,6 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: SQLite, useClass: SQLiteMock},
     { provide: VersionProvider, useClass: VersionProviderImpl },
     { provide: AuthorityProvider, useClass: AuthorityProviderImpl },
     { provide: RoleProvider, useClass: RoleProviderImpl },
@@ -91,12 +89,13 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: ProductProvider, useClass: ProductProviderImpl },
     { provide: OrderProvider, useClass: OrderProviderImpl },
     { provide: CurrencyProvider, useClass: CurrencyProviderImpl },
-    LoginProvider,
+    { provide: SQLite, useClass: SQLiteMock},
+    //SQLite,
     SettingProvider,
     MessageProvider,
     CartProvider,
     SchemaProvider,
-    PgpProvider,
+    OpenPGPProvider,
   ]
 
 })
