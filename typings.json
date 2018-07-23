@@ -1,0 +1,5 @@
+{
+  "globalDependencies": {
+    "openpgp": "file:src/types/openpgp.d.ts"
+  }
+}

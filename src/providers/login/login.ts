@@ -13,6 +13,15 @@ export class LoginProvider {
     public pgpProvider: PgpProvider
   ) {
 
+    pgpProvider.encryptWithPassword('password').subscribe(encrypted => {
+      console.log("result 1 : " + encrypted);
+
+      pgpProvider.decryptWithPassword(encrypted).subscribe(plaintext => {
+        console.log("result 2 : " + plaintext);
+      });
+    });
+    
+
   }
 
   login(username: string, password: string): Observable<User> {

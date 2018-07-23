@@ -37,11 +37,11 @@
     "openpgp": "^2.6.2",
     "rxjs": "5.5.10",
     "sw-toolbox": "3.6.0",
+    "typescript-base64-arraybuffer": "^0.1.0",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
-    "@types/openpgp": "0.0.30",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",

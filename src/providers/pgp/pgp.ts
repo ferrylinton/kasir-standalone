@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import * as openpgp from 'openpgp';
+import { decode, encode } from 'typescript-base64-arraybuffer';
 import { PUBLIC_KEY, PRIVATE_KEY, PASSPHRASE } from '../../constant/openpgp';
 
 @Injectable()
 export class PgpProvider {
-
-  private PASSWORD: string = '8add6acf-1eaa-4c66-9a89-ba98cf17511e';
-
-  private b64s: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
   constructor() {
     openpgp.config.show_version = false;
@@ -19,14 +16,16 @@ export class PgpProvider {
   encryptWithPassword(data: any): Observable<any> {
     let options = {
       data: data,
-      passwords: [this.PASSWORD],
+      passwords: [PASSPHRASE],
       armor: false
     };
 
     return new Observable(observer => {
       openpgp.encrypt(options).then(ciphertext => {
-        let result = ciphertext.message.packets.write();
-        observer.next(this.s2r(result, ''));
+        if (typeof ciphertext.message != 'string') {
+          observer.next(encode(ciphertext.message.packets.write()));
+        }
+
         observer.complete();
       });
     });
@@ -34,9 +33,9 @@ export class PgpProvider {
 
   decryptWithPassword(message: any): Observable<any> {
     let options = {
-      message: openpgp.message.read(this.r2s(message)),
+      message: openpgp.message.read(decode(message)),
       format: 'utf8',
-      password: this.PASSWORD
+      password: PASSPHRASE
     };
 
     return new Observable(observer => {
@@ -83,174 +82,5 @@ export class PgpProvider {
       });
     });
   }
-
-
-
-  /**
-
-   * Convert binary array to radix-64
-
-   * @param {Uint8Array} t Uint8Array to convert
-
-   * @returns {string} radix-64 version of input string
-
-   * @static
-
-   */
-
-  s2r(t: any, o: any) {
-
-    // TODO check btoa alternative
-
-    var a, c, n;
-
-    var r = o ? o : [],
-
-      l = 0,
-
-      s = 0;
-
-    var tl = t.length;
-
-    for (n = 0; n < tl; n++) {
-
-      c = t[n];
-
-      if (s === 0) {
-
-        r.push(this.b64s.charAt((c >> 2) & 63));
-
-        a = (c & 3) << 4;
-
-      } else if (s === 1) {
-
-        r.push(this.b64s.charAt((a | (c >> 4) & 15)));
-
-        a = (c & 15) << 2;
-
-      } else if (s === 2) {
-
-        r.push(this.b64s.charAt(a | ((c >> 6) & 3)));
-
-        l += 1;
-
-        if ((l % 60) === 0) {
-
-          r.push("\n");
-
-        }
-
-        r.push(this.b64s.charAt(c & 63));
-
-      }
-
-      l += 1;
-
-      if ((l % 60) === 0) {
-
-        r.push("\n");
-
-      }
-
-      s += 1;
-
-      if (s === 3) {
-
-        s = 0;
-
-      }
-
-    }
-
-    if (s > 0) {
-
-      r.push(this.b64s.charAt(a));
-
-      l += 1;
-
-      if ((l % 60) === 0) {
-
-        r.push("\n");
-
-      }
-
-      r.push('=');
-
-      l += 1;
-
-    }
-
-    if (s === 1) {
-
-      if ((l % 60) === 0) {
-
-        r.push("\n");
-
-      }
-
-      r.push('=');
-
-    }
-
-    if (o) {
-
-      return;
-
-    }
-
-    return r.join('');
-
-  }
-
-  /**
-
-   * Convert radix-64 to binary array
-
-   * @param {String} t radix-64 string to convert
-
-   * @returns {Uint8Array} binary array version of input string
-
-   * @static
-
-   */
-
-  r2s(t) {
-
-    // TODO check atob alternative
-
-    var c, n;
-
-    var r = [],
-
-      s = 0,
-
-      a = 0;
-
-    var tl = t.length;
-
-    for (n = 0; n < tl; n++) {
-
-      c = this.b64s.indexOf(t.charAt(n));
-
-      if (c >= 0) {
-
-        if (s) {
-
-          r.push(a | (c >> (6 - s)) & 255);
-
-        }
-
-        s = (s + 2) & 7;
-
-        a = (c << s) & 255;
-
-      }
-
-    }
-
-    return new Uint8Array(r);
-
-  }
-
 
 }
