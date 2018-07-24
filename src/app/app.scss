@@ -317,77 +317,7 @@ ion-modal.cancel-order-modal {
     color: color($colors, gray);
 }
 
-.bold {
-    font-weight: bold;
-}
 
-.card-item {
-    .list-md {
-        margin: 0;
-        .item-block:first-child {
-            border-top: solid 1px color($colors, light);
-        }
-        .item-block {
-            border-bottom: solid 1px color($colors, light);
-        }
-        .no-lines {
-            border: none;
-        }
-    }
-    .card-item-header.item-block,
-    .card-item-footer.item-block {
-        border: solid 2px #fff;
-        background-color: color($colors, light);
-    }
-}
-
-.cart-more-menu {
-    left: -60px;
-    .list-md,
-    .list-ios,
-    .list-wp {
-        margin: 8px 0;
-    }
-}
-
-.data-list {
-    img:hover {
-        cursor: pointer;
-        border: solid 2px color($colors, secondary);
-    }
-}
-
-.list-number {
-    width: 40px;
-    text-align: right;
-    color: color($colors, darkgray);
-}
-
-.checkboxes-label {
-    margin-left: 18px;
-}
-
-.list-price {
-    display: inline-block;
-    padding-left: 20px;
-}
-
-.card-title {
-    position: absolute;
-    top: 36%;
-    font-size: 2.0em;
-    width: 100%;
-    font-weight: bold;
-    color: #fff;
-}
-
-.card-subtitle {
-    font-size: 1.0em;
-    position: absolute;
-    top: 52%;
-    width: 100%;
-    color: #fff;
-}
 
 .card {
     .image {

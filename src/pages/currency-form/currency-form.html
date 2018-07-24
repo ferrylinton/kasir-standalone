@@ -4,7 +4,7 @@
     <ion-title *ngIf="currency && currency.id !== ''">{{ 'CURRENCY' | translate }} - {{ 'UPDATE' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="save()" [disabled]="!isReadyToSave" strong>
-        <fa-icon name="check"></fa-icon>
+        <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
