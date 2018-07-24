@@ -26,7 +26,6 @@
 </ion-header>
 
 <ion-content padding>
-
   <div class="cart-item" *ngIf="cart && cart.order; else nodata">
     <div class="message" *ngIf="cart.totalItem == 0">
       {{ 'NO_ORDER' | translate }}
@@ -56,10 +55,6 @@
           </button>
         </ion-buttons>
       </ion-item>
-      <ion-item class="note" *ngIf="cart.order.note">
-        <fa-icon name="commenting" item-start></fa-icon>
-        <p *ngIf="cart.order.note; else empty">{{ cart.order.note }}</p>
-      </ion-item>
     </ion-list>
     <div class="footer" *ngIf="cart.totalItem > 0">
       <em>{{ 'TOTAL_ITEM' | translate }} : {{ cart.totalItem }}</em>
@@ -82,6 +77,12 @@
           {{ 'PAY' | translate }}
         </button>
       </ion-buttons>
+    </div>
+    <div class="order-note" *ngIf="cart.order.note">
+      <div class="order-note-title"><fa-icon name="commenting"></fa-icon> {{ 'ORDER_NOTE' | translate }}</div>
+      <ion-item no-lines text-wrap>
+        {{ cart.order.note }}
+      </ion-item>
     </div>
   </div>
 </ion-content>

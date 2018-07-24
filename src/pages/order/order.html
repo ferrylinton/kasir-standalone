@@ -42,19 +42,18 @@
   <ion-list *ngIf="page && page.totalData > 0">
     <ion-item>{{ orderDate | moment:'cal' }}</ion-item>
     <ion-item *ngFor="let order of page.data">
-      <div class="hour danger" item-start *ngIf="order.canceled">
+      <div class="hour danger" *ngIf="order.canceled">
         <span>{{ order.createdDate | date:'hh:mm' }}</span>
         <ion-icon name="trash"></ion-icon>
       </div>
-      <div class="hour secondary" item-start *ngIf="order.paid && !order.canceled">
+      <div class="hour secondary" *ngIf="order.paid && !order.canceled">
         <span>{{ order.createdDate | date:'hh:mm' }}</span>
         <ion-icon name="checkmark"></ion-icon>
       </div>
-      <div class="hour primary" item-start *ngIf="!order.paid && !order.canceled">
+      <div class="hour primary" *ngIf="!order.paid && !order.canceled">
         <span>{{ order.createdDate | date:'hh:mm' }}</span>
         <ion-icon name="cart"></ion-icon>
       </div>
-      <span class="bold dark">{{ order.transactionNumber }}</span>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
       <ion-buttons item-end>
         <button ion-button icon-only small icon-only color="danger" (click)="cancelOrder(order)" *ngIf="!order.canceled">

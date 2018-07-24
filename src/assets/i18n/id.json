@@ -81,6 +81,7 @@
     "SAVE": "Simpan",
     "PAY": "Bayar",
     "ITEMS": "item",
+    "ORDER_NOTE": "Catatan Pesanan",
     "CALENDAR": {
         "sameDay": "[Hari ini]",
         "nextDay": "[Besok]",
