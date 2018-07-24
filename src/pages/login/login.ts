@@ -8,9 +8,6 @@ import { UserProvider } from '../../providers/user/user';
 import { OpenPGPProvider } from '../../providers/openpgp/openpgp';
 import { SchemaProvider } from '../../providers/sqlite/schema';
 
-import { User } from '../../models/user.model';
-
-
 
 
 @IonicPage()

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
 import * as openpgp from 'openpgp';
 import { decode, encode } from 'typescript-base64-arraybuffer';

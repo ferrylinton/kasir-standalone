@@ -70,7 +70,7 @@ export class ProfilePage {
 
     this.openPGPProvider.decryptWithPassword(userClone.password).then(plainPassword => {
       userClone.password = plainPassword;
-      this.navCtrl.push('ChangePasswordPage', {user: this.user});
+      this.navCtrl.push('ChangePasswordPage', {user: userClone});
     }).catch(error => {
       this.message = 'Error : ' + error;
     });

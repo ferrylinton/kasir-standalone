@@ -52,6 +52,7 @@ export class MessageProvider {
 
     this.translate.get(keys).subscribe(values => {
       const alert = this.alertCtrl.create({
+        cssClass: 'alert-not-title',
         message: values[keys[0]],
         buttons: [
           {
@@ -74,6 +75,7 @@ export class MessageProvider {
 
     this.translate.get(keys).subscribe(values => {
       const alert = this.alertCtrl.create({
+        cssClass: 'alert-not-title',
         message: values[keys[0]],
         buttons: [
           {

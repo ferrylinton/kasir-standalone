@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
+import moment from 'moment';
 
 import { MessageProvider } from '../../providers/message/message';
 import { CartProvider } from '../../providers/cart/cart';
@@ -27,7 +28,7 @@ export class OrderPage extends BaseCartPage {
 
   monthShortNames: string;
 
-  orderDate: string = new Date().toISOString();
+  orderDate: string;
 
   min: string;
 
@@ -62,13 +63,10 @@ export class OrderPage extends BaseCartPage {
   }
 
   private initDatePicker(): void {
-    let minDate: Date = new Date();
-    let maxDate: Date = new Date();
-
-    minDate.setMonth(minDate.getMonth() - 12);
-
-    this.min = minDate.toJSON().split('T')[0];
-    this.max = maxDate.toJSON().split('T')[0];
+    moment.locale(this.translate.currentLang);
+    this.orderDate = moment().format('YYYY-MM-DD'); 
+    this.min = moment().subtract(3, 'months').startOf('month').format('YYYY-MM-DD');
+    this.max = moment().format('YYYY-MM-DD');
   }
 
   private loadOrders(orderDate: string) {

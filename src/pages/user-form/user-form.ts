@@ -124,13 +124,14 @@ export class UserFormPage{
   }
 
   private saveCallback(user: User): void {
-    this.openPGPProvider.encryptWithPassword(user.password).then(encryptedPassword => {
-      user.password = encryptedPassword;
+    let cloneUser: User = JSON.parse(JSON.stringify(user));
+    this.openPGPProvider.encryptWithPassword(cloneUser.password).then(encryptedPassword => {
+      cloneUser.password = encryptedPassword;
 
       if (this.isCreate) {
-        this.create(user);
+        this.create(cloneUser);
       } else {
-        this.modify(user);
+        this.modify(cloneUser);
       }
     }).catch(error => {
       this.messageProvider.toast('Error : ' + error);
