@@ -1,33 +1,23 @@
 <ion-header>
-  <ion-navbar>
-    <ion-buttons left>
-      <button ion-button>
-        <ion-icon name="paper"></ion-icon>
-      </button>
-    </ion-buttons>
+  <ion-navbar color="light">
+    <ion-title *ngIf="cart">{{ 'ORDER_NOTE' | translate }}</ion-title>
+    <ion-title *ngIf="orderItem">{{ 'ITEM_NOTE' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="viewCtrl.dismiss(orderItem)" *ngIf="orderItem">
-        <span ion-text showWhen="ios">{{ 'BUTTON.SAVE' | translate }}</span>
-        <ion-icon name="checkmark" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button (click)="viewCtrl.dismiss(cart)" *ngIf="cart">
-        <span ion-text showWhen="ios">{{ 'BUTTON.SAVE' | translate }}</span>
-        <ion-icon name="checkmark" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button (click)="viewCtrl.dismiss()">
-        <span ion-text showWhen="ios">{{ 'BUTTON.CANCEL' | translate }}</span>
-        <ion-icon name="close" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content>
-  <ion-item *ngIf="orderItem">
-    <ion-textarea class="no-resize" name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
-  </ion-item>
-  <ion-item *ngIf="cart">
-    <ion-textarea class="no-resize" name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
-  </ion-item>
+<ion-content no-bounce>
+  <ion-textarea *ngIf="orderItem" class="no-resize" autosize name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+  <ion-textarea *ngIf="cart" class="no-resize" autosize name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
 </ion-content>

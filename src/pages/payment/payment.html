@@ -15,28 +15,32 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="order">
-    <ion-item *ngFor="let item of order.orderItems">
-      <h2>{{ item.product.name }}</h2>
-      <p>
-        <span>{{ item.product.price | currency }}</span>
-        <strong> x
-          <u>{{ item.quantity }}</u>
-        </strong>
-      </p>
-      <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+  <div class="cart-item" *ngIf="order">
+    <ion-list *ngIf="order">
+      <ion-item *ngFor="let item of order.orderItems">
+        <h2>{{ item.product.name }}</h2>
+        <p>
+          <span>{{ item.product.price | currency }}</span>
+          <strong> x
+            <u>{{ item.quantity }}</u>
+          </strong>
+        </p>
+        <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div class="footer">
+    <em>{{ 'TOTAL_ITEM' | translate }} : {{ totalItem }}</em>
+  </div>
+  <div class="footer">
+    <em>{{ 'TOTAL_PRICE' | translate }} : {{ totalPrice | currency }}</em>
+  </div>
+  <div class="order-note" *ngIf="order.note">
+    <div class="order-note-title">
+      <fa-icon name="commenting"></fa-icon> {{ 'ORDER_NOTE' | translate }}
+    </div>
+    <ion-item no-lines text-wrap>
+      {{ order.note }}
     </ion-item>
-    <ion-item no-lines *ngIf="order.note">
-      {{ 'NOTE' | translate }} :
-    </ion-item>
-    <ion-item text-wrap *ngIf="order.note">
-      <span *ngIf="order.note">{{ order.note }}</span>
-    </ion-item>
-    <ion-item no-lines>
-      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{ totalItem }}</span>
-    </ion-item>
-    <ion-item no-lines class="bold">
-      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{ totalPrice | currency }}</span>
-    </ion-item>
-  </ion-list>
+  </div>
 </ion-content>

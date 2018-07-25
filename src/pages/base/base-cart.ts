@@ -65,7 +65,7 @@ export abstract class BaseCartPage extends BasePage {
     addNote(product: Product) {
         if(this.isSelected(product)){
             let orderItem = JSON.parse(JSON.stringify(this.cartProvider.getOrderItem(this.cart, product)));
-            let noteModal = this.modalCtrl.create('NoteModalPage', { orderItem: orderItem }, { cssClass: 'note-modal' });
+            let noteModal = this.modalCtrl.create('NoteModalPage', { orderItem: orderItem }, {cssClass: 'note-modal'});
             noteModal.onDidDismiss(orderItem => {
                 if (orderItem) {
                     this.cartProvider.addNote(this.cart, orderItem).subscribe(cart => {

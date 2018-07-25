@@ -68,6 +68,7 @@
     "USER": "Pengguna",
     "USERNAME": "Nama Pengguna",
     "VIEW": "Lihat",
+    "ITEM_NOTE": "Catatan Item",
     "NOTE": "Catatan",
     "NOT_PAID" : "Belum Dibayar",
     "CANCELED" : "Dibatalkan",
@@ -87,7 +88,7 @@
         "nextDay": "[Besok]",
         "nextWeek": "dddd [depan]",
         "lastDay": "[Kemarin]",
-        "lastWeek": "dddd [kemarin]",
+        "lastWeek": "[Hari] dddd [kemarin]",
         "sameElse": "DD-MM-YYYY"
     },
     "MONTH_NAMES" : "Jan, Feb, Mar, Apr, Mei, Jun, Jul, Agu, Sep, Okt, Nov, Des"

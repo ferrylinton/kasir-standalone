@@ -240,18 +240,16 @@
 
 ion-modal.note-modal,
 ion-modal.cancel-order-modal {
-    @media (min-width: 300px) and (min-height: 500px) {
-        ion-backdrop {
-            visibility: visible;
-        }
+    ion-backdrop {
+        visibility: visible;
     }
     .modal-wrapper {
         position: absolute;
         overflow: hidden;
         max-width: 400px;
         border-radius: 2px;
-        width: 80vw;
-        height: 38vh;
+        width: 80%;
+        height: 190px;
         top: 0;
         bottom: 0;
         left: 0;
@@ -261,6 +259,14 @@ ion-modal.cancel-order-modal {
         box-shadow: 0 16px 20px rgba(0, 0, 0, .4);
         background-color: #fafafa;
     }
+    textarea{
+        background-color: #fff;
+        border: solid 1px color($colors, light);
+        padding: 10px;
+    }
+    textarea:focus{
+        border: solid 1px color($colors, primary);
+    }
 }
 
 .box {
@@ -269,7 +275,7 @@ ion-modal.cancel-order-modal {
     font-size: 1.4rem;
     -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    .title {
+    /* .title {
         font-weight: bold;
         font-size: 18px;
         padding-left: 10px;
@@ -290,7 +296,7 @@ ion-modal.cancel-order-modal {
     }
     .notpaid {
         color: color($colors, danger);
-    }
+    } */
 }
 
 .box.gray {

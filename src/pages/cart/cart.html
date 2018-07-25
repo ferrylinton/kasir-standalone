@@ -42,7 +42,7 @@
             <u>{{ item.quantity }}</u>
           </strong>
         </p>
-        <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+        <p *ngIf="item.note">{{ 'ITEM_NOTE' | translate }} : {{ item.note }}</p>
         <ion-buttons>
           <button color="danger" small ion-button icon-only (click)="removeItem(item.product)">
             <ion-icon name="remove"></ion-icon>
@@ -86,11 +86,3 @@
     </div>
   </div>
 </ion-content>
-<ng-template #nodata>
-  <ion-item>
-    {{ 'NO_DATA' | translate }}
-  </ion-item>
-</ng-template>
-<ng-template #empty>
-  <span item-end>-</span>
-</ng-template>

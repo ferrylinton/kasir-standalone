@@ -102,7 +102,7 @@ export class CartPage extends BaseCartPage {
 
   addOrderNote() {
     let cartClone = JSON.parse(JSON.stringify(this.cart));
-    const noteModal = this.modalCtrl.create('NoteModalPage', { cart: cartClone }, { cssClass: '' });
+    const noteModal = this.modalCtrl.create('NoteModalPage', { cart: cartClone }, { cssClass: 'note-modal' });
     noteModal.onDidDismiss(cart => {
       if (cart) {
         this.cartProvider.setCart(cart).subscribe(cart => {

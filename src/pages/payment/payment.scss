@@ -1,3 +1,39 @@
 page-payment {
-
+    .cart-item {
+        .list-md {
+            margin: 0;
+            .item-block {
+                border-bottom: solid 1px color($colors, light);
+                .item-inner {
+                    border-bottom: none;
+                }
+            }
+            .no-lines {
+                border: none;
+            }
+        }
+    }
+    .footer {
+        display: block;
+        text-align: right;
+        padding: 10px 0 0 0;
+        em {
+            font-weight: bold;
+            display: inline-block;
+            font-style: normal;
+        }
+    }
+    .order-note {
+        margin: 15px 0 15px 0;
+        .order-note-title {
+            padding: 10px;
+            border-top: solid 1px color($colors, light);
+            border-bottom: solid 3px color($colors, light);
+            font-weight: bold;
+        }
+        .item {
+            margin: 0;
+            border-bottom: solid 1px color($colors, light);
+        }
+    }
 }

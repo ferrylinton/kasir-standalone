@@ -1,29 +1,29 @@
 <ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
-        <ion-segment-button value="HomePage">
-          <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
-          <fa-icon name="gift"></fa-icon>
-        </ion-segment-button>
-        <ion-segment-button value="SearchPage">
-          <span class="label-segment">{{ 'SEARCH' | translate }}</span>
-          <fa-icon name="search"></fa-icon>
-        </ion-segment-button>
-        <ion-segment-button value="OrderPage">
-          <span class="label-segment">{{ 'ORDER' | translate }}</span>
-          <fa-icon name="archive"></fa-icon>
-        </ion-segment-button>
-        <ion-segment-button value="CartPage">
-          <span class="label-segment">{{ 'CART' | translate }}</span>
-          <fa-icon name="shopping-cart"></fa-icon>
-          <span *ngIf="cart">{{ cart.totalItem }}</span>
-        </ion-segment-button>
-      </ion-segment>
-    </ion-navbar>
-  </ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateContent()">
+      <ion-segment-button value="HomePage">
+        <span class="label-segment">{{ 'PRODUCT' | translate }}</span>
+        <fa-icon name="gift"></fa-icon>
+      </ion-segment-button>
+      <ion-segment-button value="SearchPage">
+        <span class="label-segment">{{ 'SEARCH' | translate }}</span>
+        <fa-icon name="search"></fa-icon>
+      </ion-segment-button>
+      <ion-segment-button value="OrderPage">
+        <span class="label-segment">{{ 'ORDER' | translate }}</span>
+        <fa-icon name="archive"></fa-icon>
+      </ion-segment-button>
+      <ion-segment-button value="CartPage">
+        <span class="label-segment">{{ 'CART' | translate }}</span>
+        <fa-icon name="shopping-cart"></fa-icon>
+        <span *ngIf="cart">{{ cart.totalItem }}</span>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-navbar>
+</ion-header>
 
 <ion-content padding>
   <div class="box">
@@ -41,29 +41,24 @@
   </div>
   <ion-list *ngIf="page && page.totalData > 0">
     <ion-item>{{ orderDate | moment:'cal' }}</ion-item>
-    <ion-item *ngFor="let order of page.data">
-      <div class="hour danger" *ngIf="order.canceled">
-        <span>{{ order.createdDate | date:'hh:mm' }}</span>
-        <ion-icon name="trash"></ion-icon>
-      </div>
-      <div class="hour secondary" *ngIf="order.paid && !order.canceled">
-        <span>{{ order.createdDate | date:'hh:mm' }}</span>
-        <ion-icon name="checkmark"></ion-icon>
-      </div>
-      <div class="hour primary" *ngIf="!order.paid && !order.canceled">
-        <span>{{ order.createdDate | date:'hh:mm' }}</span>
-        <ion-icon name="cart"></ion-icon>
-      </div>
+    <button ion-item *ngFor="let order of page.data" (click)="showOrder(order)">
+      <span>{{ order.createdDate | date:'hh:mm' }}</span> |
+      <span *ngIf="order.canceled">
+        {{ 'CANCELED' | translate }}
+      </span>
+      <span *ngIf="order.paid && !order.canceled">
+        {{ 'PAID' | translate }}
+      </span>
+      <span *ngIf="!order.paid && !order.canceled">
+        {{ 'NOT_PAID' | translate }}
+      </span>
       <p text-wrap>{{ getProducts(order) | shorten:300 }}</p>
       <ion-buttons item-end>
         <button ion-button icon-only small icon-only color="danger" (click)="cancelOrder(order)" *ngIf="!order.canceled">
           <ion-icon name="trash"></ion-icon>
         </button>
-        <button ion-button icon-only small icon-only color="secondary" (click)="showOrder(order)">
-          <ion-icon name="eye"></ion-icon>
-        </button>
       </ion-buttons>
-    </ion-item>
+    </button>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>
