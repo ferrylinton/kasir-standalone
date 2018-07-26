@@ -26,7 +26,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar [(ngModel)]="keyword" (ionInput)="search()" (ionClear)="clear()" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="keyword" debounce="1200" (ionInput)="search()" (ionClear)="clear()" placeholder="{{ 'SEARCH' | translate }}"></ion-searchbar>
   <div class="message" *ngIf="message">
     {{ message }}
   </div>

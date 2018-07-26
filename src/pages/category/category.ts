@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { MessageProvider } from '../../providers/message/message';
@@ -17,11 +17,12 @@ export class CategoryPage extends BaseListPage<Category>{
 
   constructor(
     public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
     public translate: TranslateService,
     public messageProvider: MessageProvider,
     public categoryProvider: CategoryProvider
   ) {
-    super(translate);
+    super(loadingCtrl, translate);
   }
 
   ionViewWillEnter() {

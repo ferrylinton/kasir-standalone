@@ -1,3 +1,4 @@
+import { LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ViewChild } from '@angular/core';
 
@@ -16,8 +17,11 @@ export abstract class BaseListPage<T extends Base> extends BasePage{
 
     page: Page<T>;
 
-    constructor(public translate: TranslateService) {
-        super(translate);
+    constructor(
+        public loadingCtrl: LoadingController,
+        public translate: TranslateService
+    ) {
+        super(loadingCtrl, translate);
     }
 
     abstract loadData(): void;

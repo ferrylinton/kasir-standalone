@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 
@@ -24,6 +24,7 @@ export class CartPage extends BaseCartPage {
   segment = 'CartPage';
 
   constructor(
+    public loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
     public navParams: NavParams,
     public translate: TranslateService,
@@ -32,7 +33,7 @@ export class CartPage extends BaseCartPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, translate, cartProvider);
+    super(loadingCtrl, modalCtrl, translate, cartProvider);
   }
 
   ionViewWillEnter() {

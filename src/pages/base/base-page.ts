@@ -1,8 +1,17 @@
-import { Base } from "../../models/base.model";
-import { Page } from "../../models/page.model";
+import { Loading, LoadingController } from "ionic-angular";
 import { TranslateService } from "@ngx-translate/core";
 
+import { Base } from "../../models/base.model";
+import { Page } from "../../models/page.model";
+
+
 export abstract class BasePage {
+
+    loading: Loading;
+
+    isLoading: boolean = false;
+
+    isStopLoading: boolean = false;
 
     page: Page<Base>;
 
@@ -11,8 +20,32 @@ export abstract class BasePage {
     total: string;
 
     constructor(
+        public loadingCtrl: LoadingController,
         public translate: TranslateService
     ) {
+    }
+
+    startLoading(): void {
+        if (!this.loading && !this.isLoading) {
+            this.translate.get('LOADING').subscribe(value => {
+                this.loading = this.loadingCtrl.create({ content: value });
+                this.isLoading = true;
+                this.loading.present();
+            });
+        }
+    }
+
+    stopLoading(): void {
+        if (!this.isStopLoading && this.loading && this.isLoading) {
+            this.isStopLoading = true;
+            setTimeout(() => {
+                this.loading.dismiss().then(res => {
+                    this.loading = null;
+                    this.isLoading = false;
+                    this.isStopLoading = false;
+                });
+            }, 500);
+        }
     }
 
     setPage(page: Page<Base>): void {

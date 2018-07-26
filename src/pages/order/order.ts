@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 import moment from 'moment';
@@ -36,6 +36,7 @@ export class OrderPage extends BaseCartPage {
 
   constructor(
     public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
     public translate: TranslateService,
     public messageProvider: MessageProvider,
@@ -43,7 +44,7 @@ export class OrderPage extends BaseCartPage {
     public orderProvider: OrderProvider,
     public cartProvider: CartProvider) {
 
-    super(modalCtrl, translate, cartProvider);
+    super(loadingCtrl, modalCtrl, translate, cartProvider);
     this.initTranslate();
   }
 
@@ -70,11 +71,14 @@ export class OrderPage extends BaseCartPage {
   }
 
   private loadOrders(orderDate: string) {
+    this.startLoading();
     this.message = null;
     this.orderProvider.findByDate(new Date(orderDate), this.page).subscribe(page => {
       this.setPage(page);
-    }, error => {
+    }, (error) => {
       this.message = 'Error : ' + error;
+    }, () => {
+      this.stopLoading();
     });
   }
 

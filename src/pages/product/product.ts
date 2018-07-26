@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseListPage } from '../base/base-list';
@@ -15,10 +15,11 @@ export class ProductPage extends BaseListPage<Product>{
 
   constructor(
     public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
     public translate: TranslateService,
     public productProvider: ProductProvider
   ) {
-    super(translate);
+    super(loadingCtrl, translate);
   }
 
   ionViewWillEnter() {

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Slides, ModalController } from 'ionic-angular';
+import { IonicPage, Slides, ModalController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from "rxjs/observable/forkJoin";
 import { Events } from 'ionic-angular';
@@ -37,16 +37,18 @@ export class HomePage extends BaseCartPage {
 
   constructor(
     public modalCtrl: ModalController,
+    public loadingCtrl: LoadingController,
     public cartProvider: CartProvider,
     public events: Events,
     public translate: TranslateService,
     public productProvider: ProductProvider,
     public categoryProvider: CategoryProvider) {
 
-    super(modalCtrl, translate, cartProvider);
+    super(loadingCtrl, modalCtrl, translate, cartProvider);
   }
 
   ionViewWillEnter() {
+    this.startLoading();
     this.message = null;
     forkJoin([this.categoryProvider.findAll(), this.cartProvider.getCart()]).subscribe(results => {
       this.page = new Page();
@@ -55,8 +57,10 @@ export class HomePage extends BaseCartPage {
       this.loadProducts();
       this.slides.slideTo(this.slides.getActiveIndex(), 0, false);
       this.setSlideProperties();
-    }, error => {
+    }, (error) => {
       this.message = 'Error : ' + error;
+    }, () => {
+      this.stopLoading();
     });
   }
 
@@ -99,11 +103,14 @@ export class HomePage extends BaseCartPage {
   }
 
   private loadProducts() {
+    this.startLoading();
     this.message = null;
     this.productProvider.findByCategory(this.category.id, this.page).subscribe(page => {
       this.setPage(page);
-    }, error => {
+    }, (error) => {
       this.message = 'Error : ' + error;
+    }, () => {
+      this.stopLoading();
     });
   }
 

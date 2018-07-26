@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController } from 'ionic-angular';
+import { IonicPage, ModalController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 
@@ -25,13 +25,14 @@ export class SearchPage extends BaseCartPage {
   page: Page<Product>;
 
   constructor(
+    public loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
     public cartProvider: CartProvider,
     public events: Events,
     public translate: TranslateService,
     public productProvider: ProductProvider) {
 
-    super(modalCtrl, translate, cartProvider);
+    super(loadingCtrl, modalCtrl, translate, cartProvider);
   }
 
   ionViewWillEnter() {
@@ -66,11 +67,14 @@ export class SearchPage extends BaseCartPage {
   }
 
   private loadProducts() {
+    this.startLoading();
     this.message = null;
     this.productProvider.findByName(this.keyword, this.page).subscribe(page => {
       this.setPage(page);
-    }, error => {
+    }, (error) => {
       this.message = 'Error : ' + error;
+    }, () => {
+      this.stopLoading();
     });
   }
 

@@ -1,4 +1,4 @@
-import { ModalController } from 'ionic-angular';
+import { ModalController, LoadingController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BasePage } from './base-page';
@@ -13,8 +13,13 @@ export abstract class BaseCartPage extends BasePage {
     cart: Cart;
 
  
-    constructor(public modalCtrl: ModalController, public translate: TranslateService, public cartProvider: CartProvider) {
-        super(translate);
+    constructor(
+        public loadingCtrl: LoadingController,
+        public modalCtrl: ModalController, 
+        public translate: TranslateService, 
+        public cartProvider: CartProvider
+    ) {
+        super(loadingCtrl, translate);
     }
 
     getProducts(order: Order): string {
