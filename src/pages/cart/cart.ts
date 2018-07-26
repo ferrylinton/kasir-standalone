@@ -100,18 +100,4 @@ export class CartPage extends BaseCartPage {
     this.events.publish(PAGE, { page: this.segment, params: {} });
   }
 
-  addOrderNote() {
-    let cartClone = JSON.parse(JSON.stringify(this.cart));
-    const noteModal = this.modalCtrl.create('NoteModalPage', { cart: cartClone }, { cssClass: 'note-modal' });
-    noteModal.onDidDismiss(cart => {
-      if (cart) {
-        this.cartProvider.setCart(cart).subscribe(cart => {
-          this.cart = cart;
-        });
-      }
-    });
-
-    noteModal.present();
-  }
-
 }

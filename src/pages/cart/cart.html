@@ -67,9 +67,6 @@
         <button small ion-button color="danger" (click)="delete()" [disabled]="cart.totalItem == 0">
           {{ 'CLEAR' | translate }}
         </button>
-        <button small ion-button color="secondary" (click)="addOrderNote()">
-          {{ 'NOTE' | translate }}
-        </button>
         <button small ion-button color="secondary" (click)="save()" [disabled]="cart.totalItem == 0">
           {{ 'SAVE' | translate }}
         </button>
@@ -78,11 +75,9 @@
         </button>
       </ion-buttons>
     </div>
-    <div class="order-note" *ngIf="cart.order.note">
+    <div class="order-note" *ngIf="cart.totalItem > 0">
       <div class="order-note-title"><fa-icon name="commenting"></fa-icon> {{ 'ORDER_NOTE' | translate }}</div>
-      <ion-item no-lines text-wrap>
-        {{ cart.order.note }}
-      </ion-item>
+      <ion-textarea class="textarea" name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
     </div>
   </div>
 </ion-content>

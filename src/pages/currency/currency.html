@@ -26,16 +26,11 @@
     <span>{{ total }}</span>
   </div>
   <ion-list *ngIf="page">
-    <ion-item ion-item *ngFor="let currency of page.data">
+    <button ion-item *ngFor="let currency of page.data" (click)="view(currency)">
       <h2>{{ currency.name }}</h2>
       <p>{{ currency.description }}</p>
       <p>{{ currency.createdDate | datetime }}</p>
-      <ion-buttons item-end>
-        <button ion-button icon-only small icon-only color="secondary" (click)="view(currency)">
-          <fa-icon name="eye"></fa-icon>
-        </button>
-      </ion-buttons>
-    </ion-item>
+    </button>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page && page.pageNumber < page.getTotalPage()">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{ 'LOADING' | translate }}"></ion-infinite-scroll-content>

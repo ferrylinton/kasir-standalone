@@ -1,23 +1,17 @@
 <ion-header>
   <ion-navbar color="light">
-    <ion-title *ngIf="cart">{{ 'ORDER_NOTE' | translate }}</ion-title>
     <ion-title *ngIf="orderItem">{{ 'ITEM_NOTE' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="viewCtrl.dismiss(orderItem)" *ngIf="orderItem">
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
-      <button ion-button (click)="viewCtrl.dismiss(cart)" *ngIf="cart">
-        <ion-icon name="checkmark"></ion-icon>
+        <ion-icon color="dark" name="checkmark"></ion-icon>
       </button>
       <button ion-button (click)="viewCtrl.dismiss()">
-        <ion-icon name="close"></ion-icon>
+        <ion-icon color="dark" name="close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
   <ion-textarea *ngIf="orderItem" autosize name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
-  <ion-textarea *ngIf="cart" autosize name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
 </ion-content>

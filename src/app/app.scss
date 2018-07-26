@@ -306,13 +306,23 @@ ion-modal.cancel-order-modal {
     .order-note-title {
         padding: 10px;
         border-top: solid 1px color($colors, light);
-        border-bottom: solid 3px color($colors, light);
+        border-bottom: solid 2px color($colors, light);
         font-weight: bold;
     }
     .item {
         margin: 0;
         border-bottom: solid 1px color($colors, light);
     }
+}
+
+.textarea textarea {
+    width: 100%;
+    margin: 0;
+    border: solid 1px color($colors, light);
+    padding: 10px;
+}
+.textarea textarea:focus {
+    border-bottom: solid 2px color($colors, primary);
 }
 
 .box.gray {
