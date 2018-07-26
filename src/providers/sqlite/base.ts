@@ -13,7 +13,7 @@ import { Currency } from "../../models/currency.model";
 export abstract class BaseSQlite {
 
     dbConfig: any = {
-        name: 'xhop.db',
+        name: 'kasir.db',
         location: 'default'
     };
 

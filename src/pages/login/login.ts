@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, Events, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, Events, LoadingController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { LOGGED_USER } from '../../constant/constant';
@@ -36,7 +36,8 @@ export class LoginPage {
     public userProvider: UserProvider,
     public openPGPProvider: OpenPGPProvider,
     public schemaProvider: SchemaProvider,
-    public messageProvider: MessageProvider) {
+    public messageProvider: MessageProvider,
+    public platform: Platform) {
   }
 
   ionViewWillEnter() {
@@ -55,11 +56,13 @@ export class LoginPage {
   }
 
   private initDB(): void {
-    let loading = this.loadingCtrl.create({ content: this.CHECKING_DB });
-    loading.present();
+    this.platform.ready().then(() => {
+      let loading = this.loadingCtrl.create({ content: this.CHECKING_DB });
+      loading.present();
 
-    this.schemaProvider.initDB().subscribe(result => {
-      loading.dismiss();
+      this.schemaProvider.initDB().subscribe(result => {
+        loading.dismiss();
+      });
     });
   }
 
