@@ -16,7 +16,7 @@
 
 <ion-content padding>
   <div class="cart-item" *ngIf="order">
-    <ion-list *ngIf="order">
+    <ion-list>
       <ion-item *ngFor="let item of order.orderItems">
         <h2>{{ item.product.name }}</h2>
         <p>

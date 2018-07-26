@@ -17,7 +17,7 @@
 </ion-header>
 
 
-<ion-content no-bounce>
-  <ion-textarea *ngIf="orderItem" class="no-resize" autosize name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
-  <ion-textarea *ngIf="cart" class="no-resize" autosize name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+<ion-content>
+  <ion-textarea *ngIf="orderItem" autosize name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+  <ion-textarea *ngIf="cart" autosize name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
 </ion-content>

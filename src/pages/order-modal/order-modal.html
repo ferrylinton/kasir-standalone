@@ -1,82 +1,68 @@
 <ion-header>
   <ion-navbar [color]="getColor()">
-    <ion-buttons left>
-      <button ion-button icon-only *ngIf="order.canceled">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-      <button ion-button icon-only *ngIf="order.paid && !order.canceled">
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
-      <button ion-button icon-only *ngIf="!order.paid && !order.canceled">
-        <ion-icon name="cart"></ion-icon>
-      </button>
-    </ion-buttons>
     <ion-title>
       <span *ngIf="order.canceled">{{ 'CANCELED' | translate }}</span>
       <span *ngIf="order.paid && !order.canceled">{{ 'PAID' | translate }}</span>
       <span *ngIf="!order.paid && !order.canceled">{{ 'NOT_PAID' | translate }}</span>
     </ion-title>
     <ion-buttons end>
-      <button ion-button (click)="viewCtrl.dismiss(order)" *ngIf="!order.paid && !order.canceled">
-        <span ion-text showWhen="ios">{{ 'BUTTON.EDIT' | translate }}</span>
-        <ion-icon name="create" showWhen="core,android,windows"></ion-icon>
+      <button ion-button (click)="viewCtrl.dismiss(order, 'cancel')" *ngIf="!order.canceled">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button (click)="viewCtrl.dismiss(order, 'modify')" *ngIf="!order.paid && !order.canceled">
+        <ion-icon name="create"></ion-icon>
       </button>
       <button ion-button (click)="viewCtrl.dismiss()">
-        <span ion-text showWhen="ios">{{ 'BUTTON.CANCEL' | translate }}</span>
-        <ion-icon name="close" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngIf="order">
-    <ion-item>
-      {{ 'CREATED_BY' | translate }}
-      <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy.username }}</span>
-    </ion-item>
-    <ion-item>
-      {{ 'CREATED_DATE' | translate }}
-      <span item-end *ngIf="order.createdDate; else empty">{{ order.createdDate | date: datetimeFormat }}</span>
-    </ion-item>
-    <ion-item>
-      {{ 'LAST_MODIFIED_BY' | translate }}
-      <span item-end *ngIf="order.lastModifiedBy; else empty">{{ order.lastModifiedBy.username }}</span>
-    </ion-item>
-    <ion-item>
-      {{ 'LAST_MODIFIED_DATE' | translate }}
-      <span item-end *ngIf="order.lastModifiedDate; else empty">{{ order.lastModifiedDate | date: datetimeFormat }}</span>
-    </ion-item>
-    <ion-item no-lines>
-      {{ 'NOTE' | translate }} :
-    </ion-item>
-    <ion-item text-wrap>
-      <span *ngIf="order.note; else empty">{{ order.note }}</span>
-    </ion-item>
-    <ion-item no-lines>
-      <h2 class="bold">{{ 'PRODUCT_LIST' | translate }} :</h2>
-    </ion-item>
-    <ion-item *ngFor="let item of order.orderItems">
-      <ion-avatar item-start>
-        <img src="{{item.product.image}}">
-      </ion-avatar>
-      <h2>{{ item.product.name }}</h2>
-      <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
-      <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
-    </ion-item>
-    <ion-item no-lines *ngIf="order.note">
-      {{ 'NOTE' | translate }} :
-    </ion-item>
-    <ion-item text-wrap *ngIf="order.note">
-      <span *ngIf="order.note; else empty">{{ order.note }}</span>
-    </ion-item>
-    <ion-item no-lines>
-      <span item-end>{{ 'TOTAL_ITEM' | translate }} : {{totalItem}}</span>
-    </ion-item>
-    <ion-item no-lines class="bold">
-      <span item-end>{{ 'TOTAL_PRICE' | translate }} : {{ totalPrice | currency }}</span>
-    </ion-item>
-  </ion-list>
+  <div class="cart-item" *ngIf="order">
+    <ion-list>
+      <ion-item>
+        {{ 'CREATED_BY' | translate }}
+        <span item-end *ngIf="order.createdBy; else empty">{{ order.createdBy.username }}</span>
+      </ion-item>
+      <ion-item>
+        {{ 'CREATED_DATE' | translate }}
+        <span item-end *ngIf="order.createdDate; else empty">{{ order.createdDate | date: datetimeFormat }}</span>
+      </ion-item>
+      <ion-item>
+        {{ 'LAST_MODIFIED_BY' | translate }}
+        <span item-end *ngIf="order.lastModifiedBy; else empty">{{ order.lastModifiedBy.username }}</span>
+      </ion-item>
+      <ion-item>
+        {{ 'LAST_MODIFIED_DATE' | translate }}
+        <span item-end *ngIf="order.lastModifiedDate; else empty">{{ order.lastModifiedDate | date: datetimeFormat }}</span>
+      </ion-item>
+      <ion-item no-lines>
+        <h2 class="bold">{{ 'PRODUCT_LIST' | translate }} :</h2>
+      </ion-item>
+      <ion-item *ngFor="let item of order.orderItems">
+        <ion-avatar item-start>
+          <img src="{{item.product.image}}">
+        </ion-avatar>
+        <h2>{{ item.product.name }}</h2>
+        <h2>{{ item.quantity }} x {{ item.product.price | currency }}</h2>
+        <p *ngIf="item.note">{{ 'NOTE' | translate }} : {{ item.note }}</p>
+      </ion-item>
+    </ion-list>
+    <div class="footer">
+        <em>{{ 'TOTAL_ITEM' | translate }} : {{ totalItem }}</em>
+      </div>
+      <div class="footer">
+        <em>{{ 'TOTAL_PRICE' | translate }} : {{ totalPrice | currency }}</em>
+      </div>
+      <div class="order-note">
+        <div class="order-note-title">
+          <fa-icon name="commenting"></fa-icon> {{ 'ORDER_NOTE' | translate }}
+        </div>
+        <ion-textarea class="textarea" name="note" rows="5" [(ngModel)]="order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+      </div>
+  </div>
 </ion-content>
 <ng-template #empty>
   <span item-end>-</span>

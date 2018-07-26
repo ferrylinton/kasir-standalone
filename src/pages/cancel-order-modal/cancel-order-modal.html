@@ -7,20 +7,17 @@
     </ion-buttons>
     <ion-buttons end>
       <button ion-button (click)="viewCtrl.dismiss(order)">
-        <span ion-text showWhen="ios">{{ 'BUTTON.SAVE' | translate }}</span>
-        <ion-icon name="checkmark" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="checkmark"></ion-icon>
       </button>
       <button ion-button (click)="viewCtrl.dismiss()">
-        <span ion-text showWhen="ios">{{ 'BUTTON.CANCEL' | translate }}</span>
-        <ion-icon name="close" showWhen="core,android,windows"></ion-icon>
+        <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
   <ion-item>
-    <ion-textarea class="no-resize" name="note" rows="5" [(ngModel)]="order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+    <ion-textarea name="note" rows="5" [(ngModel)]="order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
   </ion-item>
 </ion-content>

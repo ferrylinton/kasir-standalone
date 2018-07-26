@@ -81,9 +81,14 @@ export class OrderPage extends BaseCartPage {
   showOrder(order: Order) {
     let clone: Order = JSON.parse(JSON.stringify(order));
     let orderModal = this.modalCtrl.create('OrderModalPage', { order: clone });
-    orderModal.onDidDismiss(order => {
-      if (order) {
+    orderModal.onDidDismiss((order, operation) => {
+      if (order && operation == 'modify') {
         this.events.publish(PAGE, { page: 'CartPage', params: { order: order } });
+      }else if (order && operation == 'cancel') {
+        order.canceled = true;
+        this.orderProvider.update(order).subscribe(order => {
+          this.search();
+        });
       }
     })
     orderModal.present();
@@ -98,20 +103,6 @@ export class OrderPage extends BaseCartPage {
   search() {
     this.page = new Page();
     this.loadOrders(this.orderDate);
-  }
-
-  cancelOrder(order: Order) {
-    order.note = order.note ? order.note : '';
-    const cancelOrderModal = this.modalCtrl.create('CancelOrderModalPage', { order: order }, { cssClass: 'cancel-order-modal' });
-    cancelOrderModal.onDidDismiss(order => {
-      if (order) {
-        order.canceled = true;
-        this.orderProvider.update(order).subscribe(order => {
-          this.search();
-        });
-      }
-    });
-    cancelOrderModal.present();
   }
 
   updateContent(): void {

@@ -1,2 +1,9 @@
 page-order-modal {
+    .textarea textarea {
+        border: solid 1px color($colors, light);
+        padding: 10px;
+    }
+    .textarea textarea:focus {
+        border-bottom: solid 2px color($colors, primary);
+    }
 }
