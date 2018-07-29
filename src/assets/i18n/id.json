@@ -83,6 +83,7 @@
     "PAY": "Bayar",
     "ITEMS": "item",
     "ORDER_NOTE": "Catatan Pesanan",
+    "EXIT_MESSAGE": "Mau keluar dari aplikasi?",
     "CALENDAR": {
         "sameDay": "[Hari ini]",
         "nextDay": "[Besok]",

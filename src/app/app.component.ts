@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events } from 'ionic-angular';
+import { Nav, Platform, Events, AlertController, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -26,13 +26,17 @@ export class MyApp {
 
   user: User;
 
+  alertShown: boolean = false;
+
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
+    public alertCtrl: AlertController,
     public translate: TranslateService,
     public events: Events,
     public storage: Storage,
+    public app: App,
     public settingProvider: SettingProvider) {
 
     this.initializeApp();
@@ -46,13 +50,28 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.statusBar.styleBlackOpaque();
       this.splashScreen.hide();
+
+      this.platform.registerBackButtonAction(() => {
+        let nav = this.app.getActiveNavs()[0];
+        let activeView = nav.getActive();
+
+        if (activeView != null) {
+          if (nav.canGoBack()) {
+            nav.pop();
+          } else {
+            if (this.alertShown == false) {
+              this.presentConfirm();
+            }
+          }
+        }
+      });
     });
   }
 
   initLang() {
     this.translate.addLangs(['id', 'en']);
     this.translate.setDefaultLang(LANGUAGE);
-    
+
     this.settingProvider.getSetting().subscribe(setting => {
       this.translate.use(setting.language);
     });
@@ -105,4 +124,34 @@ export class MyApp {
     return true;
   }
 
+  presentConfirm() {
+    let keys: string[] = ['EXIT_MESSAGE', 'CANCEL', 'OK'];
+
+    this.translate.get(keys).subscribe(values => {
+      const alert = this.alertCtrl.create({
+        cssClass: 'alert-not-title',
+        message: values[keys[0]],
+        buttons: [
+          {
+            text: values[keys[1]],
+            role: 'cancel',
+            handler: () => {
+              this.alertShown = false;
+            }
+          },
+          {
+            text: values[keys[2]],
+            handler: () => {
+              this.platform.exitApp();
+            }
+          }
+        ]
+      });
+
+      alert.present().then(() => {
+        this.alertShown = true;
+      });
+
+    });
+  }
 }

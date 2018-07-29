@@ -83,6 +83,7 @@
     "PAY": "Pay",
     "ITEMS": "Items",
     "ORDER_NOTE": "Order Note",
+    "EXIT_MESSAGE": "Do want to exit?",
     "CALENDAR": {
         "sameDay": "[Today] (DD-MM-YYYY)",
         "nextDay": "[Tomorrow] (DD-MM-YYYY)",
