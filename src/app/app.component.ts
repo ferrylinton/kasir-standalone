@@ -44,7 +44,7 @@ export class MyApp {
     this.initEvents();
 
     this.platform.ready().then(() => {
-      this.statusBar.hide();
+      this.statusBar.styleBlackOpaque();
       this.splashScreen.hide();
     });
   }

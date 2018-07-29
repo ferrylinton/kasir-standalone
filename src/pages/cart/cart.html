@@ -26,6 +26,7 @@
 </ion-header>
 
 <ion-content padding>
+  <div class="message" *ngIf="message">{{ message }}</div>
   <div class="cart-item" *ngIf="cart && cart.order; else nodata">
     <div class="message" *ngIf="cart.totalItem == 0">
       {{ 'NO_ORDER' | translate }}
@@ -76,7 +77,8 @@
       </ion-buttons>
     </div>
     <div class="order-note" *ngIf="cart.totalItem > 0">
-      <div class="order-note-title"><fa-icon name="commenting"></fa-icon> {{ 'ORDER_NOTE' | translate }}</div>
+      <div class="order-note-title">
+        <fa-icon name="commenting"></fa-icon> {{ 'ORDER_NOTE' | translate }}</div>
       <ion-textarea class="textarea" name="note" rows="5" [(ngModel)]="cart.order.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
     </div>
   </div>

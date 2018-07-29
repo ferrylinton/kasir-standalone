@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title *ngIf="product">{{ product.name }}</ion-title>
+    <ion-title *ngIf="product"><fa-icon name="gift"></fa-icon> {{ product.name }}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="viewCtrl.dismiss()">
         <ion-icon name="close"></ion-icon>

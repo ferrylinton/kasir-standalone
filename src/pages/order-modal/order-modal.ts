@@ -58,13 +58,4 @@ export class OrderModalPage {
     this.totalPrice = (this.order == null) ? 0 : this.cartProvider.countPrice(this.order);
   }
 
-  getColor(): string{
-    if(this.order.canceled){
-      return 'danger';
-    }else if(this.order.paid && !this.order.canceled){
-      return 'secondary';
-    }else{
-      return 'primary';
-    }
-  }
 }

@@ -1,58 +1,55 @@
-<div class="menu">
-  <ion-menu [content]="content">
-    <ion-content>
-      <div class="menu-header" *ngIf="user">
-        <img class="menu-avatar" src="{{user.image}}" />
-        <div class="menu-buttons">
-          <ion-row>
-            <ion-col no-padding col-6>
-              <button color="white" ion-button clear block icon-left menuToggle (click)="openPage('LoginPage')">
-                <ion-icon name='log-out'></ion-icon>
-                {{ 'LOGOUT' | translate }}
-              </button>
-            </ion-col>
-            <ion-col no-padding col-6>
-              <button color="white" ion-button clear block icon-left menuToggle (click)="openPage('ProfilePage')">
-                <ion-icon name='contact'></ion-icon>
-                {{ user.fullname }}
-              </button>
-            </ion-col>
-          </ion-row>
-        </div>
+<ion-menu class="menu" [content]="content">
+  <ion-content>
+    <div class="menu-header" *ngIf="user">
+      <img class="menu-avatar" src="{{user.image}}" />
+      <div class="menu-buttons">
+        <ion-row>
+          <ion-col no-padding col-6>
+            <button color="white" ion-button clear block icon-left menuToggle (click)="openPage('LoginPage')">
+              <ion-icon name='log-out'></ion-icon>
+              {{ 'LOGOUT' | translate }}
+            </button>
+          </ion-col>
+          <ion-col no-padding col-6>
+            <button color="white" ion-button clear block icon-left menuToggle (click)="openPage('ProfilePage')">
+              <ion-icon name='contact'></ion-icon>
+              {{ user.fullname }}
+            </button>
+          </ion-col>
+        </ion-row>
       </div>
-      <ion-list>
-        <ion-item-group *ngIf="hasAuthority('BASIC_AUTHORITY')">
-          <ion-list-header>{{ 'MAIN' | translate }}</ion-list-header>
-          <button menuClose ion-item (click)="openPage('HomePage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
-            <fa-icon name="home"></fa-icon> {{ 'HOME' | translate }}
-          </button>
-          <button menuClose ion-item (click)="openPage('AboutPage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
-            <fa-icon name="info-circle"></fa-icon> {{ 'ABOUT' | translate }}
-          </button>
-        </ion-item-group>
-        <ion-item-group>
-          <ion-list-header>{{ 'DATA' | translate }}</ion-list-header>
-          <button menuClose ion-item (click)="openPage('UserPage')" *ngIf="hasAuthority('USER_VIEW')">
-            <fa-icon name="users"></fa-icon> {{ 'USER' | translate }}
-          </button>
-          <button menuClose ion-item (click)="openPage('ProductPage')" *ngIf="hasAuthority('PRODUCT_VIEW')">
-            <fa-icon name="gift"></fa-icon> {{ 'PRODUCT' | translate }}
-          </button>
-          <button menuClose ion-item (click)="openPage('CategoryPage')" *ngIf="hasAuthority('CATEGORY_VIEW')">
-            <fa-icon name="tags"></fa-icon> {{ 'CATEGORY' | translate }}
-          </button>
-          <button menuClose ion-item (click)="openPage('CurrencyPage')" *ngIf="hasAuthority('CURRENCY_VIEW')">
-            <fa-icon name="money"></fa-icon> {{ 'CURRENCY' | translate }}
-          </button>
-          <button menuClose ion-item (click)="openPage('SettingPage')" *ngIf="hasAuthority('SETTING_VIEW')">
-            <fa-icon name="cogs"></fa-icon> {{ 'SETTING' | translate }}
-          </button>
-        </ion-item-group>
-      </ion-list>
-    </ion-content>
+    </div>
+    <ion-list>
+      <ion-item-group *ngIf="hasAuthority('BASIC_AUTHORITY')">
+        <ion-list-header>{{ 'MAIN' | translate }}</ion-list-header>
+        <button menuClose ion-item (click)="openPage('HomePage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
+          <fa-icon name="home"></fa-icon> {{ 'HOME' | translate }}
+        </button>
+        <button menuClose ion-item (click)="openPage('AboutPage')" *ngIf="hasAuthority('BASIC_AUTHORITY')">
+          <fa-icon name="info-circle"></fa-icon> {{ 'ABOUT' | translate }}
+        </button>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-list-header>{{ 'DATA' | translate }}</ion-list-header>
+        <button menuClose ion-item (click)="openPage('UserPage')" *ngIf="hasAuthority('USER_VIEW')">
+          <fa-icon name="users"></fa-icon> {{ 'USER' | translate }}
+        </button>
+        <button menuClose ion-item (click)="openPage('ProductPage')" *ngIf="hasAuthority('PRODUCT_VIEW')">
+          <fa-icon name="gift"></fa-icon> {{ 'PRODUCT' | translate }}
+        </button>
+        <button menuClose ion-item (click)="openPage('CategoryPage')" *ngIf="hasAuthority('CATEGORY_VIEW')">
+          <fa-icon name="tags"></fa-icon> {{ 'CATEGORY' | translate }}
+        </button>
+        <button menuClose ion-item (click)="openPage('CurrencyPage')" *ngIf="hasAuthority('CURRENCY_VIEW')">
+          <fa-icon name="money"></fa-icon> {{ 'CURRENCY' | translate }}
+        </button>
+        <button menuClose ion-item (click)="openPage('SettingPage')" *ngIf="hasAuthority('SETTING_VIEW')">
+          <fa-icon name="cogs"></fa-icon> {{ 'SETTING' | translate }}
+        </button>
+      </ion-item-group>
+    </ion-list>
+  </ion-content>
 
-  </ion-menu>
-
-  <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
-  <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
-</div>
+</ion-menu>
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

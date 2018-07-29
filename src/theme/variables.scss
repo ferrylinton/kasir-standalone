@@ -25,7 +25,7 @@ $app-direction: ltr;
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
 
-$black-overlay: rgba(0,0,0,.3);
+$black-overlay: rgba(24, 27, 34, 0.3);
 
 // Named Color Variables
 // --------------------------------------------------
@@ -36,17 +36,17 @@ $black-overlay: rgba(0,0,0,.3);
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #eeeeee,
-  dark:       #222,
-  lighter:    #f7f7f7,
-  lightgray:  #dddddd,
-  gray:       #999,
-  darkgray:   #727272,
-  border:     #ddd,
-  white:      #fff
+  primary:    #325D88,
+  active :    #244463,
+  secondary:  #93C54B,
+  danger:     #D9534F,
+  light:      #F8F5F0,
+  dark:       #3E3F3A,
+  gray:       #c5c3bd,
+  white:      #fff,
+  lightborder:#e6e3de,
+  grayborder: #b0aab1,
+  border:     #dedede
 );
 
 $grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px );

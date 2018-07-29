@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="product && product.id === ''">{{ 'PRODUCT' | translate }} - {{ 'CREATE' | translate }}</ion-title>
-    <ion-title *ngIf="product && product.id !== ''">{{ 'PRODUCT' | translate }} - {{ 'MODIFY' | translate }}</ion-title>
+    <ion-title *ngIf="product && product.id === ''">{{ 'PRODUCT' | translate }} - {{ 'ADD' | translate }}</ion-title>
+    <ion-title *ngIf="product && product.id !== ''">{{ 'PRODUCT' | translate }} - {{ 'UPDATE' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="save()" [disabled]="!isReadyToSave" strong>
         <ion-icon name="checkmark"></ion-icon>

@@ -1,27 +1,29 @@
 <ion-content [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
-  <form (ngSubmit)="login()">
-    <div class="logo-wrapper">
-      <div class="logo">
-        <span>
-          <ion-icon name="no-smoking"></ion-icon>{{ 'APPLICATION_NAME' | translate }}
-          <em>{{ 'APPLICATION_TYPE' | translate }}</em>
-        </span>
+  <div class="form-wrapper">
+    <form (ngSubmit)="login()">
+      <div class="logo-wrapper">
+        <div class="logo">
+          <span>
+            <fa-icon name="calculator"></fa-icon>{{ 'APPLICATION_NAME' | translate }}
+            <em>{{ 'APPLICATION_TYPE' | translate }}</em>
+          </span>
+        </div>
       </div>
-    </div>
-    <ion-list>
-      <ion-item>
-        <ion-label floating>{{ 'USERNAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="data.username" name="username"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="data.password" name="password"></ion-input>
-      </ion-item>
-      <div padding>
-        <button ion-button block round icon-left color="primary" type="submit">
-          <ion-icon name="log-in"></ion-icon> {{ 'LOGIN' | translate }}
-        </button>
-      </div>
-    </ion-list>
-  </form>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>{{ 'USERNAME' | translate }}</ion-label>
+          <ion-input type="text" [(ngModel)]="data.username" name="username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>{{ 'PASSWORD' | translate }}</ion-label>
+          <ion-input type="password" [(ngModel)]="data.password" name="password"></ion-input>
+        </ion-item>
+        <div padding>
+          <button ion-button block round icon-left color="primary" type="submit">
+            <ion-icon name="log-in"></ion-icon> {{ 'LOGIN' | translate }}
+          </button>
+        </div>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>

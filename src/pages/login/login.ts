@@ -81,13 +81,13 @@ export class LoginPage {
               this.messageProvider.toast(this.INVALID_USERNAME_PASSWORD);
             }
           }).catch(error => {
-            this.messageProvider.toast(this.INVALID_USERNAME_PASSWORD);
+            this.messageProvider.toast(error.message);
           })
         } else {
           this.messageProvider.toast(this.INVALID_USERNAME_PASSWORD);
         }
       }, error => {
-        this.messageProvider.toast(this.INVALID_USERNAME_PASSWORD);
+        this.messageProvider.toast(error.message);
       });
     }
   }

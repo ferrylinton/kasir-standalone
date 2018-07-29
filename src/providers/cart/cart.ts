@@ -130,7 +130,7 @@ export class CartProvider {
     }
 
     if (!isProductExist) {
-      cart.order.orderItems.push(new OrderItem(uuid(), 1, 0, product, ''));
+      cart.order.orderItems.push(new OrderItem(uuid(), 1, product.price, product, ''));
     }
 
     return cart;

@@ -78,14 +78,18 @@ export class CartPage extends BaseCartPage {
     if (this.cart.isModified) {
       this.cart.order.paid = this.cart.order.paid || paid;
       this.cart.order.canceled = false;
-      this.orderProvider.update(this.cart.order).subscribe(() => {
+      this.orderProvider.update(this.cart.order).subscribe((res) => {
         this.deleteOrderFromStorage();
+      }, error => {
+        this.message = error.message;
       });
     } else {
       this.cart.order.paid = paid;
       this.cart.order.canceled = false;
-      this.orderProvider.save(this.cart.order).subscribe(() => {
+      this.orderProvider.save(this.cart.order).subscribe((res) => {
         this.deleteOrderFromStorage();
+      }, error => {
+        this.message = error.message;
       });
     }
   }

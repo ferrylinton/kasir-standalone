@@ -33,6 +33,11 @@
     }
 }
 
+.menu .fa {
+    margin-left: 10px;
+    width: 25px;
+}
+
 .menu-header {
     padding: 0;
     background-image: url('../assets/img/menu-profile.jpg');
@@ -73,9 +78,8 @@
         padding: 5px 5px 10px 5px;
     }
     img {
-        border: solid 2px color($colors, light);
+        border: solid 1px color($colors, lightborder);
         padding: 10px;
-        background-color: color($colors, lighter);
         cursor: pointer;
     }
     ion-card:hover {
@@ -100,7 +104,7 @@
 .segment-md .segment-button.segment-activated,
 .segment-ios .segment-button.segment-activated,
 .segment-wp .segment-button.segment-activated {
-    background-color: #5c96fa;
+    background-color: color($colors, active);
 }
 
 .header .label-segment {
@@ -128,8 +132,8 @@
 
 .categories {
     padding: 10px;
-    background-color: color($colors, light);
-    border-bottom: solid 1px color($colors, lightgray);
+    background-color: color($colors, gray);
+    border-bottom: solid 1px color($colors, grayborder);
     ion-col {
         text-align: center;
         font-size: 1.6rem;
@@ -145,6 +149,25 @@
         font-size: 1.6rem;
         line-height: 1.6rem;
     }
+}
+
+.content-md,
+.content-ios,
+.content-wp,
+.item-md,
+.item-ios,
+.item-wp {
+    background-color: color($colors, light);
+}
+
+.box .item-md,
+.box .item-ios,
+.box .item-wp {
+    background-color: #fff;
+}
+
+.title .fa {
+    margin-right: 8px;
 }
 
 /* =================== SEARCHBAR =================== */
@@ -171,7 +194,7 @@
     padding: 10px 20px;
     border: solid 1px #d3d2d2;
     background-color: #fff;
-    color: color($colors, darkgray);
+    color: color($colors, dark);
 }
 
 .total {
@@ -188,11 +211,11 @@
 }
 
 .detail-label {
-    color: color($colors, darkgray);
+    color: color($colors, dark);
 }
 
 .detail-value {
-    border-bottom: solid 1px color($colors, lightgray);
+    border-bottom: solid 1px color($colors, border);
     padding-bottom: 10px;
     margin-bottom: 10px;
 }
@@ -205,8 +228,10 @@
         width: 230px;
         height: 230px;
         display: inline-block;
-        border: solid 1px color($colors, light);
-        background-color: color($colors, lighter);
+        border: solid 1px color($colors, gray);
+        background-color: #fff;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         .background {
             width: 200px;
             height: 200px;
@@ -215,7 +240,7 @@
             background-size: cover;
             background-position: center;
             ion-icon {
-                color: color($colors, lightgray);
+                color: color($colors, gray);
                 font-size: 44px;
                 margin-bottom: -80px;
                 margin-top: 80px;
@@ -225,7 +250,7 @@
 }
 
 .image:hover {
-    border: solid 1px color($colors, lightgray);
+    border: solid 1px color($colors, dark);
     .background {
         ion-icon {
             color: color($colors, gray);
@@ -238,8 +263,7 @@
     height: 0px;
 }
 
-ion-modal.note-modal,
-ion-modal.cancel-order-modal {
+ion-modal.note-modal {
     ion-backdrop {
         visibility: visible;
     }
@@ -259,14 +283,6 @@ ion-modal.cancel-order-modal {
         box-shadow: 0 16px 20px rgba(0, 0, 0, .4);
         background-color: #fafafa;
     }
-    textarea{
-        background-color: #fff;
-        border: solid 1px color($colors, light);
-        padding: 10px;
-    }
-    textarea:focus{
-        border: solid 1px color($colors, primary);
-    }
 }
 
 .box {
@@ -281,7 +297,7 @@ ion-modal.cancel-order-modal {
     .list-md {
         margin: 0;
         .item-block {
-            border-bottom: solid 1px color($colors, light);
+            border-bottom: solid 1px color($colors, border);
             .item-inner {
                 border-bottom: none;
             }
@@ -291,6 +307,7 @@ ion-modal.cancel-order-modal {
         }
     }
 }
+
 .footer {
     display: block;
     text-align: right;
@@ -301,6 +318,7 @@ ion-modal.cancel-order-modal {
         font-style: normal;
     }
 }
+
 .order-note {
     margin: 15px 0 15px 0;
     .order-note-title {
@@ -318,9 +336,15 @@ ion-modal.cancel-order-modal {
 .textarea textarea {
     width: 100%;
     margin: 0;
-    border: solid 1px color($colors, light);
     padding: 10px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    border-top: none;
+    border-bottom: 1px solid #DDD;
+    background-color: #fff;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
 }
+
 .textarea textarea:focus {
     border-bottom: solid 2px color($colors, primary);
 }

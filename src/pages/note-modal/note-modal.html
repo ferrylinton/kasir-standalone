@@ -12,6 +12,6 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-textarea *ngIf="orderItem" autosize name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
+<ion-content padding>
+  <ion-textarea class="textarea" *ngIf="orderItem" autosize name="note" rows="5" [(ngModel)]="orderItem.note" placeholder="{{ 'NOTE' | translate }}"></ion-textarea>
 </ion-content>

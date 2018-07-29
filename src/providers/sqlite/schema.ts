@@ -77,14 +77,11 @@ export class SchemaProvider extends BaseSQlite {
 
   private checkStatus(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.storage.get(DB_STATUS).then(status => {
-        if (status) {
-          this.upToDate = true;
-          resolve();
-        } else {
-          this.upToDate = false;
-          resolve();
-        }
+      this.db.executeSql(VERSION.FIND_LATEST, []).then((data) => {
+        this.upToDate = true;
+        resolve();
+      }).catch((error) => {
+        resolve();
       });
     })
   }

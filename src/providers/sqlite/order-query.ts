@@ -76,11 +76,10 @@ SELECT
     cat.created_date as category_created_date,
     cat.last_modified_by as category_last_modified_by,
     cat.last_modified_date as category_last_modified_date
-FROM t_order ord
+FROM (SELECT * FROM t_order WHERE strftime('%Y-%m-%d', created_date) = ? LIMIT 10 OFFSET ?) ord
 LEFT JOIN t_order_item itm ON ord.id = itm.order_id
 LEFT JOIN m_product prd ON itm.product_id = prd.id
 LEFT JOIN m_category cat ON prd.category_id = cat.id
-WHERE strftime('%Y-%m-%d', ord.created_date) = ?
-ORDER BY ord.created_date DESC LIMIT 10 OFFSET ?`;
+ORDER BY ord.created_date`;
 
 export const COUNT_BY_DATE = `SELECT count(1) as total FROM t_order WHERE strftime('%Y-%m-%d', created_date) = ?`;

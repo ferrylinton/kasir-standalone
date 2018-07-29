@@ -38,13 +38,13 @@ export abstract class BasePage {
     stopLoading(): void {
         if (!this.isStopLoading && this.loading && this.isLoading) {
             this.isStopLoading = true;
-            setTimeout(() => {
+            //setTimeout(() => {
                 this.loading.dismiss().then(res => {
                     this.loading = null;
                     this.isLoading = false;
                     this.isStopLoading = false;
                 });
-            }, 500);
+            //}, 500);
         }
     }
 
