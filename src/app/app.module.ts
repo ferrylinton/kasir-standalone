@@ -37,7 +37,7 @@ import { OrderProviderImpl } from '../providers/sqlite/order-impl';
 import { CurrencyProviderImpl } from '../providers/sqlite/currency-impl';
 
 // Sqlite
-//import { SQLiteMock } from '../providers/sqlite/sqlite';
+import { SQLiteMock } from '../providers/sqlite/sqlite';
 import { SchemaProvider } from '../providers/sqlite/schema';
 import { SettingProvider } from '../providers/setting/setting';
 import { MessageProvider } from '../providers/message/message';

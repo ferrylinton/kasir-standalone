@@ -6,7 +6,6 @@ import { Storage } from '@ionic/storage';
 import { LOGGED_USER } from '../../constant/constant';
 import { UserProvider } from '../../providers/user/user';
 import { OpenPGPProvider } from '../../providers/openpgp/openpgp';
-import { SchemaProvider } from '../../providers/sqlite/schema';
 import { MessageProvider } from '../../providers/message/message';
 
 
@@ -21,8 +20,6 @@ export class LoginPage {
 
   private EMPTY_USERNAME_PASSWORD: string;
 
-  private CHECKING_DB: string;
-
   backgroundImage = 'assets/img/login-background.jpg';
 
   data = { username: '', password: '' };
@@ -35,34 +32,20 @@ export class LoginPage {
     public storage: Storage,
     public userProvider: UserProvider,
     public openPGPProvider: OpenPGPProvider,
-    public schemaProvider: SchemaProvider,
     public messageProvider: MessageProvider,
     public platform: Platform) {
   }
 
   ionViewWillEnter() {
     this.initLang();
-    this.initDB();
   }
 
   private initLang(): void {
-    let lang: string[] = ['INVALID_USERNAME_PASSWORD', 'EMPTY_USERNAME_PASSWORD', 'CHECKING_DB'];
+    let lang: string[] = ['INVALID_USERNAME_PASSWORD', 'EMPTY_USERNAME_PASSWORD'];
 
     this.translateService.get(lang).subscribe((values) => {
       this.INVALID_USERNAME_PASSWORD = values[lang[0]];
       this.EMPTY_USERNAME_PASSWORD = values[lang[1]];
-      this.CHECKING_DB = values[lang[2]];
-    });
-  }
-
-  private initDB(): void {
-    this.platform.ready().then(() => {
-      let loading = this.loadingCtrl.create({ content: this.CHECKING_DB });
-      loading.present();
-
-      this.schemaProvider.initDB().subscribe(result => {
-        loading.dismiss();
-      });
     });
   }
 

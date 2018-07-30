@@ -10,6 +10,7 @@ import { SettingProvider } from '../providers/setting/setting';
 import { PAGE, LOGGED_USER } from '../constant/constant';
 import { LANGUAGE } from '../constant/setting';
 import { User } from '../models/user.model';
+import { SchemaProvider } from '../providers/sqlite/schema';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class MyApp {
     public splashScreen: SplashScreen,
     public alertCtrl: AlertController,
     public translate: TranslateService,
+    public schemaProvider: SchemaProvider,
     public events: Events,
     public storage: Storage,
     public app: App,
@@ -51,6 +53,7 @@ export class MyApp {
       this.statusBar.styleBlackOpaque();
       this.splashScreen.hide();
 
+      // Handle Back Button
       this.platform.registerBackButtonAction(() => {
         let nav = this.app.getActiveNavs()[0];
         let activeView = nav.getActive();
@@ -65,6 +68,9 @@ export class MyApp {
           }
         }
       });
+
+      // Init Database
+      this.schemaProvider.initDB()
     });
   }
 

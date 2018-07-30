@@ -5,38 +5,16 @@ page-login {
         background-repeat: no-repeat;
         border-color: transparent;
     }
-    
-    .logo-wrapper {
-        margin: 0 auto;
-        width: 250px;
-    }
     .logo {
-        text-align: center;
-        padding: 0;
-        margin: 0 0 20px 0;
+        margin: 0 auto;
+        width: 155px;
+        height: 60px;
+        background-image: url('../assets/img/logo.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
     }
-    .logo span {
-        display: inline-block;
-        font-size: 4.8rem;
-        font-weight: 500;
-        text-transform: lowercase;
-        font-family: 'Paytone One', sans-serif;
-        color: color($colors, dark);
-        line-height: 1;
-    }
-    .logo span fa-icon {
-        font-size: 4rem;
-        text-shadow: none;
-    }
-    .logo span em {
-        margin-top: -8px;
-        position: absolute;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        color: color($colors, secondary);
-    }
-    .form-wrapper{
+    .form-wrapper {
         width: 100%;
         padding-bottom: 20px;
         position: fixed;
